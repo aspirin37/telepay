@@ -8,15 +8,16 @@ import store from './store';
 // components
 // import notifystr from 'notifystr';
 // import spinner from '@components/spinner';
-
+import navigation from '@components/navigation';
 // services
-// import check from '@services/check_user';
+import check from '@services/check_user';
 import '@filters';
 
 export const App = new Vue({
     router,
     store,
     components: {
+      navigation
         // notifystr,
         // spinner
     },

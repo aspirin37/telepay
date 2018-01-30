@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1">
-    <title>Title</title>
+    <title>Telepay</title>
 </head>
 
 <body>
-    <div id="app"
-        :class="$route.fullPath.includes('auth')?'auth':''">
+    <div id="app" :class="$route.fullPath.includes('auth')?'auth':''">
         <!-- <notifystr></notifystr> -->
         <!-- <spinner v-model="showSpinner"
                  size="xl"
                  :fixed="true"></spinner> -->
-        <router-view></router-view>
+         <navigation></navigation>
+         <router-view :key="$route.fullPath"></router-view>
     </div>
 </body>
 
