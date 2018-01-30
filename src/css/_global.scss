@@ -16,8 +16,12 @@
   .list-group-item {
     z-index: 1;
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125)!important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05)!important;
     margin-bottom: 0;
+    cursor: pointer;
+    &:hover {
+      background-color:  rgb(218, 224, 229)!important;
+    }
   }
   &__wrap {
     height: 100%;
@@ -39,6 +43,49 @@
   }
 }
 
-.user-field {
-  margin: 0.5rem 1rem;
+.user {
+  &-menu {
+    position: relative;
+    // box-shadow: 0px 0px 50px rgba(0,0,0,.1);
+    &__item {
+      display: block;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+      padding: 10px;
+      &_last {
+        border-bottom: 1px solid rgba(0, 0, 0, 0);
+      }
+      &:hover {
+        text-decoration: none;
+        background-color: rgb(248, 249, 250);
+      }
+    }
+  }
+  &-field {
+    margin: 0.5rem 1rem;
+  }
+
+}
+
+.avatar {
+  max-width: 50px;
+  max-height: 50px;
+  padding: 0;
+}
+
+.font-weight-500 {
+  font-weight: 500;
+}
+
+.channel {
+  &_header {
+    font-weight: 500;
+    color: rgb(202,208,224);
+  }
+  .fa {
+    color: rgb(222,226,238);
+  }
+  .fa.active {
+    color: rgb(251,186,86);
+  }
 }

@@ -28,26 +28,38 @@
               <drop-hover>
                 <div class="notifs__wrap" slot="trigger">
                   <i class="fa fa-bell" aria-hidden="true"></i>
-                  <span class="badge badge-pill badge-danger">1</span>
+                  <span class="badge badge-pill badge-success">1</span>
                 </div>
                 <div class="notifs" slot="body">
                   <ul class="list-group">
-                    <li class="list-group-item bg-light"><strong>Уведомления</strong></li>
-                    <li class="list-group-item bg-light">Бла блабал блабал блабалблабал блабал блабал блабал блабалблабал блабал блабал</li>
-                    <li class="list-group-item bg-light">блабал блабал блабал блабал блабалблабал блабал</li>
-                    <li class="list-group-item bg-light">блабалблабал блабалблабал блабал блабал блабал</li>
+                    <li class="list-group-item bg-light text-medium-font"><strong>Уведомления</strong></li>
+                    <li class="list-group-item bg-light text-medium-font">Бла блабал блабал блабалблабал блабал блабал блабал блабалблабал блабал блабал</li>
+                    <li class="list-group-item bg-light text-medium-font">блабал блабал блабал блабал блабалблабал блабал</li>
+                    <li class="list-group-item bg-light text-medium-font">блабалблабал блабалблабал блабал блабал блабал</li>
                   </ul>
                 </div>
               </drop-hover>
             </li>
             <li class="nav-item">
-              <i class="fa fa-wallet" aria-hidden="true"></i>
+              <div class="user-field">
+                <i class="fa fa-wallet" aria-hidden="true"></i>
+                <span>20 000₽</span>
+              </div>
             </li>
             <li class="nav-item">
-              <div class="user-field">
-                <i class="fa fa-user-circle mr-1" aria-hidden="true"></i>
-                <span>user@username.com</span>
-              </div>
+              <drop-down>
+                <div class="user-field" slot="trigger">
+                  <i class="fa fa-user-circle mr-1" aria-hidden="true"></i>
+                  <span>user@username.com</span>
+                </div>
+                <div class="user-menu" slot="body">
+                  <router-link class="user-menu__item bg-light text-medium-font" :to="{ name: 'profile' }">Профиль</router-link>
+                  <router-link class="user-menu__item bg-light text-medium-font" :to="{ name: 'favs' }">Избранное</router-link>
+                  <router-link class="user-menu__item bg-light text-medium-font" :to="{ name: 'my-channels' }">Мои каналы</router-link>
+                  <router-link class="user-menu__item bg-light text-medium-font" :to="{ name: 'projects' }">Проекты</router-link>
+                  <router-link class="user-menu__item user-menu__item_last bg-light text-medium-font" :to="{ name: 'logout' }">Выйти</router-link>
+                </div>
+              </drop-down>
             </li>
           </ul>
         </li>
@@ -57,10 +69,11 @@
 </template>
 <script>
 import dropHover from '@components/drop-hover';
+import dropDown from '@components/dropdown';
 import Logo from '@assets/logo.svg';
 // import dropdown from '@components/dropdown';
 export default Vue.extend( {
-  components: { dropHover },
+  components: { dropHover, dropDown },
   data() {
     return {
       isVisible: false,
@@ -69,10 +82,10 @@ export default Vue.extend( {
   },
   computed: {
     logoVisible() {
-      return this.$route.name !== 'main' ;
+      return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
     },
     isAuthorized() {
-      return true;
+      return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
     }
   },
   mounted() {

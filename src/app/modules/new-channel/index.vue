@@ -40,3 +40,6 @@ export default {
   template
 }
 </script>
+
+<style lang="css">
+</style>

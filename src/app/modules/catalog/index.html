@@ -1,3 +1,19 @@
 <div class="container py-3">
-  catalog
+  <div class="row my-3">
+    <div class="col-4">
+      <selectr placeholder="Категории" :html-option="true" label="number" :pre-options="categories" :clear-query-on-select="true"
+        v-model="selectedCategory" no-results-text="Категория не найден">
+        <template slot-scope="option">
+          {{option.data}}
+        </template>
+      </selectr>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-4">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Поиск">
+      </div>
+    </div>
+  </div>
+  <channels :channels="channels" />
 </div>

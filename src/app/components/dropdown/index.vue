@@ -1,10 +1,10 @@
 <template lang="html">
-  <div class="drophover" @mouseover="show" @mouseleave="hide">
-    <div class="drophover__trigger">
+  <div class="dropp" @click="toggle" ref="wrap">
+    <div class="dropp__trigger">
       <slot name="trigger"></slot>
     </div>
-    <transition name="drophover">
-      <div class="drophover__body" v-show="visible">
+    <transition name="dropp">
+      <div class="dropp__body" v-show="visible">
         <slot name="body"></slot>
       </div>
     </transition>
@@ -18,19 +18,31 @@ export default {
       visible: false
     }
   },
+  mounted() {
+    window.addEventListener('click', this.clickOutside);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.clickOutside);
+  },
   methods: {
     show() {
       this.visible = true;
     },
     hide() {
       this.visible = false;
+    },
+    toggle() {
+      this.visible = !this.visible;
+    },
+    clickOutside(e) {
+      if(!this.$refs.wrap.contains(e.target)) this.hide();
     }
   }
 }
 </script>
 
 <style lang="scss">
-.drophover {
+.dropp {
   position: relative;
   height: 100%;
   &__trigger {
@@ -39,17 +51,17 @@ export default {
   }
   &__body {
     position: absolute;
-    right: calc(-150px + 30px);
-    top: 50px;
-    width: 300px;
+    right: 0;
+    top: 100%;
+    width: 100%;
     z-index: 100;
   }
 }
 
-.drophover-enter-active, .drophover-leave-active {
+.dropp-enter-active, .dropp-leave-active {
   transition: .2s;
 }
-.drophover-enter, .drophover-leave-to {
+.dropp-enter, .dropp-leave-to {
   opacity: 0;
   transform: translateY(20px);
 }
