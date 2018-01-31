@@ -21,7 +21,18 @@
     }
   }
 }
-
+.nav {
+  .nav-link {
+    font-weight: 500;
+    color: rgba(51, 51, 51, .7);
+    border-bottom: 2px solid rgba(51, 51, 51, .2);
+    padding: 0rem 0rem;
+    margin: 0.5rem 1rem;
+  }
+  .fa {
+    color: rgba(51, 51, 51, 0.7);
+  }
+}
 .navbar {
   height: 70px;
   &__logo {
@@ -37,16 +48,6 @@
   }
   .navbar-brand {
     width: 200px;
-  }
-  .nav-link {
-    font-weight: 500;
-    color: rgba(51, 51, 51, .7);
-    border-bottom: 2px solid rgba(51, 51, 51, .2);
-    padding: 0rem 0rem;
-    margin: 0.5rem 1rem;
-  }
-  .fa {
-    color: rgba(51, 51, 51, 0.7);
   }
   &_main {
     position: absolute;

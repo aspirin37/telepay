@@ -3,7 +3,7 @@
     <input class="picker__input" type="text" :id="id" :class="inputClass" :name="name" :placeholder="placeholder"
       v-model="mutableValue" data-input ref="picker" readonly="no">
     <span class="picker__icon" @click="focus">
-      <i class="fa fa-calendar-minus-o" aria-hidden="true"></i>
+      <i class="fa fa-calendar-minus-o text-medium-font" aria-hidden="true"></i>
     </span>
   </div>
 </template>
@@ -46,6 +46,7 @@ export default {
       config: {
         dateFormat: "d.m.Y",
         locale: Russian.ru,
+        defaultValue: new Date(Date.now()).toLocaleDateString()
       }
     };
   },

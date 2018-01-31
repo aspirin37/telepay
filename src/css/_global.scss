@@ -18,8 +18,10 @@
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05)!important;
     margin-bottom: 0;
-    cursor: pointer;
-    &:hover {
+    &:not(:first-child) {
+      cursor: pointer;
+    }
+    &:not(:first-child):hover {
       background-color:  rgb(218, 224, 229)!important;
     }
   }
@@ -63,6 +65,9 @@
   }
   &-field {
     margin: 0.5rem 1rem;
+    span {
+      user-select: none;
+    }
   }
 
 }
