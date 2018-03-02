@@ -17,7 +17,6 @@ export default Vue.extend( {
   },
   methods: {
     login() {
-      this.$parent.loading = true;
       let cloned = clone(this.user);
       AuthService.login(cloned).then(res => {
         if(res && res.token) {
@@ -27,7 +26,6 @@ export default Vue.extend( {
         }
         return null;
       }).then(res => {
-        this.$parent.loading = false;
         if(res) {
           if(res.roles === 'admin') {
             this.$router.push({ name: 'admin' });
@@ -41,7 +39,7 @@ export default Vue.extend( {
             LS.clear();
           }
         }
-      }).catch(err => this.$parent.loading = false);
+      }).catch(err => console.log(err));
     }
   },
   template

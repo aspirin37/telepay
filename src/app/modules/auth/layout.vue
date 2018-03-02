@@ -19,12 +19,9 @@
 </template>
 <script>
 import Logo from '@assets/logo.svg';
-import loader from '@components/loader';
 export default Vue.extend( {
-  components: { loader },
   data() {
     return {
-      loading: false,
       Logo
     }
   }

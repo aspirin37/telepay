@@ -4,7 +4,7 @@
     <div class="textarea-input__icons">
       <label class="textarea-input__file-label">
         <i class="fa fa-camera text-medium-font" aria-hidden="true"></i>
-        <input type="file" class="textarea-input__file-input" @change="fileUploadHandler" />
+        <input type="file" class="textarea-input__file-input" @change="fileUploadHandler" multiple />
       </label>
       <dropdown>
         <i slot="trigger" class="fa fa-smile-o text-medium-font ml-1" aria-hidden="true"></i>
@@ -70,7 +70,11 @@ export default {
     fileUploadHandler(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
-      this.createImage(files[0]);
+      for(let i = 0; i < files.length; i++) {
+        if(this.images.length < 6) {
+          this.createImage(files[i]);
+        }
+      }
     },
     createImage(file) {
       let reader = new FileReader();
@@ -132,8 +136,8 @@ export default {
     background-size: cover;
     .remove {
       position: absolute;
-      right: 5px;
-      top: 5px;
+      right: 0;
+      top: 0;
       font-size: 12px;
       line-height: 1;
       padding: 0 2px;

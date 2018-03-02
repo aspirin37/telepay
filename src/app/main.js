@@ -7,7 +7,7 @@ import store from './store';
 
 // components
 // import notifystr from 'notifystr';
-// import spinner from '@components/spinner';
+import spinner from '@components/spinner';
 import navigation from '@components/navigation';
 // services
 import check from '@services/check_user';
@@ -17,9 +17,9 @@ export const App = new Vue({
     router,
     store,
     components: {
-      navigation
+      navigation,
         // notifystr,
-        // spinner
+      spinner
     },
     // beforeMount() {
     //     check(this);

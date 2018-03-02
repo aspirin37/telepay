@@ -1,4 +1,4 @@
 export default {
     user: {},
-    loading: true,
+    loading: false,
 }

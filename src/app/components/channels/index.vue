@@ -2,7 +2,7 @@
   <div class="d-flex flex-column">
     <div class="d-flex bg-light py-3 channel channel_header w-100">
       <div class="col-1 d-flex justify-content-around align-items-center" v-if="showFirstCol">
-        <input type="checkbox">
+        <norm-checkbox />
         <i class="fa fa-star" aria-hidden="true"></i>
       </div>
       <div class="col-3">Канал</div>
@@ -17,8 +17,9 @@
 
 <script>
 import channel from './channel.vue';
+import normCheckbox from '@components/checkbox';
 export default {
-  components: { channel },
+  components: { channel, normCheckbox },
   props: {
     channels: {
       type: Array,

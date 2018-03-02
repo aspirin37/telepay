@@ -12,6 +12,9 @@ import Flatpickr from 'flatpickr';
 import Russian from 'flatpickr/dist/l10n/ru';
 export default {
   props: {
+    config: {
+      type: Object
+    },
     value: {
       default: null,
       required: true,
@@ -43,16 +46,14 @@ export default {
     return {
       mutableValue: this.value,
       fp: null,
-      config: {
-        dateFormat: "d.m.Y",
+      conf: {
         locale: Russian.ru,
-        defaultValue: new Date(Date.now()).toLocaleDateString()
       }
     };
   },
   mounted() {
     if (!this.fp) {
-      this.fp = new Flatpickr(this.$refs.picker, this.config);
+      this.fp = new Flatpickr(this.$refs.picker, this.conf);
     }
   },
   beforeDestroy() {

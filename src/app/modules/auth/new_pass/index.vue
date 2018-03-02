@@ -14,18 +14,15 @@ export default Vue.extend( {
   },
   methods: {
     resetPass() {
-      this.$parent.loading = true;
       if(!this.reset.phone) delete this.reset.phone;
       if(this.$route.query.code) {
         UserApi.resetPassByMail(this.reset).then(() => {
-          this.$parent.loading = false;
           this.$router.push({ name: 'login' });
-        }).catch(err => this.$parent.loading = false);
+        }).catch(err => console.log(err));
       } else {
         UserApi.resetPassByPhone(this.reset).then(() => {
-          this.$parent.loading = false;
           this.$router.push({ name: 'login', params: { login: this.reset.phone } });
-        }).catch(err => this.$parent.loading = false);
+        }).catch(err => console.log(err));
       }
     }
   },

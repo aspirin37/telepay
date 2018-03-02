@@ -2,12 +2,34 @@
 import template from './index.html';
 import selectr from 'selectr-th';
 import channels from '@components/channels';
+import normSelect from '@components/select';
+import normSearchInput from '@components/search-input';
+import normCheckbox from '@components/checkbox';
 export default {
-  components: { selectr, channels },
+  components: { selectr, channels, normSelect, normCheckbox, normSearchInput },
   data() {
     return {
       selectedCategory: '',
-      categories: ['Первая категория', 'Вторая категория', 'Третья категория'],
+      categories: [{
+        name: 'Первая категория',
+        value: 1
+      },
+      {
+        name: 'Вторая категория',
+        value: 2
+      },
+      {
+        name: 'Третья категория',
+        value: 3
+      },
+      {
+        name: 'Четвертая категория',
+        value: 4
+      },
+      {
+        name: 'Пятая категория',
+        value: 5
+      }],
       channels: [{
         name: 'Первый канал',
         about: 'Это первый канал',
@@ -15,6 +37,7 @@ export default {
         er: 20,
         price: 3000,
         like: false,
+        selected: false,
         category: 'Первая категория'
       },
       {
@@ -24,6 +47,7 @@ export default {
         er: 40,
         price: 6000,
         like: true,
+        selected: false,
         category: 'Вторая категория'
       },
       {
@@ -33,6 +57,7 @@ export default {
         er: 60,
         price: 9000,
         like: false,
+        selected: true,
         category: 'Третья категория'
       }]
     }

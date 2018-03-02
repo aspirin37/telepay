@@ -19,7 +19,6 @@ export default Vue.extend( {
   },
   methods: {
     register() {
-      this.$parent.loading = true;
       let cloned = clone(this.user);
       AuthService.register(cloned).then(res => {
         if(res && res.token) {
@@ -34,10 +33,9 @@ export default Vue.extend( {
             LS.set('user_login', res.email.address);
           else if(res.phone.number)
             LS.set('user_login', res.phone.number);
-          this.$parent.loading = false;
           this.$router.push({ name: 'dashboard' });
         }
-      }).catch(err => this.$parent.loading = false);
+      }).catch(err => console.log(err));
     }
   },
   template

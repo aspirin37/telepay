@@ -40,7 +40,7 @@ export default {
   &__body {
     position: absolute;
     right: calc(-150px + 30px);
-    top: 50px;
+    top: 100%;
     width: 300px;
     z-index: 100;
   }

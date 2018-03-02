@@ -14,6 +14,9 @@ export default {
         date: '',
         images: []
       },
+      dateConfig: {
+        dateFormat: "d.m.Y"
+      },
       picker: '',
       channel: [{
         name: 'Первый канал',
@@ -24,11 +27,6 @@ export default {
         like: false,
         category: 'Первая категория'
       }]
-    }
-  },
-  computed: {
-    postDate() {
-      return new Date(this.post.date).toLocaleDateString();
     }
   },
   methods: {

@@ -11,9 +11,9 @@
 <body>
     <div id="app" :class="$route.fullPath.includes('auth')?'auth':''">
         <!-- <notifystr></notifystr> -->
-        <!-- <spinner v-model="showSpinner"
+        <spinner v-model="showSpinner"
                  size="xl"
-                 :fixed="true"></spinner> -->
+                 :fixed="true"></spinner>
          <navigation></navigation>
          <router-view :key="$route.fullPath"></router-view>
     </div>
