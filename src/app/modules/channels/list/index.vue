@@ -2,7 +2,7 @@
   <div class="container py-3">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h1 class="text-medium-font mb-0">Мои каналы</h1>
-      <router-link class="btn btn-primary" :to="{ name: 'new-channel' }">Добавить канал</router-link>
+      <router-link class="btn btn-primary" :to="{ name: 'channels-create' }">Добавить канал</router-link>
     </div>
     <channels :channels="channels" :show-last-col="true" :show-first-col="false" />
   </div>

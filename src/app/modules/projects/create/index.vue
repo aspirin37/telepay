@@ -12,10 +12,19 @@ export default {
         channel: 'chagram',
         message: '',
         date: '',
+        time: '',
         images: []
       },
-      dateConfig: {
-        dateFormat: "d.m.Y"
+      configs: {
+        date: {
+          dateFormat: "d.m.Y"
+        },
+        time: {
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: "H:i",
+          time_24hr: true
+        }
       },
       picker: '',
       channel: [{
@@ -41,6 +50,3 @@ export default {
   template
 }
 </script>
-
-<style lang="css">
-</style>

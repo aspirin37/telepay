@@ -7,16 +7,16 @@
     </div>
     <div class="col-7">
       <div class="row">
-        <div class="col-7">
+        <div class="col-6">
           <div class="form-group">
             <p class="text-medium-font font-weight-500 mb-1">Дата</p>
-            <date-input v-model="post.date" placeholder="Выберите дату публикации" :config="dateConfig"/>
+            <date-input v-model="post.date" placeholder="Выберите дату публикации" :config="configs.date"/>
           </div>
         </div>
-        <div class="col-5">
+        <div class="col-6">
           <div class="form-group">
             <p class="text-medium-font font-weight-500 mb-1">Время</p>
-            <input type="email" class="form-control" placeholder="Введите желаемое время публикации">
+            <date-input v-model="post.time" placeholder="Выберите время публикации" :config="configs.time"/>
           </div>
         </div>
         <div class="col-12">

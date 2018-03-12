@@ -5,13 +5,14 @@ import Support from '@modules/support';
 import Faq from '@modules/faq';
 import Profile from '@modules/profile';
 import Favs from '@modules/favs';
-import MyChannels from '@modules/my-channels';
-import NewChannel from '@modules/new-channel';
-import Projects from '@modules/projects';
-import NewProject from '@modules/new-project';
+
+import Channels from './channels';
+import Projects from './projects';
 
 const routes = [
   Auth,
+  Channels,
+  Projects,
   {
     path: '/',
     name: 'main',
@@ -41,26 +42,6 @@ const routes = [
     path: '/favs',
     name: 'favs',
     component: Favs,
-  },
-  {
-    path: '/my-channels',
-    name: 'my-channels',
-    component: MyChannels,
-  },
-  {
-    path: '/my-channels/new',
-    name: 'new-channel',
-    component: NewChannel,
-  },
-  {
-    path: '/projects',
-    name: 'projects',
-    component: Projects,
-  },
-  {
-    path: '/projects/new',
-    name: 'new-project',
-    component: NewProject,
   },
   {
     path: '*',
