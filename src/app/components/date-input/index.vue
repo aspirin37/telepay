@@ -47,6 +47,7 @@ export default {
       mutableValue: this.value,
       fp: null,
       conf: {
+        ...this.config,
         locale: Russian.ru,
       }
     };

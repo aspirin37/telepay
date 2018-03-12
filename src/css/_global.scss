@@ -51,15 +51,16 @@
     // box-shadow: 0px 0px 50px rgba(0,0,0,.1);
     &__item {
       display: block;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      // border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       text-decoration: none;
-      padding: 10px;
+      color: rgb(111, 119, 138) !important;
+      // padding: 10px;
       &_last {
         border-bottom: 1px solid rgba(0, 0, 0, 0);
       }
       &:hover {
         text-decoration: none;
-        background-color: rgb(248, 249, 250);
+        // background-color: rgb(248, 249, 250);
       }
     }
   }

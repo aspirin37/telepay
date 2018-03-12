@@ -6,8 +6,8 @@
         <i class="fa fa-camera text-medium-font" aria-hidden="true"></i>
         <input type="file" class="textarea-input__file-input" @change="fileUploadHandler" multiple />
       </label>
-      <dropdown>
-        <i slot="trigger" class="fa fa-smile-o text-medium-font ml-1" aria-hidden="true"></i>
+      <dropdown :style="{ 'margin-right': '5px' }">
+        <i slot="trigger" class="fa fa-smile-o text-medium-font" aria-hidden="true"></i>
         <div class="textarea-input__emoji" slot="body">
           <Picker :emoji-size="16" :i18n="i18n" @click="typeEmojiHandler" />
         </div>
@@ -99,11 +99,17 @@ export default {
 }
 .textarea-input {
   position: relative;
+  label {
+    margin-bottom: 0;
+  }
   &__icons {
     display: flex;
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 0;
+    right: 0;
+    &:last-child {
+      margin-right: 2px;
+    }
     i {
       padding: 5px;
     }
@@ -113,10 +119,10 @@ export default {
     bottom: 100%;
     right: 0;
   }
-  &__file-label {
-    height: 20px;
-    width: 20px;
-  }
+  // &__file-label {
+  //   height: 20px;
+  //   width: 20px;
+  // }
   &__file-input {
     display: none;
   }

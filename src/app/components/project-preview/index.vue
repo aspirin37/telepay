@@ -4,10 +4,10 @@
     <p class="preview__body">
       <span class="preview__channel text-primary">{{ channel }}</span>
       <span class="preview__message">
-        <vue-markdown :source="message" :html="false"></vue-markdown>
         <div class="preview__images" v-if="images && images.length">
           <img v-for="(src, i) in images" class="preview__image" :class="setImgClass(i + 1)" :src="src" alt="">
         </div>
+        <vue-markdown :source="message" :html="false" class="preview__text"></vue-markdown>
       </span>
     </p>
   </div>
@@ -34,7 +34,7 @@ export default {
   methods: {
     setImgClass(index) {
       if(this.images.length === 1) {
-        return 'w-100';
+        return 'w-100 p-0';
       } else if(this.images.length > 1) {
         if(this.images.length % 2 === 0) {
           return 'w-50';
@@ -53,19 +53,25 @@ export default {
 }
 .preview {
   position: relative;
-  background-color: #f5f5f5;
-  padding: 30% 0px 15px 20px;
+  display: flex;
+  background-color: rgb(245, 245, 245);
+  padding: 50px 0px 15px 20px;
+  background-image: url('/assets/preview-bg.jpg');
+  min-height: 500px;
+  align-items: flex-end;
+  background-position: center;
+  background-size: cover;
   &__channel {
     display: inline-block;
-    margin-bottom: 5px;
+    margin: 5px;
   }
   &__body {
     position: relative;
     background-color: #fff;
     width: 60%;
-    padding: 10px;
     border-radius: 5px;
     margin: 0;
+    word-wrap: break-word;
     &:after {
       content: '';
       position: absolute;
@@ -81,6 +87,12 @@ export default {
     display: block;
     margin: 0;
     background: transparent;
+  }
+  &__text {
+    margin: 5px;
+    p {
+      line-height: 1.2;
+    }
   }
   &__date {
     position: absolute;

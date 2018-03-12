@@ -25,26 +25,26 @@
           </ul>
           <ul class="list-unstyled d-flex h-100" v-if="isAuthorized">
             <li class="nav-item">
-              <drop-hover class="py-3">
+              <drop-down class="py-3" event-trigger="hover">
                 <div class="notifs__wrap" slot="trigger">
                   <i class="fa fa-bell" aria-hidden="true"></i>
                   <span class="badge badge-pill badge-success">1</span>
                 </div>
-                <div class="notifs" slot="body">
-                  <ul class="list-group">
-                    <li class="list-group-item bg-light text-medium-font"><strong>Уведомления</strong></li>
-                    <li class="list-group-item bg-light text-medium-font">
-                      Бла блабал блабал блабалблабал блабал блабал блабал блабалблабал блабал блабал
-                    </li>
-                    <li class="list-group-item bg-light text-medium-font">
-                      залупа цветочная
-                    </li>
-                    <li class="list-group-item bg-light text-medium-font">
-                      блабалблабал блабалблабал блабал блабал блабал
-                    </li>
-                  </ul>
-                </div>
-              </drop-hover>
+                <template slot="body">
+                  <drop-down-menu-item title>
+                    Уведомления
+                  </drop-down-menu-item>
+                  <drop-down-menu-item>
+                    Бла блабал блабал блабалблабал блабал блабал блабал блабалблабал блабал блабал
+                  </drop-down-menu-item>
+                  <drop-down-menu-item>
+                    залупа цветочная
+                  </drop-down-menu-item>
+                  <drop-down-menu-item>
+                    блабалблабал блабалблабал блабал блабал блабал
+                  </drop-down-menu-item>
+                </template>
+              </drop-down>
             </li>
             <li class="nav-item py-3">
               <div class="user-field">
@@ -58,13 +58,23 @@
                   <i class="fa fa-user-circle mr-1" aria-hidden="true"></i>
                   <span>user@username.com</span>
                 </div>
-                <div class="user-menu" slot="body">
-                  <router-link class="user-menu__item bg-light text-medium-font" :to="{ name: 'profile' }">Профиль</router-link>
-                  <router-link class="user-menu__item bg-light text-medium-font" :to="{ name: 'favs' }">Избранное</router-link>
-                  <router-link class="user-menu__item bg-light text-medium-font" :to="{ name: 'my-channels' }">Мои каналы</router-link>
-                  <router-link class="user-menu__item bg-light text-medium-font" :to="{ name: 'projects' }">Проекты</router-link>
-                  <router-link class="user-menu__item user-menu__item_last bg-light text-medium-font" :to="{ name: 'logout' }">Выйти</router-link>
-                </div>
+                <template slot="body">
+                  <drop-down-menu-item>
+                    <router-link class="user-menu__item" :to="{ name: 'profile' }">Профиль</router-link>
+                  </drop-down-menu-item>
+                  <drop-down-menu-item>
+                    <router-link class="user-menu__item" :to="{ name: 'favs' }">Избранное</router-link>
+                  </drop-down-menu-item>
+                  <drop-down-menu-item>
+                    <router-link class="user-menu__item" :to="{ name: 'channels' }">Мои каналы</router-link>
+                  </drop-down-menu-item>
+                  <drop-down-menu-item>
+                    <router-link class="user-menu__item" :to="{ name: 'projects' }">Проекты</router-link>
+                  </drop-down-menu-item>
+                  <drop-down-menu-item>
+                    <router-link class="user-menu__item" :to="{ name: 'logout' }">Выйти</router-link>
+                  </drop-down-menu-item>
+                </template>
               </drop-down>
             </li>
           </ul>
@@ -74,12 +84,14 @@
   </nav>
 </template>
 <script>
-import dropHover from '@components/drop-hover';
 import dropDown from '@components/dropdown';
+import dropDownMenuItem from '@components/dropdown/menu-item.vue';
 import Logo from '@assets/logo.svg';
 // import dropdown from '@components/dropdown';
+
+
 export default Vue.extend( {
-  components: { dropHover, dropDown },
+  components: { dropDown, dropDownMenuItem },
   data() {
     return {
       isVisible: false,
@@ -93,10 +105,6 @@ export default Vue.extend( {
     isAuthorized() {
       return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
     }
-  },
-  mounted() {
-  },
-  methods: {
-  },
-} );
+  }
+});
 </script>
