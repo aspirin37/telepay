@@ -1,11 +1,8 @@
 <template lang="html">
   <div class="d-flex py-3 channel w-100">
     <div class="col-1 d-flex justify-content-around align-items-center" v-if="showFirstCol">
-      <!-- <norm-checkbox v-model="data.selected" />
-      <i class="fa fa-star" :class="{ active: data.like }" aria-hidden="true"></i> -->
-      <norm-radio v-model="zalupa" :sense="1">1</norm-radio>
-      <norm-radio v-model="zalupa" :sense="2">2</norm-radio>
-      <norm-radio v-model="zalupa" :sense="3">3</norm-radio>
+      <norm-checkbox v-model="data.selected" />
+      <i class="fa fa-star" :class="{ active: data.like }" aria-hidden="true"></i>
     </div>
     <div class="col-3 d-flex">
       <avatar src="http://hash-cloud.ru/tg/avatars/dcfab7c4ed53275d1aae77f4743068.jpg" :circle="true" />
