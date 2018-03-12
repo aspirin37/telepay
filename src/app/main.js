@@ -3,14 +3,14 @@ import '../css/main.scss';
 import './config';
 import router from './routes';
 import store from './store';
-// import '@services/interceptor';
+import '@utils/interceptor';
 
 // components
-// import notifystr from 'notifystr';
-import spinner from '@components/spinner';
+import notifystr from 'notifystr';
+import loader from '@components/loader';
 import navigation from '@components/navigation';
 // services
-import check from '@services/check_user';
+import check from '@utils/check_user';
 import '@filters';
 
 export const App = new Vue({
@@ -18,18 +18,18 @@ export const App = new Vue({
     store,
     components: {
       navigation,
-        // notifystr,
-      spinner
+      loader,
+      notifystr
     },
-    // beforeMount() {
-    //     check(this);
-    // },
+    beforeMount() {
+      check(this);
+    },
     computed: {
-        showSpinner: {
-            get: function() {
-                return this.$store.state.loading;
-            },
-            set: () => {}
-        }
+      showSpinner: {
+        get: function() {
+          return this.$store.state.loading;
+        },
+        set: () => {}
+      }
     }
 }).$mount('#app');
