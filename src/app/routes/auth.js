@@ -5,6 +5,7 @@ import NewPass from '@modules/auth/new_pass';
 import Activate from '@modules/auth/activate';
 import AdminEntr from '@modules/auth/admin-entr';
 import AuthLayout from '@modules/auth/layout';
+import Logout from '@modules/auth/logout';
 
 export default {
   path: '/auth',
@@ -35,5 +36,9 @@ export default {
     path: 'admin-ent',
     name: 'admin-ent',
     component: AdminEntr
-    }]
+  },{
+    path: 'logout',
+    name: 'logout',
+    component: Logout
+  }]
 }

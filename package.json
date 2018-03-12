@@ -51,6 +51,7 @@
     "file-loader": "^1.1.5",
     "flatpickr": "^4.2.4",
     "font-awesome": "^4.7.0",
+    "notifystr": "^1.1.0",
     "selectr-th": "^1.0.3",
     "sweetalert2": "^6.11.1",
     "vue": "^2.5.2",

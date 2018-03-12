@@ -1,10 +1,6 @@
 <template>
   <div class="container-fluid auth">
-    <loader v-if="loading"
-      color="white"
-      size="full" />
-    <div v-else
-      class="row auth align-items-center justify-content-center ">
+    <div class="row auth align-items-center justify-content-center ">
       <div class="col"></div>
       <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-xl-4 text-center">
         <!-- <div class="logo"

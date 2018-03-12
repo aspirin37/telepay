@@ -56,7 +56,7 @@
               <drop-down class="py-3">
                 <div class="user-field" slot="trigger">
                   <i class="fa fa-user-circle mr-1" aria-hidden="true"></i>
-                  <span>user@username.com</span>
+                  <span>{{ getUsername }}</span>
                 </div>
                 <template slot="body">
                   <drop-down-menu-item>
@@ -104,6 +104,20 @@ export default Vue.extend( {
     },
     isAuthorized() {
       return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
+    },
+    getUsername() {
+      return this.$store.getters.getUsername;
+    },
+    getLoading() {
+      return this.$store.getters.getLoading;
+    }
+  },
+  watch: {
+    getUser(n) {
+      console.log(n, 'watch');
+    },
+    getLoading(n) {
+      console.log(n, 'load');
     }
   }
 });
