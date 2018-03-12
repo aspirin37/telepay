@@ -1,13 +1,13 @@
-const webpack = require( 'webpack' );
-module.exports = function () {
-    return {
-        plugins: [
-            new webpack.optimize.UglifyJsPlugin( {
-                compress: true,
-                sourceMap: false,
-                mangle: false
-            } )
-        ]
-    };
+const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+module.exports = function() {
+  return {
+    plugins: [
+      new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false
+      }),
+      new UglifyJsPlugin()
+    ]
+  };
 };
-
