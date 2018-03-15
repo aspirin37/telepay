@@ -11,34 +11,42 @@ export default {
   path: '/auth',
   name: 'auth',
   component: AuthLayout,
+  meta: { auth: false },
   redirect: '/auth/login',
   children: [{
     path: 'login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: { auth: false }
     }, {
     path: 'registration',
     name: 'registration',
     component: Registration,
+    meta: { auth: false },
     }, {
     path: 'recovery',
     name: 'recovery',
     component: Recovery,
+    meta: { auth: false }
     }, {
     path: 'activate',
     name: 'activate',
     component: Activate,
+    meta: { auth: false }
     }, {
     path: 'new-pass',
     name: 'new_pass',
     component: NewPass,
+    meta: { auth: false }
     }, {
     path: 'admin-ent',
     name: 'admin-ent',
-    component: AdminEntr
+    component: AdminEntr,
+    meta: { auth: false }
   },{
     path: 'logout',
     name: 'logout',
-    component: Logout
+    component: Logout,
+    meta: { auth: false }
   }]
 }

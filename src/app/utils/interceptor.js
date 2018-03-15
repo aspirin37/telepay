@@ -14,7 +14,7 @@ Vue.http.interceptors.push((request, next) => {
       if (response && response.data && typeof response.data === 'object') {
         if(response.status === 401) {
           App.$router.push({ name: 'login' });
-        } else if((response.status !== 404) && !blackList.includes(request.url)) {
+        } else if((response.status !== 404)) {
           for (let err in response.data) {
             App.$notifystr.danger('Ошибка!', response.data[err]);
           }

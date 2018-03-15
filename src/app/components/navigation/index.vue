@@ -87,8 +87,8 @@
 import dropDown from '@components/dropdown';
 import dropDownMenuItem from '@components/dropdown/menu-item.vue';
 import Logo from '@assets/logo.svg';
-// import dropdown from '@components/dropdown';
-
+import LS from '@utils/local_storage';
+import { mapGetters } from 'vuex';
 
 export default Vue.extend( {
   components: { dropDown, dropDownMenuItem },
@@ -98,26 +98,18 @@ export default Vue.extend( {
       Logo
     }
   },
+  mounted() {
+  },
   computed: {
+    ...mapGetters({
+      hasUser: 'hasUser',
+      getUsername: 'getUsername'
+    }),
     logoVisible() {
       return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
     },
     isAuthorized() {
-      return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
-    },
-    getUsername() {
-      return this.$store.getters.getUsername;
-    },
-    getLoading() {
-      return this.$store.getters.getLoading;
-    }
-  },
-  watch: {
-    getUser(n) {
-      console.log(n, 'watch');
-    },
-    getLoading(n) {
-      console.log(n, 'load');
+      return this.hasUser && LS.get('auth_key');
     }
   }
 });

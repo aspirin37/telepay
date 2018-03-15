@@ -6,15 +6,18 @@ export default {
   path: '/projects',
   name: 'projects',
   component: Projects,
+  meta: { auth: true },
   redirect: { name: 'projects-list' },
   children: [{
     path: 'list',
     name: 'projects-list',
     component: ProjectsList,
+    meta: { auth: true }
   },
   {
     path: 'create',
     name: 'projects-create',
-    component: ProjectsCreate
+    component: ProjectsCreate,
+    meta: { auth: true }
   }]
 }

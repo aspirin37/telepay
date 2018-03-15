@@ -1,6 +1,5 @@
 import '../css/main.scss';
 
-import './config';
 import router from './routes';
 import store from './store';
 import '@utils/interceptor';
@@ -10,8 +9,9 @@ import notifystr from 'notifystr';
 import loader from '@components/loader';
 import navigation from '@components/navigation';
 // services
-import check from '@utils/check_user';
 import '@filters';
+
+import { routerAuthHandle, mountAuthHandle } from '@utils/check';
 
 export const App = new Vue({
     router,
@@ -22,7 +22,10 @@ export const App = new Vue({
       notifystr
     },
     beforeMount() {
-      check(this);
+      mountAuthHandle(this, this.$route);
+      this.$router.beforeEach((to, from, next) => {
+        routerAuthHandle(this, to, from, next);
+      })
     },
     computed: {
       showSpinner: {

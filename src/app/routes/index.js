@@ -1,47 +1,50 @@
+import store from '@store';
+
 import Auth from './auth';
 import Main from '@modules/main';
 import Catalog from '@modules/catalog';
-import Support from '@modules/support';
 import Faq from '@modules/faq';
 import Profile from '@modules/profile';
 import Favs from '@modules/favs';
 
 import Channels from './channels';
 import Projects from './projects';
+import Support from './support';
 
 const routes = [
   Auth,
   Channels,
   Projects,
+  Support,
   {
     path: '/',
     name: 'main',
     component: Main,
+    meta: { auth: false }
   },
   {
     path: '/catalog',
     name: 'catalog',
     component: Catalog,
-  },
-  {
-    path: '/support',
-    name: 'support',
-    component: Support,
+    meta: { auth: false }
   },
   {
     path: '/faq',
     name: 'faq',
     component: Faq,
+    meta: { auth: false }
   },
   {
     path: '/profile',
     name: 'profile',
     component: Profile,
+    meta: { auth: true }
   },
   {
     path: '/favs',
     name: 'favs',
     component: Favs,
+    meta: { auth: true }
   },
   {
     path: '*',

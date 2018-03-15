@@ -29,11 +29,8 @@ export default Vue.extend( {
         return null;
       }).then(res => {
         if(res) {
-          if(res.email.address)
-            LS.set('user_login', res.email.address);
-          else if(res.phone.number)
-            LS.set('user_login', res.phone.number);
-          this.$router.push({ name: 'dashboard' });
+          this.$store.commit('SET_USER', res);
+          this.$router.push({ name: 'catalog' });
         }
       }).catch(err => console.log(err));
     }

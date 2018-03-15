@@ -10,7 +10,7 @@
 
 <body>
     <div id="app" :class="$route.fullPath.includes('auth')?'auth':''">
-        <!-- <notifystr></notifystr> -->
+        <notifystr></notifystr>
         <loader v-model="showSpinner" size="xl" :fixed="true"></loader>
         <navigation></navigation>
         <router-view :key="$route.fullPath"></router-view>

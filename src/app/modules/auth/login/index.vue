@@ -27,15 +27,12 @@ export default Vue.extend( {
         return null;
       }).then(res => {
         if(res) {
-          if(res.roles === 'admin') {
-            this.$router.push({ name: 'admin' });
-            LS.set( 'user_login', res.email.address );
-          } else
           if(res.roles === 'user' || res.roles === 'confirmed') {
-            this.$router.push({ name: 'dashboard' });
-            LS.set('user_login', res.email.address);
+            this.$store.commit('SET_USER', res);
+            this.$router.push({ name: 'catalog' });
           } else {
             this.$notifystr.danger('Ошибка входа!', 'Профиль не является профилем пользователя');
+            this.$store.commit('SET_USER', null);
             LS.clear();
           }
         }

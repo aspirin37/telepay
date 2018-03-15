@@ -4,7 +4,6 @@ export default {
       return state.user.email.address || state.user.phone.number;
     }
   },
-  getLoading: (state) => {
-    return state.loading;
-  }
+  getLoading: state => state.loading,
+  hasUser: state => state.user !== null
 }
