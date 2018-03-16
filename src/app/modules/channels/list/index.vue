@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import channels from '@components/channels';
+import channels from '@components/channels/list';
 export default {
   components: { channels },
   data() {

@@ -1,22 +1,11 @@
 <div class="container py-3">
   <div class="row my-3">
     <div class="col-4">
-      <div class="form-group">
-        <norm-select v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
-      </div>
-      <!-- <selectr placeholder="Категории" :html-option="true" label="number" :pre-options="categories" :clear-query-on-select="true"
-        v-model="selectedCategory" no-results-text="Категория не найден">
-        <template slot-scope="option">
-          {{option.data}}
-        </template>
-      </selectr> -->
+      <selectr v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
     </div>
     <div class="col-4"></div>
     <div class="col-4">
-      <div class="form-group">
-        <norm-search-input placeholder="Поиск" />
-        <!-- <input type="text" class="form-control" placeholder="Поиск"> -->
-      </div>
+      <selectr v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
     </div>
   </div>
   <channels :channels="channels" />

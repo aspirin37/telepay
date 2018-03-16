@@ -1,12 +1,10 @@
 <script>
 import template from './index.html';
+import channels from '@components/channels/list';
 import selectr from 'selectr-th';
-import channels from '@components/channels';
-import normSelect from '@components/select';
-import normSearchInput from '@components/search-input';
 import normCheckbox from '@components/checkbox';
-export default {
-  components: { selectr, channels, normSelect, normCheckbox, normSearchInput },
+export default Vue.extend({
+  components: { channels, selectr, normCheckbox },
   data() {
     return {
       selectedCategory: '',
@@ -63,5 +61,5 @@ export default {
     }
   },
   template
-}
+});
 </script>

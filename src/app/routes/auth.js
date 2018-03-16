@@ -19,7 +19,7 @@ export default {
     path: 'registration',
     name: 'registration',
     component: Registration,
-    meta: { auth: false },
+    meta: { auth: false }
     }, {
     path: 'recovery',
     name: 'recovery',

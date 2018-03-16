@@ -7,9 +7,9 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state,
-    mutations,
-    getters,
-    actions,
-    strict: process.env.NODE_ENV !== 'production'
+  state,
+  mutations,
+  getters,
+  actions,
+  strict: process.env.NODE_ENV !== 'production'
 })

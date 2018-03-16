@@ -75,7 +75,6 @@ export default {
 <style lang="scss">
 .dropp {
   position: relative;
-  min-width: 100%;
   height: 100%;
   &__trigger {
     height: 100%;

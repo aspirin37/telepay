@@ -98,8 +98,6 @@ export default Vue.extend( {
       Logo
     }
   },
-  mounted() {
-  },
   computed: {
     ...mapGetters({
       hasUser: 'hasUser',

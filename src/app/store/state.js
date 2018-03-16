@@ -1,4 +1,4 @@
 export default {
-    user: null,
-    loading: false,
+  user: null,
+  loading: false,
 }
