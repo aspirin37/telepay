@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import channel from './channel.vue';
+import channel from '../list-item/index.vue';
 import normCheckbox from '@components/checkbox';
 export default {
   components: { channel, normCheckbox },
