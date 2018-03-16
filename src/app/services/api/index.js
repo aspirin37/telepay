@@ -6,6 +6,7 @@ import AuthService from './auth';
 import ChannelsApi from './channels';
 import UserApi from './user';
 import FavsApi from './favs';
+import ProjectApi from './project'
 
 
 let API_BASE;
@@ -32,5 +33,6 @@ export {
   AuthService,
   ChannelsApi,
   UserApi,
-  FavsApi
+  FavsApi,
+  ProjectApi
 };
