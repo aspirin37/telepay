@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import projectPreview from '@components/project-preview';
+import projectPreview from '@components/project/preview';
 export default {
   components: { projectPreview }
 }

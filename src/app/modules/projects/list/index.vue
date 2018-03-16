@@ -12,9 +12,15 @@
 </template>
 
 <script>
-import project from '@components/project';
+import project from '@components/project/list-item';
+import { ProjectApi } from '@services/api';
 export default {
-  components: { project }
+  components: { project },
+  created() {
+    // ProjectApi.list().then(res => {
+    //   console.log(res);
+    // })
+  }
 }
 </script>
 
