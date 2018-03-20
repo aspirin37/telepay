@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="preview">
-    <small class="preview__date">{{ post.date }}</small>
+    <small class="preview__date">{{ dateView }}</small>
     <div class="preview__workarea">
       <p class="preview__body">
         <span class="preview__channel text-primary">{{ post.channel }}</span>
@@ -37,6 +37,14 @@ export default {
   },
   mounted() {
     this.$parent.$on('update-post', post => this.post = post);
+  },
+  computed: {
+    dateView() {
+      return new Intl.DateTimeFormat('en', {
+        month: "long",
+        day: "numeric"
+      }).format(new Date());
+    }
   },
   methods: {
     setImgClass(index) {
@@ -114,7 +122,7 @@ export default {
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, .6);
+    background: rgba(0, 0, 0, .4);
     color: #fff;
     padding: 5px 7px;
     border-radius: 15px;
