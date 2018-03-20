@@ -13,26 +13,26 @@ let API_BASE;
 let protocol = (document.location && document.location.protocol) || 'http:';
 
 switch (process.env.url) {
-  case 'loc':
-    API_BASE = `${protocol}//127.0.0.1:8000`;
-    break;
-  case 'dev':
-    API_BASE = `${protocol}//dev.api.telepay.io`;
-    break;
-  default:
-    API_BASE = `${protocol}//api.telepay.io`;
-    break;
+    case 'loc':
+        API_BASE = `${protocol}//0.0.0.0:8080`;
+        break;
+    case 'dev':
+        API_BASE = `${protocol}//dev.api.telepay.io`;
+        break;
+    default:
+        API_BASE = `${protocol}//api.telepay.io`;
+        break;
 }
 
 Vue.http.options = {
-  root: API_BASE
+    root: API_BASE
 };
 
 export {
-  // AdminApi,
-  AuthService,
-  ChannelsApi,
-  UserApi,
-  FavsApi,
-  ProjectApi
+    // AdminApi,
+    AuthService,
+    ChannelsApi,
+    UserApi,
+    FavsApi,
+    ProjectApi
 };
