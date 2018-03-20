@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="preview__buttons" v-if="buttons.length">
-    <a target="blank" v-for="btn in buttons" class="preview__button" :href="btn.link" v-show="btn.text">
+    <a target="blank" v-for="btn in buttons" class="preview__button" :href="`//${btn.link}`" v-show="btn.text">
       <span class="arrow">
         <svg viewBox="0 0 283.178 283.178">
         	<g>
