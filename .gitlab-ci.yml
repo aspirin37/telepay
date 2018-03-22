@@ -1,0 +1,27 @@
+stages:
+   - deploy
+before_script:
+   - git clone git@lab.postradar.ru:ansible/telestat-deploy.git /tmp/ansible-$CI_COMMIT_SHA
+   - cd /tmp/ansible-$CI_COMMIT_SHA
+   - ansible-galaxy install -r requirements.yml -p roles
+
+after_script:
+   - rm -rf /tmp/ansible-$CI_COMMIT_SHA
+
+prod_deploy:
+  stage: deploy
+  script:
+    - ansible-playbook -i inventories/prod/hosts playbooks/deploy/telestat-frontend.yml -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
+    - ansible-playbook -i inventories/prod/hosts playbooks/frontend.yml -t short
+#  only:
+#    - master
+  when: manual
+
+dev_deploy:
+  stage: deploy
+  script:
+    - ansible-playbook -i inventories/dev/hosts playbooks/deploy/telestat-frontend.yml -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
+    - ansible-playbook -i inventories/dev/hosts playbooks/frontend.yml -t short
+#  only:
+#    - dev
+  when: manual
