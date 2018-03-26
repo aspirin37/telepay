@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     setImgClass(index) {
-      let { length } = this.post.images;
+      let { length } = this.images;
       if(length === 1) {
         return 'w-100 p-0';
       } else if(length > 1) {
