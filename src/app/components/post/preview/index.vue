@@ -1,18 +1,18 @@
 <template lang="html">
   <div class="preview">
-    <small class="preview__date">{{ dateView }}</small>
+    <small class="preview__date">{{ date }}</small>
     <div class="preview__workarea">
       <p class="preview__body">
-        <span class="preview__channel text-primary">{{ post.channel }}</span>
+        <span class="preview__channel text-primary">{{ channel }}</span>
         <span class="preview__message">
-          <div class="preview__images" v-if="post.images && post.images.length">
-            <img v-for="(src, i) in post.images" class="preview__image" :class="setImgClass(i + 1)" :src="src" alt="">
+          <div class="preview__images" v-if="images && images.length">
+            <img v-for="(src, i) in images" class="preview__image" :class="setImgClass(i + 1)" :src="src" alt="">
           </div>
-          <vue-markdown :source="post.text" :html="false" class="preview__text"></vue-markdown>
+          <vue-markdown :source="text" :html="false" class="preview__text"></vue-markdown>
         </span>
-        <span class="preview__time">{{ post.time }}</span>
+        <span class="preview__time">{{ time }}</span>
       </p>
-      <online-buttons-list :buttons="post.buttons" />
+      <online-buttons-list :buttons="buttons" />
     </div>
   </div>
 </template>
@@ -23,28 +23,15 @@ import VueMarkdown from 'vue-markdown';
 import onlineButtonsList from '@components/online-buttons/list';
 export default {
   components: { VueMarkdown, onlineButtonsList },
-  data() {
-    return {
-      post: {
-        channel: '',
-        text: '',
-        date: '',
-        time: '',
-        images: [],
-        buttons: []
-      }
-    }
-  },
-  mounted() {
-    this.$parent.$on('update-post', post => this.post = post);
-  },
   computed: {
-    dateView() {
-      return new Intl.DateTimeFormat('en', {
-        month: "long",
-        day: "numeric"
-      }).format(new Date());
-    }
+    ...mapState({
+      text: state => state.post.text,
+      buttons: state => state.post.buttons,
+      images: state => state.post.images,
+      channel: state => state.post.channel,
+      time: state => state.post.time,
+      date: state => state.post.date
+    })
   },
   methods: {
     setImgClass(index) {

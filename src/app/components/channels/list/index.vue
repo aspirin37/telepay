@@ -16,7 +16,7 @@
       <div class="col-1" v-if="!showForOwner">Выбрать</div>
       <div class="col-1" v-if="showForOwner">Действия</div>
     </div>
-    <channel v-for="(channel, i) in channels" :data="channel" :key="i" :show-for-owner="showForOwner" />
+    <channel v-for="(channel, i) in channels" :data="channel" :key="channel.id" :show-for-owner="showForOwner" @select-channel="selectChannelHandler" />
   </div>
 </template>
 
@@ -33,6 +33,29 @@ export default {
     showForOwner: {
       type: Boolean,
       default: false
+    }
+  },
+  data() {
+    return {
+      selectedChannels: []
+    }
+  },
+  watch: {
+    'selectedChannels': function(n) {
+      console.log(n);
+      this.$store.commit('UPDATE_POST', { prop: 'offerId', value: n });
+    }
+  },
+  methods: {
+    selectChannelHandler(e) {
+      this.selectedManager(e);
+    },
+    selectedManager(value) {
+      if(this.selectedChannels.includes(value)) {
+        this.selectedChannels = this.selectedChannels.filter(item => item !== value);
+      } else {
+        this.selectedChannels.push(value);
+      }
     }
   }
 }

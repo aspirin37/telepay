@@ -1,13 +1,13 @@
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
 
-// import AdminApi from './admin';
-import AuthService from './auth';
 import ChannelApi from './channel';
+import PostApi from './post';
+
+
+import AuthService from './auth';
 import UserApi from './user';
 import FavsApi from './favs';
-import PostsApi from './posts'
-
 
 let API_BASE;
 let protocol = (document.location && document.location.protocol) || 'http:';
@@ -29,10 +29,9 @@ Vue.http.options = {
 };
 
 export {
-    // AdminApi,
     AuthService,
     ChannelApi,
     UserApi,
     FavsApi,
-    PostsApi
+    PostApi
 };

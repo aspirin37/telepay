@@ -2,7 +2,7 @@
   <div class="container py-3">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h1 class="text-medium-font mb-0">Посты</h1>
-      <router-link class="btn btn-primary" :to="{ name: 'posts:create' }">Новый пост</router-link>
+      <router-link class="btn btn-primary" :to="{ name: 'post.create' }">Новый пост</router-link>
     </div>
     <h3 class="text-muted">Исходящие</h3>
     <div class="">
@@ -13,17 +13,17 @@
 
 <script>
 import post from '@components/post/list-item';
-import { PostsApi } from '@services/api';
+import { PostApi } from '@services/api';
 export default {
   components: { post },
-  created() {
-    // PostsApi.list().then(res => {
-    //   console.log(res);
-    // })
+  data() {
+    return {
+      list: []
+    }
+  },
+  async created() {
+    let { items, total } = await PostApi.list();
+    this.list = items;
   }
 };
 </script>
-
-<style lang="css">
-
-</style>

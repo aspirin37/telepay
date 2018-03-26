@@ -27,6 +27,7 @@ export default {
   methods: {
     handleChange(e) {
       this.$emit('input', this.checked);
+      this.$emit('change', this.checked);
     }
   }
 }
