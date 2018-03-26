@@ -9,10 +9,10 @@
           <router-link :to="{name:'catalog'}" class="nav-link">Каталог</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'channels'}" class="nav-link">Каналы</router-link>
+          <router-link :to="{name:'channel'}" class="nav-link">Каналы</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'posts'}" class="nav-link">Посты</router-link>
+          <router-link :to="{name:'post'}" class="nav-link">Предложения</router-link>
         </li>
         <li class="ml-auto">
           <ul class="list-unstyled d-flex" v-if="!isAuthorized">
@@ -64,12 +64,6 @@
                   </drop-down-menu-item>
                   <drop-down-menu-item>
                     <router-link class="user-menu__item" :to="{ name: 'favs' }">Избранное</router-link>
-                  </drop-down-menu-item>
-                  <drop-down-menu-item>
-                    <router-link class="user-menu__item" :to="{ name: 'support' }">Поддержка</router-link>
-                  </drop-down-menu-item>
-                  <drop-down-menu-item>
-                    <router-link class="user-menu__item" :to="{ name: 'faq' }">F.A.Q.</router-link>
                   </drop-down-menu-item>
                   <drop-down-menu-item>
                     <router-link class="user-menu__item" :to="{ name: 'logout' }">Выйти</router-link>
