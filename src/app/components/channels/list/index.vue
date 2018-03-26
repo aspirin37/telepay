@@ -1,16 +1,22 @@
 <template lang="html">
   <div class="d-flex flex-column">
     <div class="d-flex bg-light py-3 channel channel_header w-100">
-      <div class="col-1 d-flex justify-content-around align-items-center" v-if="showFirstCol">
-        <norm-checkbox />
+      <div class="col-1 d-flex justify-content-around align-items-center" v-if="showForOwner">
+        Запросы
+      </div>
+      <div class="col-1 d-flex justify-content-around align-items-center" v-if="!showForOwner">
         <i class="fa fa-star" aria-hidden="true"></i>
       </div>
       <div class="col-3">Канал</div>
-      <div class="col-3">Описание</div>
+      <div class="col-2">Описание</div>
       <div class="col-2">Подписчиков</div>
-      <div class="col-2">Вовлеченность</div>
+      <div class="col-1">Er</div>
+      <div class="col-1">Условия</div>
+      <div class="col-1">Цена</div>
+      <div class="col-1" v-if="!showForOwner">Выбрать</div>
+      <div class="col-1" v-if="showForOwner">Действия</div>
     </div>
-    <channel v-for="(channel, i) in channels" :data="channel" :key="i" :show-last-col="showLastCol" :show-first-col="showFirstCol" />
+    <channel v-for="(channel, i) in channels" :data="channel" :key="i" :show-for-owner="showForOwner" />
   </div>
 </template>
 
@@ -22,20 +28,15 @@ export default {
   props: {
     channels: {
       type: Array,
-      default: () => []
+      default: () => ([])
     },
-    showFirstCol: {
-      type: Boolean,
-      default: true
-    },
-    showLastCol: {
+    showForOwner: {
       type: Boolean,
       default: false
     }
   }
-};
+}
 </script>
 
 <style lang="css">
-
 </style>

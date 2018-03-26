@@ -3,7 +3,7 @@ Vue.use(VueResource);
 
 // import AdminApi from './admin';
 import AuthService from './auth';
-import ChannelsApi from './channels';
+import ChannelApi from './channel';
 import UserApi from './user';
 import FavsApi from './favs';
 import PostsApi from './posts'
@@ -14,7 +14,7 @@ let protocol = (document.location && document.location.protocol) || 'http:';
 
 switch (process.env.url) {
     case 'loc':
-        API_BASE = `${protocol}//0.0.0.0:8080`;
+        API_BASE = `${protocol}//127.0.0.1:8000`;
         break;
     case 'dev':
         API_BASE = `${protocol}//dev.api.telepay.io`;
@@ -31,7 +31,7 @@ Vue.http.options = {
 export {
     // AdminApi,
     AuthService,
-    ChannelsApi,
+    ChannelApi,
     UserApi,
     FavsApi,
     PostsApi
