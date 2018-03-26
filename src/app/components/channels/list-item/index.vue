@@ -11,26 +11,27 @@
             <avatar src="http://hash-cloud.ru/tg/avatars/dcfab7c4ed53275d1aae77f4743068.jpg"
                 :circle="true" />
             <div class="col-9">
-                <p class="m-0 font-weight-500 text-medium-font">{{ data.name }}</p>
-                <p class="m-0 font-weight-light text-light-font">{{ data.category }}</p>
+                <p class="m-0 font-weight-500 text-medium-font">{{ data.title }}</p>
+                <p class="m-0"><a :href="'https://t.me/'+data.username" target="_blank" rel="noopener nofollow norefferer">@{{ data.username }}</a></p>
             </div>
         </div>
         <div class="col-3 d-flex align-items-center">
-            {{ data.about }}
+            {{ data.description }}
         </div>
         <div class="col-2 d-flex align-items-center font-weight-500 text-medium-font">
-            {{ data.subscribers | cutSum }}
+            {{ data.subscriberCount | cutSum }}
         </div>
         <div class="col-2 d-flex align-items-center font-weight-500 text-medium-font">
-            {{ data.er }}%
-        </div>
-        <div class="col-1 d-flex align-items-center font-weight-500 text-medium-font">
-            {{ data.price }}₽
+            <!-- {{ data.avgViews *100/ data.subscribersCount }}% -->
+            42%
         </div>
         <div class="col-1 d-flex justify-content-around align-items-center"
             v-if="showLastCol">
+            <router-link :to="{name:'channels:create'}" class="text-nowrap text-secondary">
             <i class="fa fa-pencil"
                 aria-hidden="true"></i>
+                Редактировать
+                </router-link>
         </div>
     </div>
 </template>
@@ -39,27 +40,27 @@
 import avatar from '@components/avatar';
 import normCheckbox from '@components/checkbox';
 export default {
-    components: {
-        avatar,
-        normCheckbox,
+  components: {
+    avatar,
+    normCheckbox
+  },
+  data() {
+    return {
+      zalupa: 2
+    };
+  },
+  props: {
+    data: {
+      type: Object
     },
-    data() {
-        return {
-            zalupa: 2
-        }
+    showFirstCol: {
+      type: Boolean,
+      default: true
     },
-    props: {
-        data: {
-            type: Object
-        },
-        showFirstCol: {
-            type: Boolean,
-            default: true
-        },
-        showLastCol: {
-            type: Boolean,
-            default: false
-        }
+    showLastCol: {
+      type: Boolean,
+      default: false
     }
-}
+  }
+};
 </script>

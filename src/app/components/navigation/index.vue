@@ -9,10 +9,10 @@
           <router-link :to="{name:'catalog'}" class="nav-link">Каталог</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'support'}" class="nav-link">Поддержка</router-link>
+          <router-link :to="{name:'channels'}" class="nav-link">Каналы</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'faq'}" class="nav-link">F.A.Q.</router-link>
+          <router-link :to="{name:'posts'}" class="nav-link">Посты</router-link>
         </li>
         <li class="ml-auto">
           <ul class="list-unstyled d-flex" v-if="!isAuthorized">
@@ -66,10 +66,10 @@
                     <router-link class="user-menu__item" :to="{ name: 'favs' }">Избранное</router-link>
                   </drop-down-menu-item>
                   <drop-down-menu-item>
-                    <router-link class="user-menu__item" :to="{ name: 'channels' }">Мои каналы</router-link>
+                    <router-link class="user-menu__item" :to="{ name: 'support' }">Поддержка</router-link>
                   </drop-down-menu-item>
                   <drop-down-menu-item>
-                    <router-link class="user-menu__item" :to="{ name: 'projects' }">Проекты</router-link>
+                    <router-link class="user-menu__item" :to="{ name: 'faq' }">F.A.Q.</router-link>
                   </drop-down-menu-item>
                   <drop-down-menu-item>
                     <router-link class="user-menu__item" :to="{ name: 'logout' }">Выйти</router-link>
@@ -90,13 +90,13 @@ import Logo from '@assets/logo.svg';
 import LS from '@utils/local_storage';
 import { mapGetters } from 'vuex';
 
-export default Vue.extend( {
+export default Vue.extend({
   components: { dropDown, dropDownMenuItem },
   data() {
     return {
       isVisible: false,
       Logo
-    }
+    };
   },
   computed: {
     ...mapGetters({

@@ -30,12 +30,12 @@ export default {
     maxImages: {
       type: Number,
       default: 1
-    },
+    }
   },
   data() {
     return {
       message: 'Текст...',
-      'i18n': {
+      i18n: {
         categories: {
           search: 'Результаты поиска',
           recent: 'Часто используемые',
@@ -49,7 +49,7 @@ export default {
           flags: 'Флаги'
         }
       }
-    }
+    };
   },
   created() {
     this.$emit('input', this.message);
@@ -61,7 +61,7 @@ export default {
   },
   computed: {
     ...mapState({
-      imagesLength: state => state.currentProject.images.length
+      imagesLength: state => state.currentPost.images.length
     }),
     maxLength() {
       return this.imagesLength ? 200 : 4096;
@@ -69,10 +69,10 @@ export default {
   },
   methods: {
     typeEmojiHandler(emoji, e) {
-      if(this.$refs.text.selectionStart !== this.message.length) {
+      if (this.$refs.text.selectionStart !== this.message.length) {
         let start = this.message.substr(0, this.$refs.text.selectionStart);
         let end = this.message.substr(this.$refs.text.selectionStart);
-        this.message = (start + emoji.native + end);
+        this.message = start + emoji.native + end;
       } else {
         this.message += emoji.native;
       }
@@ -80,8 +80,8 @@ export default {
     fileUploadHandler(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
-      if((this.$parent.post.images.length + files.length) <= this.maxImages) {
-        for(let i = 0; i < files.length; i++) {
+      if (this.$parent.post.images.length + files.length <= this.maxImages) {
+        for (let i = 0; i < files.length; i++) {
           this.createImage(files[i]);
         }
       } else {
@@ -97,7 +97,7 @@ export default {
       this.$emit('add-button');
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

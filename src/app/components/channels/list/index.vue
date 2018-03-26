@@ -9,7 +9,6 @@
       <div class="col-3">Описание</div>
       <div class="col-2">Подписчиков</div>
       <div class="col-2">Вовлеченность</div>
-      <div class="col-1">Цена</div>
     </div>
     <channel v-for="(channel, i) in channels" :data="channel" :key="i" :show-last-col="showLastCol" :show-first-col="showFirstCol" />
   </div>
@@ -23,7 +22,7 @@ export default {
   props: {
     channels: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     showFirstCol: {
       type: Boolean,
@@ -34,8 +33,9 @@ export default {
       default: false
     }
   }
-}
+};
 </script>
 
 <style lang="css">
+
 </style>

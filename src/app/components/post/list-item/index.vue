@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="row">
     <div class="col-5">
-      <project-preview />
+      <post-preview />
     </div>
     <div class="col-7">
       <div class="d-flex bg-light py-2">
@@ -40,11 +40,12 @@
 </template>
 
 <script>
-import projectPreview from '@components/project/preview';
+import postPreview from '@components/post/preview';
 export default {
-  components: { projectPreview }
-}
+  components: { postPreview }
+};
 </script>
 
 <style lang="css">
+
 </style>

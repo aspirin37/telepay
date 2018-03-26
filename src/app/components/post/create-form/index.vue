@@ -32,19 +32,19 @@ import dateInput from '@components/date-input';
 import textareaInput from '@components/textarea-input';
 import onlineButtons from '@components/online-buttons/create';
 import imagesList from '@components/images-list';
-import { ProjectApi } from '@services/api';
+import { PostsApi } from '@services/api';
 export default {
   components: { dateInput, textareaInput, onlineButtons, imagesList },
   data() {
     return {
       configs: {
         date: {
-          dateFormat: "d.m.Y"
+          dateFormat: 'd.m.Y'
         },
         time: {
           enableTime: true,
           noCalendar: true,
-          dateFormat: "H:i",
+          dateFormat: 'H:i',
           time_24hr: true
         }
       },
@@ -56,7 +56,7 @@ export default {
         images: [],
         buttons: []
       }
-    }
+    };
   },
   watch: {
     post: {
@@ -78,7 +78,7 @@ export default {
       this.post.images = this.post.images.filter((img, idx) => idx !== index);
     },
     addButtonHandler() {
-      if(this.post.buttons.length >= 10) {
+      if (this.post.buttons.length >= 10) {
         return this.$notifystr.danger('Ограничение', 'Можно прикрепить не более 10 кнопок');
       }
       this.buttonId++;
@@ -91,12 +91,12 @@ export default {
       this.post.date = Date.now();
     },
     save() {
-      // ProjectApi.add({
+      // PostsApi.add({
       //   text: this.post.text,
       //   images: this.post.images,
       //   buttons: JSON.stringify(this.post.buttons.map(({ text, link }) => ({ text, link })))
       // })
-      // .then(res => this.$router.push({ name: 'projects-list' }))
+      // .then(res => this.$router.push({ name: 'posts-list' }))
       // .catch(console.log);
       console.log(this.post);
     },
@@ -104,5 +104,5 @@ export default {
       console.log(this.post);
     }
   }
-}
+};
 </script>
