@@ -1,12 +1,64 @@
 <div class="container py-3">
-  <div class="row my-3">
-    <div class="col-4">
-      <selectr v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
+  <div class="row my-3 align-items-center">
+    <div class="col-2">
+      <h1 class="text-medium-font">Каталог</h1>
     </div>
-    <div class="col-4"></div>
     <div class="col-4">
-      <selectr v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
+      <search-input v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
+    </div>
+    <div class="col-4">
+      <search-input v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
+    </div>
+    <div class="col-2">
+      <router-link class="btn btn-primary btn-block" :to="{ name: 'post.create' }">Новый проект</router-link>
     </div>
   </div>
-  <channels :channels="channels" />
+  <div class="row my-3">
+    <div class="col-2"></div>
+    <div class="col-4">
+      <div class="form-group">
+        <label class="col-form-label search__label">Участников</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">от</span>
+          </div>
+          <input type="number" class="form-control search__input">
+          <div class="input-group-prepend">
+            <span class="input-group-text">до</span>
+          </div>
+          <input type="number" class="form-control search__input">
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-group">
+        <label class="col-form-label search__label">Цена</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">от</span>
+          </div>
+          <input type="number" class="form-control search__input">
+          <div class="input-group-prepend">
+            <span class="input-group-text">до</span>
+          </div>
+          <input type="number" class="form-control search__input">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row my-3 align-items-end">
+    <div class="col-2"></div>
+    <div class="col-4">
+      <label class="col-form-label search__label">Дата размещения</label>
+      <date-input v-model="filter.date" placeholder="Выберите дату публикации" :config="configs.date" />
+    </div>
+    <div class="col-2">
+      <label class="col-form-label search__label">Время размещения</label>
+      <input type="number" class="form-control search__input">
+    </div>
+    <div class="col-2">
+      <button class="btn btn-outline-primary btn-block">Поиск</button>
+    </div>
+  </div>
+  <channels :channels="channels" :show-for-owner="false" />
 </div>
