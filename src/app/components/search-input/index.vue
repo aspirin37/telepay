@@ -200,69 +200,6 @@ export default {
 </script>
 
 <style lang="scss">
-.search-input {
-  position: relative;
-  width: 100%;
-  margin-bottom: 0;
-  &__cleaner {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 38px;
-    cursor: pointer;
-    z-index: 20;
-    right: 0;
-    color: #fff;
-    background-color: #37ACDF;
-    border-radius: 0 3px 3px 0;
-    overflow: hidden;
-    &-icon {
-      height: 16px;
-      width: 16px;
-      padding: 2px;
-      fill: #fff;
-    }
-  }
-  &__value {
-    background-color: #fff;
-    text-align: left;
-    display: block;
-    outline: none;
-    width: 100%;
-    font-size: 14px;
-    padding: 0.375rem 2.975rem 0.375rem 0.75rem;
-    color: #BFBFBF;
-    border: 2px solid #E0E0E0;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    &:focus {
-      box-shadow: 0 0 0 0.2rem rgba(3, 169, 244, 0.25);
-    }
-  }
-  &__dropdown {
-    position: absolute;
-    overflow-y: auto;
-    width: 100%;
-    left: 0;
-    z-index: 10;
-    max-height: 200px;
-    &-item {
-      background: #fff;
-      padding: 10px;
-      border-bottom: 1px solid #f5f5f5;
-      font-size: 14px;
-      cursor: pointer;
-      &:hover,
-      &_hovered,
-      &_active {
-        background: #f5f5f5;
-        border-bottom: 1px solid #fff;
-      }
-    }
-  }
-}
 .fade-enter-active, .fade-leave-active {
   transition: .2s ease-in-out;
 }
