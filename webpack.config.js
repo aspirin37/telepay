@@ -13,6 +13,7 @@ const babel = require('./webpack/babel');
 const media = require('./webpack/media');
 const uglifyJS = require('./webpack/js.uglify');
 const images = require('./webpack/images');
+const extractAssets = require('./webpack/assets.extract');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const PATHS = {
@@ -87,7 +88,8 @@ module.exports = function(env) {
         return merge([
             common(env),
             extractCSS(),
-            uglifyJS()
+            uglifyJS(),
+            extractAssets(PATHS)
         ]);
     }
     if (env.NODE_ENV === 'development') {
