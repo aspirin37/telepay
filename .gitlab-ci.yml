@@ -26,4 +26,4 @@ dev_deploy:
 
 #  only:
 #    - dev
-  when: manual
+  # when: manual
