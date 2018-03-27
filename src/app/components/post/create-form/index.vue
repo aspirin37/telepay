@@ -3,31 +3,32 @@
     <div class="col-6">
       <div class="form-group">
         <p class="text-medium-font font-weight-500 mb-1">Дата</p>
-        <date-input v-model="post.date" placeholder="Выберите дату публикации" :config="configs.date" />
+        <date-input :value="date" placeholder="Выберите дату публикации" :config="configs.date" @input="updateState($event, 'date')" />
       </div>
     </div>
     <div class="col-6">
       <div class="form-group">
         <p class="text-medium-font font-weight-500 mb-1">Время</p>
-        <date-input v-model="post.time" placeholder="Выберите время публикации" :config="configs.time" />
+        <date-input :value="time" placeholder="Выберите время публикации" :config="configs.time" @input="updateState($event, 'time')" />
       </div>
     </div>
     <div class="col-12">
       <div class="form-group">
         <p class="text-medium-font font-weight-500 mb-1">Текст поста</p>
-        <textarea-input v-model="post.text" @add-image="addImageHandler" @remove-image="removeImageHandler" @add-button="addButtonHandler" />
-        <images-list :images="post.images" @remove="removeImageHandler" />
-        <online-buttons :buttons="post.buttons" @remove-button="removeButtonHandler" />
+        <textarea-input :value="text" @add-image="addImageHandler" @remove-image="removeImageHandler" @add-button="addButtonHandler"
+          @input="updateState($event, 'text')" />
+        <images-list :images="images" @remove="removeImageHandler" />
+        <online-buttons :buttons="buttons" @remove-button="removeButtonHandler" />
       </div>
     </div>
     <div class="col-12 text-right">
       <button class="btn btn-primary" @click="save">Сохранить</button>
-      <button class="btn btn-success" @click="publish">Запустить</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import dateInput from '@components/date-input';
 import textareaInput from '@components/textarea-input';
 import onlineButtons from '@components/online-buttons/create';
@@ -47,61 +48,48 @@ export default {
           dateFormat: 'H:i',
           time_24hr: true
         }
-      },
-      post: {
-        channel: 'chagram',
-        text: '',
-        date: '',
-        time: '',
-        images: [],
-        buttons: []
       }
     };
   },
-  watch: {
-    post: {
-      handler(n) {
-        this.$parent.$emit('update-post', this.post);
-      },
-      deep: true
-    }
+  computed: {
+    ...mapState({
+      text: state => state.post.text,
+      channel: state => state.post.channel,
+      images: state => state.post.images,
+      buttons: state => state.post.buttons,
+      date: state => state.post.date,
+      time: state => state.post.time
+    })
   },
   mounted() {
-    this.getCurrentDate();
     this.buttonId = 0;
   },
   methods: {
+    updateState(e, prop) {
+      this.$store.commit('UPDATE_POST', { prop, value: e });
+    },
     addImageHandler(value) {
-      this.post.images.push(value);
+      let updated = [...this.images, value];
+      this.updateState(updated, 'images');
     },
     removeImageHandler(index) {
-      this.post.images = this.post.images.filter((img, idx) => idx !== index);
+      let filtered = this.images.filter((img, idx) => idx !== index);
+      this.updateState(filtered, 'images');
     },
     addButtonHandler() {
-      if (this.post.buttons.length >= 10) {
+      if (this.buttons.length >= 10) {
         return this.$notifystr.danger('Ограничение', 'Можно прикрепить не более 10 кнопок');
       }
       this.buttonId++;
-      this.post.buttons.push({ id: this.buttonId, text: 'Default text', link: '' });
+      let updated = [...this.buttons, ...[{ id: this.buttonId, text: 'Default text', link: '' }]];
+      this.updateState(updated, 'buttons');
     },
     removeButtonHandler(index) {
-      this.post.buttons = this.post.buttons.filter(btn => btn.id !== index);
-    },
-    getCurrentDate() {
-      this.post.date = Date.now();
+      let filtered = this.buttons.filter(item => item.id !== index);
+      this.updateState(filtered, 'buttons');
     },
     save() {
-      // PostsApi.add({
-      //   text: this.post.text,
-      //   images: this.post.images,
-      //   buttons: JSON.stringify(this.post.buttons.map(({ text, link }) => ({ text, link })))
-      // })
-      // .then(res => this.$router.push({ name: 'posts-list' }))
-      // .catch(console.log);
-      console.log(this.post);
-    },
-    publish() {
-      console.log(this.post);
+      this.$emit('submit');
     }
   }
 };

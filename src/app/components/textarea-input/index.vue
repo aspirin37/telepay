@@ -80,7 +80,7 @@ export default {
     fileUploadHandler(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
-      if (this.$parent.post.images.length + files.length <= this.maxImages) {
+      if (this.$parent.images.length + files.length <= this.maxImages) {
         for (let i = 0; i < files.length; i++) {
           this.createImage(files[i]);
         }
