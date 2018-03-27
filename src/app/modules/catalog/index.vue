@@ -1,19 +1,19 @@
 <script>
 import template from './index.html';
 
-import { ChannelApi } from '@services/api';
+import { CatalogApi } from '@services/api';
 
 import channels from '@components/channels/list';
-import selectr from 'selectr-th';
 import normCheckbox from '@components/checkbox';
 import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 export default Vue.extend({
-  components: { channels, selectr, normCheckbox, searchInput, dateInput },
+  components: { channels, normCheckbox, searchInput, dateInput },
   data() {
     return {
       filter: {
-        date: ''
+        date: '',
+        time: ''
       },
       selectedCategory: '',
       categories: [{
@@ -41,14 +41,20 @@ export default Vue.extend({
         date: {
           dateFormat: "d.m.Y",
           defaultDate: new Date()
+        },
+        time: {
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: 'H:i',
+          time_24hr: true
         }
       }
     }
   },
   async created() {
-    let { items, total } = await ChannelApi.list();
+    let { items, total } = await CatalogApi.list();
     console.log(items);
-    this.channels = items;
+    // this.channels = items;
   },
   template
 });

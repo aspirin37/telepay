@@ -3,6 +3,7 @@ Vue.use(VueResource);
 
 import ChannelApi from './channel';
 import PostApi from './post';
+import CatalogApi from './catalog';
 
 
 import AuthService from './auth';
@@ -31,6 +32,7 @@ Vue.http.options = {
 export {
     AuthService,
     ChannelApi,
+    CatalogApi,
     UserApi,
     FavsApi,
     PostApi

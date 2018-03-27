@@ -52,12 +52,9 @@
       <label class="col-form-label search__label">Дата размещения</label>
       <date-input v-model="filter.date" placeholder="Выберите дату публикации" :config="configs.date" />
     </div>
-    <div class="col-2">
+    <div class="col-4">
       <label class="col-form-label search__label">Время размещения</label>
-      <input type="number" class="form-control search__input">
-    </div>
-    <div class="col-2">
-      <button class="btn btn-outline-primary btn-block">Поиск</button>
+      <date-input v-model="filter.time" placeholder="Выберите время публикации" :config="configs.time" />
     </div>
   </div>
   <channels :channels="channels" :show-for-owner="false" />
