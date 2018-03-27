@@ -15,7 +15,7 @@ let protocol = (document.location && document.location.protocol) || 'http:';
 
 switch (process.env.url) {
     case 'loc':
-        API_BASE = `${protocol}//0.0.0.0:8080`;
+        API_BASE = `${protocol}//127.0.0.1:8000`;
         break;
     case 'dev':
         API_BASE = `${protocol}//dev.api.telepay.io`;

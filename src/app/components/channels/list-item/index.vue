@@ -21,8 +21,7 @@
       {{ data.description }}
     </div>
     <div class="col-2 d-flex font-weight-500 text-medium-font">
-      <!-- {{ data.subscribers | cutSum }} -->
-      0
+      {{ data.subscriberCount | cutSum }}
     </div>
     <div class="col-1 d-flex font-weight-500 text-medium-font">
       <!-- {{ data.er }}% -->
