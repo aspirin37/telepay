@@ -4,10 +4,10 @@
       <h1 class="text-medium-font">Каталог</h1>
     </div>
     <div class="col-4">
-      <search-input v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
+      <search-input v-model="filter.id" placeholder="Выберите категорию" :options="categories" />
     </div>
     <div class="col-4">
-      <search-input v-model="selectedCategory" placeholder="Выберите категорию" :options="categories" />
+      <input class="form-control" v-model="filter.text" type="text" placeholder="Поиск по каталогу" />
     </div>
     <div class="col-2">
       <router-link class="btn btn-primary btn-block" :to="{ name: 'post.create' }">Новый проект</router-link>
@@ -22,11 +22,11 @@
           <div class="input-group-prepend">
             <span class="input-group-text">от</span>
           </div>
-          <input type="number" class="form-control search__input">
+          <input v-model="filter.subscribersFrom" type="number" class="form-control search__input">
           <div class="input-group-prepend">
             <span class="input-group-text">до</span>
           </div>
-          <input type="number" class="form-control search__input">
+          <input v-model="filter.subscribersTo" type="number" class="form-control search__input">
         </div>
       </div>
     </div>
@@ -37,11 +37,11 @@
           <div class="input-group-prepend">
             <span class="input-group-text">от</span>
           </div>
-          <input type="number" class="form-control search__input">
+          <input v-model="filter.priceFrom" type="number" class="form-control search__input">
           <div class="input-group-prepend">
             <span class="input-group-text">до</span>
           </div>
-          <input type="number" class="form-control search__input">
+          <input v-model="filter.priceTo" type="number" class="form-control search__input">
         </div>
       </div>
     </div>

@@ -12,35 +12,20 @@ export default Vue.extend({
   data() {
     return {
       filter: {
-        date: '',
-        time: ''
+        weekDay: '',
+        time: '',
+        subscribersTo: 1000,
+        subscribersFrom: 0,
+        priceTo: 1000,
+        priceFrom: 0,
+        id: '',
+        text: ''
       },
-      selectedCategory: '',
-      categories: [{
-        name: 'Первая категория',
-        value: 1
-      },
-      {
-        name: 'Вторая категория',
-        value: 2
-      },
-      {
-        name: 'Третья категория',
-        value: 3
-      },
-      {
-        name: 'Четвертая категория',
-        value: 4
-      },
-      {
-        name: 'Пятая категория',
-        value: 5
-      }],
+      categories: [],
       channels: [],
       configs: {
         date: {
-          dateFormat: "d.m.Y",
-          defaultDate: new Date()
+          dateFormat: "d.m.Y"
         },
         time: {
           enableTime: true,
@@ -51,10 +36,14 @@ export default Vue.extend({
       }
     }
   },
-  async created() {
-    let { items, total } = await CatalogApi.list();
-    console.log(items);
-    // this.channels = items;
+  created() {
+    this.getCategories();
+  },
+  methods: {
+    async getCategories() {
+      let { items, count } = await CatalogApi.list();
+      this.categories = items.map((item, i) => ({ value: i, name: item.categoryName }));
+    }
   },
   template
 });
