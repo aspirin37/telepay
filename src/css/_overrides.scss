@@ -87,6 +87,11 @@
     z-index: 10;
   }
 }
+.btn {
+  padding: 10px;
+  font-size: 16px;
+  line-height: 20px;
+}
 .btn-active {
   box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
 }

@@ -10,6 +10,7 @@ export default {
   methods: {
     clearFront() {
       LS.clear();
+      delete Vue.http.headers.common['X-API-TOKEN'];
       this.$store.commit('SET_USER', null);
       this.$router.push({ name: 'login' });
     }
