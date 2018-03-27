@@ -1,23 +1,12 @@
-module.exports = function () {
+module.exports = function() {
     return {
         module: {
-            rules: [ {
+            rules: [{
                 test: /\.(jpg|png|gif)$/,
-                loader: 'url-loader',
-                exclude: /favicon\.png$/,
-                options: {
-                    limit: 1024,
-                    name: '[path]/[name].[ext]'
-                },
-            }, {
-                test: /favicon\.png$/,
                 loader: 'file-loader',
-                options: {
-                    name: '[path]/[name].[ext]'
-                },
             }, {
                 test: /\.svg$/,
-                exclude: [ /fonts\// ],
+                exclude: [/fonts\//],
                 loader: 'svg-inline-loader',
                 options: {
                     prefix: 'inl-svg'
@@ -26,4 +15,3 @@ module.exports = function () {
         },
     };
 };
-
