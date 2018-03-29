@@ -2,9 +2,13 @@
   <div class="container py-3">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h1 class="text-medium-font mb-0">Мои каналы</h1>
-      <router-link class="btn btn-primary" :to="{ name: 'channel.create' }">Добавить канал</router-link>
+      <router-link v-if="channels.length" class="btn btn-primary" :to="{ name: 'channel.create' }">Добавить канал</router-link>
     </div>
-    <channels :channels="channels" :show-for-owner="true" />
+    <channels v-if="channels.length" :channels="channels" :show-for-owner="true" />
+    <h4 v-else class="text-center text-medium-font">
+      Вы еще не добавили ни одного канала<br>
+      <router-link class="btn btn-primary my-3" :to="{ name: 'channel.create' }">Добавить канал</router-link>
+      </h4>
   </div>
 </template>
 
@@ -17,12 +21,12 @@ export default {
   data() {
     return {
       channels: []
-    }
+    };
   },
   async created() {
     let { items, total } = await ChannelApi.list();
     console.log(items);
     this.channels = items;
   }
-}
+};
 </script>

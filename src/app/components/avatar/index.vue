@@ -1,6 +1,6 @@
 <template lang="html">
   <div :style="wrapStyles" ref="wrap">
-    <img v-show="!error" :src="src" class="h-100 w-100" @error="handle" />
+    <img v-show="!error" :src="src" :alt="alt" class="h-100 w-100" @error="handle" />
     <h1 :style="mountStyles" v-show="error" class="m-0 text-white">?</h1>
   </div>
 </template>
@@ -11,19 +11,21 @@ export default {
     return {
       error: false,
       width: 0
-    }
+    };
   },
   props: {
     src: {
       type: String
     },
+    alt: { type: String, default: 'Image' + (Math.random() * 1e6).toFixed() },
     circle: {
       type: Boolean,
       default: true
     }
   },
   methods: {
-    handle() {
+    handle(event) {
+      event.preventDefault();
       this.error = true;
     },
     calcWidth() {
@@ -48,15 +50,15 @@ export default {
         width: '100%',
         height: this.width + 'px',
         backgroundColor: this.error ? 'rgb(108, 117, 125)' : 'transparent',
-        borderRadius: (this.circle) ? '50%' : 0,
+        borderRadius: this.circle ? '50%' : 0,
         overflow: 'hidden'
-      }
+      };
     },
     mountStyles() {
       return {
-        fontSize: (this.width * 0.55) + 'px'
-      }
+        fontSize: this.width * 0.55 + 'px'
+      };
     }
   }
-}
+};
 </script>

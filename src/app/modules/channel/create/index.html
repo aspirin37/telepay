@@ -1,39 +1,70 @@
 <div class="container py-3">
-  <h2 class="text-medium-font mb-4">Новый канал</h2>
-  <div class="row mb-4">
-    <div class="col-5">
-      <div class="row">
-        <div class="col-3">
-          <avatar src="http://hash-cloud.ru/tg/avatars/26dcfab7c4ed53275d1aae77f4743068.jpg" />
+    <h2 class="text-medium-font my-4">Новый канал
+        <router-link tag="small"
+            :to="{name:'channel.list'}"
+            class="float-right pointer">
+            <i class="fa fa-chevron-left"></i> Назад</router-link>
+    </h2>
+    <div class="row mt-4"
+        v-if="channel">
+        <div class="col-2 ">
+            <avatar :src="'images/'+channel.telegram_id+'_'+channel.photo_id+'.jpg'"
+                :circle="true" />
         </div>
-        <div class="col-7 pl-0">
-          <p><strong>Название канала</strong></p>
-          <p>Описание канала ла ла ла ла ла лалала ла лала лала лалллаала</p>
+        <div class="col-8">
+            <h3>{{channel.title}}
+                <small v-if="channel.telegram_id">подписчиков: {{channel.subscriber_count | cutKilo}}</small>
+            </h3>
+            <p>Подтвержден: {{channel.is_confirmed?'Да':'Нет'}}</p>
+            <p v-html="parseLinks(channel.description,'Нет описания')"></p>
         </div>
-      </div>
+        <div class="col-2">
+            Автопостинг
+            <norm-switch :size="16"
+                class="m-0" />
+        </div>
     </div>
-    <div class="col-7 d-flex justify-content-end align-items-center">
-      <strong class="mr-2">Aвтопостинг</strong>
-      <norm-switch :size="16" class="m-0" />
+    <div class="row mt-4">
+        <div class="col-4">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">Ссылка на канал</p>
+                <input type="text"
+                    class="form-control"
+                    placeholder="username или t.me/username"
+                    @input="getChannelInfo"
+                    v-model="usernameQuery">
+
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">Категории</p>
+                <search-input v-model="channel.category"
+                    placeholder="Категории"
+                    :options="categories" />
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Ссылка на канал</p>
-        <input v-model="channel.username" type="text" class="form-control" placeholder="@channelname">
-      </div>
+    <div class="row">
+        <div class="col-8">
+            <p class="form-text">
+                <span v-show="!isLoading && searchError"
+                    class="text-danger">Такого канала нет :(</span>
+                <span class="text-muted"
+                    v-show="isLoading">Ищем канал...</span>
+                <span class="text-muted"
+                    v-show="channel.telegram_id && !isLoading && !searchError && !channel.is_confirmed">Чтобы привязать канал к сервису вам необходимо добавить
+                    <a href="https://t.me/telepayDevBot">нашего бота</a> в канал и дать ему права админа на постинг</span>
+                &nbsp;
+            </p>
+        </div>
     </div>
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Категории</p>
-        <search-input v-model="channel.category" placeholder="Категории" :options="categories" />
-      </div>
+    <div class="row">
+        <div class="col-2">
+            <button class="btn btn-success"
+                :disabled="!channel.telegram_id || !channel.is_confirmed"
+                @click="add">Добавить канал</button>
+        </div>
     </div>
-  </div>
-  <div class="row my-4">
-    <div class="col-2">
-      <button class="btn btn-success" @click="add">Сохранить</button>
-    </div>
-  </div>
+
 </div>
