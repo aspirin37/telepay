@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     changeHandler(e) {
-      this.$emit('select-channel', this.data.channelId);
+      this.$emit('select-channel', this.data.channelOfferId);
     }
   }
 }

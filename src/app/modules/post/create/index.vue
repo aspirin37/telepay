@@ -1,6 +1,6 @@
 <script>
 import { mapState } from 'vuex';
-import { ChannelApi, PostApi } from '@services/api';
+import { ChannelApi, PostApi, CatalogApi } from '@services/api';
 
 import template from './index.html';
 import channels from '@components/channels/list';
@@ -16,8 +16,12 @@ export default {
     };
   },
   async created() {
-    let { items, total } = await ChannelApi.list();
-    this.channels = items;
+    let { items, total } = await CatalogApi.filter();
+    this.channels = items.map(item => item.channelInfo).reduce((acc, item) => {
+      acc = [ ...acc, ...item.channelOffer];
+      console.log(acc);
+      return acc;
+    }, [])
   },
   computed: {
     ...mapState({
