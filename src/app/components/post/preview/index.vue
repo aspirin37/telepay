@@ -6,7 +6,7 @@
         <span class="preview__channel text-primary">{{ channel }}</span>
         <span class="preview__message">
           <div class="preview__images" v-if="images && images.length">
-            <img v-for="(src, i) in images" class="preview__image" :class="setImgClass(i + 1)" :src="src" alt="">
+            <img v-for="(src, i) in images" class="preview__image" :class="setImgClass(i + 1)" :src="src.decoded" alt="">
           </div>
           <vue-markdown :source="text" :html="false" class="preview__text"></vue-markdown>
         </span>

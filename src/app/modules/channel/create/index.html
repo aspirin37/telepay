@@ -1,51 +1,39 @@
 <div class="container py-3">
   <h2 class="text-medium-font mb-4">Новый канал</h2>
-  <div class="row mb-4 justify-content-around align-items-center">
-    <div class="col-4">
+  <div class="row mb-4">
+    <div class="col-5">
       <div class="row">
-        <div class="col-3 pr-0">
-          <img class="avatar rounded-circle" src="http://hash-cloud.ru/tg/avatars/26dcfab7c4ed53275d1aae77f4743068.jpg" alt="">
+        <div class="col-3">
+          <avatar src="http://hash-cloud.ru/tg/avatars/26dcfab7c4ed53275d1aae77f4743068.jpg" />
         </div>
-        <div class="col-7 d-flex align-items-center pl-0">
-          <button class="btn btn-primary btn-sm">Загрузить аватар</button>
+        <div class="col-7 pl-0">
+          <p><strong>Название канала</strong></p>
+          <p>Описание канала ла ла ла ла ла лалала ла лала лала лалллаала</p>
         </div>
       </div>
     </div>
-    <div class="col-4">
-      автопостинг
+    <div class="col-7 d-flex justify-content-end align-items-center">
+      <strong class="mr-2">Aвтопостинг</strong>
+      <norm-switch :size="16" class="m-0" />
     </div>
   </div>
-  <div class="row mb-4 justify-content-around">
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Название</p>
-        <input v-model="channel.title" type="text" class="form-control" placeholder="Название канала">
-      </div>
-    </div>
+  <div class="row mb-4">
     <div class="col-4">
       <div class="form-group">
         <p class="text-medium-font font-weight-500 mb-1">Ссылка на канал</p>
         <input v-model="channel.username" type="text" class="form-control" placeholder="@channelname">
       </div>
     </div>
-  </div>
-  <div class="row mb-4 justify-content-around">
     <div class="col-4">
       <div class="form-group">
         <p class="text-medium-font font-weight-500 mb-1">Категории</p>
         <search-input v-model="channel.category" placeholder="Категории" :options="categories" />
       </div>
     </div>
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Описание</p>
-        <input v-model="channel.description" type="text" class="form-control" placeholder="Описание канала">
-      </div>
-    </div>
   </div>
-  <div class="row my-4 justify-content-center">
-    <div class="col-10 text-right">
-      <button class="btn btn-success" @click="add">Добавить канал</button>
+  <div class="row my-4">
+    <div class="col-2">
+      <button class="btn btn-success" @click="add">Сохранить</button>
     </div>
   </div>
 </div>

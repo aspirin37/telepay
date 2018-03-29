@@ -42,7 +42,6 @@ export default {
   },
   watch: {
     'selectedChannels': function(n) {
-      console.log(n);
       this.$store.commit('UPDATE_POST', { prop: 'offerId', value: n });
     }
   },

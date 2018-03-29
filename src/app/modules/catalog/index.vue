@@ -1,5 +1,6 @@
 <script>
 import template from './index.html';
+import { mapGetters } from 'vuex';
 
 import { CatalogApi } from '@services/api';
 
@@ -7,7 +8,9 @@ import channels from '@components/channels/list';
 import normCheckbox from '@components/checkbox';
 import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
+
 import { clone } from '@utils/clone';
+
 export default Vue.extend({
   components: { channels, normCheckbox, searchInput, dateInput },
   data() {
@@ -23,39 +26,30 @@ export default Vue.extend({
         text: ''
       },
       categories: [],
-      channels: [],
-      configs: {
-        date: {
-          dateFormat: "d.m.Y"
-        },
-        time: {
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: 'H:i',
-          time_24hr: true
-        }
-      }
+      channels: []
     }
   },
   created() {
     this.cache(this.filter);
-    // this.getCategories();
     this.getChannels();
   },
   watch: {
     filter: {
       handler(n) {
         this.handleSearch(n);
-        console.log('called');
       },
       deep: true
     }
   },
+  computed: {
+    configs() {
+      return this.$store.state.configs;
+    }
+  },
   methods: {
     async getChannels(params = {}) {
-      let { items, count } = await CatalogApi.list(params);
+      let { items, count } = await CatalogApi.filter(params);
       this.channels = items.map(item => item.channelInfo);
-      console.log(this.channels);
     },
     handleSearch(obj) {
       let newFilter = this.matchWithCache(obj);

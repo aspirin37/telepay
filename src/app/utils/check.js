@@ -44,6 +44,7 @@ export function mountAuthHandle(app, to) {
 function getUser(app, auth_key, next = null) {
   Vue.http.headers.common['X-API-TOKEN'] = auth_key;
   return UserApi.getUser().then(res => {
+    console.log(res);
     app.$store.commit('SET_USER', res);
     app.$store.commit('TOGGLE_LOADING', false);
     if(next) next();
