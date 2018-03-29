@@ -3,13 +3,13 @@
     <div class="col-6">
       <div class="form-group">
         <p class="text-medium-font font-weight-500 mb-1">Дата</p>
-        <date-input :value="date" placeholder="Выберите дату публикации" :config="configs.date" @input="updateState($event, 'date')" />
+        <date-input v-model="date" placeholder="Выберите дату публикации" :config="configs.date" />
       </div>
     </div>
     <div class="col-6">
       <div class="form-group">
         <p class="text-medium-font font-weight-500 mb-1">Время</p>
-        <date-input :value="time" placeholder="Выберите время публикации" :config="configs.time" @input="updateState($event, 'time')" />
+        <date-input v-model="time" placeholder="Выберите время публикации" :config="configs.time" />
       </div>
     </div>
     <div class="col-12">
@@ -38,18 +38,9 @@ export default {
   components: { dateInput, textareaInput, onlineButtons, imagesList },
   data() {
     return {
-      configs: {
-        date: {
-          dateFormat: 'd.m.Y'
-        },
-        time: {
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: 'H:i',
-          time_24hr: true
-        }
-      }
-    };
+      time: '',
+      date: ''
+    }
   },
   computed: {
     ...mapState({
@@ -57,12 +48,21 @@ export default {
       channel: state => state.post.channel,
       images: state => state.post.images,
       buttons: state => state.post.buttons,
-      date: state => state.post.date,
-      time: state => state.post.time
+      configs: state => state.configs
     })
   },
   mounted() {
     this.buttonId = 0;
+  },
+  watch: {
+    date(n) {
+      let value = `${n.replace(/\./g, '-').split('-').reverse().join('-')} ${this.time}`;
+      this.$store.commit('UPDATE_POST', { prop: 'publishAt', value });
+    },
+    time(n) {
+      let value = `${this.date.replace(/\./g, '-').split('-').reverse().join('-')} ${n}`;
+      this.$store.commit('UPDATE_POST', { prop: 'publishAt', value });
+    }
   },
   methods: {
     updateState(e, prop) {

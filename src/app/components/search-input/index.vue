@@ -16,7 +16,7 @@
       @keydown.down="scrollDropdown"  @keydown.up="scrollDropdown" @keydown.enter="keyBoardSelect" ref="searchInput" />
     <transition name="fade">
       <div class="search-input__dropdown" v-show="dropdownVisible" ref="dropdown">
-        <div v-for="(option, i) in getOptions" :key="option.value" class="search-input__dropdown-item" @click="select(option, i)"
+        <div v-for="(option, i) in getOptions" :key="option.id" class="search-input__dropdown-item" @click="select(option, i)"
           :class="[getActive(option), getHovered(i)]">
           {{ option.name }}
         </div>
@@ -35,28 +35,10 @@ export default {
     },
     options: {
       type: Array,
-      default: () => ([]),
-      validator: value => {
-        if(value.length === 0) return value;
-        value.forEach(prop => {
-          if(!prop.hasOwnProperty('name') || !prop.hasOwnProperty('value'))
-            throw new SyntaxError('Options should contains \'name\' and \'value\' properties');
-        })
-        return value;
-      }
+      default: () => ([])
     },
     searchAction: {
       type: Function
-    },
-    alias: {
-      type: Object,
-      validator: value => {
-        if(!value.hasOwnProperty('name') || !value.hasOwnProperty('value')) {
-          throw new SyntaxError('Alias should contains \'name\' and \'value\' properties');
-        }
-        return value;
-      },
-      default: () => ({ name: 'name', value: 'value' })
     },
     default: {
       type: String,
@@ -74,8 +56,12 @@ export default {
       selected: this.default ? { name: this.default } : null,
       dropdownVisible: false,
       cursor: -1,
-      filteredOptions: []
+      filteredOptions: [],
+      numeredOptions: []
     }
+  },
+  created() {
+    this.getNumered(this.options);
   },
   mounted() {
     window.addEventListener('click', this.inputBlur);
@@ -87,15 +73,7 @@ export default {
     search(e) {
       if(this.selected) this.selected = null;
       this.searchAction(this.searchString).then(res => {
-        if(res && res.items) {
-          this.filteredOptions = res.items.map(item => {
-            let option = {};
-            for(let prop in this.alias) option[prop] = item[this.alias[prop]];
-            return option;
-          });
-        } else {
-          this.filteredOptions = [];
-        }
+        this.filteredOptions = (res && res.items) ? res.items : [];
       });
     },
     inputBlur(e) {
@@ -105,7 +83,7 @@ export default {
       }
     },
     select(item, index) {
-      this.$emit('input', item.name);
+      this.$emit('input', item);
       this.$emit('select', item);
       this.selected = item;
       this.cursor = index;
@@ -156,7 +134,7 @@ export default {
       })
     },
     getActive(option) {
-      return (this.selected && this.selected.value === option.value) ? 'search-input__dropdown-item_active' : '';
+      return (this.selected && this.selected.id === option.id) ? 'search-input__dropdown-item_active' : '';
     },
     getHovered(option) {
       return (this.cursor === option) ? 'search-input__dropdown-item_hovered' : '';
@@ -169,13 +147,19 @@ export default {
     },
     focusOnInput() {
       this.$refs.searchInput.focus();
+    },
+    getNumered(options) {
+      this.numeredOptions = options.map((item, i) => ({ ...item, id: i }));
     }
   },
   watch: {
+    options(n) {
+      this.getNumered(n);
+    },
     getOptions(n) {
       let entry = 0;
       n.forEach((prop, i) => {
-        if(prop.value === this.cursor) {
+        if(prop.id === this.cursor) {
           return entry = (i + 1);
         }
       })
@@ -187,7 +171,7 @@ export default {
   },
   computed: {
     getOptions() {
-      return (this.searchString) ? this.filteredOptions : this.options;
+      return (this.searchString) ? this.filteredOptions : this.numeredOptions;
     },
     showNoDataOption() {
       return (!this.filteredOptions.length && this.searchString.length > 0);

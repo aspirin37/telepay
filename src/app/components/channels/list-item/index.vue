@@ -4,13 +4,15 @@
       2
     </div>
     <div class="col-1 d-flex justify-content-around" v-if="!showForOwner">
-      <i class="fa fa-star" :class="{ active: data.like }" aria-hidden="true"></i>
+      <norm-checkbox v-model="selected" @change="changeHandler">
+        <i class="fa fa-star" :class="{ active: data.like }" aria-hidden="true"></i>
+      </norm-checkbox>
     </div>
     <div class="col-3 d-flex">
       <avatar src="http://hash-cloud.ru/tg/avatars/dcfab7c4ed53275d1aae77f4743068.jpg" :circle="true" />
       <div class="col-9">
         <p class="m-0">
-          <router-link class="font-weight-500 text-medium-font" :to="{ name: `channel.show`, params: { id: data.id } }">
+          <router-link class="font-weight-500 text-medium-font" :to="{ name: routeName, params: { id: data.channelId } }">
             {{ data.title }}
           </router-link>
         </p>
@@ -35,10 +37,10 @@
       30000₽
     </div>
     <div class="col-1 d-flex justify-content-around" v-if="showForOwner">
-      <router-link :to="{ name: 'channel.delete', params: { id: data.id } }">
+      <router-link :to="{ name: 'channel.delete', params: { id: data.channelId } }">
         <i class="fa fa-trash"></i>
       </router-link>
-      <router-link :to="{ name: 'channel.edit', params: { id: data.id } }">
+      <router-link :to="{ name: 'channel.edit', params: { id: data.channelId } }">
         <i class="fa fa-pencil"></i>
       </router-link>
     </div>
@@ -70,9 +72,14 @@ export default {
       default: false
     }
   },
+  computed: {
+    routeName() {
+      return this.showForOwner ? 'channel.edit' : 'channel.show';
+    }
+  },
   methods: {
     changeHandler(e) {
-      this.$emit('select-channel', this.data.id);
+      this.$emit('select-channel', this.data.channelOfferId);
     }
   }
 }

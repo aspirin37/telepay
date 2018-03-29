@@ -90,7 +90,7 @@ export default {
     },
     createImage(file) {
       let reader = new FileReader();
-      reader.addEventListener('load', e => this.$emit('add-image', e.target.result));
+      reader.addEventListener('load', e => this.$emit('add-image', { decoded: e.target.result, file }));
       reader.readAsDataURL(file);
     },
     addButton() {

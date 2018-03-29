@@ -1,6 +1,6 @@
 <script>
 import { mapState } from 'vuex';
-import { ChannelApi, PostApi } from '@services/api';
+import { ChannelApi, PostApi, CatalogApi } from '@services/api';
 
 import template from './index.html';
 import channels from '@components/channels/list';
@@ -16,24 +16,41 @@ export default {
     };
   },
   async created() {
-    let { items, total } = await ChannelApi.list();
-    this.channels = items;
+    let { items, total } = await CatalogApi.filter();
+    this.channels = items.map(item => item.channelInfo).reduce((acc, item) => {
+      acc = [ ...acc, ...item.channelOffer];
+      console.log(acc);
+      return acc;
+    }, [])
   },
   computed: {
     ...mapState({
       post: state => state.post
-    })
+    }),
+    imgs() {
+      return this.$store.getters.getPostImages;
+    }
+  },
+  watch: {
+    imgs(n) {
+      console.log(n);
+    }
   },
   methods: {
     create() {
-      console.log(this.post);
-      return PostApi.create(this.stringifyProp(this.post, 'buttons'))
+      console.log(this.mapProp(this.stringifyProp(this.post, 'buttons'), 'images'));
+      return PostApi.create(this.mapProp(this.stringifyProp(this.post, 'buttons'), 'images'))
         .then(res => this.$router.push({ name: 'posts.list' }))
         .catch(console.log);
     },
     stringifyProp(obj, prop) {
       let newObj = clone(obj);
       newObj[prop] = JSON.stringify(newObj[prop]);
+      return newObj;
+    },
+    mapProp(obj, prop) {
+      let newObj = clone(obj);
+      newObj[prop] = newObj[prop].map(item => item.file);
       return newObj;
     }
   },

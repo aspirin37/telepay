@@ -1,6 +1,6 @@
 <template lang="html">
   <div v-if="images.length" class="file-previews">
-    <div v-for="(src, i) in images" class="file-previews__item" :style="{ 'background-image': 'url(' + src + ')' }">
+    <div v-for="(src, i) in images" class="file-previews__item" :style="{ 'background-image': 'url(' + src.decoded + ')' }">
       <span class="file-previews__remove" @click="removeImage(i)">
         <i class="fa fa-times" aria-hidden="true"></i>
       </span>

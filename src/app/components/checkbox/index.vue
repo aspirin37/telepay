@@ -1,33 +1,52 @@
 <template lang="html">
-  <label class="control">
+  <label class="control" :class="{ 'control_checked': checked }">
     <input type="checkbox" class="control__input" v-model="checked" @change="handleChange" />
-    <div class="control__indicator">
-      <transition name="fade-scale">
-        <span v-show="checked" class="control__indicator-wrap">
-          <svg x="0px" y="0px" viewBox="0 0 342.357 342.357">
-          	<polygon points="290.04,33.286 118.861,204.427 52.32,137.907 0,190.226 118.862,309.071 342.357,85.606 "/>
-          </svg>
-        </span>
-      </transition>
-    </div>
-    <slot></slot>
+    <slot>
+      <div class="control__indicator">
+        <transition name="fade-scale">
+          <span v-show="checked" class="control__indicator-wrap">
+            <svg x="0px" y="0px" viewBox="0 0 342.357 342.357">
+            	<polygon points="290.04,33.286 118.861,204.427 52.32,137.907 0,190.226 118.862,309.071 342.357,85.606 "/>
+            </svg>
+          </span>
+        </transition>
+      </div>
+    </slot>
+    {{ label }}
   </label>
 </template>
 
 <script>
 export default {
   props: {
-    value: Boolean
+    value: Boolean,
+    name: {
+      type: [String, Number],
+      default: ''
+    },
+    label: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
       checked: this.value
     }
   },
+  computed: {
+    inGroup() {
+      return this.$parent.$options.name === 'checkbox-group';
+    }
+  },
   methods: {
     handleChange(e) {
-      this.$emit('input', this.checked);
-      this.$emit('change', this.checked);
+      if(!this.inGroup) {
+        this.$emit('input', this.checked);
+        this.$emit('change', this.checked);
+      } else {
+        this.$parent.$emit('child-change', this.name);
+      }
     }
   }
 }
