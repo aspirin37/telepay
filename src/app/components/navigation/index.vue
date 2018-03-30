@@ -49,7 +49,7 @@
             <li class="nav-item py-3">
               <div class="user-field">
                 <i class="fa fa-wallet" aria-hidden="true"></i>
-                <span>20 000₽</span>
+                <span>{{ balance }}₽</span>
               </div>
             </li>
             <li class="nav-item">
@@ -95,7 +95,8 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       hasUser: 'hasUser',
-      getUsername: 'getUsername'
+      getUsername: 'getUsername',
+      balance: 'getUserBalance'
     }),
     logoVisible() {
       return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
