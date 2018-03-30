@@ -23,10 +23,14 @@ export default {
       channels: []
     };
   },
-  async created() {
-    let { items, total } = await ChannelApi.list();
-    console.log(items);
-    this.channels = items;
+  created() {
+    this.getList();
+  },
+  methods: {
+    async getList() {
+      let { items, total } = await ChannelApi.list();
+      this.channels = items;
+    }
   }
 };
 </script>

@@ -24,8 +24,9 @@ export default {
         isAutopost: false
       },
       time: '',
-      conditions: [{ name: 24 }, { name: 48 }]
-    }
+      inFeedConditions: [{ name: 24 }, { name: 48 }],
+      inTopConditions: [{ name: 1 }, { name: 2 }]
+    };
   },
   created() {
     this.getChannelInfo(this.$route.params.id);
@@ -37,17 +38,22 @@ export default {
   },
   watch: {
     time(n) {
-      let [ hour, minute ] = n.split(':');
+      let [hour, minute] = n.split(':');
       this.offer.hour = parseInt(hour);
       this.offer.minute = parseInt(minute);
     },
     'offer.inFeedHours': function(n) {
-      if(n.name) {
+      if (n.name) {
         this.offer.inFeedHours = n.name;
       }
     },
+    'offer.inTopHours': function(n) {
+      if (n.name) {
+        this.offer.inTopHours = n.name;
+      }
+    },
     'offer.price': function(n) {
-      if(typeof n === 'string') this.offer.price = parseInt(n);
+      if (typeof n === 'string') this.offer.price = parseInt(n);
     }
   },
   methods: {
@@ -57,7 +63,7 @@ export default {
     addOffer() {
       OfferApi.create({ ...this.offer, channelId: this.channel.channelId })
         .then(res => this.clearFields())
-        .catch(err => console.log(err, 'ошибка'))
+        .catch(err => console.log(err, 'ошибка'));
     },
     clearFields() {
       this.offer.weekDay = [];
@@ -70,5 +76,5 @@ export default {
     }
   },
   template
-}
+};
 </script>

@@ -1,59 +1,77 @@
 <div class="container py-3">
-  <h2 class="text-medium-font mb-4">Редактирование канал</h2>
-  <div class="row mb-4">
-    <div class="col-5">
-      <div class="row">
-        <div class="col-3">
-          <avatar src="http://hash-cloud.ru/tg/avatars/26dcfab7c4ed53275d1aae77f4743068.jpg" />
+    <h2 class="text-medium-font mb-4">Редактирование канал</h2>
+    <div class="row mb-4">
+        <div class="col-5">
+            <div class="row">
+                <div class="col-3">
+                    <avatar src="http://hash-cloud.ru/tg/avatars/26dcfab7c4ed53275d1aae77f4743068.jpg" />
+                </div>
+                <div class="col-7 pl-0">
+                    <p>
+                        <strong>{{ channel.title }}</strong>
+                    </p>
+                    <p>{{ channel.description }}</p>
+                    <span>Категория: Путешествия</span>
+                </div>
+            </div>
         </div>
-        <div class="col-7 pl-0">
-          <p><strong>{{ channel.title }}</strong></p>
-          <p>{{ channel.description }}</p>
-          <span>Категория: Путешествия</span>
+        <div class="col-7 d-flex justify-content-end align-items-center">
+            <strong class="mr-2">Aвтопостинг</strong>
+            <norm-switch :size="16"
+                class="m-0" />
         </div>
-      </div>
     </div>
-    <div class="col-7 d-flex justify-content-end align-items-center">
-      <strong class="mr-2">Aвтопостинг</strong>
-      <norm-switch :size="16" class="m-0" />
+    <h2 class="text-center">Создание рекламного предложения</h2>
+    <div class="row my-4">
+        <div class="col-4">
+            <p class="text-medium-font font-weight-500 mb-1">День размещения</p>
+            <checkbox-group v-model="offer.weekDay">
+                <norm-checkbox :name="1">Пн</norm-checkbox>
+                <norm-checkbox :name="2">Вт</norm-checkbox>
+                <norm-checkbox :name="3">Ср</norm-checkbox>
+                <norm-checkbox :name="4">Чт</norm-checkbox>
+                <norm-checkbox :name="5">Пт</norm-checkbox>
+                <norm-checkbox :name="6">Сб</norm-checkbox>
+                <norm-checkbox :name="7">Вс</norm-checkbox>
+            </checkbox-group>
+        </div>
+        <div class="col-3 d-flex align-items-end">
+            <search-input v-model="offer.inTopHours"
+                placeholder="В топе"
+                :options="inTopConditions" />
+        </div>
+        <div class="col-3 d-flex align-items-end">
+            <search-input v-model="offer.inFeedHours"
+                placeholder="В ленте"
+                :options="inFeedConditions" />
+        </div>
+        <div class="col-2">
+            <p class="text-medium-font font-weight-500 mb-1">Цена</p>
+            <input v-model="offer.price"
+                class="form-control"
+                type="number" />
+        </div>
     </div>
-  </div>
-  <h2 class="text-center">Создание рекламного предложения</h2>
-  <div class="row my-4">
-    <div class="col-4">
-      <p class="text-medium-font font-weight-500 mb-1">День размещения</p>
-      <checkbox-group v-model="offer.weekDay">
-        <norm-checkbox :name="1">Пон.</norm-checkbox>
-        <norm-checkbox :name="2">Вт.</norm-checkbox>
-        <norm-checkbox :name="3">Ср.</norm-checkbox>
-        <norm-checkbox :name="4">Чт.</norm-checkbox>
-        <norm-checkbox :name="5">Пт.</norm-checkbox>
-        <norm-checkbox :name="6">Сб.</norm-checkbox>
-        <norm-checkbox :name="7">Вс.</norm-checkbox>
-      </checkbox-group>
+    <div class="row my-4">
+        <div class="col-4">
+            <p class="text-medium-font font-weight-500 mb-1">Время размещения</p>
+            <date-input v-model="time"
+                placeholder="Выберите время публикации"
+                :config="config" />
+        </div>
+        <div class="col-4 d-flex align-items-end">
+            <div class="d-flex justify-content-end align-items-center w-100"
+                :style="{ 'height': '44px' }">
+                <strong class="mr-2">Aвтопостинг</strong>
+                <norm-switch v-model="offer.isAutopost"
+                    :size="16"
+                    class="m-0" />
+            </div>
+        </div>
+        <div class="col-4 d-flex align-items-end">
+            <p class="text-medium-font font-weight-500 mb-1"></p>
+            <button class="btn btn-success btn-block"
+                @click="addOffer">Добавить рекламное предложение</button>
+        </div>
     </div>
-    <div class="col-4 d-flex align-items-end">
-      <search-input v-model="offer.inFeedHours" placeholder="Условия" :options="conditions" />
-    </div>
-    <div class="col-4">
-      <p class="text-medium-font font-weight-500 mb-1">Цена</p>
-      <input v-model="offer.price" class="form-control" type="number" />
-    </div>
-  </div>
-  <div class="row my-4">
-    <div class="col-4">
-      <p class="text-medium-font font-weight-500 mb-1">Время размещения</p>
-      <date-input v-model="time" placeholder="Выберите время публикации" :config="config" />
-    </div>
-    <div class="col-4 d-flex align-items-end">
-      <div class="d-flex justify-content-end align-items-center w-100" :style="{ 'height': '44px' }">
-        <strong class="mr-2">Aвтопостинг</strong>
-        <norm-switch v-model="offer.isAutopost" :size="16" class="m-0" />
-      </div>
-    </div>
-    <div class="col-4 d-flex align-items-end">
-      <p class="text-medium-font font-weight-500 mb-1"></p>
-      <button class="btn btn-success btn-block" @click="addOffer">Добавить рекламное предложение</button>
-    </div>
-  </div>
 </div>
