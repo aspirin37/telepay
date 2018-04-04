@@ -87,22 +87,11 @@ import notification from "../../services/api/notification";
 
 export default Vue.extend({
   components: { dropDown, dropDownMenuItem },
-  props: {
-      notifications: {
-          type: Array,
-          default: () => ([])
-      },
-  },
   data() {
     return {
       isVisible: false,
       Logo
     };
-  },
-  created() {
-      let notifications = notification.list();
-      this.notifications = notifications.items;
-      console.log(this.notifications);
   },
   computed: {
     ...mapGetters({
