@@ -1,14 +1,14 @@
-module.exports = function ( paths ) {
+module.exports = function( paths ) {
     return {
         module: {
-            rules: [ {
+            rules: [{
                 test: /\.mp3$/,
                 loader: 'file-loader',
                 options: {
-                    name: 'media/[name].mp3'
-                }
-            } ]
-        }
+                    name: 'media/[name].mp3',
+                },
+            }],
+        },
     };
 };
 

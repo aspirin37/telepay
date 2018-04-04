@@ -1,10 +1,9 @@
 @import './_variables';
 @import './fa/font-awesome';
 @import './_fonts';
-@import '~bootstrap/scss/bootstrap.scss';
-@import './_overrides';
 // @import '~nouislider/distribute/nouislider.css';
+@import '~bootstrap/scss/bootstrap.scss';
 @import '~flatpickr/dist/flatpickr.min.css';
-// @import '~c3/c3.min.css';
+@import './_overrides';
 @import './_global';
 @import './_auth';

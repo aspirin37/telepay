@@ -1,15 +1,15 @@
-module.exports = function () {
+module.exports = function() {
     return {
         module: {
-            rules: [ {
+            rules: [{
                 test: /\.html$/,
                 loader: 'vue-html-loader',
                 options: {
                     minimize: true,
                     removeComments: true,
-                    collapseWhitespace: true
-                }
-            }, ],
+                    collapseWhitespace: true,
+                },
+            }],
         },
     };
 };

@@ -8,27 +8,27 @@ export default {
   path: '/auth',
   name: 'auth',
   component: AuthLayout,
-  meta: { auth: false },
+  meta: {auth: false},
   redirect: '/auth/login',
   children: [{
     path: 'login',
     name: 'login',
     component: Login,
-    meta: { auth: false }
+    meta: {auth: false},
     }, {
     path: 'registration',
     name: 'registration',
     component: Registration,
-    meta: { auth: false }
+    meta: {auth: false},
     }, {
     path: 'recovery',
     name: 'recovery',
     component: Recovery,
-    meta: { auth: false }
+    meta: {auth: false},
     }, {
     path: 'logout',
     name: 'logout',
     component: Logout,
-    meta: { auth: false }
-  }]
-}
+    meta: {auth: false},
+  }],
+};

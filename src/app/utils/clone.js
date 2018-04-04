@@ -1,5 +1,5 @@
 export function clone( obj ) {
-    return JSON.parse( JSON.stringify( obj ) )
+    return JSON.parse( JSON.stringify( obj ) );
 }
 
 export function cloneWFn( obj ) {
@@ -16,6 +16,6 @@ export function cloneWFn( obj ) {
         }
         return val;
     }
-    return JSON.parse( JSON.stringify( obj, stringifyFn ), parserFn )
+    return JSON.parse( JSON.stringify( obj, stringifyFn ), parserFn );
 }
 

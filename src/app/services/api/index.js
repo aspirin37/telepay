@@ -27,7 +27,7 @@ switch (process.env.url) {
 }
 
 Vue.http.options = {
-    root: API_BASE
+    root: API_BASE,
 };
 
 export {
@@ -37,5 +37,5 @@ export {
     CatalogApi,
     UserApi,
     FavsApi,
-    PostApi
+    PostApi,
 };

@@ -1,22 +1,22 @@
-import { mount } from 'avoriaz';
+import {mount} from 'avoriaz';
 import component from './index.vue';
-import { AuthService, UserService } from '@services/api';
+import {AuthService, UserService} from '@services/api';
 sinonStubPromise(sinon);
 
 describe('auth registration test', () => {
   if (!global.window.localStorage) {
     global.window.localStorage = {
       getItem: sinon.stub().returns({}),
-      setItem: sinon.stub()
+      setItem: sinon.stub(),
     };
   }
   let wrapper;
-  const registerApiMethodStub = sinon.stub(AuthService, 'register').returnsPromise().resolves({ token: '1234test' });
+  const registerApiMethodStub = sinon.stub(AuthService, 'register').returnsPromise().resolves({token: '1234test'});
   const getUserStub = sinon.stub(UserService, 'getUser').returnsPromise().resolves({});
   const registerSpy = sinon.spy(component.options.methods, 'register');
-  const $route = {params: { login: 'test' }};
+  const $route = {params: {login: 'test'}};
 
-  beforeEach(() => wrapper = mount(component, { globals: { $route } }));
+  beforeEach(() => wrapper = mount(component, {globals: {$route}}));
 
   it('should set right data from props', () => expect(wrapper.data().user.login).toBe($route.params.login));
 

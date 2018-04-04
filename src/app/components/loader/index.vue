@@ -1,6 +1,5 @@
 <template>
-  <div :class="['spinner spinner-gritcode',spinnerSize,{'spinner-fixed':fixed}]"
-    v-show="active||locked">
+  <div :class="['spinner spinner-gritcode',spinnerSize,{'spinner-fixed':fixed}]" v-show="active||locked">
     <div class="spinner-wrapper">
       <div class="spinner-circle"></div>
       <div class="spinner-text">{{text}}</div>
@@ -8,7 +7,7 @@
   </div>
 </template>
 <script>
-const MIN_WAIT = 500 // in ms
+const MIN_WAIT = 500; // in ms
 
 export default {
   name: 'spinner',
@@ -37,95 +36,95 @@ export default {
     return {
       active: this.value,
       locked: false
-    }
+    };
   },
   computed: {
     spinnerSize() {
-      return 'spinner-' + ( this.size ? this.size : 'sm' )
+      return 'spinner-' + (this.size ? this.size : 'sm');
     }
   },
   watch: {
-    active( val, old ) {
-      if ( val !== old ) this.$emit( 'input', val )
+    active(val, old) {
+      if (val !== old) this.$emit('input', val);
     },
-    value( val, old ) {
-      if ( val !== old ) {
-        this[ val ? 'show' : 'hide' ]()
+    value(val, old) {
+      if (val !== old) {
+        this[val ? 'show' : 'hide']();
       }
     }
   },
   methods: {
     hide() {
-      var delay = 0
-      this.active = false
+      var delay = 0;
+      this.active = false;
     },
-    show( options ) {
-      if ( options ) {
-        if ( options.text ) {
-          this.text = options.text
+    show(options) {
+      if (options) {
+        if (options.text) {
+          this.text = options.text;
         }
-        if ( options.size ) {
-          this.size = options.size
+        if (options.size) {
+          this.size = options.size;
         }
-        if ( options.fixed ) {
-          this.fixed = options.fixed
+        if (options.fixed) {
+          this.fixed = options.fixed;
         }
       }
       // block scrolling when spinner is on
-      this._body.style.overflowY = 'hidden'
+      this._body.style.overflowY = 'hidden';
       // activate spinner
-      this._started = new Date()
-      this.active = true
-      this.locked = true
-      this._unlock()
+      this._started = new Date();
+      this.active = true;
+      this.locked = true;
+      this._unlock();
     }
   },
   created() {
-    function delayer( fn, varTimer, ifNaN = 100 ) {
-      function toInt( el ) {
-        return /^[0-9]+$/.test( el ) ? Number( el ) || 1 : null
+    function delayer(fn, varTimer, ifNaN = 100) {
+      function toInt(el) {
+        return /^[0-9]+$/.test(el) ? Number(el) || 1 : null;
       }
-      var timerId
-      return function( ...args ) {
-        if ( timerId ) clearTimeout( timerId )
-        timerId = setTimeout( () => {
-          fn.apply( this, args )
-        }, toInt( varTimer ) || toInt( this[ varTimer ] ) || ifNaN )
-      }
+      var timerId;
+      return function(...args) {
+        if (timerId) clearTimeout(timerId);
+        timerId = setTimeout(() => {
+          fn.apply(this, args);
+        }, toInt(varTimer) || toInt(this[varTimer]) || ifNaN);
+      };
     }
-    this._body = document.body
-    this._bodyOverflow = document.body.style.overflowY
-    this._unlock = delayer( function() {
-      this.locked = false
-      this._body.style.overflowY = this._bodyOverflow
-    }, MIN_WAIT )
-    if ( this.global ) {
-      if ( !this.$root._globalSpinner ) {
-        this.$root._globalSpinner = true
-        var self = this
+    this._body = document.body;
+    this._bodyOverflow = document.body.style.overflowY;
+    this._unlock = delayer(function() {
+      this.locked = false;
+      this._body.style.overflowY = this._bodyOverflow;
+    }, MIN_WAIT);
+    if (this.global) {
+      if (!this.$root._globalSpinner) {
+        this.$root._globalSpinner = true;
+        var self = this;
         this._global = {
           hide() {
-            self.hide()
+            self.hide();
           },
           show() {
-            self.show()
+            self.show();
           }
-        }
-        this.$root.$on( 'spinner::show', this._global.show )
-        this.$root.$on( 'spinner::hide', this._global.hide )
+        };
+        this.$root.$on('spinner::show', this._global.show);
+        this.$root.$on('spinner::hide', this._global.hide);
       }
     }
   },
   beforeDestroy() {
-    if ( this._global ) {
-      this.$root.$off( 'spinner::show', this._global.show )
-      this.$root.$off( 'spinner::hide', this._global.hide )
-      delete this.$root._globalSpinner
+    if (this._global) {
+      this.$root.$off('spinner::show', this._global.show);
+      this.$root.$off('spinner::hide', this._global.hide);
+      delete this.$root._globalSpinner;
     }
-    clearTimeout( this._spinnerAnimation )
-    this._body.style.overflowY = this._bodyOverflow
+    clearTimeout(this._spinnerAnimation);
+    this._body.style.overflowY = this._bodyOverflow;
   }
-}
+};
 </script>
 <style>
 @keyframes spin {
@@ -161,7 +160,7 @@ export default {
 .spinner-gritcode .spinner-circle {
   position: relative;
   border: 4px solid #ccc;
-  border-right-color: #337ab7;
+  border-right-color: #50bced;
   border-radius: 50%;
   display: inline-block;
   animation: spin 0.6s linear;
@@ -178,7 +177,7 @@ export default {
   z-index: 2;
   width: 100%;
   font-size: 95%;
-  color: #337ab7;
+  color: #50bced;
 }
 
 .spinner-gritcode.spinner-sm .spinner-circle {
@@ -206,7 +205,8 @@ export default {
 .oldie .spinner-gritcode .spinner-circle,
 .no-csstransitions .spinner-gritcode .spinner-circle,
 .no-csstransforms3d .spinner-gritcode .spinner-circle {
-  background: url("http://i2.wp.com/www.thegreatnovelingadventure.com/wp-content/plugins/wp-polls/images/loading.gif") center center no-repeat;
+  background: url('http://i2.wp.com/www.thegreatnovelingadventure.com/wp-content/plugins/wp-polls/images/loading.gif') center center
+    no-repeat;
   animation: none;
   margin-left: 0;
   margin-top: 5px;

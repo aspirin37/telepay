@@ -1,61 +1,146 @@
 <div class="container py-3">
-  <div class="row my-3 align-items-center">
-    <div class="col-2">
-      <h1 class="text-medium-font">Каталог</h1>
-    </div>
-    <div class="col-4">
-      <search-input v-model="filter.id" placeholder="Выберите категорию" :options="categories" />
-    </div>
-    <div class="col-4">
-      <input class="form-control" v-model="filter.text" type="text" placeholder="Поиск по каталогу" />
-    </div>
-    <div class="col-2">
-      <router-link class="btn btn-primary btn-block" :to="{ name: 'post.create' }">Новый проект</router-link>
-    </div>
-  </div>
-  <div class="row my-3">
-    <div class="col-2"></div>
-    <div class="col-4">
-      <div class="form-group">
-        <label class="col-form-label search__label">Участников</label>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">от</span>
-          </div>
-          <input v-model="filter.subscribersFrom" type="number" min="0" class="form-control form-control-prepend">
-          <div class="input-group-prepend">
-            <span class="input-group-text">до</span>
-          </div>
-          <input v-model="filter.subscribersTo" type="number" min="0" class="form-control">
+    <div class="row my-1 align-items-center">
+        <div class="col-2">
+            <h1 class="text-medium-font">Каталог</h1>
         </div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="form-group">
-        <label class="col-form-label search__label">Цена</label>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">от</span>
-          </div>
-          <input v-model="filter.priceFrom" type="number" min="0" class="form-control form-control-prepend">
-          <div class="input-group-prepend">
-            <span class="input-group-text">до</span>
-          </div>
-          <input v-model="filter.priceTo" type="number" min="0" class="form-control">
+        <div class="col-4">
+            <search-input v-model="filter.id"
+                placeholder="Выберите категорию"
+                :options="categories" />
         </div>
-      </div>
+        <div class="col-4">
+            <input class="form-control"
+                v-model="filter.text"
+                type="text"
+                placeholder="Поиск по каталогу" />
+        </div>
+        <div class="col-2">
+            <router-link class="btn btn-primary btn-block"
+                :to="{ name: 'post.create' }">Новый проект</router-link>
+        </div>
     </div>
-  </div>
-  <div class="row my-3 align-items-end">
-    <div class="col-2"></div>
-    <div class="col-4">
-      <label class="col-form-label search__label">Дата размещения</label>
-      <date-input v-model="filter.date" placeholder="Выберите дату публикации" :config="configs.date" />
+    <div class="row my-1">
+        <div class="col-2"></div>
+        <div class="col-4">
+            <div class="form-group">
+                <label class="col-form-label search__label">Участников</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">от</span>
+                    </div>
+                    <input v-model="filter.subscribersFrom"
+                        type="number"
+                        min="0"
+                        class="form-control form-control-prepend">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">до</span>
+                    </div>
+                    <input v-model="filter.subscribersTo"
+                        type="number"
+                        min="0"
+                        class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label class="col-form-label search__label">Цена</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">от</span>
+                    </div>
+                    <input v-model="filter.priceFrom"
+                        type="number"
+                        min="0"
+                        class="form-control form-control-prepend">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">до</span>
+                    </div>
+                    <input v-model="filter.priceTo"
+                        type="number"
+                        min="0"
+                        class="form-control">
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-4">
-      <label class="col-form-label search__label">Время размещения</label>
-      <date-input v-model="filter.time" placeholder="Выберите время публикации" :config="configs.time" />
+    <div class="row my-3 align-items-end">
+        <div class="col-2"></div>
+        <div class="col-4">
+            <label class="col-form-label search__label">Дата размещения</label>
+            <date-input v-model="filter.date"
+                placeholder="Выберите дату публикации"
+                :config="configs.date" />
+
+        </div>
+        <div class="col-4">
+            <label class="col-form-label search__label">Время размещения</label>
+            <date-input v-model="filter.time"
+                placeholder="Выберите время публикации"
+                :config="configs.time" />
+        </div>
     </div>
-  </div>
-  <channels :channels="channels" :show-for-owner="false" />
+    <div class="flex-table">
+        <div class="header-row">
+            <div class="col-3">Канал</div>
+            <div class="col">Описание</div>
+            <div class="col">Подписчиков</div>
+            <div class="col">ER</div>
+            <div class="col-5 d-flex justify-content-between">
+                <span>Условия</span>
+                <span>Цена</span>
+                <span>Выбрать</span>
+            </div>
+        </div>
+        <div class="body-row"
+            :key="ch.channelId"
+            v-for="ch in channels">
+            <div class="col-3">
+                <div class="form-row">
+                    <div class="col-3">
+                        <avatar :src="'images/'+ch.telegramId+'_'+ch.photoId+'.jpg'"
+                            :circle="true" />
+                    </div>
+                    <div class="col-9">
+                        <b>{{ch.title}}</b>
+                        <br>{{ch.categories || 'Без категории'}}</div>
+                </div>
+            </div>
+            <div class="col">{{ch.description | cutLongStr}}</div>
+            <div class="col h4 m-0">
+                <telestat-link :channel="ch.username"
+                    v-if="ch.subscriberCount>=300"
+                    :text="$options.filters.cutSum(ch.subscriberCount)" />
+                <span v-else>{{ch.subscriberCount}}</span>
+            </div>
+
+            <div class="col">{{ch.engagementRate}}%</div>
+            <div class="col-5 h4 m-0">
+                <div class="form-row">
+                    <div class="col-5">{{offerTime(ch.cheapestOffer)}} - {{ch.cheapestOffer.inTopHours}}/{{ch.cheapestOffer.inFeedHours}}</div>
+                    <div class="col-5">{{ ch.cheapestOffer.price | centToRub}}
+                        <i class="fa fa-lg fa-fix mx-1 pointer"
+                            v-if="ch.channelOffer.length > 1"
+                            :class="ch.showAllOffers?'fa-chevron-up':'fa-chevron-down'"
+                            @click="ch.showAllOffers=!ch.showAllOffers"></i>
+                    </div>
+                    <div class="col-2 text-center">
+                        <norm-checkbox v-model="ch.cheapestOffer.selected" />
+                    </div>
+                </div>
+                <transition-group name="fade">
+                    <div class="form-row"
+                        v-if="ch.showAllOffers && offer.channelOfferId !== ch.cheapestOffer.channelOfferId"
+                        :key="offer.channelOfferId"
+                        v-for="offer in ch.channelOffer">
+                        <div class="col-5">{{offerTime(offer)}} - {{offer.inTopHours}}/{{offer.inFeedHours}}</div>
+                        <div class="col-5">{{ offer.price | centToRub}}</div>
+                        <div class="col-2 text-center">
+                            <norm-checkbox v-model="offer.selected" />
+                        </div>
+                    </div>
+                </transition-group>
+            </div>
+        </div>
+    </div>
 </div>

@@ -9,10 +9,10 @@
           <router-link :to="{name:'catalog'}" class="nav-link">Каталог</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'channel'}" class="nav-link">Каналы</router-link>
+          <router-link :to="{name:'channels'}" class="nav-link">Каналы</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'post'}" class="nav-link">Предложения</router-link>
+          <router-link :to="{name:'post'}" class="nav-link">Постинг</router-link>
         </li>
         <li class="ml-auto">
           <ul class="list-unstyled d-flex" v-if="!isAuthorized">
@@ -48,23 +48,24 @@
             </li>
             <li class="nav-item py-3">
               <div class="user-field">
-                <i class="fa fa-wallet" aria-hidden="true"></i>
-                <span>{{ balance }}₽</span>
+                <i class="fa fa-money" aria-hidden="true"></i>
+                <span>{{ balance.current | centToRub }}
+                  <span class="text-muted">({{ balance.hold | centToRub }})</span>
+                </span>
               </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mr-4">
               <drop-down class="py-3">
                 <div class="user-field" slot="trigger">
-                  <i class="fa fa-user-circle mr-1" aria-hidden="true"></i>
-                  <span>{{ getUsername }}</span>
+                  <i class="fa fa-2x fa-user-circle mr-1" aria-hidden="true"></i>
                 </div>
                 <template slot="body">
                   <drop-down-menu-item>
                     <router-link class="user-menu__item" :to="{ name: 'profile' }">Профиль</router-link>
                   </drop-down-menu-item>
-                  <drop-down-menu-item>
+                  <!-- <drop-down-menu-item>
                     <router-link class="user-menu__item" :to="{ name: 'favs' }">Избранное</router-link>
-                  </drop-down-menu-item>
+                  </drop-down-menu-item> -->
                   <drop-down-menu-item>
                     <router-link class="user-menu__item" :to="{ name: 'logout' }">Выйти</router-link>
                   </drop-down-menu-item>

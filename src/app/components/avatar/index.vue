@@ -1,5 +1,5 @@
 <template lang="html">
-  <div :style="wrapStyles" ref="wrap">
+  <div :style="wrapStyles" ref="wrap" class="avatar">
     <img v-show="!error" :src="src" :alt="alt" class="h-100 w-100" @error="handle" />
     <h1 :style="mountStyles" v-show="error" class="m-0 text-white">?</h1>
   </div>
@@ -62,3 +62,10 @@ export default {
   }
 };
 </script>
+<style>
+.avatar {
+  max-width: 50px;
+  max-height: 50px;
+  padding: 0;
+}
+</style>

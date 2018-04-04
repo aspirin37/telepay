@@ -1,19 +1,13 @@
-<template src="./index.html"></template>
+<template>
+  <div></div>
+</template>
 <script>
-export default Vue.extend( {
+export default Vue.extend({
   data() {
-    return {
-
-    }
+    return {};
   },
-  props: {
-
-  },
-  created() {
-
-  },
-  methods: {
-
-  }
-} );
+  props: {},
+  created() {},
+  methods: {}
+});
 </script>

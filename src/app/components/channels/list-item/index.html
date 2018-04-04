@@ -1,0 +1,89 @@
+<div>
+    <div class="d-flex align-items-center py-3 channel w-100">
+        <div class="col-1 d-flex justify-content-around"
+            v-if="showForOwner">
+            2
+        </div>
+        <!-- <div class="col-1 d-flex justify-content-around" v-if="!showForOwner">
+          <norm-checkbox v-model="selected" @change="changeHandler">
+            <i class="fa fa-star" :class="{ active: data.like }" aria-hidden="true"></i>
+          </norm-checkbox>
+        </div> -->
+        <div class="col-3 d-flex">
+            <avatar :src="'images/'+data.telegramId+'_'+data.photoId+'.jpg'"
+                :circle="true" />
+            <div class="col-9">
+                <p class="m-0">
+                    <router-link class="font-weight-500 text-medium-font"
+                        :to="{ name: routeName, params: { id: data.channelId } }">
+                        {{ data.title }}
+                    </router-link>
+                </p>
+                <p class="m-0 font-weight-light text-medium-font">{{ data.category || 'Дефолтная категория' }}</p>
+            </div>
+        </div>
+        <!-- <div class="col-2 d-flex font-weight-500 text-medium-font">
+        {{ data.description | cutLongStr }}
+    </div> -->
+        <div class="col-2 d-flex font-weight-500 text-medium-font">
+            <telestat-link :channel="data.username"
+                v-if="data.subscriberCount>=300"
+                :text="$options.filters.cutSum(data.subscriberCount)" />
+            <span v-else>{{data.subscriberCount}}</span>
+        </div>
+        <div class="col-1 d-flex font-weight-500 text-medium-font">
+            {{ data.er || 0 }}%
+        </div>
+
+        <div class="col-2 d-flex font-weight-500 text-medium-font">
+            {{weekDays[cheapestOffer.weekDay-1]}} {{calculateTime(cheapestOffer)}} - {{cheapestOffer.inTopHours}}/{{cheapestOffer.inFeedHours}}
+        </div>
+        <div class="col-2 d-flex font-weight-500 text-medium-font text-nowrap">
+            {{ cheapestOffer.price | centToRub}}
+
+        </div>
+        <div class="col-1">
+            <i class="fa fa-2x p-0 m-0"
+                v-if="data.channelOffer.length > 1"
+                :class="showAllOffers?'fa-chevron-up':'fa-chevron-down'"
+                @click="showAllOffers=!showAllOffers"></i>
+
+        </div>
+        <div class="col-1 d-flex justify-content-around"
+            v-if="!showForOwner">
+            <norm-checkbox v-model="selected"
+                @change="changeHandler" />
+        </div>
+
+        <div class="col-1 d-flex justify-content-around"
+            v-if="showForOwner">
+            <router-link :to="{ name: 'channel.delete', params: { id: data.channelId } }">
+                <i class="fa fa-trash"></i>
+            </router-link>
+            <router-link :to="{ name: 'channel.edit', params: { id: data.channelId } }">
+                <i class="fa fa-pencil"></i>
+            </router-link>
+        </div>
+
+    </div>
+    <transition-group name="fade">
+        <div class="row"
+            v-if="showAllOffers && offer.channelOfferId !== cheapestOffer.channelOfferId"
+            :key="offer.channelOfferId"
+            v-for="offer in data.channelOffer">
+            <div class="col-6"></div>
+            <div class="col-2 d-flex font-weight-500 text-medium-font">
+                {{weekDays[offer.weekDay-1]}} {{calculateTime(offer)}} - {{offer.inTopHours}}/{{offer.inFeedHours}}
+            </div>
+            <div class="col-2 d-flex font-weight-500 text-medium-font text-nowrap">
+                {{ offer.price |centToRub}}
+            </div>
+            <div class="col-1"></div>
+            <div class="col-1">
+                <norm-checkbox v-model="selected"
+                    @change="changeHandler" />
+            </div>
+        </div>
+
+    </transition-group>
+</div>

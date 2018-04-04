@@ -1,6 +1,7 @@
-$theme-colors: ( primary: #50BCED, success:#44CD85, gold: #FFC000, medium-font: #576077, light-font: #DEE2EE);
+$theme-colors: ( primary: #50BCED, success:#44CD85, warning: #FFC000, danger:#eb5757, slate: #576077, text-white: #DEE2EE, light-grey:#C0C7DA, cloudy:#c0c7da);
 $font-family-sans-serif: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-$font-weight-normal: 500;
-$headings-font-weight: 700;
+$headings-font-weight: 600;
+$font-size-base:0.8rem;
 $yiq-contrasted-threshold: 200;
-$input-group-addon-bg: theme-color("light-font")
+$input-group-addon-bg: #C0C7DA;
+$body-color: #576077;

@@ -1,4 +1,4 @@
-import { cloneWFn } from './clone';
+import {cloneWFn} from './clone';
 
 export default function checkModel( entryModel, zeroCheck = false, ...exclude ) { // falsy when entryModel has falsy items
     if ( exclude.includes( entryModel ) ) return true;
@@ -28,15 +28,15 @@ export default function checkModel( entryModel, zeroCheck = false, ...exclude ) 
             model instanceof Array &&
             model.length
         ) { // if model is not empty array check each element
-            return !model.filter( ( elem ) => !checkModel( elem, zeroCheck ) ).length
+            return !model.filter( ( elem ) => !checkModel( elem, zeroCheck ) ).length;
         } else if (
             Object.prototype.toString.call( model ) === '[object Object]' &&
             Object.keys( model ).length
         ) { // if model is not empty object check each value
-            return !Object.values( model ).filter( ( elem ) => !checkModel( elem, zeroCheck ) ).length
+            return !Object.values( model ).filter( ( elem ) => !checkModel( elem, zeroCheck ) ).length;
         } else { // gratz your model is clean!
-            return true
+            return true;
         }
-    } )( model )
+    } )( model );
 }
 

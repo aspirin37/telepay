@@ -2,6 +2,7 @@ import '../css/main.scss';
 
 import router from './routes';
 import store from './store';
+import './config';
 import '@utils/interceptor';
 
 // components
@@ -17,22 +18,22 @@ export const App = new Vue({
     router,
     store,
     components: {
-      navigation,
-      loader,
-      notifystr
+        navigation,
+        loader,
+        notifystr,
     },
     beforeMount() {
-      mountAuthHandle(this, this.$route);
-      this.$router.beforeEach((to, from, next) => {
-        routerAuthHandle(this, to, from, next);
-      })
+        mountAuthHandle(this, this.$route);
+        this.$router.beforeEach((to, from, next) => {
+            routerAuthHandle(this, to, from, next);
+        });
     },
     computed: {
-      showSpinner: {
-        get: function() {
-          return this.$store.state.loading;
+        showSpinner: {
+            get: function() {
+                return this.$store.state.loading;
+            },
+            set: () => {},
         },
-        set: () => {}
-      }
-    }
+    },
 }).$mount('#app');

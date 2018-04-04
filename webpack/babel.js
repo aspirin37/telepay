@@ -4,11 +4,11 @@ module.exports = function() {
             rules: [{
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
             }, {
                 test: /\.vue$/,
-                loader: 'vue-loader'
-            }]
+                loader: 'vue-loader',
+            }],
         },
     };
 };

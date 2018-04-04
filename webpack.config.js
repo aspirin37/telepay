@@ -19,7 +19,7 @@ const extractAssets = require('./webpack/assets.extract');
 const PATHS = {
     source: path.resolve(__dirname, 'src'),
     build: path.join(__dirname, 'build'),
-    root: path.resolve(__dirname)
+    root: path.resolve(__dirname),
 };
 
 const common = function(env) {
@@ -27,10 +27,11 @@ const common = function(env) {
             entry: {
                 'bundle': PATHS.source + '/app/main.js',
             },
+            mode: env.NODE_ENV,
             output: {
                 path: PATHS.build,
                 publicPath: '/',
-                filename: '[name].[hash].js'
+                filename: '[name].[hash].js',
             },
             resolve: {
                 extensions: ['.js', '.vue'],
@@ -45,8 +46,8 @@ const common = function(env) {
                     '@utils': path.resolve(PATHS.source, 'app/utils'),
                     '@mixins': path.resolve(PATHS.source, 'app/mixins'),
                     '@filters': path.resolve(PATHS.source, 'app/filters'),
-                    'vue$': 'vue/dist/vue.esm.js'
-                }
+                    'vue$': 'vue/dist/vue.esm.js',
+                },
             },
             plugins: [
                 // new BundleAnalyzerPlugin({ analyzerPort: 5541 }),
@@ -57,22 +58,23 @@ const common = function(env) {
                     // favicon: PATHS.source + '/assets/gb_fav.ico',
                     minify: {
                         caseSensitive: true,
-                        collapseWhitespace: true
-                    }
+                        collapseWhitespace: true,
+                    },
                 }),
+                new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ru)$/), // load only en/ru locale
                 new webpack.DefinePlugin({
                     'process.env': {
-                        url: "'" + env.url + "'",
-                        NODE_ENV: "'" + env.NODE_ENV + "'"
-                    }
+                        url: '\'' + env.url + '\'',
+                        NODE_ENV: '\'' + env.NODE_ENV + '\'',
+                    },
                 }),
                 new webpack.ProvidePlugin({
                     Vue: ['vue/dist/vue.esm.js', 'default'], // WARNING!!! DO NOT DELETE, Vue needs to be imported in almost every component/module
                     swal: 'sweetalert2',
-                    fecha: 'fecha'
+                    moment: 'moment',
                 }),
                 new CleanWebpackPlugin(['build']),
-            ]
+            ],
         },
         images(),
         fonts(),
@@ -80,16 +82,16 @@ const common = function(env) {
         babel(),
         media(),
     ]);
-}
+};
 
 module.exports = function(env) {
-    console.log(env)
+    console.log(env);
     if (env.NODE_ENV === 'production') {
         return merge([
             common(env),
             extractCSS(),
             uglifyJS(),
-            extractAssets(PATHS)
+            extractAssets(PATHS),
         ]);
     }
     if (env.NODE_ENV === 'development') {
@@ -97,7 +99,7 @@ module.exports = function(env) {
             common(env),
             devserver(PATHS),
             sass(),
-            css()
-        ])
+            css(),
+        ]);
     }
 };

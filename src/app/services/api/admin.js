@@ -1,4 +1,4 @@
-import { _r, _e, genRes } from './_utils';
+import {_r, _e, genRes} from './_utils';
 
 const adminRes = genRes('admin', ['GET', 'POST']);
 const tgRes = genRes('tg', ['GET']);
@@ -9,5 +9,5 @@ export default {
   auth: (params) => adminRes('login_code').post(params).then(_r).catch(_e),
   addChannel: (params) => adminRes('channels/add').post(params).then(_r).catch(_e),
   addCategory: (params) => adminRes('category').post(params).then(_r).catch(_e),
-  addCategoryToChannel: (params) => adminRes('channels/add-categories').post(params).then(_r).catch(_e)
+  addCategoryToChannel: (params) => adminRes('channels/add-categories').post(params).then(_r).catch(_e),
 };

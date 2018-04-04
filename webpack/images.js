@@ -9,9 +9,9 @@ module.exports = function() {
                 exclude: [/fonts\//],
                 loader: 'svg-inline-loader',
                 options: {
-                    prefix: 'inl-svg'
+                    prefix: 'inl-svg',
                 },
-            }, ],
+            }],
         },
     };
 };

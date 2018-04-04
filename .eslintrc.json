@@ -1,0 +1,11 @@
+{
+    "env": { "es6": true },
+    "extends": "google",
+    "parser": "babel-eslint",
+    "rules": {
+        "max-len": "off",
+        "eol-last": "off",
+        "require-jsdoc": "off",
+        "object-curly-spacing": "off"
+    }
+}

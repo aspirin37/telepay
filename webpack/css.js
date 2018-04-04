@@ -1,15 +1,15 @@
-module.exports = function ( paths ) {
+module.exports = function( paths ) {
     return {
         module: {
-            rules: [ {
+            rules: [{
                 test: /\.css$/,
                 include: paths,
                 use: [
                     'style-loader',
-                    'css-loader?minimize=true'
-                ]
-            } ]
-        }
+                    'css-loader?minimize=true',
+                ],
+            }],
+        },
     };
 };
 

@@ -1,0 +1,44 @@
+<div class="offers-list">
+    <div class="date-row">
+        <div class="col day"
+            :class="{active:selectedWeekday === day.weekDayVal}"
+            @click="selectedWeekday=day.weekDayVal"
+            :key="day&&day.id"
+            v-for="day in days">
+            {{day.date}}
+            <br> {{day.weekDayText}}
+        </div>
+    </div>
+    <div class="flex-table"
+        v-if="filteredOffers && filteredOffers.length">
+        <div class="header-row">
+            <div class="col">Время</div>
+            <div class="col">Условия</div>
+            <div class="col">Цена</div>
+            <div class="col">Действия</div>
+        </div>
+        <div class="body-row"
+            :class="{removed:isRemoved(of)}"
+            v-for="of in filteredOffers"
+            :key="of.channelOfferId">
+            <div class="col h4 m-0">{{offerTime(of)}}</div>
+            <div class="col h4 m-0">{{of.inTopHours}}/{{of.inFeedHours}}</div>
+            <div class="col h4 m-0">{{of.price | centToRub}}</div>
+            <div class="col-4">
+                <span @click="removeOffer(of)"
+                    v-show="!isRemoved(of)"
+                    class="text-danger pointer">
+                    <i class="fa fa-lg fa-times"></i> Удалить</span>
+                <span v-show="isRemoved(of)"
+                    class="cancel-removal">
+                    <b>Предложение удалено.</b>
+                    <span @click="cancelOfferRemoval(of)"
+                        class="text-success pointer"> Восстановить</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div v-else>
+        <h4 class="text-center p-4"> На этот день недели еще нет ни одного предложения, создайте новое используя форму выше</h4>
+    </div>
+</div>

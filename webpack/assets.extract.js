@@ -5,8 +5,8 @@ module.exports = function(paths) {
   return {
     plugins: [
       new CopyWebpackPlugin([
-        { from: path.resolve(paths.root, 'src/assets'), to: path.resolve(paths.build, 'assets') }
-      ])
-    ]
-  }
+        {from: path.resolve(paths.root, 'src/assets'), to: path.resolve(paths.build, 'assets')},
+      ]),
+    ],
+  };
 };

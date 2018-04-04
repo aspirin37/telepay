@@ -6,18 +6,18 @@ export default {
   path: '/post',
   name: 'post',
   component: Post,
-  meta: { auth: true },
-  redirect: { name: 'post.list' },
+  meta: {auth: true},
+  redirect: {name: 'post.list'},
   children: [{
     path: 'list',
     name: 'post.list',
     component: PostList,
-    meta: { auth: true }
+    meta: {auth: true},
   },
   {
     path: 'create',
     name: 'post.create',
     component: PostCreate,
-    meta: { auth: true }
-  }]
-}
+    meta: {auth: true},
+  }],
+};
