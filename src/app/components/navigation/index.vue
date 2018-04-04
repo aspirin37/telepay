@@ -56,7 +56,7 @@
               <drop-down class="py-3">
                 <div class="user-field" slot="trigger">
                   <i class="fa fa-user-circle mr-1" aria-hidden="true"></i>
-                  <span>{{ this.notifications }}</span>
+                  <span>{{ getUsername }}</span>
                 </div>
                 <template slot="body">
                   <drop-down-menu-item>
