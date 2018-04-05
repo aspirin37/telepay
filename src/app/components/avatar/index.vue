@@ -23,6 +23,11 @@ export default {
       default: true
     }
   },
+  watch: {
+    src(val) {
+      this.error = false;
+    }
+  },
   methods: {
     handle(event) {
       event.preventDefault();
