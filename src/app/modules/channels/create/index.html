@@ -8,16 +8,16 @@
     <div class="row mt-4"
         v-if="channel">
         <div class="col-2 ">
-            <avatar :src="'/images/channels/'+channel.telegram_id+'_'+channel.photo_id+'.jpg'"
+            <avatar :src="'/images/channels/'+channel.telegramId+'_'+channel.photoId+'.jpg'"
                 style="max-width: 200px; max-height: 200px;"
                 @error="imageErrorHandler(channel)"
                 :circle="true" />
         </div>
         <div class="col-6">
             <h4>{{channel.title}}
-                <small v-if="channel.subscriber_count && channel.telegram_id !== 'default'">подписчиков: {{channel.subscriber_count | cutKilo}}</small>
+                <small v-if="channel.subscriberCount && channel.telegramId !== 'default'">подписчиков: {{channel.subscriberCount | cutKilo}}</small>
             </h4>
-            <p>Подтвержден: {{channel.is_confirmed?'Да':'Нет'}}</p>
+            <p>Подтвержден: {{channel.isConfirmed?'Да':'Нет'}}</p>
             <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
         </div>
         <div class="col-4">
@@ -55,7 +55,7 @@
                 <span class="text-muted"
                     v-show="isLoading">Ищем канал...</span>
                 <span class="text-muted"
-                    v-show="channel.telegram_id && !isLoading && !searchError && !channel.is_confirmed">Чтобы привязать канал к сервису вам необходимо добавить
+                    v-show="channel.telegramId && !isLoading && !searchError && !channel.isConfirmed">Чтобы привязать канал к сервису вам необходимо добавить
                     <a href="https://t.me/telepayDevBot">нашего бота</a> в канал и дать ему права админа на постинг</span>
                 &nbsp;
             </p>
@@ -64,7 +64,7 @@
     <div class="row">
         <div class="col-2">
             <button class="btn btn-success"
-                :disabled="!channel.telegram_id || !channel.is_confirmed"
+                :disabled="!channel.telegramId || !channel.isConfirmed"
                 @click="add">Добавить канал</button>
         </div>
     </div>

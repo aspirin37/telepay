@@ -14,8 +14,8 @@ export default {
         description: `Здесь будет отображено описание вашего канала.
           Введите ссылку или юзернейм канала в поле ниже и мы автоматически заполним эти поля в соответствии с данными вашего канала.
           После создания наш бот будет автоматически обновлять данные вашего канала`,
-        telegram_id: 'default',
-        photo_id: 'default'
+        telegramId: 'default',
+        photod: 'default'
       },
       usernameQuery: '',
       categories: [{ name: 'Первая категория', value: 1 }, { name: 'Вторая категория', value: 2 }, { name: 'Третья категория', value: 3 }],
@@ -79,15 +79,13 @@ export default {
           };
           console.error(error);
         }
-        setTimeout(() => {
-          if (res.content) {
-            self.searchError = false;
-            self.channel = res.content;
-          } else {
-            self.searchError = true;
-          }
-          self.isLoading = false;
-        }, 1000);
+        if (res.content) {
+          self.searchError = false;
+          self.channel = res.content;
+        } else {
+          self.searchError = true;
+        }
+        self.isLoading = false;
       };
     },
 
@@ -107,14 +105,14 @@ export default {
       }
     },
     imageErrrorHandler(channel) {
-      if (channel.photo_id !== 'default' && channel.telegram_id !== 'default') {
-        let { photo_id, id } = channel;
-        this.savedImageData = { photo_id, id };
-        channel.photo_id = 'loading';
-        channel.telegram_id = 'loading';
+      if (channel.photod !== 'default' && channel.telegramId !== 'default') {
+        let { photod, id } = channel;
+        this.savedImageData = { photod, id };
+        channel.photod = 'loading';
+        channel.telegramId = 'loading';
         setTimeout(() => {
-          channel.photo_id = this.savedImageData.photo_id;
-          channel.telegram_id = this.savedImageData.id;
+          channel.photod = this.savedImageData.photod;
+          channel.telegramId = this.savedImageData.id;
         }, 1000);
       }
     },
