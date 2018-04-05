@@ -1,24 +1,29 @@
-<template lang="html">
+<template>
   <div class="container py-3">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h1 class="text-secondary mb-0">Посты</h1>
       <router-link class="btn btn-primary" :to="{ name: 'posts:create' }">Новый пост</router-link>
     </div>
-    <h3 class="text-muted">Исходящие</h3>
-    <div class="">
-      <post />
-    </div>
+    <ul class="nav nav-tabs">
+      <li class="nav-item" @click="selected='inbound'">
+        <a class="nav-link active" :class="{active:selected==='inbound'}" href="#">Active</a>
+      </li>
+      <li class="nav-item" @click="selected='inbound'">
+        <a class="nav-link" :class="{active:selected==='inbound'}" href="#">Link</a>
+      </li>
+    </ul>
+
   </div>
 </template>
 
 <script>
-import post from '@components/post/list-item';
 import { PostApi } from '@services/api';
 export default {
-  components: { post },
+  components: {},
   data() {
     return {
-      list: []
+      list: [],
+      selected: this.$route.params.tab || 'inbound'
     };
   },
   async created() {

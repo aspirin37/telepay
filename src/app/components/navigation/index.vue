@@ -12,7 +12,7 @@
           <router-link :to="{name:'channels'}" class="nav-link">Каналы</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'post'}" class="nav-link">Постинг</router-link>
+          <router-link :to="{name:'posts'}" class="nav-link">Постинг</router-link>
         </li>
         <li class="ml-auto">
           <ul class="list-unstyled d-flex" v-if="!isAuthorized">

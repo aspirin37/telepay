@@ -6,13 +6,13 @@ import Profile from '@modules/profile';
 // import Favs from '@modules/favs';
 
 import Channels from './channels';
-import Post from './post';
+import Posts from './posts';
 import Support from './support';
 
 const routes = [
   Auth,
   Channels,
-  Post,
+  Posts,
   Support,
     {
         path: '/',
