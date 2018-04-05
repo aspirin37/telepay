@@ -1,6 +1,6 @@
 <template src="./index.html"></template>
 <script>
-import { ChannelsApi, CatalogApi } from '@services/api';
+import { ChannelApi, CatalogApi } from '@services/api';
 import searchInput from '@components/search-input';
 import avatar from '@components/avatar';
 import LS from '@utils/local-storage';
@@ -106,7 +106,7 @@ export default {
       }
     },
     add() {
-      ChannelsApi.create({
+      ChannelApi.create({
         username: this.parsedUsernameQuery.slice(1),
         ...this.channel
       }).then(res => {
