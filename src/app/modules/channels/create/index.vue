@@ -21,7 +21,8 @@ export default {
       categories: [{ name: 'Первая категория', value: 1 }, { name: 'Вторая категория', value: 2 }, { name: 'Третья категория', value: 3 }],
       ws: null,
       isLoading: false,
-      searchError: false
+      searchError: false,
+      savedImageData: null
     };
   },
   created() {
@@ -104,6 +105,16 @@ export default {
           );
         }, 500);
       }
+    },
+    imageErrrorHandler(channel) {
+      let { photo_id, id } = channel;
+      this.savedImageData = { photo_id, id };
+      channel.photo_id = 'default';
+      channel.id = 'default';
+      setTimeout(() => {
+        channel.photo_id = this.savedImageData.photo_id;
+        channel.id = this.savedImageData.id;
+      }, 1000);
     },
     add() {
       ChannelApi.create({
