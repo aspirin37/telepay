@@ -15,7 +15,7 @@
         </div>
         <div class="col-6">
             <h4>{{channel.title}}
-                <small v-if="channel.telegram_id">подписчиков: {{channel.subscriber_count | cutKilo}}</small>
+                <small v-if="channel.subscriber_count && channel.telegram_id !== 'default'">подписчиков: {{channel.subscriber_count | cutKilo}}</small>
             </h4>
             <p>Подтвержден: {{channel.is_confirmed?'Да':'Нет'}}</p>
             <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>

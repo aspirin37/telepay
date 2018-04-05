@@ -109,11 +109,11 @@ export default {
     imageErrrorHandler(channel) {
       let { photo_id, id } = channel;
       this.savedImageData = { photo_id, id };
-      channel.photo_id = 'default';
-      channel.id = 'default';
+      channel.photo_id = 'loading';
+      channel.telegram_id = 'loading';
       setTimeout(() => {
         channel.photo_id = this.savedImageData.photo_id;
-        channel.id = this.savedImageData.id;
+        channel.telegram_id = this.savedImageData.id;
       }, 1000);
     },
     add() {

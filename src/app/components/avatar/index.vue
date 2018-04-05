@@ -27,7 +27,7 @@ export default {
     handle(event) {
       event.preventDefault();
       this.error = true;
-      this.emit('error', true);
+      this.$emit('error', true);
     },
     calcWidth() {
       this.$nextTick(() => {
