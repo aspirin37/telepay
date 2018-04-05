@@ -52,13 +52,13 @@ export default {
       let botUrl;
       switch (process.env.url) {
         case 'loc':
-          botUrl = `ws//localhost:6633`;
+          botUrl = `ws://localhost:6633`;
           break;
         case 'dev':
-          botUrl = `ws//dev.telepay.io/ws`;
+          botUrl = `ws://dev.telepay.io/ws`;
           break;
         default:
-          botUrl = `ws//telepay.io/ws`;
+          botUrl = `ws://telepay.io/ws`;
           break;
       }
       this.ws = new WebSocket(botUrl, LS.get('auth_key'));
