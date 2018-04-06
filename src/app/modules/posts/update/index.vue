@@ -4,12 +4,11 @@ import { ChannelsApi, PostApi, CatalogApi } from '@services/api';
 
 import template from './index.html';
 // import channels from '@components/channels/list';
-import postPreview from '@components/post/preview';
-import postForm from '@components/post/create-form';
+import postPreview from '@components/post-preview';
 import { clone } from '@utils/clone';
 
 export default {
-  components: { postPreview, postForm },
+  components: { postPreview },
   data() {
     return {
       channels: []
@@ -19,7 +18,6 @@ export default {
     let { items, total } = await CatalogApi.filter();
     this.channels = items.map(item => item.channelInfo).reduce((acc, item) => {
       acc = [...acc, ...item.channelOffer];
-      console.log(acc);
       return acc;
     }, []);
   },
@@ -40,7 +38,7 @@ export default {
     create() {
       console.log(this.mapProp(this.stringifyProp(this.post, 'buttons'), 'images'));
       return PostApi.create(this.mapProp(this.stringifyProp(this.post, 'buttons'), 'images'))
-        .then(res => this.$router.push({ name: 'posts.list' }))
+        .then(res => this.$router.push({ name: 'posts:list' }))
         .catch(console.log);
     },
     stringifyProp(obj, prop) {

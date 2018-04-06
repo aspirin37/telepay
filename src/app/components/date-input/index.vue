@@ -1,9 +1,8 @@
 <template>
   <div class="picker">
-    <input class="picker__input" type="text" :id="id" :class="inputClass" :name="name" :placeholder="placeholder"
-      v-model="mutableValue" data-input ref="picker" readonly="no">
+    <input class="picker__input" type="text" :class="inputClass" :placeholder="placeholder" v-model="mutableValue" ref="picker">
     <span class="picker__icon" @click="focus">
-      <i class="fa fa-calendar-minus-o text-medium-font" aria-hidden="true"></i>
+      <i class="fa fa-calendar-o text-medium-font" aria-hidden="true"></i>
     </span>
   </div>
 </template>
@@ -17,10 +16,7 @@ export default {
     },
     value: {
       default: null,
-      required: true,
-      validate(value) {
-        return value === null || value instanceof Date || typeof value === 'string' || value instanceof String || value instanceof Array
-      }
+      required: true
     },
     placeholder: {
       type: String,
@@ -30,17 +26,14 @@ export default {
       type: [String, Object],
       default: 'form-control input'
     },
-    name: {
+    format: {
       type: String,
-      default: 'date-time'
+      default: 'MMMM DD'
     },
     required: {
       type: Boolean,
       default: false
-    },
-    id: {
-      type: String,
-    },
+    }
   },
   data() {
     return {
@@ -48,7 +41,7 @@ export default {
       fp: null,
       conf: {
         ...this.config,
-        locale: Russian.ru,
+        locale: Russian.ru
       }
     };
   },

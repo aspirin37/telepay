@@ -9,11 +9,12 @@ import avatar from '@components/avatar';
 import normCheckbox from '@components/checkbox';
 import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
+import channelList from '@components/channel-list';
 
 import { clone } from '@utils/clone';
 
 export default Vue.extend({
-  components: { avatar, normCheckbox, searchInput, dateInput },
+  components: { avatar, normCheckbox, searchInput, dateInput, channelList },
   data() {
     return {
       filter: {
@@ -29,7 +30,8 @@ export default Vue.extend({
       },
       weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
       categories: [],
-      channels: []
+      channels: [],
+      selectedChannels: []
     };
   },
   created() {
@@ -48,29 +50,17 @@ export default Vue.extend({
     configs() {
       return this.$store.state.configs;
     },
-    selectedChannels() {
-      return this.channels.reduce((sum, ch) => {
-        let selectedOffers = ch.channelOffer.filter(offer => offer.selected);
-        if (selectedOffers.length) {
-          ch.channelOffer = selectedOffers;
-          sum.push(ch);
-        }
-        return sum;
-      }, []);
+    totalPrice() {
+      return this.selectedChannels.reduce((sum, el) => {
+        return sum + el.channelOffer.reduce((ofSum, offer) => ofSum + offer.price, 0);
+      }, 0);
     }
   },
   methods: {
     async getChannels(params = {}) {
       let { items, count } = await CatalogApi.filter(params);
       this.channels = items.map(item => {
-        Vue.set(item.channelInfo, 'showAllOffers', false);
-        item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => offer.weekDay - 1 === moment(params.date).weekday());
-
-        item.channelInfo.cheapestOffer = ChannelApi.getCheapestOffer(item.channelInfo);
-        item.channelInfo.channelOffer.forEach(offer => {
-          Vue.set(offer, 'selected', false);
-        });
-
+        item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => offer.weekDay === moment(this.filter.date).weekday());
         return item.channelInfo;
       });
     },
@@ -89,10 +79,6 @@ export default Vue.extend({
     },
     cache(obj) {
       this.cached = clone(obj);
-    },
-    offerTime: ChannelApi.offerTime,
-    selectChannel(ch) {
-      ch.cheapestOffer.selected = !ch.cheapestOffer.selected;
     }
   }
 });

@@ -5,6 +5,11 @@
         "node": true
     },
     "extends": "eslint:recommended",
+    "globals": {
+        "Vue": true,
+        "moment": true,
+        "swal": true
+    },
     "parserOptions": {
         "sourceType": "module"
     },

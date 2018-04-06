@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       checked: this.value
-    }
+    };
   },
   computed: {
     inGroup() {
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     handleChange(e) {
-      if(!this.inGroup) {
+      if (!this.inGroup) {
         this.$emit('input', this.checked);
         this.$emit('change', this.checked);
       } else {
@@ -49,7 +49,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 <style scoped>
 .control {
@@ -67,30 +67,34 @@ export default {
   justify-content: center;
   align-items: center;
   border: 2px solid rgb(206, 212, 218);
-  border-radius: 4px;
   height: 100%;
   width: 100%;
+  border-radius: 4px;
   background: #fff;
 }
 .control__indicator-wrap {
   display: flex;
+  position: absolute;
   width: 100%;
   height: 100%;
   align-items: center;
-  padding: 2px;
-  background: rgb(206, 212, 218);
+  padding: 4px;
+  border-radius: 4px;
+  background: #ffc000;
 }
 .control__indicator-wrap svg {
   width: 100%;
   height: 100%;
-  fill: #fff;
+  fill: #000;
 }
 
-.fade-scale-enter-active, .fade-scale-leave-active {
-  transition: .2s;
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: 0.2s;
 }
-.fade-scale-enter, .fade-scale-leave-to {
+.fade-scale-enter,
+.fade-scale-leave-to {
   opacity: 0;
-  transform: scale(2);
+  transform: scale(1.5);
 }
 </style>

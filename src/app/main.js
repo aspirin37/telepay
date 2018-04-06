@@ -1,8 +1,8 @@
 import '../css/main.scss';
+import './config';
 
 import router from './routes';
 import store from './store';
-import './config';
 import '@utils/interceptor';
 
 // components

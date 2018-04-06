@@ -1,5 +1,5 @@
 <template>
-  <nav class="d-flex bg-light" :class="{ 'navbar_main': !logoVisible }">
+  <nav class="d-flex bg-light header" :class="{ 'navbar_main': !logoVisible }">
     <div class="container d-flex">
       <router-link :to="{ name: 'main' }" v-if="logoVisible" class="navbar__logo py-3">
         <div class="logo" v-once v-html="Logo"></div>

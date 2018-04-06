@@ -53,7 +53,6 @@ export default {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
         height: this.width + 'px',
         backgroundColor: this.error ? 'rgb(108, 117, 125)' : 'transparent',
         borderRadius: this.circle ? '50%' : 0,
@@ -70,8 +69,8 @@ export default {
 </script>
 <style>
 .avatar {
-  max-width: 50px;
-  max-height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   padding: 0;
 }
 </style>

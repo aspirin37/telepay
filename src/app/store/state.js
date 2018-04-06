@@ -8,14 +8,15 @@ export default {
         publishAt: '',
         offerId: [],
         postTemplateId: '',
-        channel: 'chagram',
-        date: '',
+        channel: 'Название канала',
+        date: moment().format('MMMM DD'),
         time: '',
     },
     configs: {
         date: {
             dateFormat: 'd.m.Y',
             defaultDate: moment().format('DD.MM.YYYY'),
+            minDate: 'today'
         },
         time: {
             enableTime: true,
