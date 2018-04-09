@@ -1,17 +1,6 @@
 export default {
     user: null,
     loading: false,
-    post: {
-        text: '',
-        buttons: [],
-        images: [],
-        publishAt: '',
-        offerId: [],
-        postTemplateId: '',
-        channel: 'Название канала',
-        date: moment().format('MMMM DD'),
-        time: '',
-    },
     configs: {
         date: {
             dateFormat: 'd.m.Y',

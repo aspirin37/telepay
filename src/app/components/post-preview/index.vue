@@ -54,8 +54,8 @@ export default {
           .reverse()
           .join('-');
       }
-
-      return moment(date).format('MMMM DD');
+      let ftd = moment(date).format('MMMM DD');
+      return ftd[0].toUpperCase() + ftd.slice(1);
     }
   },
   methods: {
@@ -131,7 +131,9 @@ export default {
   background-size: contain;
   min-height: 300px;
   align-items: flex-end;
-  font-family: Tahoma, sans-serif !important;
+  border-radius: 10px;
+  font-family: 'Open Sans', sans-serif !important;
+
   &__workarea {
     display: flex;
     height: 100%;
@@ -141,7 +143,7 @@ export default {
   &__channel {
     display: inline-block;
     font-weight: 600;
-    color: #40a7e3 !important;
+    color: #1895d3 !important;
   }
   &__body {
     position: relative;
@@ -179,7 +181,7 @@ export default {
     background: transparent;
   }
   &__link {
-    color: #40a7e3;
+    color: #1895d3;
     cursor: pointer;
     &:hover {
       text-decoration: underline;

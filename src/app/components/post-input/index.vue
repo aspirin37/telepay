@@ -93,6 +93,7 @@ export default {
     text(msg) {
       if (msg.length > this.maxLength) {
         this.text = msg.slice(0, this.maxLength);
+        return;
       }
       this.updateModel();
     }
@@ -128,6 +129,9 @@ export default {
       if (this.images.length + files.length <= this.maxImages) {
         for (let i = 0; i < files.length; i++) {
           this._createImage(files[i]);
+        }
+        if (this.text.length > 200) {
+          this.text = this.text.slice(0, 200);
         }
       } else {
         this.$notifystr.warning('Внимание', `Можно прикрепить только ${this.maxImages} изображение`);

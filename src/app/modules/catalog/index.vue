@@ -1,12 +1,11 @@
 <template src="./index.html"></template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 import { CatalogApi, ChannelApi } from '@services/api';
 
 import avatar from '@components/avatar';
-import normCheckbox from '@components/checkbox';
 import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
@@ -14,7 +13,7 @@ import channelList from '@components/channel-list';
 import { clone } from '@utils/clone';
 
 export default Vue.extend({
-  components: { avatar, normCheckbox, searchInput, dateInput, channelList },
+  components: { avatar, searchInput, dateInput, channelList },
   data() {
     return {
       filter: {
@@ -47,12 +46,10 @@ export default Vue.extend({
     }
   },
   computed: {
-    configs() {
-      return this.$store.state.configs;
-    },
+    ...mapState(['configs']),
     totalPrice() {
       return this.selectedChannels.reduce((sum, el) => {
-        return sum + el.channelOffer.reduce((ofSum, offer) => ofSum + offer.price, 0);
+        return sum + el.channelOffer.reduce((ofSum, offer) => ofSum + (offer.selected ? offer.price : 0), 0);
       }, 0);
     }
   },
@@ -60,7 +57,12 @@ export default Vue.extend({
     async getChannels(params = {}) {
       let { items, count } = await CatalogApi.filter(params);
       this.channels = items.map(item => {
-        item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => offer.weekDay === moment(this.filter.date).weekday());
+        item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => {
+          if (!(this.filter.date instanceof moment)) {
+            this.filter.date = moment(this.filter.date);
+          }
+          return offer.weekDay - 1 === this.filter.date.weekday();
+        });
         return item.channelInfo;
       });
     },

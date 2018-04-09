@@ -6,12 +6,10 @@ import channelList from '@components/channel-list';
 import postPreview from '@components/post-preview';
 import postInput from '@components/post-input';
 import dateInput from '@components/date-input';
-import avatar from '@components/avatar';
-import normCheckbox from '@components/checkbox';
 import { clone } from '@utils/clone';
 
 export default {
-  components: { avatar, normCheckbox, postPreview, channelList, dateInput, postInput },
+  components: { postPreview, channelList, dateInput, postInput },
   data() {
     return {
       channels: [],
@@ -23,13 +21,13 @@ export default {
         images: []
       },
       post: {
-        text: 'Текст...',
+        text: '',
         buttons: [],
         images: [],
         offerId: [],
         postTemplateId: '',
         channel: 'Название канала',
-        publishAt: moment()
+        publishAt: null
       }
     };
   },
@@ -44,15 +42,62 @@ export default {
     }
   },
   computed: {
-    ...mapState(['configs']),
-    offersPriceSum() {
+    dateConfig() {
+      let self = this;
+      return {
+        ...this.$store.state.configs.date,
+        enable: [
+          function(date) {
+            let weekday = date.getDay();
+            if (weekday === 0) {
+              weekday = 7;
+            }
+            if (!self.selectedChannels[0] || !self.selectedChannels[0].channelOffer || !self.selectedChannels[0].channelOffer[0]) {
+              return true;
+            }
+            return weekday - 1 === self.selectedChannels[0].channelOffer[0].weekDay;
+          }
+        ]
+      };
+    },
+    channelsToAdd() {
+      if (this.channels.length) {
+        if (this.post.publishAt) {
+          return this.channels.reduce((sum, ch) => {
+            if (this.selectedChannels.find(sCh => sCh.channelId === ch.channelId)) {
+              return sum;
+            }
+
+            let filteredOffers = ch.channelOffer.filter(offer => {
+              return offer.weekDay === this.post.publishAt.weekday();
+            });
+
+            if (filteredOffers.length) {
+              let copy = clone(ch);
+              copy.channelOffer = filteredOffers;
+              sum.push(copy);
+            }
+
+            return sum;
+          }, []);
+        } else {
+          return this.channels;
+        }
+      } else {
+        return [];
+      }
+    },
+    totalPrice() {
       return this.selectedChannels.reduce((sum, el) => {
-        return sum + el.channelOffer.reduce((ofSum, offer) => ofSum + offer.price, 0);
+        return sum + el.channelOffer.reduce((ofSum, offer) => ofSum + (offer.selected ? offer.price : 0), 0);
       }, 0);
     }
   },
   created() {
     this.getChannels();
+    if (this.selectedChannels && this.selectedChannels.length) {
+      this.post.publishAt = moment().weekday(this.selectedChannels[0].channelOffer[0].weekDay);
+    }
   },
   methods: {
     createPostOrder() {
@@ -60,10 +105,8 @@ export default {
       buttons = JSON.stringify(buttons);
       images = JSON.stringify(images);
       offerId = this.finalSelectedChannels.reduce((sum, el) => {
-        console.log(sum, el);
         let d = el.channelOffer.map(offer => offer.channelOfferId);
         sum = sum.concat(d);
-        console.log(sum, el, d);
         return sum;
       }, []);
 
@@ -81,7 +124,7 @@ export default {
       let vm = new Vue({
         components: { channelList },
         data: {
-          channels: self.channels,
+          channels: self.channelsToAdd,
           selected: []
         },
         template: '<channel-list :channels="channels" v-model="selected"></channel-list>'

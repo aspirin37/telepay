@@ -104,7 +104,7 @@ export default {
         }, 500);
       }
     },
-    imageErrrorHandler(channel) {
+    imageErrorHandler(channel) {
       if (channel.photod !== 'default' && channel.telegramId !== 'default') {
         let { photod, id } = channel;
         this.savedImageData = { photod, id };

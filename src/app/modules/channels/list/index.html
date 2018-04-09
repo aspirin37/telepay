@@ -20,10 +20,6 @@
             <div class="col">
                 Подписчиков
             </div>
-            <div class="col-3 d-flex justify-content-between">
-                <span>Условия</span>
-                <span>Цена</span>
-            </div>
             <div class="col">
                 Действия
             </div>
@@ -53,9 +49,6 @@
                     v-if="ch.subscriberCount>=300"
                     :text="$options.filters.cutSum(ch.subscriberCount)" />
                 <span v-else>{{ch.subscriberCount}}</span>
-            </div>
-            <div class="col-3">
-
             </div>
             <div class="col">
                 <router-link class="m-2 text-secondary"

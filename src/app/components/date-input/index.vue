@@ -1,6 +1,6 @@
 <template>
   <div class="picker">
-    <input class="picker__input" type="text" :class="inputClass" :placeholder="placeholder" v-model="mutableValue" ref="picker">
+    <input class="picker__input" type="text" :disabled="disabled" :class="inputClass" :placeholder="placeholder" v-model="mutableValue" ref="picker">
     <span class="picker__icon" @click="focus">
       <i class="fa fa-calendar-o text-medium-font" aria-hidden="true"></i>
     </span>
@@ -30,6 +30,10 @@ export default {
       type: String,
       default: 'MMMM DD'
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     required: {
       type: Boolean,
       default: false
@@ -58,9 +62,23 @@ export default {
   },
   watch: {
     mutableValue(newValue) {
+      console.log('mutableValue watcher', newValue);
+
+      if (/\d{2}\.\d{2}\.\d{4}/.test(newValue)) {
+        newValue = moment(
+          newValue
+            .split('.')
+            .reverse()
+            .join('-')
+        );
+      }
       this.$emit('input', newValue);
     },
     value(newValue) {
+      console.log('value watcher', newValue);
+      if (newValue instanceof moment) {
+        newValue = newValue.toDate();
+      }
       this.fp && this.fp.setDate(newValue, true);
     }
   },

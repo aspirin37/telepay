@@ -1,12 +1,11 @@
 <div class="container py-3 mb-5">
-    <h2 class="text-secondary mb-4">Новый пост</h2>
+    <h1 class="text-secondary mb-4">Новый пост</h1>
     <channel-list :channels="selectedChannels"
         :is-all-selected="true"
         v-model="finalSelectedChannels"></channel-list>
-    <!-- postCreate channels {{channels}}
-    <br> postCreate selectedChannels {{selectedChannels}}
-    <br> postCreate finalSelectedChannels {{finalSelectedChannels}} -->
-    <div class="row p-4 border-top border-bottom mb-2">
+
+    <div class="row p-4 border-bottom mb-2"
+        v-show="channelsToAdd.length">
         <div class="col-12 text-primary h4">
             <button class="btn btn-link"
                 @click="openCatalogPopup">
@@ -16,7 +15,7 @@
     <div class="row">
         <div class="col-12 text-right">
             <h2>
-                <small>Стоимость: </small> {{offersPriceSum|centToRub}}</h2>
+                <small>Стоимость: </small> {{totalPrice|centToRub}}</h2>
         </div>
     </div>
     <div class="row">
@@ -29,8 +28,9 @@
                     <div class="form-group">
                         <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
                         <date-input v-model="post.publishAt"
+                            :disabled="!selectedChannels.length"
                             placeholder="Выберите дату публикации"
-                            :config="configs.date" />
+                            :config="dateConfig" />
                     </div>
                 </div>
 
