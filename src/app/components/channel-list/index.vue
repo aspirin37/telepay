@@ -32,10 +32,10 @@
         <div class="col fa-lg">{{ch.engagementRate}}%</div>
         <div class="col-5 h4 m-0">
           <transition name="fade-out" mode="out-in">
-            <div class="form-row" v-if="!ch.showAllOffers">
+            <div class="form-row" v-if="!ch.showAllOffers && ch.cheapestOffer">
               <div class="col-5">{{offerTime(ch.cheapestOffer)}} - {{ch.cheapestOffer.inTopHours}}/{{ch.cheapestOffer.inFeedHours}}</div>
               <div class="col-5">{{ ch.cheapestOffer.price | centToRub}}
-                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.channelOffer.length > 1" @click="ch.showAllOffers=true"></i>
+                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.channelOffer.length > 1" @click="ch.showAllOffers = true"></i>
               </div>
               <div class="col-2 text-center">
                 <norm-checkbox v-model="ch.selected" @change="toggleChannel(ch)" />
@@ -58,11 +58,8 @@
     </div>
 
     <div class="p-4 text-center" v-else>
-      <h4>Нет подходящих предложений</h4>
+      <h4>{{placeholder}}</h4>
     </div>
-    <!-- chlist channels {{channels}}
-    <br> <br> chlist selectedChannels {{selectedChannels}}
-    <br> <br> chlist innerChannels {{innerChannels}} -->
   </div>
 </template>
 <script>
@@ -72,22 +69,8 @@ import normCheckbox from '@components/checkbox';
 import { clone } from '@utils/clone';
 export default Vue.extend({
   components: { avatar, normCheckbox },
-  data() {
-    return {};
-  },
   props: {
-    value: {
-      default() {
-        return [];
-      }
-    },
     channels: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    exclude: {
       type: Array,
       default() {
         return [];
@@ -98,56 +81,42 @@ export default Vue.extend({
       default() {
         return {};
       }
+    },
+    placeholder: {
+      type: String,
+      default: 'Нет подходящих предложений'
     }
   },
   created() {
-    if (this.exclude && this.exclude.length) {
-      this.innerChannels.filter(ch => {
-        return this.exclude.find(ex => ex.channelId === ch.channelId);
-      });
-    }
-  },
-  watch: {
-    value(val) {
-      if (val && val instanceof Array) {
-        this.innerChannels = this.value;
-      }
-    },
-    selectedChannels(val) {
-      this.$emit('input', val);
-    }
+    console.log(this.channels);
   },
   computed: {
     selectedChannels() {
       return this.innerChannels.reduce((sum, ch) => {
-        let selectedOffers = ch.channelOffer.filter(offer => offer.selected);
-        if (selectedOffers.length) {
+        let selectedOffers = ch.channelOffer.some(offer => offer.selected);
+        if (selectedOffers) {
           ch.selected = true;
-          sum.push(clone(ch));
+          sum.push(ch);
         } else {
           ch.selected = false;
         }
         return sum;
       }, []);
     },
-    innerChannels: {
-      get() {
-        return this.channels.reduce((sum, item) => {
-          Vue.set(item, 'showAllOffers', false);
-
-          if (item.channelOffer.length) {
-            item.cheapestOffer = ChannelApi.getCheapestOffer(item);
-            item.channelOffer.forEach(offer => {
-              if (!offer.selected) Vue.set(offer, 'selected', false);
-            });
-            sum.push(item);
-          }
-          return sum;
-        }, []);
-      },
-      set(val) {
-        return val;
-      }
+    innerChannels() {
+      return this.channels.reduce((sum, ch) => {
+        if (ch.showAllOffers === undefined) Vue.set(ch, 'showAllOffers', false);
+        if (ch.selected === undefined) Vue.set(ch, 'selected', false);
+        console.log(ch);
+        if (ch.channelOffer && ch.channelOffer.length) {
+          ch.cheapestOffer = ChannelApi.getCheapestOffer(ch);
+          ch.channelOffer.forEach(offer => {
+            if (offer.selected === undefined) Vue.set(offer, 'selected', false);
+          });
+          sum.push(ch);
+        }
+        return sum;
+      }, []);
     }
   },
   methods: {

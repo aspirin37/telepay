@@ -13,7 +13,6 @@ export default {
   data() {
     return {
       channels: [],
-      finalSelectedChannels: [],
       selectedChannels: this.$route.params.selected || [],
       postData: {
         text: 'Текст...',
@@ -48,41 +47,56 @@ export default {
         ...this.$store.state.configs.date,
         enable: [
           function(date) {
-            let weekday = date.getDay();
-            if (weekday === 0) {
-              weekday = 7;
-            }
             if (!self.selectedChannels[0] || !self.selectedChannels[0].channelOffer || !self.selectedChannels[0].channelOffer[0]) {
               return true;
             }
-            return weekday - 1 === self.selectedChannels[0].channelOffer[0].weekDay;
+
+            if (self.selectedChannels.length) {
+              let weekday = date.getDay();
+              if (weekday === 0) {
+                weekday = 7;
+              }
+              return weekday - 1 === self.selectedChannels[0].channelOffer[0].weekDay;
+            }
           }
         ]
       };
     },
+    selectedOfferIds() {
+      return this.selectedChannels.reduce((sum, ch) => {
+        let selectedOfferIds = ch.channelOffer.reduce((sumOffers, offer) => {
+          if (offer.selected) sumOffers.push(offer.channelOfferId);
+          return sumOffers;
+        }, []);
+        console.log('selectedOfferIds', selectedOfferIds);
+        if (selectedOfferIds.length) {
+          return sum.concat(selectedOfferIds);
+        }
+        return sum;
+      }, []);
+    },
     channelsToAdd() {
       if (this.channels.length) {
-        if (this.post.publishAt) {
-          return this.channels.reduce((sum, ch) => {
-            if (this.selectedChannels.find(sCh => sCh.channelId === ch.channelId)) {
-              return sum;
-            }
-
-            let filteredOffers = ch.channelOffer.filter(offer => {
-              return offer.weekDay === this.post.publishAt.weekday();
-            });
-
-            if (filteredOffers.length) {
-              let copy = clone(ch);
-              copy.channelOffer = filteredOffers;
-              sum.push(copy);
-            }
-
-            return sum;
-          }, []);
-        } else {
-          return this.channels;
+        if (!this.post.publishAt) {
+          this.post.publishAt = moment();
         }
+        return this.channels.reduce((sum, ch) => {
+          if (this.selectedChannels.find(sCh => sCh.channelId === ch.channelId)) {
+            return sum;
+          }
+
+          let filteredOffers = ch.channelOffer.filter(offer => {
+            return offer.weekDay - 1 === this.post.publishAt.weekday();
+          });
+
+          if (filteredOffers.length) {
+            let copy = clone(ch);
+            copy.channelOffer = filteredOffers;
+            sum.push(copy);
+          }
+
+          return sum;
+        }, []);
       } else {
         return [];
       }
@@ -96,7 +110,7 @@ export default {
   created() {
     this.getChannels();
     if (this.selectedChannels && this.selectedChannels.length) {
-      this.post.publishAt = moment().weekday(this.selectedChannels[0].channelOffer[0].weekDay);
+      this.post.publishAt = moment().weekday(this.selectedChannels[0].channelOffer[0].weekDay - 1);
     }
   },
   methods: {
@@ -104,11 +118,7 @@ export default {
       let { buttons, images, offerId, publishAt, text } = this.post;
       buttons = JSON.stringify(buttons);
       images = JSON.stringify(images);
-      offerId = this.finalSelectedChannels.reduce((sum, el) => {
-        let d = el.channelOffer.map(offer => offer.channelOfferId);
-        sum = sum.concat(d);
-        return sum;
-      }, []);
+      offerId = this.selectedOfferIds;
 
       PostApi.create({
         buttons,
@@ -124,10 +134,14 @@ export default {
       let vm = new Vue({
         components: { channelList },
         data: {
-          channels: self.channelsToAdd,
-          selected: []
+          channels: self.channelsToAdd
         },
-        template: '<channel-list :channels="channels" v-model="selected"></channel-list>'
+        computed: {
+          selected() {
+            return this.channels.filter(ch => ch.selected);
+          }
+        },
+        template: '<channel-list :channels="channels"></channel-list>'
       });
 
       let swalOut = await swal({
@@ -139,6 +153,9 @@ export default {
         confirmButtonText: 'Добавить',
         onOpen() {
           vm.$mount('#modalMounter');
+        },
+        onClose() {
+          vm.$destroy();
         }
       });
       if (swalOut && !swalOut.dismiss) {

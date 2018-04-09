@@ -1,5 +1,5 @@
 <template>
-  <nav class="d-flex bg-light header" :class="{ 'navbar_main': !logoVisible }">
+  <nav class="d-flex header" :class="{ 'navbar_main': !logoVisible }">
     <div class="container d-flex">
       <router-link :to="{ name: 'main' }" v-if="logoVisible" class="navbar__logo py-3">
         <div class="logo" v-once v-html="Logo"></div>
@@ -9,15 +9,21 @@
           <router-link :to="{name:'catalog'}" class="nav-link">Каталог</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'channels'}" class="nav-link">Каналы</router-link>
+          <router-link :to="{name:'support'}" class="nav-link">Техподдержка</router-link>
         </li>
         <li class="nav-item py-3">
+          <router-link :to="{name:'faq'}" class="nav-link">F.A.Q.</router-link>
+        </li>
+        <li class="nav-item py-3" v-if="isAuthorized">
+          <router-link :to="{name:'channels'}" class="nav-link">Каналы</router-link>
+        </li>
+        <li class="nav-item py-3" v-if="isAuthorized">
           <router-link :to="{name:'posts'}" class="nav-link">Постинг</router-link>
         </li>
         <li class="ml-auto">
           <ul class="list-unstyled d-flex" v-if="!isAuthorized">
             <li class="nav-item py-3">
-              <router-link :to="{name:'login'}" class="nav-link">Войти</router-link>
+              <router-link :to="{name:'login'}" class="nav-link login-btn">Войти</router-link>
             </li>
             <li class="nav-item py-3">
               <router-link :to="{name:'registration'}" class="nav-link">Регистрация</router-link>
@@ -35,7 +41,7 @@
                     Уведомления
                   </drop-down-menu-item>
                   <drop-down-menu-item>
-                    Бла блабал блабал блабалблабал блабал блабал блабал блабалблабал блабал блабал
+                    Бла блабал блабал блабалблабал блабал
                   </drop-down-menu-item>
                   <drop-down-menu-item>
                     залупа цветочная
@@ -82,7 +88,7 @@
 import dropDown from '@components/dropdown';
 import dropDownMenuItem from '@components/dropdown/menu-item.vue';
 import Logo from '@assets/logo.svg';
-import LS from '@utils/local_storage';
+import LS from '@utils/local-storage';
 import { mapGetters } from 'vuex';
 
 export default Vue.extend({

@@ -2,7 +2,7 @@
 
 <script>
 import { AuthService } from '@services/api';
-import LS from '@utils/local_storage';
+import LS from '@utils/local-storage';
 export default {
   created() {
     AuthService.logout().finally(() => this.clearFront());
@@ -15,5 +15,5 @@ export default {
       this.$router.push({ name: 'login' });
     }
   }
-}
+};
 </script>

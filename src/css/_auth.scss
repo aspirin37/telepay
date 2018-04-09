@@ -1,14 +1,62 @@
 .auth {
-  height: 100vh;
-  width: 100%;
-  background-position: center;
-  background-size: cover;
-  background-image: url('/assets/bg.png');
-  .logo {
-    margin: 0 auto;
-    max-width: 300px;
-    .cls-1 {
-      fill: #fff!important;
+    height: 100vh;
+    width: 100%;
+    background-position: center;
+    background-size: cover; // background-image: url('/assets/bg.png');
+    background-image: linear-gradient(270deg, #4A3172 6.98%, rgba(133, 61, 94, 0.82) 74.84%);
+    &-box {
+        height: 80vh;
     }
-  }
+    .logo {
+        margin: 0 auto;
+        max-width: 500px;
+        .cls-1 {
+            fill: #fff !important;
+        }
+    }
+    .navbar_main {
+        background-color: transparent;
+        .nav-link {
+            color: #fff;
+            font-size: 18px;
+            border: none;
+        }
+        .login-btn {
+            @extend .btn;
+            @extend .btn-success;
+            padding: 10px 50px;
+            border-radius: 50px;
+            margin: 1px 1rem 0px;
+        }
+    }
+    .btn-auth {
+        background: #FFDD05;
+        box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+        border-radius: 50px;
+        width: 100%;
+        text-align: center;
+        height: 55px;
+        line-height: 36px;
+        font-size: 24px;
+        color: #333333;
+        border: 0;
+        margin-top: 30px;
+        cursor: pointer;
+    }
+    .input-auth {
+        padding: 0 5%;
+        background: none;
+        height: 50px;
+        line-height: 50px;
+        border: 2px solid #DEE2EE;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 300;
+        color: #F2F2F2;
+        margin-bottom: 20px;
+        &:focus {
+            box-shadow: 0 0 0 0.2rem rgba(249, 229, 54, 0.48);
+            border-color: #FFDD05;
+        }
+    }
 }

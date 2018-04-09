@@ -108,12 +108,12 @@ export default {
       if (channel.photod !== 'default' && channel.telegramId !== 'default') {
         let { photod, id } = channel;
         this.savedImageData = { photod, id };
-        channel.photod = 'loading';
+        channel.photoId = 'loading';
         channel.telegramId = 'loading';
         setTimeout(() => {
-          channel.photod = this.savedImageData.photod;
+          channel.photoId = this.savedImageData.photod;
           channel.telegramId = this.savedImageData.id;
-        }, 1000);
+        }, 3000);
       }
     },
     add() {

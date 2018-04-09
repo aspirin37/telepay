@@ -2,11 +2,11 @@
 import template from './index.html';
 
 import { AuthService, UserApi } from '@services/api';
-import LS from '@utils/local_storage';
+import LS from '@utils/local-storage';
 import loginInput from '@components/login-input';
 import { clone } from '@utils/clone';
 
-export default Vue.extend( {
+export default Vue.extend({
   components: {
     loginInput
   },
@@ -14,27 +14,30 @@ export default Vue.extend( {
     return {
       user: {
         login: this.$route.params.login || ''
-      },
-    }
+      }
+    };
   },
   methods: {
     register() {
       let cloned = clone(this.user);
-      AuthService.register(cloned).then(res => {
-        if(res && res.token) {
-          Vue.http.headers.common['X-API-TOKEN'] = res.token;
-          LS.set('auth_key', res.token);
-          return UserApi.getUser();
-        }
-        return null;
-      }).then(res => {
-        if(res) {
-          this.$store.commit('SET_USER', res);
-          this.$router.push({ name: 'catalog' });
-        }
-      }).catch(err => console.log(err));
+      AuthService.register(cloned)
+        .then(res => {
+          if (res && res.token) {
+            Vue.http.headers.common['X-API-TOKEN'] = res.token;
+            LS.set('auth_key', res.token);
+            return UserApi.getUser();
+          }
+          return null;
+        })
+        .then(res => {
+          if (res) {
+            this.$store.commit('SET_USER', res);
+            this.$router.push({ name: 'catalog' });
+          }
+        })
+        .catch(err => console.log(err));
     }
   },
   template
-} );
+});
 </script>

@@ -27,10 +27,9 @@ export default Vue.extend({
         text: '',
         date: moment()
       },
-      weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
+      // weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
       categories: [],
-      channels: [],
-      selectedChannels: []
+      channels: []
     };
   },
   created() {
@@ -47,6 +46,9 @@ export default Vue.extend({
   },
   computed: {
     ...mapState(['configs']),
+    selectedChannels() {
+      return this.channels.filter(ch => ch.selected);
+    },
     totalPrice() {
       return this.selectedChannels.reduce((sum, el) => {
         return sum + el.channelOffer.reduce((ofSum, offer) => ofSum + (offer.selected ? offer.price : 0), 0);
