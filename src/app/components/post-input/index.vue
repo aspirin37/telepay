@@ -170,10 +170,6 @@ export default {
 </script>
 
 <style lang="scss">
-.emoji-mart-search,
-.emoji-mart-bar {
-  display: none;
-}
 .file-previews {
   display: flex;
   left: 0;
