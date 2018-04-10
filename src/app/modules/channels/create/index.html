@@ -5,6 +5,10 @@
             class="float-right pointer">
             <i class="fa fa-lg fa-chevron-left"></i> Назад</router-link>
     </h2>
+
+    <h4 class="text-danger"
+        v-if="wsError">Ошибка подключения к боту Telepay - попробуйте перезагрузить страницу,
+        <br>если это не помогло, не волнуйтесь, мы уже работаем над этим!</h4>
     <div class="row mt-4"
         v-if="channel">
         <div class="col-2 ">
@@ -13,14 +17,14 @@
                 @error="imageErrorHandler(channel)"
                 :circle="true" />
         </div>
-        <div class="col-6">
+        <div class="col-8">
             <h4>{{channel.title}}
                 <small v-if="channel.subscriberCount && channel.telegramId !== 'default'">подписчиков: {{channel.subscriberCount | cutKilo}}</small>
             </h4>
             <p>Подтвержден: {{channel.isConfirmed?'Да':'Нет'}}</p>
             <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
         </div>
-        <div class="col-4">
+        <div class="col-2">
             Автопостинг
             <on-off v-model="channel.isAutopost" />
         </div>
@@ -28,7 +32,10 @@
     <div class="row mt-4">
         <div class="col-4">
             <div class="form-group">
-                <p class="text-secondary font-weight-500 mb-1">Ссылка на канал</p>
+                <p class="text-secondary font-weight-500 mb-1">Ссылка на канал
+                    <i class="fa fa-question-circle pointer"
+                        @click="addChannelHelp"></i>
+                </p>
                 <input type="text"
                     class="form-control"
                     placeholder="username или t.me/username"
@@ -39,10 +46,10 @@
         </div>
         <div class="col-4">
             <div class="form-group">
-                <p class="text-secondary font-weight-500 mb-1">Категории</p>
+                <p class="text-secondary font-weight-500 mb-1">Категория канала</p>
                 <search-input v-model="channel.category"
                     :search-action="(q)=>q"
-                    placeholder="Категории"
+                    placeholder="Выберите категорию"
                     :options="categories" />
             </div>
         </div>
@@ -55,8 +62,9 @@
                 <span class="text-muted"
                     v-show="isLoading">Ищем канал...</span>
                 <span class="text-muted"
-                    v-show="channel.telegramId && !isLoading && !searchError && !channel.isConfirmed">Чтобы привязать канал к сервису вам необходимо добавить
-                    <a href="https://t.me/telepayDevBot">нашего бота</a> в канал и дать ему права админа на постинг</span>
+                    v-show="channel.telegramId!=='default' && !isLoading && !searchError && !channel.isConfirmed">Чтобы привязать канал к сервису вам необходимо добавить
+                    <a href="https://t.me/telepayDevBot"
+                        target="_blank">нашего бота</a> в канал и дать ему права админа на постинг</span>
                 &nbsp;
             </p>
         </div>
@@ -66,6 +74,13 @@
             <button class="btn btn-success"
                 :disabled="!channel.telegramId || !channel.isConfirmed"
                 @click="add">Добавить канал</button>
+
+        </div>
+        <div class="col-2">
+            <button class="btn btn-link"
+                v-show="channel.telegramId!=='default' && !isLoading && !searchError"
+                @click="getChannelInfo">
+                <i class="fa fa-refresh"></i> Обновить</button>
         </div>
     </div>
 

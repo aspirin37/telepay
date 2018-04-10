@@ -20,6 +20,7 @@ export default {
       usernameQuery: '',
       categories: [{ name: 'Первая категория', value: 1 }, { name: 'Вторая категория', value: 2 }, { name: 'Третья категория', value: 3 }],
       ws: null,
+      wsError: false,
       isLoading: false,
       searchError: false,
       savedImageData: null
@@ -28,6 +29,11 @@ export default {
   created() {
     this.connectWebsocket();
     this.getCategories();
+  },
+  destroyed() {
+    if (this.ws && this.ws.readyState === this.ws.OPEN) {
+      this.ws.close();
+    }
   },
   computed: {
     parsedUsernameQuery() {
@@ -68,6 +74,18 @@ export default {
       this.ws.onopen = () => {
         console.log('WebSocket opened');
       };
+      this.ws.onclose = ev => {
+        switch (ev.code) {
+          case 1006:
+            console.log('WebSocket closed normally with code', ev.code);
+            break;
+
+          default:
+            console.error('WebSocket closed unexpectedly with code', ev.code);
+            this.wsError = true;
+            break;
+        }
+      };
       let self = this;
       this.ws.onmessage = function(msg) {
         let res;
@@ -91,17 +109,19 @@ export default {
 
     getChannelInfo() {
       if (this.ws && this.ws.readyState === this.ws.OPEN) {
-        let usernameQuery = this.parsedUsernameQuery;
-        this.isLoading = true;
-        clearTimeout(this.searchTimeout);
-        this.searchTimeout = setTimeout(() => {
-          this.ws.send(
-            JSON.stringify({
-              type: 'get::channelInfo',
-              content: usernameQuery
-            })
-          );
-        }, 500);
+        if (this.parsedUsernameQuery) {
+          let usernameQuery = this.parsedUsernameQuery;
+          this.isLoading = true;
+          clearTimeout(this.searchTimeout);
+          this.searchTimeout = setTimeout(() => {
+            this.ws.send(
+              JSON.stringify({
+                type: 'get::channelInfo',
+                content: usernameQuery
+              })
+            );
+          }, 500);
+        }
       }
     },
     imageErrorHandler(channel) {
@@ -115,6 +135,14 @@ export default {
           channel.telegramId = this.savedImageData.id;
         }, 3000);
       }
+    },
+    addChannelHelp() {
+      swal({
+        width: '60%',
+        showCancelButton: false,
+        showConfirmButton: false,
+        html: require('./help-popup.html')
+      });
     },
     add() {
       ChannelApi.create({

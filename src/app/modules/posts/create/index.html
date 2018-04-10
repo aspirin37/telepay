@@ -6,7 +6,7 @@
         v-show="channelsToAdd.length">
         <div class="col-12 text-primary h4">
             <button class="btn btn-link"
-                @click="openCatalogPopup">
+                @click="selectedChannels.length?openCatalogPopup():$router.push({name:'catalog'})">
                 <i class="fa fa-plus"></i> Добавить канал</button>
         </div>
     </div>

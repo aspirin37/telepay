@@ -22,18 +22,7 @@ export default {
 
       this.channels = items;
     },
-    offerTime: ChannelApi.offerTime,
-    async deleteChannel(channel) {
-      let swalOut = await swal({
-        title: `Вы уверены что хотите удалить канал ${channel.title}?`,
-        text: 'Это действие нельзя будет отменить',
-        confirmButtonText: 'Да, удалить!'
-      });
-
-      if (swalOut && !swalOut.dismiss && swalOut.value) {
-        ChannelsApi.delete(channel.id);
-      }
-    }
+    offerTime: ChannelApi.offerTime
   }
 };
 </script>

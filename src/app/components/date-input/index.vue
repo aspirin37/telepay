@@ -1,22 +1,23 @@
 <template>
-  <div class="picker">
-    <input class="picker__input" type="text" :disabled="disabled" :class="inputClass" :placeholder="placeholder" v-model="mutableValue" ref="picker">
-    <span class="picker__icon" @click="focus">
-      <i class="fa fa-calendar-o text-medium-font" aria-hidden="true"></i>
-    </span>
-  </div>
+  <input type="text" :id="id" :class="inputClass" :name="name" :placeholder="placeholder" :required="required" v-model="mutableValue" data-input>
 </template>
 <script type="text/javascript">
 import Flatpickr from 'flatpickr';
 import Russian from 'flatpickr/dist/l10n/ru';
 export default {
   props: {
-    config: {
-      type: Object
-    },
     value: {
       default: null,
-      required: true
+      required: true,
+      validate(value) {
+        return value === null || value instanceof Date || typeof value === 'string' || value instanceof String || value instanceof Array;
+      }
+    },
+    config: {
+      type: Object,
+      default: () => ({
+        wrap: false
+      })
     },
     placeholder: {
       type: String,
@@ -26,44 +27,51 @@ export default {
       type: [String, Object],
       default: 'form-control input'
     },
-    format: {
+    name: {
       type: String,
-      default: 'MMMM DD'
-    },
-    disabled: {
-      type: Boolean,
-      default: false
+      default: 'date-time'
     },
     required: {
       type: Boolean,
       default: false
+    },
+    id: {
+      type: String
     }
   },
   data() {
     return {
       mutableValue: this.value,
-      fp: null,
-      conf: {
-        ...this.config,
-        locale: Russian.ru
-      }
+      fp: null
     };
   },
   mounted() {
-    if (!this.fp) {
-      this.fp = new Flatpickr(this.$refs.picker, this.conf);
+    this.instantiate();
+    if (this.value) {
+      let newValue = moment().format('DD.MM.YYYY');
+      if (this.value instanceof moment) {
+        let newValue = this.value.format('DD.MM.YYYY');
+      }
+
+      this.fp && this.fp.setDate(newValue, true, 'd.m.Y');
     }
+    this.$root.$on('v-flatpickr::remount', this.remount);
   },
   beforeDestroy() {
-    if (this.fp) {
+    if (this.fp && this.fp.destroy) {
       this.fp.destroy();
       this.fp = null;
     }
+    this.$root.$off('v-flatpickr::remount', this.remount);
   },
   watch: {
-    mutableValue(newValue) {
-      console.log('mutableValue watcher', newValue);
+    config(newConfig) {
+      this.fp.config = Object.assign(this.fp.config, newConfig);
+      this.fp.redraw();
+      this.fp.setDate(this.value, true);
+    },
 
+    mutableValue(newValue) {
       if (/\d{2}\.\d{2}\.\d{4}/.test(newValue)) {
         newValue = moment(
           newValue
@@ -72,37 +80,35 @@ export default {
             .join('-')
         );
       }
+
       this.$emit('input', newValue);
     },
+
     value(newValue) {
-      console.log('value watcher', newValue);
       if (newValue instanceof moment) {
-        newValue = newValue.toDate();
+        newValue = newValue.format('DD.MM.YYYY');
       }
-      this.fp && this.fp.setDate(newValue, true);
+
+      this.fp && this.fp.setDate(newValue, true, 'd.m.Y');
     }
   },
   methods: {
-    focus() {
-      this.$refs.picker.focus();
+    instantiate() {
+      if (!this.fp) {
+        let elem = this.config.wrap ? this.$el.parentNode : this.$el;
+        this.fp = new Flatpickr(elem, {
+          ...this.config,
+          locale: Russian.ru
+        });
+      }
+    },
+    remount() {
+      if (this.fp && this.fp.destroy) {
+        this.fp.destroy();
+        this.fp = null;
+      }
+      this.instantiate();
     }
   }
 };
 </script>
-
-<style lang="scss">
-.picker {
-  position: relative;
-  &__icon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 38px;
-    cursor: pointer;
-  }
-}
-</style>

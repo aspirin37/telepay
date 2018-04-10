@@ -26,7 +26,7 @@ export default {
         offerId: [],
         postTemplateId: '',
         channel: 'Название канала',
-        publishAt: null
+        publishAt: this.$route.params.date || null
       }
     };
   },
@@ -38,6 +38,12 @@ export default {
         this.post.images = images;
         this.post.buttons = buttons;
       }
+    }
+  },
+  created() {
+    this.getChannels();
+    if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
+      this.post.publishAt = moment().weekday(this.selectedChannels[0].channelOffer[0].weekDay);
     }
   },
   computed: {
@@ -52,11 +58,8 @@ export default {
             }
 
             if (self.selectedChannels.length) {
-              let weekday = date.getDay();
-              if (weekday === 0) {
-                weekday = 7;
-              }
-              return weekday - 1 === self.selectedChannels[0].channelOffer[0].weekDay;
+              let weekday = moment(date).weekday();
+              return weekday === self.selectedChannels[0].channelOffer[0].weekDay;
             }
           }
         ]
@@ -86,7 +89,7 @@ export default {
           }
 
           let filteredOffers = ch.channelOffer.filter(offer => {
-            return offer.weekDay - 1 === this.post.publishAt.weekday();
+            return offer.weekDay === this.post.publishAt.weekday();
           });
 
           if (filteredOffers.length) {
@@ -107,12 +110,7 @@ export default {
       }, 0);
     }
   },
-  created() {
-    this.getChannels();
-    if (this.selectedChannels && this.selectedChannels.length) {
-      this.post.publishAt = moment().weekday(this.selectedChannels[0].channelOffer[0].weekDay - 1);
-    }
-  },
+
   methods: {
     createPostOrder() {
       let { buttons, images, offerId, publishAt, text } = this.post;
@@ -126,6 +124,8 @@ export default {
         offerId,
         publishAt,
         text
+      }).then(() => {
+        this.$router.push({ name: 'posts:list' });
       });
     },
     saveTemplate() {},
