@@ -34,20 +34,14 @@
               <drop-down class="py-3" event-trigger="hover">
                 <div class="notifs__wrap" slot="trigger">
                   <i class="fa fa-bell" aria-hidden="true"></i>
-                  <span class="badge badge-pill badge-success">1</span>
+                  <span class="badge badge-pill badge-success"> {{ notificationsCount }}</span>
                 </div>
-                <template slot="body">
+                <template slot="body" v-for="notify in notifications">
                   <drop-down-menu-item title>
                     Уведомления
                   </drop-down-menu-item>
                   <drop-down-menu-item>
-                    Бла блабал блабал блабалблабал блабал
-                  </drop-down-menu-item>
-                  <drop-down-menu-item>
-                    залупа цветочная
-                  </drop-down-menu-item>
-                  <drop-down-menu-item>
-                    блабалблабал блабалблабал блабал блабал блабал
+                    {{ notify.text }}
                   </drop-down-menu-item>
                 </template>
               </drop-down>
@@ -90,14 +84,27 @@ import dropDownMenuItem from '@components/dropdown/menu-item.vue';
 import Logo from '@assets/logo.svg';
 import LS from '@utils/local-storage';
 import { mapGetters } from 'vuex';
+import { NotificationApi } from '@services/api';
 
 export default Vue.extend({
   components: { dropDown, dropDownMenuItem },
   data() {
     return {
       isVisible: false,
-      Logo
+      Logo,
+      notifications: {
+          type: Array,
+          default: () => []
+      },
+      notificationsCount: {
+          type: Number,
+          default: () => 0,
+      },
     };
+  },
+  created() {
+      this.getNotificationList();
+      console.log(this.notificationsCount)
   },
   computed: {
     ...mapGetters({
@@ -111,6 +118,13 @@ export default Vue.extend({
     isAuthorized() {
       return this.hasUser && LS.get('auth_key');
     }
+  },
+  methods: {
+      async getNotificationList() {
+          let { items, total } = await NotificationApi.list();
+          this.notifications = items;
+          this.notificationsCount = total;
+      },
   }
 });
 </script>
