@@ -45,8 +45,8 @@
         "vue-loader": "^14.2.2",
         "vue-template-compiler": "^2.5.16",
         "webpack": "^4.4.1",
-        "webpack-dev-server": "^3.1.1",
         "webpack-cli": "^2.0.13",
+        "webpack-dev-server": "^3.1.1",
         "webpack-merge": "^4.1.2"
     },
     "dependencies": {
@@ -56,7 +56,6 @@
         "flatpickr": "^4.4.3",
         "moment": "^2.22.0",
         "notifystr": "^1.1.0",
-        "vuex": "^3.0.1",
         "selectr-th": "^1.0.3",
         "sweetalert2": "^7.18.0",
         "vue": "^2.5.16",
@@ -64,7 +63,8 @@
         "vue-masked-input": "^0.5.2",
         "vue-on-off": "^1.0.3",
         "vue-resource": "^1.5.0",
-        "vue-router": "^3.0.1"
+        "vue-router": "^3.0.1",
+        "vuex": "^3.0.1"
     },
     "optionalDependencies": {
         "webpack-bundle-analyzer": "^2.11.1"
