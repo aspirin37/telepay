@@ -5,6 +5,7 @@ import ChannelApi from './channel';
 import PostApi from './post';
 import CatalogApi from './catalog';
 import OfferApi from './offer';
+import NotificationApi from './notification';
 
 
 import AuthService from './auth';
@@ -35,6 +36,7 @@ export {
     OfferApi,
     ChannelApi,
     CatalogApi,
+    NotificationApi,
     UserApi,
     FavsApi,
     PostApi,

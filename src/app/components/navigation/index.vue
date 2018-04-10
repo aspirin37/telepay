@@ -34,13 +34,13 @@
               <drop-down class="py-3" event-trigger="hover">
                 <div class="notifs__wrap" slot="trigger">
                   <i class="fa fa-lg fa-bell" aria-hidden="true"></i>
-                  <span class="badge badge-pill badge-success">1</span>
+                  <span class="badge badge-pill badge-success" v-show="notificationsCount>0">{{notificationsCount}}</span>
                 </div>
-                <template slot="body" v-for="notify in notifications">
-                  <drop-down-menu-item title>
+                <template slot="body">
+                  <drop-down-menu-item>
                     Уведомления
                   </drop-down-menu-item>
-                  <drop-down-menu-item>
+                  <drop-down-menu-item v-for="notify in notifications" :key="notify.notificationId">
                     {{ notify.text }}
                   </drop-down-menu-item>
                 </template>
@@ -93,18 +93,18 @@ export default Vue.extend({
       isVisible: false,
       Logo,
       notifications: {
-          type: Array,
-          default: () => []
+        type: Array,
+        default: () => []
       },
       notificationsCount: {
-          type: Number,
-          default: () => 0,
-      },
+        type: Number,
+        default: () => 1
+      }
     };
   },
   created() {
-      this.getNotificationList();
-      console.log(this.notificationsCount)
+    this.getNotificationList();
+    console.log(this.notificationsCount);
   },
   computed: {
     ...mapGetters({
@@ -120,11 +120,11 @@ export default Vue.extend({
     }
   },
   methods: {
-      async getNotificationList() {
-          let { items, total } = await NotificationApi.list();
-          this.notifications = items;
-          this.notificationsCount = total;
-      },
+    async getNotificationList() {
+      let { items, total } = await NotificationApi.list();
+      this.notifications = items;
+      this.notificationsCount = total;
+    }
   }
 });
 </script>

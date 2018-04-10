@@ -121,6 +121,30 @@ export default {
       if (swalOut && !swalOut.dismiss && swalOut.value) {
         PostApi.delete(post.postOrderId);
       }
+    },
+    async approvePost() {
+      let swalOut = await swal({
+        type: 'question',
+        title: 'Подтвердить размещение пшенпоста',
+        text: 'ТОЛЬКО ДЛЯ ДЕВА',
+        confirmButtonText: 'Да, удалить!'
+      });
+
+      if (swalOut && !swalOut.dismiss && swalOut.value) {
+        PostApi.delete(post.postOrderId);
+      }
+    },
+    async declinePost() {
+      let swalOut = await swal({
+        type: 'question',
+        title: 'Удаление поста для упрощения разработки',
+        text: 'ТОЛЬКО ДЛЯ ДЕВА',
+        confirmButtonText: 'Да, удалить!'
+      });
+
+      if (swalOut && !swalOut.dismiss && swalOut.value) {
+        PostApi.delete(post.postOrderId);
+      }
     }
   }
 };
