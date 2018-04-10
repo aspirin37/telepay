@@ -3,12 +3,12 @@ import template from './index.html';
 
 import { AuthService, UserApi } from '@services/api';
 import LS from '@utils/local-storage';
-import loginInput from '@components/login-input';
+// import loginInput from '@components/login-input';
 import { clone } from '@utils/clone';
 
 export default Vue.extend({
   components: {
-    loginInput
+    // loginInput
   },
   data() {
     return {

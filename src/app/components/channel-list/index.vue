@@ -87,9 +87,6 @@ export default Vue.extend({
       default: 'Нет подходящих предложений'
     }
   },
-  created() {
-    console.log(this.channels);
-  },
   computed: {
     selectedChannels() {
       return this.innerChannels.reduce((sum, ch) => {
@@ -107,7 +104,6 @@ export default Vue.extend({
       return this.channels.reduce((sum, ch) => {
         if (ch.showAllOffers === undefined) Vue.set(ch, 'showAllOffers', false);
         if (ch.selected === undefined) Vue.set(ch, 'selected', false);
-        console.log(ch);
         if (ch.channelOffer && ch.channelOffer.length) {
           ch.cheapestOffer = ChannelApi.getCheapestOffer(ch);
           ch.channelOffer.forEach(offer => {

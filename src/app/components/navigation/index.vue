@@ -9,10 +9,10 @@
           <router-link :to="{name:'catalog'}" class="nav-link">Каталог</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'support'}" class="nav-link">Техподдержка</router-link>
+          <router-link :to="{name:'support'}" v-if="!isAuthorized" class="nav-link">Техподдержка</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'faq'}" class="nav-link">F.A.Q.</router-link>
+          <router-link :to="{name:'faq'}" v-if="!isAuthorized" class="nav-link">F.A.Q.</router-link>
         </li>
         <li class="nav-item py-3" v-if="isAuthorized">
           <router-link :to="{name:'channels'}" class="nav-link">Каналы</router-link>
@@ -33,7 +33,7 @@
             <li class="nav-item">
               <drop-down class="py-3" event-trigger="hover">
                 <div class="notifs__wrap" slot="trigger">
-                  <i class="fa fa-bell" aria-hidden="true"></i>
+                  <i class="fa fa-lg fa-bell" aria-hidden="true"></i>
                   <span class="badge badge-pill badge-success">1</span>
                 </div>
                 <template slot="body">

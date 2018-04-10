@@ -120,6 +120,10 @@
     }
 }
 
+select.form-control {
+    height: 44px !important;
+}
+
 .input-group-text {
     background-color: rgb(224, 224, 224);
     border: 0;
@@ -232,7 +236,7 @@ button, .btn {
 
 //notifystr
 .notifystr__container {
-    z-index: 1000;
+    z-index: 10000;
 }
 
 @media (max-width: 767px) {

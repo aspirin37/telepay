@@ -5,7 +5,7 @@
         <label class="control-label float-left text-white h5 m-0">E-mail</label>
         <input type="email"
             placeholder="E-mail"
-            @keypress.enter="login"
+            @keypress.enter="register"
             class="form-control input-auth"
             v-model="user.login">
     </div>
@@ -13,7 +13,7 @@
         <label class="control-label float-left text-white h5 m-0">Пароль</label>
         <input type="password"
             placeholder="Пароль"
-            @keypress.enter="login"
+            @keypress.enter="register"
             class="form-control input-auth"
             v-model="user.password">
     </div>
