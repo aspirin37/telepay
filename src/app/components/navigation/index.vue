@@ -41,7 +41,9 @@
                     Уведомления
                   </drop-down-menu-item>
                   <drop-down-menu-item v-for="notify in notifications" :key="notify.notificationId">
-                    {{ notify.text }}
+                    <div @mouseover="setIsRead(notify.notificationId)">
+                      {{ notify.text }}
+                    </div>
                   </drop-down-menu-item>
                 </template>
               </drop-down>
@@ -124,6 +126,9 @@ export default Vue.extend({
       let { items, total } = await NotificationApi.list();
       this.notifications = items;
       this.notificationsCount = total;
+    },
+    async setIsRead(notificationId) {
+      await  NotificationApi.markAsRead({ notificationId: notificationId});
     }
   }
 });
