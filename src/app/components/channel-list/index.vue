@@ -49,7 +49,7 @@
                 <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up" v-if="offer === ch.cheapestOffer" @click="ch.showAllOffers=false"></i>
               </div>
               <div class="col-2 text-center">
-                <norm-checkbox v-model="offer.selected" />
+                <norm-checkbox v-model="offer.selected" @change="toggleOffer(ch,offer)" />
               </div>
             </div>
           </transition-group>
@@ -124,6 +124,13 @@ export default Vue.extend({
         });
       } else {
         ch.cheapestOffer.selected = true;
+      }
+    },
+    toggleOffer(ch, offer) {
+      if (offer.selected) {
+        ch.selected = true;
+      } else if (!ch.channelOffer.some(of => of.selected)) {
+        ch.selected = false;
       }
     }
   }
