@@ -25,9 +25,9 @@
           </div>
           <div class="body-row" :key="post.postOrderId" v-for="post in posts.in">
             <div class="col">{{post.publishAt*1000 | parseDate(true)}}</div>
-            <div class="col-1">{{offerTime(post.channelOffer)}}</div>
+            <div class="col-1" v-if="post.channelOffer">{{offerTime(post.channelOffer)}}</div>
             <div class="col-3">
-              <div class="form-row">
+              <div class="form-row" v-if="post.channelOffer">
                 <div class="col-3">
                   <avatar :src="'images/'+post.channelOffer.channel.telegramId+'_'+post.channelOffer.channel.photoId+'.jpg'" :circle="true" />
                 </div>
@@ -59,9 +59,9 @@
           </div>
           <div class="body-row" :key="post.postOrderId" v-for="post in posts.out">
             <div class="col">{{post.publishAt*1000 | parseDate(true)}}</div>
-            <div class="col-1">{{offerTime(post.channelOffer)}}</div>
+            <div class="col-1"  v-if="post.channelOffer">{{offerTime(post.channelOffer)}}</div>
             <div class="col-3">
-              <div class="form-row">
+              <div class="form-row" v-if="post.channelOffer">
                 <div class="col-3">
                   <avatar :src="'images/'+post.channelOffer.channel.telegramId+'_'+post.channelOffer.channel.photoId+'.jpg'" :circle="true" />
                 </div>

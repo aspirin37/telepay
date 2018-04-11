@@ -2,6 +2,8 @@
 <script>
 import { ChannelApi } from '@services/api';
 import avatar from '@components/avatar';
+import TelestatLink from '@components/telestat-link';
+
 export default {
   components: { avatar },
   data() {
