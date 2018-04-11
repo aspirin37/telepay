@@ -16,7 +16,7 @@
             <h4>{{channel.title}}
                 <small v-if="channel.telegramId">подписчиков: {{channel.subscriberCount | cutKilo}}</small>
             </h4>
-            <p>Подтвержден: {{channel.isConfirmed?'Да':'Нет'}}</p>
+            <p>Подтвержден: {{channel.isBotApproved?'Да':'Нет'}}</p>
             <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
         </div>
         <div class="col-4">
