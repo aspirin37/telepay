@@ -3,7 +3,7 @@ import './config';
 
 import router from './routes';
 import store from './store';
-import '@utils/interceptor';
+import '@services/interceptor';
 
 // components
 import notifystr from 'notifystr';

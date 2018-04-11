@@ -1,13 +1,16 @@
 import { App } from '../main';
-import LS from '@utils/local-storage';
-
+// import LS from '@utils/local-storage';
+import loaderBlacklist from '@utils/loader-blacklist';
+import notifystrBlacklist from '@utils/notifystr-blacklist';
 // response handler
 Vue.http.interceptors.push((request, next) => {
-    if (App) App.$store.commit('TOGGLE_LOADING', true);
+    if (App && !loaderBlacklist.find(el => new RegExp(el).test(request.url))) {
+        App.$store.commit('TOGGLE_LOADING', true);
+    }
     next((response) => {
         if (App) App.$store.commit('TOGGLE_LOADING', false);
         if (response.ok) {
-            if (request.method !== 'GET') {
+            if (request.method !== 'GET' && !notifystrBlacklist.find(el => new RegExp(el).test(response.url))) {
                 App.$notifystr.success('Успешно!', response.data.message || '');
             }
         } else {

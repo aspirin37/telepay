@@ -62,7 +62,7 @@
                 <span class="text-muted"
                     v-show="isLoading">Ищем канал...</span>
                 <span class="text-muted"
-                    v-show="channel.telegramId!=='default' && !isLoading && !searchError && !channel.isConfirmed">Чтобы привязать канал к сервису вам необходимо добавить
+                    v-show="channel.telegramId!=='default' && !isLoading && !searchError && !channel.isBotApproved">Чтобы привязать канал к сервису вам необходимо добавить
                     <a href="https://t.me/telepayDevBot"
                         target="_blank">нашего бота</a> в канал и дать ему права админа на постинг</span>
                 &nbsp;
@@ -72,7 +72,7 @@
     <div class="row">
         <div class="col-2">
             <button class="btn btn-success"
-                :disabled="!channel.telegramId || !channel.isConfirmed"
+                :disabled="!channel.telegramId || !channel.isBotApproved"
                 @click="add">Добавить канал</button>
 
         </div>
