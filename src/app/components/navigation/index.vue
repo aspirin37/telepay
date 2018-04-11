@@ -34,11 +34,14 @@
               <drop-down class="py-3" event-trigger="hover">
                 <div class="notifs__wrap" slot="trigger">
                   <i class="fa fa-lg fa-bell" aria-hidden="true"></i>
-                  <span class="badge badge-pill badge-success" v-show="notificationsCount>0">{{notificationsCount}}</span>
+                  <span class="badge badge-pill badge-success" v-show="notificationsCount > 0">{{ notificationsCount }}</span>
                 </div>
                 <template slot="body">
-                  <drop-down-menu-item>
+                  <drop-down-menu-item v-if="notificationsCount > 0">
                     Уведомления
+                  </drop-down-menu-item>
+                  <drop-down-menu-item v-if="notificationsCount == 0">
+                    Уведомлений нет
                   </drop-down-menu-item>
                   <drop-down-menu-item v-for="notify in notifications" :key="notify.notificationId">
                     <div @mouseover="setIsRead(notify.notificationId)">
@@ -100,7 +103,7 @@ export default Vue.extend({
       },
       notificationsCount: {
         type: Number,
-        default: () => 1
+        default: () => 0
       }
     };
   },
