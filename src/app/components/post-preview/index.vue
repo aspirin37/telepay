@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     formattedDate() {
-      let date = this.post.date;
+      let date = this.post.publishAt;
       if (/\./.test(date)) {
         date = date
           .split('.')

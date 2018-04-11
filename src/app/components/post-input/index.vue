@@ -13,11 +13,12 @@
         <dropdown :style="{ 'margin-right': '3px' }" class="textarea-input__icon">
           <i slot="trigger" class="fa fa-smile-o text-medium-font" aria-hidden="true"></i>
           <div class="textarea-input__emoji" slot="body">
-            <!-- <Picker :emoji-size="16" :i18n="i18n" @click="addEmoji" /> -->
+            <Picker :emoji-size="16" :i18n="i18n" @click="addEmoji" />
           </div>
         </dropdown>
       </div>
       <small class="text-muted">{{text.length}}/{{maxLength}}</small>
+
     </div>
     <div v-if="images.length" class="file-previews">
       <div v-for="(src, i) in images" :key="i" class="file-previews__item" :style="{ 'background-image': 'url(' + src.decoded + ')' }">
@@ -43,10 +44,10 @@
 </template>
 
 <script>
-// import { Picker } from 'emoji-mart-vue';
+import { Picker } from 'emoji-mart-vue';
 import dropdown from '@components/dropdown';
 export default {
-  components: { dropdown },
+  components: { Picker, dropdown },
   props: {
     value: { default: '' },
     maxImages: {

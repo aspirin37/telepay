@@ -12,7 +12,7 @@ import navigation from '@components/navigation';
 // services
 import '@filters';
 
-import { routerAuthHandle, mountAuthHandle } from '@utils/check';
+import check from '@services/check-user';
 
 export const App = new Vue({
     router,
@@ -23,10 +23,7 @@ export const App = new Vue({
         notifystr,
     },
     beforeMount() {
-        mountAuthHandle(this, this.$route);
-        this.$router.beforeEach((to, from, next) => {
-            routerAuthHandle(this, to, from, next);
-        });
+        check(this);
     },
     computed: {
         showSpinner: {
