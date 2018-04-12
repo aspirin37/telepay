@@ -2,7 +2,7 @@ const webpack = require('webpack');
 module.exports = function(paths) {
     return {
         plugins: [
-        new webpack.HotModuleReplacementPlugin({}),
+            new webpack.HotModuleReplacementPlugin({}),
         ],
         devServer: {
             historyApiFallback: true,
@@ -13,6 +13,14 @@ module.exports = function(paths) {
             inline: true,
             contentBase: paths.source,
             compress: true,
+            proxy: {
+                '/images/channels': {
+                    target: 'http://dev.telepay.io',
+                    secure: false,
+                    logLevel: 'debug',
+                    changeOrigin: true
+                }
+            }
         },
     };
 };

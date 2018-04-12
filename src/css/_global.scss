@@ -24,6 +24,19 @@ body {
     }
 }
 
+.post-preview.popover {
+    min-width: 360px;
+    left: inherit;
+    right: 0;
+    top: 22px;
+    .arrow {
+        right: 22%;
+    }
+    .preview {
+        min-height: inherit;
+    }
+}
+
 @keyframes fadein {
     0% {
         opacity: 0

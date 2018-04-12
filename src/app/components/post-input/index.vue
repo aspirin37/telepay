@@ -21,7 +21,7 @@
 
     </div>
     <div v-if="images.length" class="file-previews">
-      <div v-for="(src, i) in images" :key="i" class="file-previews__item" :style="{ 'background-image': 'url(' + src.decoded + ')' }">
+      <div v-for="(src, i) in images" :key="i" class="file-previews__item" :style="{ 'background-image': 'url(' + src + ')' }">
         <span class="file-previews__remove" @click="removeImage(i)">
           <i class="fa fa-times" aria-hidden="true"></i>
         </span>
@@ -141,7 +141,7 @@ export default {
     _createImage(file) {
       let reader = new FileReader();
       reader.addEventListener('load', e => {
-        this.images.push({ decoded: e.target.result, file });
+        this.images.push(e.target.result);
       });
       reader.readAsDataURL(file);
     },

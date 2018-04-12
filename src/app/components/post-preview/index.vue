@@ -6,7 +6,7 @@
         <span class="preview__channel text-primary">{{ post.channel }}</span>
         <span class="preview__message">
           <div class="preview__images" v-if="post.images && post.images.length">
-            <img v-for="(src, i) in post.images" class="preview__image" :src="src.decoded" alt="Image">
+            <img v-for="(src, i) in post.images" class="preview__image" :src="src" alt="Image">
           </div>
            <div class="preview__text" v-html="replaceMarkdown(post.text)"></div>
         </span>

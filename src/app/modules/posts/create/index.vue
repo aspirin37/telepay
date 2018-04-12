@@ -115,7 +115,7 @@ export default {
     createPostOrder() {
       let { buttons, images, offerId, publishAt, text } = this.post;
       buttons = JSON.stringify(buttons);
-      images = JSON.stringify(images);
+      // images = JSON.stringify(images);
       offerId = this.selectedOfferIds;
 
       PostApi.create({

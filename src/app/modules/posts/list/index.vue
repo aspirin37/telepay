@@ -2,12 +2,12 @@
 
 <script>
 import { mapState } from 'vuex';
-import { PostApi, ChannelApi } from '@services/api';
-import postStatuses from '@utils/post-statuses';
-import avatar from '@components/avatar';
+import postList from '@components/post-list';
+import { PostApi } from '@services/api';
+
 export default {
   components: {
-    avatar
+    postList
   },
   data() {
     return {
@@ -15,8 +15,7 @@ export default {
         in: [],
         out: []
       },
-      selected: this.$route.params.tab || 'inbound',
-      postStatuses
+      selected: this.$route.params.tab || 'inbound'
     };
   },
   computed: {
@@ -26,51 +25,27 @@ export default {
     this.getPosts();
   },
   methods: {
-    offerTime: ChannelApi.offerTime,
     async getPosts() {
+      this.posts.in = [];
+      this.posts.out = [];
       let { items, total } = await PostApi.list();
       items.forEach(postOrder => {
         this.posts[postOrder.channelOffer.channel.userId === this.user.userId ? 'in' : 'out'].push(postOrder);
       });
-    },
-    async removePost(post) {
-      let swalOut = await swal({
-        type: 'question',
-        title: 'Удаление поста для упрощения разработки',
-        text: 'ТОЛЬКО ДЛЯ ДЕВА',
-        confirmButtonText: 'Да, удалить!'
-      });
 
-      if (swalOut && !swalOut.dismiss && swalOut.value) {
-        PostApi.delete(post.postOrderId);
-      }
+      this.posts.in.sort(this._sorter);
+      this.posts.out.sort(this._sorter);
     },
-    async approvePost(post) {
-      let swalOut = await swal({
-        type: 'success',
-        title: 'Подтвердить размещение поста?',
-        confirmButtonText: 'Да, подтвердить!'
-      });
-
-      if (swalOut && !swalOut.dismiss && swalOut.value) {
-        await PostApi.updateStatus(post.postOrderId, {
-          status: 0
-        });
-        this.getPosts();
-      }
-    },
-    async declinePost(post) {
-      let swalOut = await swal({
-        type: 'error',
-        title: 'Отклонить размещение поста?',
-        confirmButtonText: 'Да, отклонить!'
-      });
-
-      if (swalOut && !swalOut.dismiss && swalOut.value) {
-        await PostApi.updateStatus(post.postOrderId, {
-          status: 1
-        });
-        this.getPosts();
+    _sorter(a, b) {
+      let now = Math.round(Date.now() / 1e3);
+      if (a.publishAt >= now && b.publishAt >= now) {
+        return a.publishAt - b.publishAt;
+      } else if (a.publishAt >= now) {
+        return -1;
+      } else if (b.publishAt >= now) {
+        return 1;
+      } else {
+        return b.publishAt - a.publishAt;
       }
     }
   }
