@@ -1,7 +1,7 @@
 <template>
   <nav class="d-flex header" :class="{ 'navbar_main': !logoVisible }">
     <div class="container d-flex">
-      <router-link :to="{ name: 'main' }" v-if="logoVisible" class="navbar__logo py-3">
+      <router-link :to="{ name: isAuthorized?'catalog':'login' }" v-if="logoVisible" class="navbar__logo py-3">
         <div class="logo" v-once v-html="Logo"></div>
       </router-link>
       <ul class="nav nav_toggle justify-content-center d-md-flex w-100 pt-3 pt-sm-0" :class="{ 'd-none': !isVisible }">
@@ -44,8 +44,9 @@
                     Уведомлений нет
                   </drop-down-menu-item>
                   <drop-down-menu-item v-for="notify in notifications" :key="notify.notificationId">
-                    <div @mouseover="setIsRead(notify.notificationId)">
+                    <div>
                       {{ notify.text }}
+                      <i class="fa fa-times pointer" @click="setIsRead(notify.notificationId)"></i>
                     </div>
                   </drop-down-menu-item>
                 </template>

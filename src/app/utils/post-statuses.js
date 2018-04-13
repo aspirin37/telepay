@@ -4,4 +4,5 @@ export default {
     '2': 'Ожидает', // STATUS_PENDING
     '3': 'Опубликован', // STATUS_POSTED
     '4': 'Публикуется', // STATUS_IN_PROGRESS
+    '5': 'Проверяется', // STATUS_NEW
 };

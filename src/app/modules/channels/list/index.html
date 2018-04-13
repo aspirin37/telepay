@@ -72,48 +72,6 @@
             </div>
         </div>
     </div>
-    <!-- <div class="row p-3"
-        v-for="channel in channels"
-        :key="channel.channelId">
-        <div class="col-1">
-            <router-link :to="{name:'posts:list',params:{tab:'inbound'}}"
-                class="badge p-2"
-                :class="channel.postOrdersCount > 0?'badge-success':'badge-light'">0</router-link>
-        </div>
-        <div class="col-1">
-            <avatar :src="'/images/channels/'+channel.channelId+'_'+channel.photo_id"
-                :circle="true" />
-        </div>
-        <div class="col-2">
-            <router-link class="text-secondary"
-                :to="{ name: 'channels:update',params:{ id:channel.channelId } }">
-                {{ channel.title }}
-            </router-link>
-            <br> {{channel.description | cutLongStr}}
-        </div>
-        <div class="col-2">
-            <span v-for="categ in channel.categoryItem">{{categ}}</span>
-        </div>
-        <div class="col-2">{{channel.subscriberCount | cutKilo}}</div>
-        <div class="col-2">
-            <span v-if="channel.cheapestOffer.channelOfferId">{{offerTime(channel.cheapestOffer)}}-{{channel.cheapestOffer.inTopHours}}/{{channel.cheapestOffer.inFeedHours}} {{channel.cheapestOffer.price | centToRub}}</span>
-            <span v-else>-</span>
-        </div>
-        <div class="col-2">
-
-            <router-link class="m-2 text-secondary"
-                :to="{ name: 'channels:update',params:{ id:channel.channelId } }">
-                <i class="fa fa-lg fa-pencil"></i>
-            </router-link>
-            <a class="m-2 text-secondary"
-                href="#deleteChannel"
-                @click="deleteChannel(channel)">
-                <i class="fa fa-lg fa-trash"></i>
-            </a>
-
-        </div>
-    </div> -->
-    <!-- </div> -->
     <h4 class="text-center text-secondary"
         v-else>
         Вы еще не добавили ни одного канала

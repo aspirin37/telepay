@@ -3,6 +3,7 @@
 import dateInput from '@components/date-input';
 import { ChannelApi, OfferApi } from '@services/api';
 import { clone } from '@utils/clone';
+import { mapState } from 'vuex';
 
 export default Vue.extend({
   components: { dateInput },
@@ -46,6 +47,7 @@ export default Vue.extend({
     }
   },
   computed: {
+    ...mapState(['user', 'configs']),
     days() {
       return new Array(7).fill(0).map((d, i) => {
         let date = moment().add(i + 7 * this.weeksPlus, 'day');
@@ -55,9 +57,6 @@ export default Vue.extend({
           weekDayVal: date.weekday()
         };
       });
-    },
-    configs() {
-      return this.$store.state.configs;
     },
     filteredOffers() {
       return this.offers.filter(offer => offer.weekDay === this.selectedWeekday).sort((a, b) => a.hour - b.hour);

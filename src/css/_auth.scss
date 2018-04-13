@@ -22,8 +22,16 @@
             border: none;
         }
         .login-btn {
-            @extend .btn;
             @extend .btn-success;
+            display: inline-block;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            font-size: 16px;
+            line-height: 20px;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
             padding: 10px 50px;
             border-radius: 50px;
             margin: 1px 1rem 0px;

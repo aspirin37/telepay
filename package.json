@@ -59,7 +59,6 @@
         "selectr-th": "^1.0.3",
         "sweetalert2": "^7.18.0",
         "vue": "^2.5.16",
-        "vue-markdown": "^2.2.4",
         "vue-masked-input": "^0.5.2",
         "vue-on-off": "^1.0.3",
         "vue-resource": "^1.5.0",

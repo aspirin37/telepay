@@ -18,7 +18,8 @@
             <i class="fa fa-3x fa-angle-double-right"></i>
         </button>
     </div>
-    <div class="form-row">
+    <div class="form-row"
+        v-if="channel.userId === user.userId">
         <div class="col">
             <div class="form-group">
                 <label class="col-form-label">Время размещения</label>
@@ -90,7 +91,7 @@
 
         </div>
     </div>
-    <div class="flex-table"
+    <div class="flex-table mt-2"
         v-if="filteredOffers && filteredOffers.length">
         <div class="header-row">
             <div class="col">Время</div>
@@ -107,15 +108,19 @@
             <div class="col h4 m-0">{{of.price | centToRub}}</div>
             <div class="col-4">
                 <span @click="removeOffer(of)"
-                    v-show="!isRemoved(of)"
-                    class="text-danger pointer">
-                    <i class="fa fa-lg fa-times"></i> Удалить</span>
-                <span v-show="isRemoved(of)"
+                    v-if="channel.userId === user.userId && !isRemoved(of)"
+                    class="text-danger pointer h4 m-0">
+                    <i class="fa fa-times"></i> Удалить</span>
+                <span v-else-if="channel.userId === user.userId && isRemoved(of)"
                     class="cancel-removal">
                     <b>Предложение удалено.</b>
                     <span @click="cancelOfferRemoval(of)"
                         class="text-success pointer"> Восстановить</span>
                 </span>
+                <router-link :to="{name:'posts:create',channel:channel}"
+                    v-else-if="channel.userId !== user.userId"
+                    class="h4 m-0">
+                    <i class="fa fa-plus"></i> Новый пост</router-link>
             </div>
         </div>
     </div>

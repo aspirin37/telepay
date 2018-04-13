@@ -113,7 +113,7 @@ export default {
   methods: {
     createPostOrder() {
       let { buttons, images, offerId, publishAt, text } = this.post;
-      buttons = JSON.stringify(buttons);
+      buttons = JSON.stringify(buttons.map(({ text, url }) => [{ text, url }]));
       // images = JSON.stringify(images);
       offerId = this.selectedOfferIds;
 

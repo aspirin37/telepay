@@ -13,11 +13,11 @@ export default {
         if (!channel || !channel.channelOffer || !channel.channelOffer.length) return {};
         return channel.channelOffer.sort((a, b) => a.price - b.price)[0];
     },
-    offerTime({ hour, minute, inTopHours } = {}) {
+    offerTime({ hour, minute, inTopHours } = {}, short) {
         let hoursAfterTop = hour + inTopHours;
         if (typeof hour === 'undefined' || typeof minute === 'undefined') return '-';
         if (hour < 10) hour = '0' + hour;
         if (minute < 10) minute = '0' + minute;
-        return `${hour}:${minute} - ${hoursAfterTop}:${minute}`;
+        return short ? `${hour}:${minute}` : `${hour}:${minute} - ${hoursAfterTop}:${minute}`;
     },
 };

@@ -1,5 +1,5 @@
 import Auth from './auth';
-import Main from '@modules/main';
+// import Main from '@modules/main';
 import Catalog from '@modules/catalog';
 import Faq from '@modules/faq';
 import Profile from '@modules/profile';
@@ -10,40 +10,40 @@ import Posts from './posts';
 import Support from './support';
 
 const routes = [
-  Auth,
-  Channels,
-  Posts,
-  Support,
-    {
-        path: '/',
-        name: 'main',
-        component: Main,
-  },
+    Auth,
+    Channels,
+    Posts,
+    Support,
+    //   {
+    //       path: '/',
+    //       name: 'main',
+    //       component: Main,
+    // },
     {
         path: '/catalog',
         name: 'catalog',
         component: Catalog,
-  },
+    },
     {
         path: '/faq',
         name: 'faq',
         component: Faq,
-  },
+    },
     {
         path: '/profile',
         name: 'profile',
         component: Profile,
-  },
-  //   {
-  //       path: '/favs',
-  //       name: 'favs',
-  //       component: Favs,
-  // },
+    },
+    //   {
+    //       path: '/favs',
+    //       name: 'favs',
+    //       component: Favs,
+    // },
     {
         path: '*',
-        redirect: '/',
+        redirect: '/catalog',
         name: '404',
-  },
+    },
 ];
 
 import VueRouter from 'vue-router';

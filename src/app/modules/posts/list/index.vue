@@ -30,7 +30,8 @@ export default {
       this.posts.out = [];
       let { items, total } = await PostApi.list();
       items.forEach(postOrder => {
-        this.posts[postOrder.channelOffer.channel.userId === this.user.userId ? 'in' : 'out'].push(postOrder);
+        if (postOrder && postOrder.channelOffer && postOrder.channelOffer.channel)
+          this.posts[postOrder.channelOffer.channel.userId === this.user.userId ? 'in' : 'out'].push(postOrder);
       });
 
       this.posts.in.sort(this._sorter);

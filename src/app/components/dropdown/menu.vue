@@ -5,16 +5,15 @@
 </template>
 
 <script>
-export default {
-}
+export default {};
 </script>
 
 <style lang="css">
 .dropp__body {
   /* position: relative; */
   background-color: #fff;
-  min-width: 100%;
-  box-shadow: 0px 0px 50px rgba(0,0,0,.1);
+  min-width: 200px;
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
 .dropp__body:before {
