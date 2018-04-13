@@ -71,7 +71,6 @@ export default {
           if (offer.selected) sumOffers.push(offer.channelOfferId);
           return sumOffers;
         }, []);
-        console.log('selectedOfferIds', selectedOfferIds);
         if (selectedOfferIds.length) {
           return sum.concat(selectedOfferIds);
         }

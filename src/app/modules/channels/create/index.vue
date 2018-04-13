@@ -39,7 +39,6 @@ export default {
     parsedUsernameQuery() {
       if (/^https?.+\/(.+)/.test(this.usernameQuery) || /.*t\.me\/(.+)/.test(this.usernameQuery)) {
         let match = this.usernameQuery.match(/(.+)\/(.+)$/);
-        console.log(match);
         if (match && match[2]) {
           return (match[2][0] === '@' ? '' : '@') + match[2];
         } else {

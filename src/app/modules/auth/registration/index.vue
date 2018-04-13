@@ -35,7 +35,7 @@ export default Vue.extend({
             this.$router.push({ name: 'catalog' });
           }
         })
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
     }
   },
   template

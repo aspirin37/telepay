@@ -12,14 +12,14 @@
                 style="max-width: 200px; max-height: 200px;"
                 :circle="true" />
         </div>
-        <div class="col-6">
+        <div class="col-8">
             <h4>{{channel.title}}
                 <small v-if="channel.telegramId">подписчиков: {{channel.subscriberCount | cutKilo}}</small>
             </h4>
             <p>Подтвержден: {{channel.isBotApproved?'Да':'Нет'}}</p>
             <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
         </div>
-        <div class="col-4">
+        <div class="col-2">
             Автопостинг
             <on-off v-model="channel.autopost" />
         </div>

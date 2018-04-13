@@ -11,14 +11,16 @@ export default Vue.extend({
       weeksPlus: 0,
       offer: {
         weekDay: [],
-        hour: '',
-        minute: '',
-        price: 100,
-        inTopHours: '',
-        inFeedHours: '',
+        hour: 12,
+        minute: 0,
+        price: 130,
+        inTopHours: 1,
+        inFeedHours: 24,
+        removalHours: '1/24',
         isAutopost: false
       },
-      time: '',
+      initialPrice: 100,
+      time: '12:00',
       inFeedConditions: [{ name: 24 }, { name: 48 }],
       inTopConditions: [{ name: 1 }, { name: 2 }],
       offersToRemove: [],
@@ -34,6 +36,13 @@ export default Vue.extend({
     },
     channel(val) {
       this.offers = this.channel.channelOffer || [];
+    },
+    'offer.removalHours': function(val) {
+      let arr = val.split('/');
+      if (arr && arr.length) {
+        this.offer.inTopHours = arr[0];
+        this.offer.inFeedHours = arr[1];
+      }
     }
   },
   computed: {
@@ -69,6 +78,17 @@ export default Vue.extend({
   },
   methods: {
     offerTime: ChannelApi.offerTime,
+    changeWeek(bool) {
+      if (bool) {
+        this.weeksPlus += 1;
+      } else {
+        if (this.weeksPlus >= 1) {
+          this.weeksPlus -= 1;
+        } else {
+          this.weeksPlus = 0;
+        }
+      }
+    },
     isRemoved(offer) {
       return this.offersToRemove.includes(offer);
     },
@@ -92,19 +112,21 @@ export default Vue.extend({
           this.clearFields();
           this.$root.$emit('addedChannelOffer');
         })
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
     },
     clearFields() {
       setTimeout(() => {
         this.offer = {
           weekDay: [],
-          hour: '',
-          minute: '',
-          price: 1,
-          inTopHours: '',
-          inFeedHours: ''
+          hour: 12,
+          minute: 0,
+          price: 130,
+          inTopHours: 1,
+          inFeedHours: 24,
+          removalHours: '1/24'
         };
-        this.time = '';
+        this.initialPrice = 100;
+        this.time = '12:00';
       });
     }
   }

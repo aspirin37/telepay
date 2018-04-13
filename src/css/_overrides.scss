@@ -92,7 +92,7 @@
     }
 }
 
-.btn {
+.btn:not(.btn-sm) {
     padding: 10px;
     font-size: 16px;
     line-height: 20px;

@@ -31,15 +31,15 @@ export default {
   },
   watch: {
     imgs(n) {
-      console.log(n);
+      // console.log(n);
     }
   },
   methods: {
     create() {
-      console.log(this.mapProp(this.stringifyProp(this.post, 'buttons'), 'images'));
+      // console.log(this.mapProp(this.stringifyProp(this.post, 'buttons'), 'images'));
       return PostApi.create(this.mapProp(this.stringifyProp(this.post, 'buttons'), 'images'))
         .then(res => this.$router.push({ name: 'posts:list' }))
-        .catch(console.log);
+        .catch(err => console.error(err));
     },
     stringifyProp(obj, prop) {
       let newObj = clone(obj);

@@ -38,7 +38,7 @@
                 </div>
                 <template slot="body">
                   <drop-down-menu-item v-if="notificationsCount > 0">
-                    Уведомления
+                    <b>Уведомления</b>
                   </drop-down-menu-item>
                   <drop-down-menu-item v-if="notificationsCount == 0">
                     Уведомлений нет
@@ -109,7 +109,6 @@ export default Vue.extend({
   },
   created() {
     this.getNotificationList();
-    console.log(this.notificationsCount);
   },
   computed: {
     ...mapGetters({
@@ -131,7 +130,7 @@ export default Vue.extend({
       this.notificationsCount = total;
     },
     async setIsRead(notificationId) {
-      await  NotificationApi.markAsRead({ notificationId: notificationId});
+      await NotificationApi.markAsRead({ notificationId: notificationId });
     }
   }
 });

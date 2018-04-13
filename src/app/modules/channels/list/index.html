@@ -21,16 +21,19 @@
                 Подписчиков
             </div>
             <div class="col">
-                Действия
+                ER
+            </div>
+            <div class="col">
+                Статус
             </div>
         </div>
         <div class="body-row"
             v-for="ch in channels"
             :key="ch.channelId">
-            <div class="col-1">
-                <router-link :to="{name:'posts:list',params:{tab:'inbound'}}"
-                    class="badge p-2"
-                    :class="ch.postOrdersCount > 0?'badge-success':'badge-light'">{{ch.postOrdersCount||0}}</router-link>
+            <div class="col-1 p-2">
+                <button class="btn btn-sm"
+                    :class="ch.postOrdersCount > 0?'btn-success':'btn-light'"
+                    @click="toggleOrders(ch)">{{ch.postOrdersCount||0}}</button>
             </div>
             <div class="col-3">
                 <div class="form-row">
@@ -39,22 +42,33 @@
                             :circle="true" />
                     </div>
                     <div class="col-9">
-                        <b>{{ch.title}}</b>
+                        <router-link :to="{name:ch.userId === user.userId?'channels:update':'channels:show',params:{id:ch.channelId}}">
+                            <b>{{ch.title}}</b>
+                        </router-link>
                         <br>{{ch.categories || 'Без категории'}}</div>
                 </div>
             </div>
-            <div class="col">{{ch.description | cutLongStr}}</div>
+            <div class="col">{{(ch.description || "Нет описания") | cutLongStr}}</div>
             <div class="col h4 m-0">
                 <telestat-link :channel="ch.username"
                     v-if="ch.subscriberCount>=300"
                     :text="$options.filters.cutSum(ch.subscriberCount)" />
                 <span v-else>{{ch.subscriberCount}}</span>
             </div>
+            <div class="col h4">
+                {{ch.engagementRate}}%
+            </div>
             <div class="col">
-                <router-link class="m-2 text-secondary"
-                    :to="{ name: 'channels:update',params:{ id:ch.channelId } }">
-                    <i class="fa fa-2x fa-pencil"></i>
-                </router-link>
+                {{ch.status}}
+            </div>
+            <div class="col-12"
+                v-if="ch.showOrders">
+                <div class="row">
+                    <div class="col offset-1"></div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                </div>
             </div>
         </div>
     </div>
