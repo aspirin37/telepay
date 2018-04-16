@@ -6,7 +6,7 @@ module.exports = function(paths) {
         ],
         devServer: {
             historyApiFallback: true,
-            // https: true,
+            https: true,
             port: 3346,
             hot: true,
             noInfo: false,

@@ -10,7 +10,7 @@ import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
 
-import { cloneWFn } from '@utils/clone';
+import { clone } from '@utils/clone';
 
 export default Vue.extend({
   components: { avatar, searchInput, dateInput, channelList },
@@ -62,6 +62,9 @@ export default Vue.extend({
   },
   methods: {
     async getChannels(params = {}) {
+      let copy = clone(params);
+      copy.priceFrom *= 100;
+      copy.priceTo *= 100;
       let { items, count } = await CatalogApi.filter(params);
 
       this.channels = items.map(item => {

@@ -19,7 +19,7 @@
               <avatar :src="'/images/channels/'+ch.telegramId+'_'+ch.photoId+'.jpg'" :circle="true" />
             </div>
             <div class="col-9 pl-4">
-              <router-link :to="{name:ch.userId === user.userId?'channels:update':'channels:show',params:{id:ch.channelId}}">
+              <router-link v-if="ch&&user" :to="{name:ch.userId === user.userId?'channels:update':'channels:show',params:{id:ch.channelId}}">
                 <b>{{ch.title}}</b>
               </router-link>
               <br>{{ch.categories || 'Без категории'}}</div>
@@ -27,8 +27,8 @@
         </div>
         <div class="col">{{(ch.description || '-') | cutLongStr}}</div>
         <div class="col h4 m-0">
-          <telestat-link :channel="ch.username" v-if="ch.subscriberCount>=300" :text="$options.filters.cutSum(ch.subscriberCount)" />
-          <span v-else>{{ch.subscriberCount}}</span>
+          <!-- <telestat-link :channel="ch.username" v-if="ch.subscriberCount>=300" :text="$options.filters.cutSum(ch.subscriberCount)" /> -->
+          <span>{{ch.subscriberCount |cutSum(2)}}</span>
         </div>
 
         <div class="col fa-lg">{{ch.engagementRate}}%</div>
@@ -46,7 +46,7 @@
           </transition>
           <transition-group name="fade-out">
             <div class="form-row" v-if="ch.showAllOffers" :key="offer.channelOfferId" v-for="offer in ch.channelOffer">
-              <div class="col-5">{{offerTime(offer,true)}} - {{offer.inTopHours}}/{{offer.inFeedHours}}</div>
+              <div class="col-5">{{ offerTime(offer,true) }} - {{ offer.inTopHours }}/{{ offer.inFeedHours }}</div>
               <div class="col-5">{{ offer.price | centToRub}}
                 <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up" v-if="offer === ch.cheapestOffer" @click="ch.showAllOffers=false"></i>
               </div>

@@ -30,10 +30,28 @@
             </li>
           </ul>
           <ul class="list-unstyled d-flex h-100" v-if="isAuthorized">
-            <li class="nav-item">
-              <drop-down class="py-3" event-trigger="hover">
+            <li class="nav-item notifications">
+
+              <button class="btn btn-link notification-trigger" @click="showDD = !showDD">
+                <i class="fa fa-lg fa-bell"></i>
+                <span class="badge badge-pill badge-success" v-show="notificationsCount > 0">{{ notificationsCount }}</span>
+              </button>
+              <!-- FIXME надо сделать так чтобы скрывалось только при клике вне уведомлений -->
+              <div class="dropdown-menu show" v-show="showDD" ref="ddmenu">
+                <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}</h6>
+                <span class="dropdown-item" v-for="notify in notifications" :key="notify.notificationId">
+                  <div class="form-row">
+                    <div class="col-10">{{ notify.text }}</div>
+                    <div class="col-2">
+                      <i class="fa fa-times fa-lg pointer text-right" @click="setIsRead(notify.notificationId)"></i>
+                    </div>
+                  </div>
+
+                </span>
+              </div>
+              <!-- <drop-down class="py-3" event-trigger="hover">
                 <div class="notifs__wrap" slot="trigger">
-                  <i class="fa fa-lg fa-bell" aria-hidden="true"></i>
+                  <i class="fa fa-lg fa-bell"></i>
                   <span class="badge badge-pill badge-success" v-show="notificationsCount > 0">{{ notificationsCount }}</span>
                 </div>
                 <template slot="body">
@@ -43,14 +61,14 @@
                   <drop-down-menu-item v-if="notificationsCount == 0">
                     Уведомлений нет
                   </drop-down-menu-item>
-                  <drop-down-menu-item v-for="notify in notifications" :key="notify.notificationId">
+                  <drop-down-menu-item>
                     <div>
                       {{ notify.text }}
                       <i class="fa fa-times pointer" @click="setIsRead(notify.notificationId)"></i>
                     </div>
                   </drop-down-menu-item>
                 </template>
-              </drop-down>
+              </drop-down> -->
             </li>
             <li class="nav-item py-3">
               <div class="user-field">
@@ -98,14 +116,9 @@ export default Vue.extend({
     return {
       isVisible: false,
       Logo,
-      notifications: {
-        type: Array,
-        default: () => []
-      },
-      notificationsCount: {
-        type: Number,
-        default: () => 0
-      }
+      showDD: false,
+      notifications: [],
+      notificationsCount: 0
     };
   },
   created() {
@@ -132,6 +145,7 @@ export default Vue.extend({
     },
     async setIsRead(notificationId) {
       await NotificationApi.markAsRead({ notificationId: notificationId });
+      this.getNotificationList();
     }
   }
 });

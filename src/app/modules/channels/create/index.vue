@@ -58,15 +58,16 @@ export default {
     },
     connectWebsocket() {
       let botUrl;
+      let protocol = location.protocol === 'https:' ? 'wss' : 'ws';
       switch (process.env.url) {
         case 'loc':
-          botUrl = `ws://localhost:6633`;
+          botUrl = `${protocol}://localhost:6633`;
           break;
         case 'dev':
-          botUrl = `ws://dev.telepay.io/ws`;
+          botUrl = `${protocol}://dev.telepay.io/ws`;
           break;
         default:
-          botUrl = `ws://telepay.io/ws`;
+          botUrl = `${protocol}://telepay.io/ws`;
           break;
       }
       this.ws = new WebSocket(botUrl, LS.get('auth_key'));

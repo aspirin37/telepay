@@ -2,6 +2,7 @@
 <script>
 import { mapState } from 'vuex';
 import { ChannelApi } from '@services/api';
+import channelStatuses from '@utils/channel-statuses';
 import avatar from '@components/avatar';
 import TelestatLink from '@components/telestat-link';
 
@@ -9,7 +10,8 @@ export default {
   components: { avatar },
   data() {
     return {
-      channels: []
+      channels: [],
+      channelStatuses
     };
   },
   created() {
