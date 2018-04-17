@@ -4,6 +4,7 @@ import { ChannelApi, CatalogApi } from '@services/api';
 import searchInput from '@components/search-input';
 import avatar from '@components/avatar';
 import LS from '@utils/local-storage';
+import { clone } from '@utils/clone';
 import onOff from 'vue-on-off';
 export default {
   components: { searchInput, avatar, onOff },
@@ -15,10 +16,11 @@ export default {
           Введите ссылку или юзернейм канала в поле ниже и мы автоматически заполним эти поля в соответствии с данными вашего канала.
           После создания наш бот будет автоматически обновлять данные вашего канала`,
         telegramId: 'default',
-        photod: 'default'
+        photod: 'default',
+        isAutopost: false
       },
       usernameQuery: '',
-      categories: [{ name: 'Первая категория', value: 1 }, { name: 'Вторая категория', value: 2 }, { name: 'Третья категория', value: 3 }],
+      categories: [],
       ws: null,
       wsError: false,
       isLoading: false,
@@ -57,6 +59,7 @@ export default {
       this.categories = items;
     },
     connectWebsocket() {
+      // TODO вынести сокет в миксин
       let botUrl;
       let protocol = location.protocol === 'https:' ? 'wss' : 'ws';
       switch (process.env.url) {
@@ -145,9 +148,14 @@ export default {
       });
     },
     add() {
+      let copy = clone(this.channel);
+      let categoryId = copy.category.categoryId;
+      delete copy.category;
+
       ChannelApi.create({
         username: this.parsedUsernameQuery.slice(1),
-        ...this.channel
+        categoryId,
+        ...copy
       }).then(res => {
         this.$router.push({ name: 'channels:list' });
       });

@@ -114,7 +114,7 @@ export default {
     createPostOrder() {
       let { buttons, images, publishAt, text } = this.post;
       let data = this.getFormData(new FormData(), {
-        buttons,
+        buttons: JSON.stringify(buttons),
         images: images.map(im => im.file),
         offerId: this.selectedOfferIds,
         publishAt: publishAt.toISOString(),

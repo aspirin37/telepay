@@ -30,6 +30,7 @@
         <div class="col">
           <span v-if="post.status !== 3 && !post.isPosted">{{postStatuses[post.status]}}</span>
           <a v-else target="_blank" :href="`https://t.me/${post.channelOffer.channel.username}/${post.messageId}`">{{postStatuses[post.status]}}</a>
+          <span v-show="post.status === 1" class="text-danger">{{post.declineReason}}</span>
         </div>
         <div class="col h5">{{post.sum | centToRub}}</div>
         <div class="col">
