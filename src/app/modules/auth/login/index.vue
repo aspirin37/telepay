@@ -16,7 +16,9 @@ export default Vue.extend({
     };
   },
   methods: {
-    login() {
+    login(ev) {
+      ev.preventDefault();
+
       let cloned = clone(this.user);
       AuthService.login(cloned)
         .then(res => {

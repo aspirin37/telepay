@@ -1,11 +1,10 @@
-<form>
+<form @submit="register">
     <h3 class="text-white">Регистрация</h3>
     <br>
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">E-mail</label>
         <input type="email"
             placeholder="E-mail"
-            @keypress.enter="register"
             class="form-control input-auth"
             v-model="user.login">
     </div>
@@ -13,13 +12,12 @@
         <label class="control-label float-left text-white h5 m-0">Пароль</label>
         <input type="password"
             placeholder="Пароль"
-            @keypress.enter="register"
             class="form-control input-auth"
             v-model="user.password">
     </div>
     <div class="form-group">
         <button class="btn-auth btn btn-block btn-lg"
-            @click.prevent="register">Зарегистрироваться</button>
+            type="submit">Зарегистрироваться</button>
     </div>
     <router-link :to="{name:'recovery',params:{login:user.login}}"
         class="float-left text-light">
