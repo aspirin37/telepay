@@ -5,14 +5,14 @@
       <p class="preview__body">
         <span class="preview__channel text-primary">{{ post.channel }}</span>
         <span class="preview__message">
-          <div class="preview__images" v-if="post.images && post.images.length">
-            <img v-for="(src, i) in post.images" class="preview__image" :src="src" alt="Image">
+          <div class="preview__images" v-if="post && post.images && post.images.length">
+            <img v-for="(src, i) in post.images" class="preview__image" :src="getImageSrc(src)" alt="Image">
           </div>
            <div class="preview__text" v-html="replaceMarkdown(post.text)"></div>
         </span>
         <span class="preview__time">{{ post.time }}</span>
       </p>
-      <div class="preview__buttons" v-if="post.buttons.length">
+      <div class="preview__buttons" v-if="post && post.buttons && post.buttons.length">
     <a target="_blank" rel="nofollow noreferrer noopener" v-for="btn in post.buttons" class="preview__button" :href="`//${btn.link}`" v-show="btn.text">
       <span class="arrow">
         <svg viewBox="0 0 283.178 283.178">
@@ -59,6 +59,10 @@ export default {
     }
   },
   methods: {
+    getImageSrc(src) {
+      if (typeof src === 'string') return src;
+      return src && src.decoded;
+    },
     replaceMarkdown(text) {
       text = this.replaceBold(text);
       text = this.replaceItalic(text);

@@ -115,7 +115,7 @@ export default {
       let { buttons, images, publishAt, text } = this.post;
       let data = this.getFormData(new FormData(), {
         buttons,
-        images,
+        images: images.map(im => im.file),
         offerId: this.selectedOfferIds,
         publishAt: publishAt.toISOString(),
         text

@@ -48,7 +48,7 @@
           <button class="btn btn-link p-0 m-0 text-dark" @click="togglePreview(post)" @blur="togglePreview(post,false)">
             <i class="fa fa-2x" :class="post.showPreview?'fa-eye-slash':'fa-eye'"></i>
           </button>
-          <div class="popover fade show bs-popover-bottom post-preview" v-if="post.showPreview">
+          <div class="popover fade show bs-popover-bottom post-preview" v-show="post.showPreview">
             <div class="arrow"></div>
             <div class="popover-body">
               <post-preview :post="mapToPreview(post)"></post-preview>
@@ -121,11 +121,22 @@ export default {
       });
     },
     mapToPreview(post) {
+      let parsedBtns, parsedImgs;
+      try {
+        parsedBtns = JSON.parse(post.postTemplate.buttons);
+      } catch (e) {
+        parsedBtns = [post.postTemplate.buttons];
+      }
+      try {
+        parsedImgs = JSON.parse(post.postTemplate.images);
+      } catch (e) {
+        parsedImgs = [post.postTemplate.images];
+      }
       return {
         channel: post.channelOffer.channel.title,
         text: post.postTemplate.text,
-        images: post.postTemplate.images,
-        buttons: post.postTemplate.buttons,
+        images: parsedImgs,
+        buttons: parsedBtns,
         time: this.offerTime(post.channelOffer, true),
         publishAt: post.publishAt * 1000
       };

@@ -8,7 +8,7 @@
         </label>
         <label class="textarea-input__file-label textarea-input__icon">
           <i class="fa fa-camera text-medium-font" aria-hidden="true"></i>
-          <input type="file" class="textarea-input__file-input" @change="addImage" />
+          <input type="file" accept="image/*" class="textarea-input__file-input" @change="addImage" />
         </label>
         <dropdown :style="{ 'margin-right': '3px' }" class="textarea-input__icon">
           <i slot="trigger" class="fa fa-smile-o text-medium-font" aria-hidden="true"></i>
@@ -21,7 +21,7 @@
 
     </div>
     <div v-if="images.length" class="file-previews">
-      <div v-for="(src, i) in images" :key="i" class="file-previews__item" :style="{ 'background-image': 'url(' + src + ')' }">
+      <div v-for="(src, i) in images" :key="i" class="file-previews__item" :style="{ 'background-image': 'url(' + src.decoded + ')' }">
         <span class="file-previews__remove" @click="removeImage(i)">
           <i class="fa fa-times" aria-hidden="true"></i>
         </span>
@@ -129,6 +129,9 @@ export default {
       if (!files.length) return;
       if (this.images.length + files.length <= this.maxImages) {
         for (let i = 0; i < files.length; i++) {
+          if (files[i].size / 1024 / 1024 > 2) {
+            this.$notifystr.danger('Ошибка!', 'Размер файла не должен превышать 2мб');
+          }
           this._createImage(files[i]);
         }
         if (this.text.length > 200) {
@@ -141,7 +144,8 @@ export default {
     _createImage(file) {
       let reader = new FileReader();
       reader.addEventListener('load', e => {
-        this.images.push(e.target.result);
+        console.log('loaded image', e, file);
+        this.images.push({ decoded: e.target.result, file });
       });
       reader.readAsDataURL(file);
     },
