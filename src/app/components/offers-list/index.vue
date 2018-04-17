@@ -17,9 +17,10 @@ export default Vue.extend({
         price: 130,
         inTopHours: 1,
         inFeedHours: 24,
-        removalHours: '1/24',
         isAutopost: false
       },
+      removalHours: '1/24',
+
       initialPrice: 100,
       time: '12:00',
       inFeedConditions: [{ name: 24 }, { name: 48 }],
@@ -38,7 +39,7 @@ export default Vue.extend({
     channel(val) {
       this.offers = this.channel.channelOffer || [];
     },
-    'offer.removalHours': function(val) {
+    removalHours(val) {
       let arr = val.split('/');
       if (arr && arr.length) {
         this.offer.inTopHours = arr[0];
@@ -121,9 +122,9 @@ export default Vue.extend({
           minute: 0,
           price: 130,
           inTopHours: 1,
-          inFeedHours: 24,
-          removalHours: '1/24'
+          inFeedHours: 24
         };
+        this.removalHours = '1/24';
         this.initialPrice = 100;
         this.time = '12:00';
       });

@@ -17,7 +17,10 @@ export default Vue.extend({
   data() {
     return {
       filter: {
-        time: null,
+        timeFrom: '10:00',
+        timeTo: '22:00',
+        erFrom: 0,
+        erTo: 100,
         weekDay: moment().weekday(),
         subscribersTo: 1000000,
         subscribersFrom: 0,
@@ -26,18 +29,41 @@ export default Vue.extend({
         text: ''
       },
       publishDate: moment(),
+      filterConditions: '1/24',
       // weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
       categories: [],
-      channels: []
+      channels: [],
+      conditions: [
+        { name: '1/24' },
+        { name: '2/24' },
+        { name: '3/24' },
+        { name: '1/48' },
+        { name: '2/48' },
+        { name: '3/48' },
+        { name: '1/72' },
+        { name: '2/72' },
+        { name: '3/72' }
+      ],
+      showFilters: false
     };
   },
   created() {
+    this.getCategories();
     this.getChannels(this.filter);
   },
   watch: {
+    filterConditions(val) {
+      if (!val || !val.name) return;
+      let arr = val.name.split('/');
+      if (arr && arr.length) {
+        this.filter.inTopHours = arr[0];
+        this.filter.inFeedHours = arr[1];
+      }
+    },
     filter: {
       handler(val) {
-        this.getChannels(val);
+        clearTimeout(this.debounceTimeout);
+        this.debounceTimeout = setTimeout(this.getChannels, 1000, val);
       },
       deep: true
     },
@@ -61,11 +87,23 @@ export default Vue.extend({
     }
   },
   methods: {
+    toggleFilters() {
+      this.showFilters = !this.showFilters;
+    },
+    async getCategories() {
+      let { items, count } = await CatalogApi.list();
+      this.categories = items;
+    },
     async getChannels(params = {}) {
+      clearTimeout(this.debounceTimeout);
       let copy = clone(params);
       copy.priceFrom *= 100;
       copy.priceTo *= 100;
-      let { items, count } = await CatalogApi.filter(params);
+      if (copy.category) {
+        copy.categoryId = copy.category.categoryId;
+        delete copy.category;
+      }
+      let { items, count } = await CatalogApi.filter(copy);
 
       this.channels = items.map(item => {
         item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => {

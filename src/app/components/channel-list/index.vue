@@ -28,7 +28,7 @@
         <div class="col">{{(ch.description || '-') | cutLongStr}}</div>
         <div class="col h4 m-0">
           <!-- <telestat-link :channel="ch.username" v-if="ch.subscriberCount>=300" :text="$options.filters.cutSum(ch.subscriberCount)" /> -->
-          <span>{{ch.subscriberCount |cutSum(2)}}</span>
+          <span>{{ch.subscriberCount | cutSum(2)}}</span>
         </div>
 
         <div class="col fa-lg">{{ch.engagementRate}}%</div>
