@@ -21,11 +21,13 @@
     <div class="tab-content mt-3">
         <div class="tab-pane fade"
             :class="{'show active':selected==='inbound'}">
-            <post-list :posts="posts.in"></post-list>
+            <post-list :posts="posts.in"
+                placeholder="Нет входящих постов"></post-list>
         </div>
         <div class="tab-pane fade"
             :class="{'show active':selected==='outbound'}">
             <post-list :posts="posts.out"
+                placeholder="Нет исходящих постов"
                 :is-out="true"></post-list>
         </div>
     </div>

@@ -112,20 +112,38 @@ export default {
 
   methods: {
     createPostOrder() {
-      let { buttons, images, offerId, publishAt, text } = this.post;
-      buttons = JSON.stringify(buttons.map(({ text, url }) => [{ text, url }]));
-      // images = JSON.stringify(images);
-      offerId = this.selectedOfferIds;
-
-      PostApi.create({
+      let { buttons, images, publishAt, text } = this.post;
+      let data = this.getFormData(new FormData(), {
         buttons,
         images,
-        offerId,
-        publishAt,
+        offerId: this.selectedOfferIds,
+        publishAt: publishAt.toISOString(),
         text
-      }).then(() => {
+      });
+      PostApi.create(data).then(() => {
         this.$router.push({ name: 'posts:list' });
       });
+    },
+    getFormData(formData, data, previousKey) {
+      if (data instanceof Object) {
+        Object.keys(data).forEach(key => {
+          const value = data[key];
+          if (value instanceof Object && !Array.isArray(value)) {
+            return this.getFormData(formData, value, key);
+          }
+          if (previousKey) {
+            key = `${previousKey}[${key}]`;
+          }
+          if (Array.isArray(value)) {
+            value.forEach(val => {
+              formData.append(`${key}[]`, val);
+            });
+          } else {
+            formData.append(key, value);
+          }
+        });
+      }
+      return formData;
     },
     saveTemplate() {},
     async openCatalogPopup() {

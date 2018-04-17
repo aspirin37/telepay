@@ -118,7 +118,8 @@ export default Vue.extend({
       Logo,
       showDD: false,
       notifications: [],
-      notificationsCount: 0
+      notificationsCount: 0,
+      updateTimeout: null
     };
   },
   created() {
@@ -139,9 +140,11 @@ export default Vue.extend({
   },
   methods: {
     async getNotificationList() {
+      clearTimeout(this.updateTimeout);
       let { items, total } = await NotificationApi.list();
       this.notifications = items;
       this.notificationsCount = total;
+      this.updateTimeout = setTimeout(this.getNotificationList, 1e4);
     },
     async setIsRead(notificationId) {
       await NotificationApi.markAsRead({ notificationId: notificationId });
