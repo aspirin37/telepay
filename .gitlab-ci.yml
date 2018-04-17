@@ -13,17 +13,15 @@ prod_deploy:
   script:
     - ansible-playbook -i inventories/prod/hosts playbooks/frontend.yml -t short
     - ansible-playbook -i inventories/prod/hosts playbooks/deploy/telepay-frontend.yml -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
-    
-#  only:
-#    - master
-  when: manual
+ only:
+   - master
+  # when: manual
 
 dev_deploy:
   stage: deploy
   script:
     - ansible-playbook -i inventories/dev/hosts playbooks/frontend.yml -t short
     - ansible-playbook -i inventories/dev/hosts playbooks/deploy/telepay-frontend.yml -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
-
-#  only:
-#    - dev
+  only:
+    - dev
   # when: manual
