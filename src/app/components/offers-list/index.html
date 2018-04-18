@@ -117,7 +117,7 @@
                     <span @click="cancelOfferRemoval(of)"
                         class="text-success pointer"> Восстановить</span>
                 </span>
-                <router-link :to="{name:'posts:create',channel:channel}"
+                <router-link :to="{name:'posts:create',params:{selected:[channel]}}"
                     v-else-if="channel.userId !== user.userId"
                     class="h4 m-0">
                     <i class="fa fa-plus"></i> Новый пост</router-link>

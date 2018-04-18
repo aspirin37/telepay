@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     getImageSrc(src) {
-      if (typeof src === 'string') return src;
+      if (typeof src === 'string') return '/images/posts/' + src;
       return src && src.decoded;
     },
     replaceMarkdown(text) {
