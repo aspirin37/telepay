@@ -14,7 +14,7 @@
       </p>
       <div class="preview__buttons" v-if="post && post.buttons && post.buttons.length">
     <a target="_blank" rel="nofollow noreferrer noopener" v-for="btn in post.buttons" class="preview__button" :href="`//${btn.link}`" v-show="btn.text">
-      <span class="arrow">
+      <span class="link-arrow">
         <svg viewBox="0 0 283.178 283.178">
         	<g>
         		<path d="M254.812,140.713h-20c-4.142,0-7.5,3.358-7.5,7.5v91.186c0,4.84-3.939,8.778-8.779,8.778H43.776
@@ -234,7 +234,7 @@ export default {
       color: #fff;
       text-decoration: none;
     }
-    .arrow {
+    .link-arrow {
       position: absolute;
       display: flex;
       top: 5px;

@@ -104,10 +104,16 @@ export default Vue.extend({
         delete copy.category;
       }
       let { items, count } = await CatalogApi.filter(copy);
-
+      let isToday = this.publishDate.day() === moment().day(),
+        nowHour = moment().hour(),
+        nowMinute = moment().minute();
       this.channels = items.map(item => {
         item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => {
-          return offer.weekDay === params.weekDay;
+          let filterToday = true;
+          if (isToday) {
+            filterToday = offer.hour > nowHour || (offer.hour === nowHour && offer.minute > nowMinute);
+          }
+          return offer.weekDay === params.weekDay && filterToday;
         });
         return item.channelInfo;
       });
