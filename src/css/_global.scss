@@ -190,6 +190,15 @@ body {
     }
 }
 
+.fade-out-enter-active, .fade-out-leave-active {
+    transition: .2s ease-in-out;
+}
+
+.fade-out-enter, .fade-out-leave-to {
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
 .fade-enter-active, .fade-leave-active {
     transition: .2s ease-in-out;
 }

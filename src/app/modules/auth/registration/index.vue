@@ -13,29 +13,40 @@ export default Vue.extend({
   data() {
     return {
       user: {
-        login: this.$route.params.login || ''
+        login: this.$route.params.login || null,
+        password: null
+      },
+      passCheck: null,
+      validations: {
+        passwordMatch: false
       }
     };
   },
   methods: {
-    register() {
-      let cloned = clone(this.user);
-      AuthService.register(cloned)
-        .then(res => {
-          if (res && res.token) {
-            Vue.http.headers.common['X-API-TOKEN'] = res.token;
-            LS.set('auth_key', res.token);
-            return UserApi.getUser();
-          }
-          return null;
-        })
-        .then(res => {
-          if (res) {
-            this.$store.commit('SET_USER', res);
-            this.$router.push({ name: 'catalog' });
-          }
-        })
-        .catch(err => console.error(err));
+    register(ev) {
+      ev.preventDefault();
+
+      if (this.user.password === this.passCheck) {
+        let cloned = clone(this.user);
+        AuthService.register(cloned)
+          .then(res => {
+            if (res && res.token) {
+              Vue.http.headers.common['X-API-TOKEN'] = res.token;
+              LS.set('auth_key', res.token);
+              return UserApi.getUser();
+            }
+            return null;
+          })
+          .then(res => {
+            if (res) {
+              this.$store.commit('SET_USER', res);
+              this.$router.push({ name: 'catalog' });
+            }
+          })
+          .catch(err => console.error(err));
+      } else {
+        this.validations.passwordMatch = true;
+      }
     }
   },
   template

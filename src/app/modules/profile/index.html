@@ -1,46 +1,61 @@
 <div class="container py-3">
-  <h1 class="text-medium-font mb-4">Профиль</h1>
-  <div class="row mb-4">
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Имя</p>
-        <input type="text" readonly class="form-control" placeholder="Имя">
-      </div>
+    <h1 class="text-medium-font mb-4">Профиль</h1>
+    <div class="row mb-4">
+        <div class="col-4">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">Имя</p>
+                <input type="text"
+                    v-model="user.name"
+                    class="form-control"
+                    placeholder="Имя">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">E-mail</p>
+                <input type="email"
+                    v-model="user.email.address"
+                    class="form-control"
+                    placeholder="E-mail">
+            </div>
+        </div>
+        <!-- <div class="col-4">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">Телефон</p>
+              <masked-input placeholder="+7 (987) 654-32-10" class="form-control" readonly mask="\+\7 (111) 111-11-11" /> 
+                <input type="text"
+                    readonly
+                    class="form-control"
+                    placeholder="Телефон">
+            </div>
+        </div> -->
+        <div class="col-4">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">Telegram аккаунт</p>
+                <input type="email"
+                    readonly
+                    class="form-control"
+                    placeholder="Telegram аккаунт">
+            </div>
+        </div>
     </div>
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">E-mail</p>
-        <input type="email" readonly class="form-control" placeholder="E-mail">
-      </div>
+    <h2 class="text-medium-font mb-4">Изменение пароля</h2>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">Старый пароль</p>
+                <password-input classes="form-control"
+                    placeholder="Старый пароль" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">Новый пароль</p>
+                <password-input classes="form-control"
+                    placeholder="Новый пароль"
+                    :readonly="true" />
+            </div>
+        </div>
     </div>
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Телефон</p>
-        <masked-input placeholder="+7 (987) 654-32-10" class="form-control" readonly mask="\+\7 (111) 111-11-11" />
-        <!-- <input type="text" readonly class="form-control" placeholder="Имя"> -->
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Telegram аккаунт</p>
-        <input type="email" readonly class="form-control" placeholder="Telegram аккаунт">
-      </div>
-    </div>
-  </div>
-  <h2 class="text-medium-font mb-4">Изменение пароля</h2>
-  <div class="row">
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Старый пароль</p>
-        <password-input classes="form-control" placeholder="Старый пароль" />
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="form-group">
-        <p class="text-medium-font font-weight-500 mb-1">Новый пароль</p>
-        <password-input classes="form-control" placeholder="Новый пароль" :readonly="true" />
-      </div>
-    </div>
-  </div>
-  <button class="btn btn-success">Сохранить</button>
+    <button class="btn btn-success">Сохранить</button>
 </div>

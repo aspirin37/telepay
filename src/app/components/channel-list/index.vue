@@ -33,8 +33,8 @@
 
         <div class="col fa-lg">{{ch.engagementRate}}%</div>
         <div class="col-5 h4 m-0">
-          <transition name="fade-out" mode="out-in">
-            <div class="form-row" v-if="!ch.showAllOffers && ch.cheapestOffer">
+          <transition-group name="fade-out" mode="out-in">
+            <div class="form-row" v-if="!ch.showAllOffers && ch.cheapestOffer" :key="ch.cheapestOffer.channelOfferId">
               <div class="col-5">{{offerTime(ch.cheapestOffer,true)}} - {{ch.cheapestOffer.inTopHours}}/{{ch.cheapestOffer.inFeedHours}}</div>
               <div class="col-5">{{ ch.cheapestOffer.price | centToRub}}
                 <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.channelOffer.length > 1" @click="ch.showAllOffers = true"></i>
@@ -43,8 +43,6 @@
                 <norm-checkbox v-model="ch.selected" @change="toggleChannel(ch)" />
               </div>
             </div>
-          </transition>
-          <transition-group name="fade-out">
             <div class="form-row" v-if="ch.showAllOffers" :key="offer.channelOfferId" v-for="offer in ch.channelOffer">
               <div class="col-5">{{ offerTime(offer,true) }} - {{ offer.inTopHours }}/{{ offer.inFeedHours }}</div>
               <div class="col-5">{{ offer.price | centToRub}}

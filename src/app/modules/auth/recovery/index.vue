@@ -13,7 +13,8 @@ export default Vue.extend({
     };
   },
   methods: {
-    recover() {
+    recover(ev) {
+      ev.preventDefault();
       UserApi.requestResetPass({ login: this.login })
         .then(res => {
           if (/\+7\d{10}/.test(this.login)) {

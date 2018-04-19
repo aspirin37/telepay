@@ -50,7 +50,7 @@ export default {
     dateConfig() {
       let self = this;
       return {
-        ...this.$store.state.configs.date,
+        ...self.$store.state.configs.date,
         enable: [
           function(date) {
             if (!self.selectedChannels[0] || !self.selectedChannels[0].channelOffer || !self.selectedChannels[0].channelOffer[0]) {

@@ -9,7 +9,7 @@
           <router-link :to="{name:'catalog'}" class="nav-link">Каталог</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'support'}" v-if="!isAuthorized" class="nav-link">Техподдержка</router-link>
+          <router-link :to="{name:'support'}" v-if="isAuthorized" class="nav-link">Техподдержка</router-link>
         </li>
         <li class="nav-item py-3">
           <!-- <router-link :to="{name:'faq'}" v-if="!isAuthorized" class="nav-link">F.A.Q.</router-link> -->
