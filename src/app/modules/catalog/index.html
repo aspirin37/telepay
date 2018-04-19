@@ -13,7 +13,7 @@
                 <div class="form-group mb-1"
                     v-show="showFilters">
                     <label class="col-form-label search__label">Участников</label>
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">от</span>
                         </div>
@@ -50,7 +50,7 @@
                 <div class="form-group mb-1"
                     v-show="showFilters">
                     <label class="col-form-label search__label">Вовлечённость (ER)</label>
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">от</span>
                         </div>
@@ -80,7 +80,7 @@
                 <div class="form-group mb-1"
                     v-show="showFilters">
                     <label class="col-form-label search__label">Цена (руб)</label>
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">от</span>
                         </div>
@@ -111,7 +111,7 @@
                 <div class="form-group mb-1"
                     v-show="showFilters">
                     <label class="col-form-label search__label">Время размещения</label>
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">от</span>
                         </div>
@@ -144,7 +144,6 @@
             </div>
         </div>
     </div>
-    <channel-list v-if="channels.length"
-        :filter="filter"
+    <channel-list :filter="filter"
         :channels="channels" />
 </div>

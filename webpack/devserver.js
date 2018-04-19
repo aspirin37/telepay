@@ -14,7 +14,7 @@ module.exports = function(paths) {
             contentBase: paths.source,
             compress: true,
             proxy: {
-                '/images/channels': {
+                '/images/': {
                     target: 'http://dev.telepay.io',
                     secure: false,
                     logLevel: 'debug',

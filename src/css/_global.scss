@@ -71,8 +71,7 @@ body {
         &-icon {
             height: 16px;
             width: 16px;
-            padding: 2px;
-            fill: #fff;
+            padding: 2px; // fill: #fff;
         }
     }
     &__value {
@@ -85,7 +84,7 @@ body {
         line-height: 20px;
         padding: 10px;
         color: #576077;
-        border: 2px solid rgb(224, 224, 224);
+        border: 2px solid theme-color('text-white');
         border-radius: 0.25rem;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
@@ -154,6 +153,10 @@ body {
         .dropdown-item {
             white-space: normal;
             padding: 0.25rem 0.75rem;
+            &:active {
+                color: initial;
+                background-color: #eee;
+            }
         }
     }
 }
@@ -185,6 +188,15 @@ body {
             }
         }
     }
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: .2s ease-in-out;
+}
+
+.fade-enter, .fade-leave-to {
+    transform: translateY(20px);
+    opacity: 0;
 }
 
 .flex-table {

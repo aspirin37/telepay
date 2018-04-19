@@ -12,7 +12,8 @@
           <router-link :to="{name:'support'}" v-if="!isAuthorized" class="nav-link">Техподдержка</router-link>
         </li>
         <li class="nav-item py-3">
-          <router-link :to="{name:'faq'}" v-if="!isAuthorized" class="nav-link">F.A.Q.</router-link>
+          <!-- <router-link :to="{name:'faq'}" v-if="!isAuthorized" class="nav-link">F.A.Q.</router-link> -->
+          <a href="https://landing.telepay.io/faq.html" v-if="!isAuthorized" class="nav-link">F.A.Q.</a>
         </li>
         <li class="nav-item py-3" v-if="isAuthorized">
           <router-link :to="{name:'channels'}" class="nav-link">Каналы</router-link>
@@ -37,18 +38,20 @@
                 <span class="badge badge-pill badge-success" v-show="notificationsCount > 0">{{ notificationsCount }}</span>
               </button>
               <!-- FIXME надо сделать так чтобы скрывалось только при клике вне уведомлений -->
-              <div class="dropdown-menu show" v-show="showDD" ref="ddmenu">
-                <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}</h6>
-                <span class="dropdown-item" v-for="notify in notifications" :key="notify.notificationId">
-                  <div class="form-row">
-                    <div class="col-10">{{ notify.text }}</div>
-                    <div class="col-2">
-                      <i class="fa fa-times fa-lg pointer text-right" @click="setIsRead(notify.notificationId)"></i>
+              <transition name="fade">
+                <div class="dropdown-menu show" v-show="showDD" ref="ddmenu">
+                  <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}</h6>
+                  <span class="dropdown-item" v-for="notify in notifications" :key="notify.notificationId">
+                    <div class="form-row">
+                      <div class="col-10" v-html="notify.text"></div>
+                      <div class="col-2">
+                        <i class="fa fa-times fa-lg pointer text-right" @click="setIsRead(notify.notificationId)"></i>
+                      </div>
                     </div>
-                  </div>
+                  </span>
+                </div>
+              </transition>
 
-                </span>
-              </div>
               <!-- <drop-down class="py-3" event-trigger="hover">
                 <div class="notifs__wrap" slot="trigger">
                   <i class="fa fa-lg fa-bell"></i>
@@ -107,6 +110,7 @@ import dropDown from '@components/dropdown';
 import dropDownMenuItem from '@components/dropdown/menu-item.vue';
 import Logo from '@assets/logo.svg';
 import LS from '@utils/local-storage';
+import { clone } from '@utils/clone';
 import { mapGetters } from 'vuex';
 import { NotificationApi } from '@services/api';
 
@@ -147,7 +151,10 @@ export default Vue.extend({
       this.updateTimeout = setTimeout(this.getNotificationList, 1e4);
     },
     async setIsRead(notificationId) {
-      await NotificationApi.markAsRead({ notificationId: notificationId });
+      let cachedNotifications = clone(this.notifications);
+      this.notifications = this.notifications.filter(n => n.notificationId !== notificationId);
+
+      await NotificationApi.markAsRead({ notificationId });
       this.getNotificationList();
     }
   }

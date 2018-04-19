@@ -16,7 +16,7 @@
         <div class="col-3">
           <div class="form-row">
             <div class="col-3">
-              <avatar :src="'/images/channels/'+ch.telegramId+'_'+ch.photoId+'.jpg'" :circle="true" />
+              <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'" :circle="true" />
             </div>
             <div class="col-9 pl-4">
               <router-link v-if="ch&&user" :to="{name:ch.userId === user.userId?'channels:update':'channels:show',params:{id:ch.channelId}}">

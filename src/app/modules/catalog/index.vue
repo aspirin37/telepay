@@ -20,13 +20,15 @@ export default Vue.extend({
         timeFrom: '10:00',
         timeTo: '22:00',
         erFrom: 0,
-        erTo: 100,
+        erTo: 1000,
         weekDay: moment().weekday(),
         subscribersTo: 1000000,
         subscribersFrom: 0,
         priceTo: 100000,
         priceFrom: 0,
-        text: ''
+        text: '',
+        inTopHours: null,
+        inFeedHours: null
       },
       publishDate: moment(),
       filterConditions: '1/24',
@@ -53,17 +55,23 @@ export default Vue.extend({
   },
   watch: {
     filterConditions(val) {
-      if (!val || !val.name) return;
+      if (!val || !val.name) {
+        this.filter.inTopHours = null;
+        this.filter.inFeedHours = null;
+        this.getChannels(this.filter);
+        return;
+      }
       let arr = val.name.split('/');
       if (arr && arr.length) {
         this.filter.inTopHours = arr[0];
         this.filter.inFeedHours = arr[1];
+        this.getChannels(this.filter);
       }
     },
     filter: {
-      handler(val) {
+      handler(val, newval) {
         clearTimeout(this.debounceTimeout);
-        this.debounceTimeout = setTimeout(this.getChannels, 1000, val);
+        this.debounceTimeout = setTimeout(this.getChannels, 500, val);
       },
       deep: true
     },

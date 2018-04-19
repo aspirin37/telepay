@@ -35,7 +35,7 @@ export default {
     },
     options: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     searchAction: {
       type: Function
@@ -47,7 +47,7 @@ export default {
     after: {
       type: Boolean,
       default: true
-    },
+    }
   },
   data() {
     return {
@@ -58,7 +58,7 @@ export default {
       cursor: -1,
       filteredOptions: [],
       numeredOptions: []
-    }
+    };
   },
   created() {
     this.getNumered(this.options);
@@ -71,13 +71,13 @@ export default {
   },
   methods: {
     search(e) {
-      if(this.selected) this.selected = null;
+      if (this.selected) this.selected = null;
       this.searchAction(this.searchString).then(res => {
-        this.filteredOptions = (res && res.items) ? res.items : [];
+        this.filteredOptions = res && res.items ? res.items : [];
       });
     },
     inputBlur(e) {
-      if(!this.$refs.wrap.contains(e.target)) {
+      if (!this.$refs.wrap.contains(e.target)) {
         this.stopSearching();
         this.hideDropdown();
       }
@@ -114,30 +114,28 @@ export default {
     scrollUp(list) {
       this.cursor--;
       let activeItem = list.children[this.cursor];
-      if(activeItem.offsetTop > (list.scrollTop + list.offsetHeight))
-        list.scrollTop = (activeItem.offsetTop + activeItem.offsetHeight) - list.offsetHeight;
-      if(activeItem.offsetTop < list.scrollTop) list.scrollTop = activeItem.offsetTop;
+      if (activeItem.offsetTop > list.scrollTop + list.offsetHeight)
+        list.scrollTop = activeItem.offsetTop + activeItem.offsetHeight - list.offsetHeight;
+      if (activeItem.offsetTop < list.scrollTop) list.scrollTop = activeItem.offsetTop;
     },
     scrollDown(list) {
       this.cursor++;
       let activeItem = list.children[this.cursor];
-      if(activeItem.offsetTop < list.scrollTop) list.scrollTop = activeItem.offsetTop;
-      if((activeItem.offsetTop + activeItem.offsetHeight) >= (list.offsetHeight + list.scrollTop))
-        list.scrollTop = (activeItem.offsetTop + activeItem.offsetHeight) - list.offsetHeight;
+      if (activeItem.offsetTop < list.scrollTop) list.scrollTop = activeItem.offsetTop;
+      if (activeItem.offsetTop + activeItem.offsetHeight >= list.offsetHeight + list.scrollTop)
+        list.scrollTop = activeItem.offsetTop + activeItem.offsetHeight - list.offsetHeight;
     },
     scrollDropdown(e) {
       this.$nextTick(() => {
-        if(e.keyCode === 40 && this.cursor < this.getOptions.length - 1)
-          this.scrollDown(this.$refs.dropdown);
-        else if(e.keyCode === 38 && this.cursor >= 0)
-          this.scrollUp(this.$refs.dropdown);
-      })
+        if (e.keyCode === 40 && this.cursor < this.getOptions.length - 1) this.scrollDown(this.$refs.dropdown);
+        else if (e.keyCode === 38 && this.cursor >= 0) this.scrollUp(this.$refs.dropdown);
+      });
     },
     getActive(option) {
-      return (this.selected && this.selected.id === option.id) ? 'search-input__dropdown-item_active' : '';
+      return this.selected && this.selected.id === option.id ? 'search-input__dropdown-item_active' : '';
     },
     getHovered(option) {
-      return (this.cursor === option) ? 'search-input__dropdown-item_hovered' : '';
+      return this.cursor === option ? 'search-input__dropdown-item_hovered' : '';
     },
     showDropdown() {
       this.dropdownVisible = true;
@@ -159,10 +157,10 @@ export default {
     getOptions(n) {
       let entry = 0;
       n.forEach((prop, i) => {
-        if(prop.id === this.cursor) {
-          return entry = (i + 1);
+        if (prop.id === this.cursor) {
+          return (entry = i + 1);
         }
-      })
+      });
       this.cursor = entry;
     },
     searchString(n) {
@@ -171,24 +169,14 @@ export default {
   },
   computed: {
     getOptions() {
-      return (this.searchString) ? this.filteredOptions : this.numeredOptions;
+      return this.searchString ? this.filteredOptions : this.numeredOptions;
     },
     showNoDataOption() {
-      return (!this.filteredOptions.length && this.searchString.length > 0);
+      return !this.filteredOptions.length && this.searchString.length > 0;
     },
     cleanerVisible() {
-      return ((this.searchString !== '') || this.selected);
+      return this.searchString !== '' || this.selected;
     }
   }
-}
+};
 </script>
-
-<style lang="scss">
-.fade-enter-active, .fade-leave-active {
-  transition: .2s ease-in-out;
-}
-.fade-enter, .fade-leave-to {
-  transform: translateY(20px);
-  opacity: 0;
-}
-</style>

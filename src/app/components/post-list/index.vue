@@ -15,7 +15,7 @@
         <div class="col-3">
           <div class="form-row">
             <div class="col-3">
-              <avatar :src="'/images/channels/'+post.channelOffer.channel.telegramId+'_'+post.channelOffer.channel.photoId+'.jpg'" :circle="true" />
+              <avatar :src="'/images/channels/'+post.channelOffer.channel.telegramId+'/'+post.channelOffer.channel.photoId+'.jpg'" :circle="true" />
             </div>
             <div class="col-9 pl-4">
               <router-link :to="{

@@ -112,7 +112,7 @@
 
 .form-control {
     flex: 1 1 !important;
-    border: 2px solid rgb(224, 224, 224);
+    border: 2px solid theme-color('text-white');
     color: theme-color('slate');
     font-size: 16px;
     line-height: 20px;
@@ -126,14 +126,6 @@
 
 select.form-control {
     height: 44px !important;
-}
-
-.input-group-text {
-    background-color: rgb(224, 224, 224);
-    border: 0;
-    color: theme-color('slate');
-    font-size: 16px;
-    line-height: 20px;
 }
 
 .form-control-prepend {
@@ -160,36 +152,32 @@ button, .btn {
 }
 
 // nouislider
-.noUi-wrap {
-    padding: 0 10px;
-}
-
-.noUi-handle {
-    border-radius: 50%;
-    outline: none;
-    &::before, &::after {
-        content: none;
-    }
-}
-
-.noUi-connect {
-    background: #03a9f4;
-    background: -moz-linear-gradient(right, #03a9f4 0%, #20c997 100%);
-    background: -webkit-linear-gradient(right, #03a9f4 0%, #20c997 100%);
-    background: linear-gradient(to left, #03a9f4 0%, #20c997 100%);
-    background-size: 100% 100%;
-}
-
-.noUi-horizontal {
-    height: 12px;
-    .noUi-handle {
-        top: -6px;
-        width: 21px;
-        height: 21px;
-        left: -10px;
-    }
-}
-
+// .noUi-wrap {
+//     padding: 0 10px;
+// }
+// .noUi-handle {
+//     border-radius: 50%;
+//     outline: none;
+//     &::before, &::after {
+//         content: none;
+//     }
+// }
+// .noUi-connect {
+//     background: #03a9f4;
+//     background: -moz-linear-gradient(right, #03a9f4 0%, #20c997 100%);
+//     background: -webkit-linear-gradient(right, #03a9f4 0%, #20c997 100%);
+//     background: linear-gradient(to left, #03a9f4 0%, #20c997 100%);
+//     background-size: 100% 100%;
+// }
+// .noUi-horizontal {
+//     height: 12px;
+//     .noUi-handle {
+//         top: -6px;
+//         width: 21px;
+//         height: 21px;
+//         left: -10px;
+//     }
+// }
 //selectr
 .input-group .form-control {
     width: 100%;

@@ -2,14 +2,14 @@
   <div class="container py-3">
    <h2 class="text-secondary my-4">Просмотр канала
         <router-link tag="small"
-            :to="{name:'channels:list'}"
+            :to="{name:'catalog'}"
             class="float-right pointer">
             <i class="fa fa-lg fa-chevron-left pt-1"></i> Назад</router-link>
     </h2>
     <div class="row mt-4"
         v-if="channel">
         <div class="col-2 ">
-            <avatar :src="'/images/channels/'+channel.telegramId+'_'+channel.photoId+'.jpg'"
+            <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
                 style="max-width: 200px; max-height: 200px;"
                 :circle="true" />
         </div>

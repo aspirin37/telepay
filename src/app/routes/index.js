@@ -8,12 +8,14 @@ import Profile from '@modules/profile';
 import Channels from './channels';
 import Posts from './posts';
 import Support from './support';
+import Balance from './balance';
 
 const routes = [
     Auth,
     Channels,
     Posts,
     Support,
+    Balance,
     //   {
     //       path: '/',
     //       name: 'main',
