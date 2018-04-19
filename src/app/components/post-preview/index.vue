@@ -13,7 +13,7 @@
         <span class="preview__time">{{ post.time }}</span>
       </p>
       <div class="preview__buttons" v-if="post && post.buttons && post.buttons.length">
-    <a target="_blank" rel="nofollow noreferrer noopener" v-for="btn in post.buttons" class="preview__button" :href="`//${btn.link}`" v-show="btn.text">
+    <a target="_blank" rel="nofollow noreferrer noopener" v-for="btn in post.buttons" class="preview__button" :href="`//${btn[0].link}`" v-show="btn[0].text">
       <span class="link-arrow">
         <svg viewBox="0 0 283.178 283.178">
         	<g>
@@ -28,7 +28,7 @@
         	</g>
         </svg>
       </span>
-      {{ btn.text }}
+      {{ btn[0].text }}
     </a>
   </div>
     </div>

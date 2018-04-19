@@ -28,13 +28,13 @@
       </div>
     </div>
 
-    <div class="form-row mt-2" :key="btn.id" v-for="btn in buttons">
+    <div class="form-row mt-2" :key="btn[0].id" v-for="btn in buttons">
       <div class="col">
-        <input class="form-control" type="text" v-model="btn.text" placeholder="Текст кнопки"></div>
+        <input class="form-control" type="text" v-model="btn[0].text" placeholder="Текст кнопки"></div>
       <div class="col">
-        <input class="form-control" type="text" v-model="btn.url" placeholder="Ссылка"></div>
+        <input class="form-control" type="text" v-model="btn[0].url" placeholder="Ссылка"></div>
       <div class="col-1">
-        <button class="btn" @click="removeButton(btn.id)">
+        <button class="btn" @click="removeButton(btn[0].id)">
           <i class="fa fa-trash"></i>
         </button>
       </div>
@@ -165,10 +165,10 @@ export default {
       if (this.buttons.length >= 10) {
         return this.$notifystr.warning('Внимание', 'Можно прикрепить не более 10 кнопок');
       }
-      this.buttons.push({ id: this.buttons.length, text: 'Текст кнопки', url: 'http://example.com' });
+      this.buttons.push([{ id: this.buttons.length, text: 'Текст кнопки', url: 'http://example.com' }]);
     },
     removeButton(index) {
-      this.buttons = this.buttons.filter(item => item.id !== index);
+      this.buttons = this.buttons.filter(item => item[0].id !== index);
     }
   }
 };

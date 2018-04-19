@@ -1,7 +1,7 @@
 <template src="./index.html"></template>
 <script>
 import { mapState } from 'vuex';
-import { ChannelApi } from '@services/api';
+import { ChannelApi, PostApi } from '@services/api';
 import channelStatuses from '@utils/channel-statuses';
 import postStatuses from '@utils/post-statuses';
 import { clone } from '@utils/clone';
@@ -71,6 +71,7 @@ export default {
             offerCopy.channel = channelCopy;
             offer.postOrder.forEach(post => {
               post.channelOffer = offerCopy;
+              post.showPreview = false;
             });
             sum.push(...offer.postOrder);
           }
@@ -81,6 +82,34 @@ export default {
       });
 
       this.channels = items;
+    },
+    async approvePost(post) {
+      let swalOut = await swal({
+        type: 'success',
+        title: 'Подтвердить размещение поста?',
+        confirmButtonText: 'Да, подтвердить!'
+      });
+
+      if (swalOut && !swalOut.dismiss && swalOut.value) {
+        await PostApi.updateStatus(post.postOrderId, {
+          status: 0
+        });
+        this.getList();
+      }
+    },
+    async declinePost(post) {
+      let swalOut = await swal({
+        type: 'error',
+        title: 'Отклонить размещение поста?',
+        confirmButtonText: 'Да, отклонить!'
+      });
+
+      if (swalOut && !swalOut.dismiss && swalOut.value) {
+        await PostApi.updateStatus(post.postOrderId, {
+          status: 1
+        });
+        this.getList();
+      }
     },
     toggleOrders(ch) {
       if (ch.postOrders && ch.postOrders.length) {
