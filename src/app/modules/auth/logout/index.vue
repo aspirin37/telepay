@@ -1,11 +1,11 @@
 <template lang="html"></template>
 
 <script>
-import { AuthService } from '@services/api';
+import { AuthApi } from '@services/api';
 import LS from '@utils/local-storage';
 export default {
   created() {
-    AuthService.logout().finally(() => this.clearFront());
+    AuthApi.logout().finally(() => this.clearFront());
   },
   methods: {
     clearFront() {

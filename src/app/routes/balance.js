@@ -9,15 +9,15 @@ export default {
     redirect: '/balance/transactions',
     children: [{
         path: 'transactions',
-        name: 'transactions',
+        name: 'balance:transactions',
         component: Transactions,
     }, {
         path: 'withdrawal',
-        name: 'withdrawal',
+        name: 'balance:withdrawal',
         component: Withdrawal,
     }, {
         path: 'replenishment',
-        name: 'replenishment',
+        name: 'balance:replenishment',
         component: Replenishment,
     }],
 };

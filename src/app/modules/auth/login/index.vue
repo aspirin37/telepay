@@ -1,7 +1,7 @@
 <script>
 import template from './index.html';
 
-import { AuthService, UserApi } from '@services/api';
+import { AuthApi, UserApi } from '@services/api';
 import LS from '@utils/local-storage';
 import loginInput from '@components/login-input';
 import { clone } from '@utils/clone';
@@ -20,7 +20,7 @@ export default Vue.extend({
       ev.preventDefault();
 
       let cloned = clone(this.user);
-      AuthService.login(cloned)
+      AuthApi.login(cloned)
         .then(res => {
           if (res && res.token) {
             Vue.http.headers.common['X-API-TOKEN'] = res.token;

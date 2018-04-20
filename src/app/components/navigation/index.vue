@@ -8,9 +8,9 @@
         <li class="nav-item py-3">
           <router-link :to="{name:'catalog'}" class="nav-link">Каталог</router-link>
         </li>
-        <li class="nav-item py-3">
+        <!-- <li class="nav-item py-3">
           <router-link :to="{name:'support'}" v-if="isAuthorized" class="nav-link">Техподдержка</router-link>
-        </li>
+        </li> -->
         <li class="nav-item py-3">
           <!-- <router-link :to="{name:'faq'}" v-if="!isAuthorized" class="nav-link">F.A.Q.</router-link> -->
           <a href="https://landing.telepay.io/faq.html" v-if="!isAuthorized" class="nav-link">F.A.Q.</a>
@@ -75,10 +75,12 @@
             </li>
             <li class="nav-item py-3">
               <div class="user-field">
-                <i class="fa fa-money" aria-hidden="true"></i>
-                <span>{{ balance.current | centToRub }}
-                  <span class="text-muted">({{ balance.hold | centToRub }})</span>
-                </span>
+                <router-link :to="{ name: 'balance' }" class="text-secondary">
+                  <i class="fa fa-money" aria-hidden="true"></i>
+                  <span>{{ balance.current | centToRub }}
+                    <span class="text-muted">({{ balance.hold | centToRub }})</span>
+                  </span>
+                </router-link>
               </div>
             </li>
             <li class="nav-item mr-4">
@@ -90,9 +92,12 @@
                   <drop-down-menu-item>
                     <router-link class="user-menu__item" :to="{ name: 'profile' }">Профиль</router-link>
                   </drop-down-menu-item>
-                  <!-- <drop-down-menu-item>
-                    <router-link class="user-menu__item" :to="{ name: 'favs' }">Избранное</router-link>
-                  </drop-down-menu-item> -->
+                  <drop-down-menu-item>
+                    <router-link class="user-menu__item" :to="{ name: 'balance' }">Баланс</router-link>
+                  </drop-down-menu-item>
+                  <drop-down-menu-item>
+                    <a href="https://landing.telepay.io/faq.html" target="_blank" class="user-menu__item">F.A.Q.</a>
+                  </drop-down-menu-item>
                   <drop-down-menu-item>
                     <router-link class="user-menu__item" :to="{ name: 'logout' }">Выйти</router-link>
                   </drop-down-menu-item>
@@ -128,6 +133,9 @@ export default Vue.extend({
   },
   created() {
     this.getNotificationList();
+  },
+  destroyed() {
+    clearTimeout(this.updateTimeout);
   },
   computed: {
     ...mapGetters({

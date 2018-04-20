@@ -61,6 +61,8 @@ export default {
     connectWebsocket() {
       // TODO вынести сокет в миксин
       let botUrl;
+
+      let self = this;
       let protocol = location.protocol === 'https:' ? 'wss' : 'ws';
       switch (process.env.url) {
         case 'loc':
@@ -74,8 +76,15 @@ export default {
           break;
       }
       this.ws = new WebSocket(botUrl, LS.get('auth_key'));
+      this.ws.pingpong = function() {
+        if (self.ws && self.ws.readyState === self.ws.OPEN) {
+          self.ws.send(0);
+          setTimeout(self.ws.pingpong, 5000);
+        }
+      };
       this.ws.onopen = () => {
         console.log('WebSocket opened');
+        setTimeout(self.ws.pingpong, 5000);
       };
       this.ws.onclose = ev => {
         switch (ev.code) {
@@ -89,7 +98,6 @@ export default {
             break;
         }
       };
-      let self = this;
       this.ws.onmessage = function(msg) {
         let res;
         try {
@@ -149,7 +157,7 @@ export default {
     },
     add() {
       let copy = clone(this.channel);
-      let categoryId = copy.category.categoryId;
+      let categoryId = copy.category && copy.category.categoryId;
       delete copy.category;
 
       ChannelApi.create({

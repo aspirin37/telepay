@@ -6,11 +6,10 @@ import PostApi from './post';
 import CatalogApi from './catalog';
 import OfferApi from './offer';
 import NotificationApi from './notification';
-
-
-import AuthService from './auth';
+import AuthApi from './auth';
 import UserApi from './user';
-import FavsApi from './favs';
+import BalanceApi from './balance';
+// import FavsApi from './favs';
 
 let API_BASE;
 let protocol = (document.location && document.location.protocol) || 'http:';
@@ -32,12 +31,13 @@ Vue.http.options = {
 };
 
 export {
-    AuthService,
+    AuthApi,
     OfferApi,
     ChannelApi,
     CatalogApi,
     NotificationApi,
     UserApi,
-    FavsApi,
+    // FavsApi,
+    BalanceApi,
     PostApi,
 };
