@@ -10,6 +10,7 @@ export default {
   components: { searchInput, avatar, onOff },
   data() {
     return {
+      auth_key: LS.get('auth_key'),
       channel: {
         title: 'Заголовок вашего канала',
         description: `Здесь будет отображено описание вашего канала.

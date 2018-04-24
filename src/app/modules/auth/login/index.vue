@@ -31,7 +31,7 @@ export default Vue.extend({
         })
         .then(res => {
           if (res) {
-            if (res.roles === 'user' || res.roles === 'admin') {
+            if (['user', 'admin', 'confirmed'].includes(res.roles)) {
               this.$store.commit('SET_USER', res);
               this.$router.push({ name: 'catalog' });
             } else {

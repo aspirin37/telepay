@@ -32,10 +32,9 @@
         <div class="col-4">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Telegram аккаунт</p>
-                <input type="email"
-                    readonly
-                    class="form-control"
-                    placeholder="Telegram аккаунт">
+                <a :href="'tg://resolve?domain=telepayDevBot&start='+(user.telegram_id?'unlinkAccountdivider':'linkAccountdivider')+auth_key"
+                    class="btn btn-tg btn-block"
+                    @click="startFetchingUser">{{user.telegram_id?'Отвязать':'Привязать'}} аккаунт Telegram</a>
             </div>
         </div>
     </div>

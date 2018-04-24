@@ -3,7 +3,7 @@ import { UserApi, AuthApi } from '@services/api';
 
 async function checkUserAvailable(App) {
     let auth_key = LS.get('auth_key');
-    let isAuth = window.location.pathname.includes('auth/');
+    let isAuth = window.location.pathname.includes('auth/') || window.location.pathname.includes('telegram-login') ;
 
     if (!auth_key && !isAuth) {
         // нет токена

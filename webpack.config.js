@@ -50,9 +50,9 @@ const common = function(env) {
                 },
             },
             plugins: [
-                // new BundleAnalyzerPlugin({ analyzerPort: 5541 }),
-                new webpack.optimize.ModuleConcatenationPlugin(),
-                new HtmlWebpackPlugin({
+            // new BundleAnalyzerPlugin({ analyzerPort: 5541 }),
+            // new webpack.optimize.ModuleConcatenationPlugin(),
+            new HtmlWebpackPlugin({
                     inject: 'body',
                     template: PATHS.source + '/app/index.html',
                     // favicon: PATHS.source + '/assets/gb_fav.ico',
@@ -61,31 +61,30 @@ const common = function(env) {
                         collapseWhitespace: true,
                     },
                 }),
-                new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ru)$/), // load only en/ru locale
-                new webpack.DefinePlugin({
+            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ru)$/), // load only en/ru locale
+            new webpack.DefinePlugin({
                     'process.env': {
                         url: '\'' + env.url + '\'',
                         NODE_ENV: '\'' + env.NODE_ENV + '\'',
                     },
                 }),
-                new webpack.ProvidePlugin({
+            new webpack.ProvidePlugin({
                     Vue: ['vue/dist/vue.esm.js', 'default'], // WARNING!!! DO NOT DELETE, Vue needs to be imported in almost every component/module
                     swal: 'sweetalert2',
                     moment: 'moment',
                 }),
-                new CleanWebpackPlugin(['build']),
-            ],
-        },
-        images(),
-        fonts(),
-        html(),
-        babel(),
-        media(),
+            new CleanWebpackPlugin(['build']),
+        ],
+    },
+    images(),
+    fonts(),
+    html(),
+    babel(),
+    media(),
     ]);
 };
 
 module.exports = function(env) {
-    console.log(env);
     if (env.NODE_ENV === 'production') {
         return merge([
             common(env),

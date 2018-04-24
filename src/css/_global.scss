@@ -132,6 +132,14 @@ body {
     }
 }
 
+.btn-tg {
+    color: #fff !important;
+    background-color: #0088cc;
+    &:hover {
+        background-color: lighten(#0088cc, 5%);
+    }
+}
+
 .notifications {
     position: relative;
     .notification-trigger {

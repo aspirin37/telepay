@@ -116,13 +116,15 @@ export default Vue.extend({
         nowHour = moment().hour(),
         nowMinute = moment().minute();
       this.channels = items.map(item => {
-        item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => {
-          let filterToday = true;
-          if (isToday) {
-            filterToday = offer.hour > nowHour || (offer.hour === nowHour && offer.minute > nowMinute);
-          }
-          return offer.weekDay === params.weekDay && filterToday;
-        });
+        if (item.channelInfo && item.channelInfo.channelOffer) {
+          item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => {
+            let filterToday = true;
+            if (isToday) {
+              filterToday = offer.hour > nowHour || (offer.hour === nowHour && offer.minute > nowMinute);
+            }
+            return offer.weekDay === params.weekDay && filterToday;
+          });
+        }
         return item.channelInfo;
       });
     }
