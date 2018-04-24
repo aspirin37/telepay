@@ -32,9 +32,10 @@
         <div class="col-4">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Telegram аккаунт</p>
-                <a :href="'tg://resolve?domain=telepayDevBot&start='+(user.telegram_id?'unlinkAccountdivider':'linkAccountdivider')+auth_key"
-                    class="btn btn-tg btn-block"
-                    @click="startFetchingUser">{{user.telegram_id?'Отвязать':'Привязать'}} аккаунт Telegram</a>
+                <a :href="'tg://resolve?domain=telepayDevBot&start='+(user.telegramId?'unlinkAccountxxxdividerxxx':'linkAccountxxxdividerxxx')+user.telegramAuthCode"
+                    class="btn btn-block"
+                    :class="user.telegramId?'btn-light text-primary':'btn-tg'"
+                    @click="startFetchingUser">{{user.telegramId?'Отвязать':'Привязать'}} аккаунт Telegram</a>
             </div>
         </div>
     </div>

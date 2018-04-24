@@ -2,6 +2,7 @@ import Login from '@modules/auth/login';
 import Registration from '@modules/auth/registration';
 import Recovery from '@modules/auth/recovery';
 import AuthLayout from '@modules/auth/layout';
+import TelegramLogin from '@modules/auth/telegram-login';
 import Logout from '@modules/auth/logout';
 
 export default {
@@ -13,6 +14,10 @@ export default {
         path: 'login',
         name: 'login',
         component: Login,
+    }, {
+        path: 'telegram-login',
+        name: 'telegram-login',
+        component: TelegramLogin,
     }, {
         path: 'registration',
         name: 'registration',

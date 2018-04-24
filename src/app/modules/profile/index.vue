@@ -11,24 +11,33 @@ export default {
   components: { passwordInput },
   data() {
     return {
-      user: clone(this.$store.state.user) || { email: {} },
-      auth_key: LS.get('auth_key'),
+      fetchedUser: null,
       fetchTimeout: null
     };
+  },
+  computed: {
+    user: {
+      get() {
+        return this.$store.state.user;
+      },
+      set(val) {
+        this.$store.commit('SET_USER', user);
+      }
+    }
   },
   methods: {
     startFetchingUser() {
       clearTimeout(this.fetchTimeout);
-      if (this.user.telegram_id !== this.$store.state.user.telegram_id) {
-        this.user = clone(this.$store.state.user);
-      } else {
+      console.log(this.fetchedUser, this.user);
+      if (!this.fetchedUser || this.user.telegramId === this.fetchedUser.telegramId) {
         this.getUser();
-        this.fetchTimeout = setTimeout(this.getUser, 3000);
+        this.fetchTimeout = setTimeout(this.startFetchingUser, 1500);
+      } else {
+        this.$store.commit('SET_USER', this.fetchedUser);
       }
     },
     async getUser() {
-      let user = await UserApi.getUser();
-      this.$store.commit('SET_USER', user);
+      this.fetchedUser = await UserApi.getUser();
     }
   }
 };

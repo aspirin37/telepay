@@ -3,7 +3,6 @@ import Auth from './auth';
 import Catalog from '@modules/catalog';
 import Faq from '@modules/faq';
 import Profile from '@modules/profile';
-import TelegramLogin from '@modules/telegram-login';
 // import Favs from '@modules/favs';
 
 import Channels from './channels';
@@ -36,10 +35,6 @@ const routes = [
         path: '/profile',
         name: 'profile',
         component: Profile,
-    },{
-        path: '/telegram-login',
-        name: 'telegram-login',
-        component: TelegramLogin,
     },
     //   {
     //       path: '/favs',

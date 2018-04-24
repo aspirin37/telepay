@@ -1,5 +1,5 @@
 export default {
-    user: null,
+    user: { balance: {},email:{} },
     loading: false,
     configs: {
         date: {
