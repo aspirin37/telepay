@@ -9,7 +9,6 @@ async function checkUserAvailable(App) {
         // нет токена
         App.$router.replace({ name: 'login' });
     } else if (auth_key) {
-
         Vue.http.headers.common['X-API-TOKEN'] = auth_key;
         let user = await UserApi.getUser()
             .catch((err) => {
@@ -21,6 +20,9 @@ async function checkUserAvailable(App) {
 
         if (user && user.userId) {
             App.$store.commit('SET_USER', user);
+            if (isAuth){
+                App.$router.replace({name:'catalog'})
+            }
         }
     }
 }

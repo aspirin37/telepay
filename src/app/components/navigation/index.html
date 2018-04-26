@@ -13,7 +13,8 @@
                             v-html="Logo"></div>
                     </router-link>
                 </li>
-                <li class="nav-item advert-switch d-flex justify-content-between">
+                <li class="nav-item advert-switch d-flex justify-content-between"
+                    v-if="isAuthorized">
                     <span @click.self="isAdvert=!isAdvert"
                         class="title">
                         {{isAdvert?'Рекламодатель':'Владелец канала'}}
