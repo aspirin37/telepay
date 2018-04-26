@@ -7,10 +7,6 @@ body {
     cursor: pointer;
 }
 
-.header {
-    background-color: theme-color('light');
-}
-
 .posts {
     .nav-link {
         background-color: theme-color('light');
@@ -143,7 +139,7 @@ body {
 .notifications {
     position: relative;
     .notification-trigger {
-        top: 12px;
+        top: 0;
         right: -8px;
         position: absolute;
         text-decoration: none;

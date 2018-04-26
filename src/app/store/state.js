@@ -1,6 +1,8 @@
+import LS from '@utils/local-storage';
 export default {
-    user: { balance: {},email:{} },
+    user: { balance: {}, email: {} },
     loading: false,
+    is_advert: LS.get('is_advert'),
     configs: {
         date: {
             dateFormat: 'd.m.Y',

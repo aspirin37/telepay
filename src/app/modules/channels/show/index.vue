@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <div class="container py-3">
    <h2 class="text-secondary my-4">Просмотр канала
         <router-link tag="small"

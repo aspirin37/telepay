@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <div class="dropp" ref="wrap">
     <div class="dropp__trigger" ref="trigger">
       <slot name="trigger"></slot>

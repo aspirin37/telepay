@@ -1,4 +1,4 @@
-<template lang="html"></template>
+<template ></template>
 
 <script>
 import { AuthApi } from '@services/api';

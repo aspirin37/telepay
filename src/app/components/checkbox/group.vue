@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <div class="checkbox-group">
     <slot></slot>
   </div>

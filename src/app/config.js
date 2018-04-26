@@ -1,4 +1,4 @@
-swal.setDefaults({
+swal.mixin({
     cancelButtonText: 'Отмена',
     confirmButtonClass: 'mx-3 btn btn-lg btn-success float-right',
     cancelButtonClass: 'mx-3 btn btn-lg btn-danger float-left',
@@ -7,4 +7,4 @@ swal.setDefaults({
     reverseButtons: true,
 });
 
-moment.locale('ru');
+moment.updateLocale('ru');

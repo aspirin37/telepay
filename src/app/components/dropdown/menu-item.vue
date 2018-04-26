@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <div class="dropp__menu-item" :class="classes">
     <slot></slot>
   </div>

@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <div class="password-input__wrap">
     <input class="password-input__input" :type="type" :class="classes" :readonly="readonly" :placeholder="placeholder" @input="handler">
     <span class="password-input__eye" @click="toggle" v-if="!readonly">

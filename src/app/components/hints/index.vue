@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <div class="">
     <p>Правила форматирования:</p>
     <div class="hints">

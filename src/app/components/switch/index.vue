@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <label class="switch-label" :class="classes">
     <input class="switch-input" type="checkbox" v-model="checked" @change="handleChange" />
     <span class="switch-wrapper" :style="wrapperStyles">

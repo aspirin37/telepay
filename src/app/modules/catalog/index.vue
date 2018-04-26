@@ -10,15 +10,15 @@ import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
 
-import { clone } from '@utils/clone';
+import { clone, cloneWFn } from '@utils/clone';
 
 export default Vue.extend({
   components: { avatar, searchInput, dateInput, channelList },
   data() {
     return {
+      timeFrom: '08:00',
+      timeTo: '22:00',
       filter: {
-        timeFrom: '10:00',
-        timeTo: '22:00',
         erFrom: 0,
         erTo: 1000,
         weekDay: moment().weekday(),
@@ -28,7 +28,15 @@ export default Vue.extend({
         priceFrom: 0,
         text: '',
         inTopHours: null,
-        inFeedHours: null
+        inFeedHours: null,
+        timeFrom: moment()
+          .utc(4)
+          .set('hour', 8)
+          .set('minute', 0),
+        timeTo: moment()
+          .utc(4)
+          .set('hour', 22)
+          .set('minute', 0)
       },
       publishDate: moment(),
       filterConditions: '1/24',
@@ -68,6 +76,16 @@ export default Vue.extend({
         this.getChannels(this.filter);
       }
     },
+    timeFrom(val) {
+      this.compileDate(val, 'timeFrom');
+    },
+    timeTo(val) {
+      this.compileDate(val, 'timeTo');
+    },
+    'filter.weekDay': function() {
+      this.compileDate(this.timeFrom, 'timeFrom');
+      this.compileDate(this.timeTo, 'timeTo');
+    },
     filter: {
       handler(val, newval) {
         clearTimeout(this.debounceTimeout);
@@ -95,6 +113,15 @@ export default Vue.extend({
     }
   },
   methods: {
+    compileDate(val, key) {
+      if (val) {
+        let [hour, minute] = val.split(':');
+        this.filter[key] = moment(this.publishDate)
+          .utc(4)
+          .set('hour', hour)
+          .set('minute', minute);
+      }
+    },
     toggleFilters() {
       this.showFilters = !this.showFilters;
     },

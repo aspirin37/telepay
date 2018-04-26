@@ -62,25 +62,28 @@ export default {
       let { items, total } = await ChannelApi.list();
 
       items.forEach(ch => {
-        ch.postOrders = ch.channelOffer.reduce((sum, offer) => {
-          if (offer.postOrder) {
-            let offerCopy = clone(offer);
-            let channelCopy = clone(ch);
-            delete offerCopy.postOrder;
-            delete channelCopy.channelOffer;
-            offerCopy.channel = channelCopy;
-            offer.postOrder.forEach(post => {
-              post.channelOffer = offerCopy;
-              post.showPreview = false;
-            });
-            sum.push(...offer.postOrder);
-          }
-          return sum;
-        }, []);
+        if (ch.channelOffer) {
+          ch.postOrders = ch.channelOffer.reduce((sum, offer) => {
+            if (offer.postOrder) {
+              let offerCopy = clone(offer);
+              let channelCopy = clone(ch);
+              delete offerCopy.postOrder;
+              delete channelCopy.channelOffer;
+              offerCopy.channel = channelCopy;
+              offer.postOrder.forEach(post => {
+                post.channelOffer = offerCopy;
+                post.showPreview = false;
+              });
+              sum.push(...offer.postOrder);
+            }
+            return sum;
+          }, []);
+        }
         ch.cheapestOffer = ChannelApi.getCheapestOffer(ch);
         ch.showOrders = false;
       });
 
+      console.log(items);
       this.channels = items;
     },
     async approvePost(post) {

@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <div :style="wrapStyles" ref="wrap" class="avatar">
     <img v-show="!error" :src="src" :alt="alt" class="h-100 w-100" @error="handle" />
     <h1 :style="mountStyles" v-show="error" class="m-0 text-white">?</h1>

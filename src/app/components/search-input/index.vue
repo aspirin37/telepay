@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <label class="search-input" ref="wrap">
     <span class="search-input__cleaner" v-if="after" @click="clearInput">
       <svg class="search-input__cleaner-icon" v-if="cleanerVisible" x="0px" y="0px" viewBox="0 0 21.9 21.9">

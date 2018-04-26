@@ -1,3 +1,4 @@
+// const { VueLoaderPlugin } = require('vue-loader');
 module.exports = function() {
     return {
         module: {
@@ -10,5 +11,8 @@ module.exports = function() {
                 loader: 'vue-loader',
             }],
         },
+        plugins: [
+            // new VueLoaderPlugin(),
+        ]
     };
 };

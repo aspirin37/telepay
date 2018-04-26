@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <label class="control" :class="{ 'control_checked': checked }">
     <input type="checkbox" class="control__input" v-model="checked" @change="handleChange" />
     <slot>
