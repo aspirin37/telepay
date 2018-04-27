@@ -1,12 +1,12 @@
 <template >
-  <label class="control" :class="{ 'control_checked': checked }">
-    <input type="checkbox" class="control__input" v-model="checked" @change="handleChange" />
+  <label class="control" :class="{ 'control_checked': checked }" :for="randomId">
+    <input type="checkbox" :name="randomId" class="control__input" v-model="checked" @change="handleChange" :id="randomId" />
     <slot>
       <div class="control__indicator">
         <transition name="fade-scale">
           <span v-show="checked" class="control__indicator-wrap">
             <svg x="0px" y="0px" viewBox="0 0 342.357 342.357">
-            	<polygon points="290.04,33.286 118.861,204.427 52.32,137.907 0,190.226 118.862,309.071 342.357,85.606 "/>
+              <polygon points="290.04,33.286 118.861,204.427 52.32,137.907 0,190.226 118.862,309.071 342.357,85.606 " />
             </svg>
           </span>
         </transition>
@@ -34,9 +34,17 @@ export default {
       checked: this.value
     };
   },
+  watch: {
+    value(val) {
+      this.checked = val;
+    }
+  },
   computed: {
     inGroup() {
       return this.$parent.$options.name === 'checkbox-group';
+    },
+    randomId() {
+      return 'checkbox-' + (Math.random() * 1e8).toFixed();
     }
   },
   methods: {
@@ -70,7 +78,7 @@ export default {
   height: 100%;
   width: 100%;
   border-radius: 4px;
-  background: #fff;
+  background-color: transparent;
 }
 .control__indicator-wrap {
   display: flex;
@@ -80,7 +88,7 @@ export default {
   align-items: center;
   padding: 4px;
   border-radius: 4px;
-  background: #ffc000;
+  background-color: #ffc000;
 }
 .control__indicator-wrap svg {
   width: 100%;

@@ -3,13 +3,11 @@ import template from './index.html';
 
 import { AuthApi, UserApi } from '@services/api';
 import LS from '@utils/local-storage';
-// import loginInput from '@components/login-input';
+import normCheckbox from '@components/checkbox';
 import { clone } from '@utils/clone';
 
 export default Vue.extend({
-  components: {
-    // loginInput
-  },
+  components: { normCheckbox },
   data() {
     return {
       user: {
@@ -17,7 +15,9 @@ export default Vue.extend({
         password: null
       },
       passCheck: null,
+      checkedTerms: false,
       validations: {
+        checkedTerms: false,
         passwordMatch: false
       }
     };
@@ -26,7 +26,7 @@ export default Vue.extend({
     register(ev) {
       ev.preventDefault();
 
-      if (this.user.password === this.passCheck) {
+      if (this.user.password === this.passCheck && this.checkedTerms) {
         let cloned = clone(this.user);
         AuthApi.register(cloned)
           .then(res => {
@@ -45,7 +45,13 @@ export default Vue.extend({
           })
           .catch(err => console.error(err));
       } else {
-        this.validations.passwordMatch = true;
+        console.log(this.checkedTerms);
+        if (!this.checkedTerms) {
+          this.validations.checkedTerms = true;
+        }
+        if (this.user.password !== this.passCheck) {
+          this.validations.passwordMatch = true;
+        }
       }
     }
   },
