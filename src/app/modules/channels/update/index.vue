@@ -2,11 +2,11 @@
 <script>
 import onOff from 'vue-on-off';
 import avatar from '@components/avatar';
-import offersList from '@components/offers-list';
+import timeframes from '@components/timeframes';
 import { ChannelApi } from '@services/api';
 
 export default {
-  components: { avatar, onOff, offersList },
+  components: { avatar, onOff, timeframes },
   data() {
     return {
       channel: { isConfirmed: false }

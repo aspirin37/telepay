@@ -7,4 +7,4 @@ swal.mixin({
     reverseButtons: true,
 });
 
-moment.updateLocale('ru');
+moment.locale('ru');
