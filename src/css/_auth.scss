@@ -1,9 +1,12 @@
 .auth {
     height: 100vh;
-    width: 100%;
+    width: 100%; // background-image: url('/assets/bg.png');
+    background: #853d5e;
+    background: -moz-linear-gradient(left, #853d5e 0%, #4a3172 100%);
+    background: -webkit-linear-gradient(left, #853d5e 0%, #4a3172 100%);
+    background: linear-gradient(to right, #853d5e 0%, #4a3172 100%);
     background-position: center;
-    background-size: cover; // background-image: url('/assets/bg.png');
-    background-image: linear-gradient(270deg, #4A3172 6.98%, rgba(133, 61, 94, 0.82) 74.84%);
+    background-size: cover;
     &-box {
         height: 80vh;
     }
