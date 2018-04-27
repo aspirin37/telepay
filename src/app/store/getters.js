@@ -5,6 +5,6 @@ export default {
         }
     },
     getLoading: (state) => state.loading,
-    hasUser: (state) => state.user !== null,
+    hasUser: (state) => !!state.user,
     getUserBalance: (state) => state.user.balance,
 };
