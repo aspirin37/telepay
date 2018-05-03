@@ -32,11 +32,13 @@ export default Vue.extend({
         timeFrom: moment()
           .utc(4)
           .set('hour', 8)
-          .set('minute', 0),
+          .set('minute', 0)
+          .set('second', 0),
         timeTo: moment()
           .utc(4)
           .set('hour', 22)
           .set('minute', 0)
+          .set('second', 0)
       },
       publishDate: moment(),
       filterConditions: '1/24',
