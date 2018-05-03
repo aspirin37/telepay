@@ -103,7 +103,7 @@
             :class="{removed:isRemoved(of)}"
             v-for="of in filteredOffers"
             :key="of.channelOfferId">
-            <div class="col h4 m-0">{{offerTime(of)}}</div>
+            <div class="col h4 m-0">{{timeFrameDates(of)}}</div>
             <div class="col h4 m-0">{{of.inTopHours}}/{{of.inFeedHours}}</div>
             <div class="col h4 m-0">{{of.price | centToRub}}</div>
             <div class="col-4">

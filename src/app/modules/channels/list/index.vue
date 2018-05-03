@@ -28,7 +28,7 @@ export default {
     }
   },
   methods: {
-    offerTime: ChannelApi.offerTime,
+    timeFrameDates: ChannelApi.timeFrameDates,
     mapToPreview(post) {
       let parsedBtns, parsedImgs;
       try {
@@ -46,7 +46,7 @@ export default {
         text: post.postTemplate.text,
         images: parsedImgs,
         buttons: parsedBtns,
-        time: this.offerTime(post.channelOffer, true),
+        time: this.timeFrameDates(post.channelOffer, true),
         publishAt: post.publishAt * 1000
       };
     },
@@ -79,7 +79,7 @@ export default {
             return sum;
           }, []);
         }
-        ch.cheapestOffer = ChannelApi.getCheapestOffer(ch);
+        ch.cheapestOffer = ChannelApi.getCheapestTimeFrame(ch);
         ch.showOrders = false;
       });
 

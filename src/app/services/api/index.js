@@ -9,6 +9,7 @@ import NotificationApi from './notification';
 import AuthApi from './auth';
 import UserApi from './user';
 import BalanceApi from './balance';
+import ChannelListsApi from './channel-lists';
 // import FavsApi from './favs';
 
 let API_BASE;
@@ -36,7 +37,7 @@ export {
     ChannelApi,
     CatalogApi,
     NotificationApi,
-    UserApi,
+    UserApi,ChannelListsApi,
     // FavsApi,
     BalanceApi,
     PostApi,

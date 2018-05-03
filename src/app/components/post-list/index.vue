@@ -11,7 +11,7 @@
       </div>
       <div class="body-row" :key="post.postOrderId" v-for="post in posts" :class="{'text-muted':post.publishAt <= now}">
         <div class="col-1">{{post.humanReadableNumber}}</div>
-        <div class="col h5">{{post.publishAt*1000 | parseDate(true)}}<br>{{offerTime(post.channelOffer)}}</div>
+        <div class="col h5">{{post.publishAt*1000 | parseDate(true)}}<br>{{timeFrameDates(post.channelOffer)}}</div>
         <div class="col-3">
           <div class="form-row">
             <div class="col-3">
@@ -105,7 +105,7 @@ export default {
     this.setShowPreview();
   },
   methods: {
-    offerTime: ChannelApi.offerTime,
+    timeFrameDates: ChannelApi.timeFrameDates,
     setShowPreview() {
       if (this.posts && this.posts.length) {
         this.posts.forEach(post => {
@@ -138,7 +138,7 @@ export default {
         text: post.postTemplate.text,
         images: parsedImgs,
         buttons: parsedBtns,
-        time: this.offerTime(post.channelOffer, true),
+        time: this.timeFrameDates(post.channelOffer, true),
         publishAt: post.publishAt * 1000
       };
     },

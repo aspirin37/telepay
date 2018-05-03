@@ -25,7 +25,10 @@
         </div>
     </div>
     <h2 class="text-center">Сетка рекламных мест</h2>
-    <timeframes :timeframes="[]"></timeframes>
+
+    <timeframes :timeframes="mappedTimeframes"
+        v-model="selectedCells"></timeframes>
+        {{selectedCells}}
     <!-- <offers-list v-if="channel && channel.channelId"
         :channel="channel"></offers-list> -->
 

@@ -3,8 +3,8 @@ import Auth from './auth';
 import Catalog from '@modules/catalog';
 import Faq from '@modules/faq';
 import Profile from '@modules/profile';
-// import Favs from '@modules/favs';
 
+import ChannelLists from './channel-lists';
 import Channels from './channels';
 import Posts from './posts';
 import Support from './support';
@@ -16,6 +16,7 @@ const routes = [
     Posts,
     Support,
     Balance,
+    ChannelLists,
     //   {
     //       path: '/',
     //       name: 'main',
@@ -36,11 +37,6 @@ const routes = [
         name: 'profile',
         component: Profile,
     },
-    //   {
-    //       path: '/favs',
-    //       name: 'favs',
-    //       component: Favs,
-    // },
     {
         path: '*',
         redirect: '/catalog',

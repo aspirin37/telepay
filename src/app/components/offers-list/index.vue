@@ -77,7 +77,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    offerTime: ChannelApi.offerTime,
+    timeFrameDates: ChannelApi.timeFrameDates,
     changeWeek(bool) {
       if (bool) {
         this.weeksPlus += 1;

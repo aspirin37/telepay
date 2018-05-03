@@ -7,7 +7,7 @@
         <div class="col">Подписчиков</div>
         <div class="col">ER</div>
         <div class="col-5 d-flex justify-content-between">
-          <span>Условия</span>
+          <!-- <span>Условия</span> -->
           <span>Цена</span>
           <span>Выбрать</span>
         </div>
@@ -34,22 +34,22 @@
         <div class="col fa-lg">{{ch.engagementRate}}%</div>
         <div class="col-5 h4 m-0">
           <transition-group name="fade-out" mode="out-in">
-            <div class="form-row" v-if="!ch.showAllOffers && ch.cheapestOffer" :key="ch.cheapestOffer.channelOfferId">
-              <div class="col-5">{{offerTime(ch.cheapestOffer,true)}} - {{ch.cheapestOffer.inTopHours}}/{{ch.cheapestOffer.inFeedHours}}</div>
-              <div class="col-5">{{ ch.cheapestOffer.price | centToRub}}
-                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.channelOffer.length > 1" @click="ch.showAllOffers = true"></i>
+            <div class="form-row" v-if="!ch.showAllTimeFrames && ch.cheapestTimeFrame" :key="ch.cheapestTimeFrame.timeFrameId">
+              <!-- <div class="col-5">{{timeFrameDates(ch.cheapestTimeFrame,true)}} - {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours}}</div> -->
+              <div class="col-10">{{ ch.cheapestTimeFrame.price | centToRub}}
+                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.timeFrame.length > 1" @click="ch.showAllTimeFrames = true"></i>
               </div>
               <div class="col-2 text-center">
                 <norm-checkbox v-model="ch.selected" @change="toggleChannel(ch)" />
               </div>
             </div>
-            <div class="form-row" v-if="ch.showAllOffers" :key="offer.channelOfferId" v-for="offer in ch.channelOffer">
-              <div class="col-5">{{ offerTime(offer,true) }} - {{ offer.inTopHours }}/{{ offer.inFeedHours }}</div>
-              <div class="col-5">{{ offer.price | centToRub}}
-                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up" v-if="offer === ch.cheapestOffer" @click="ch.showAllOffers=false"></i>
+            <div class="form-row" v-if="ch.showAllTimeFrames" :key="timeFrame.timeFrameId" v-for="timeFrame in ch.timeFrame">
+              <!-- <div class="col-5">{{ timeFrameDates(timeFrame,true) }} - {{ timeFrame.inTopHours }}/{{ timeFrame.inFeedHours }}</div> -->
+              <div class="col-5">{{ timeFrame.price | centToRub}}
+                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up" v-if="timeFrame === ch.cheapestTimeFrame" @click="ch.showAllTimeFrames=false"></i>
               </div>
               <div class="col-2 text-center">
-                <norm-checkbox v-model="offer.selected" @change="toggleOffer(ch,offer)" />
+                <norm-checkbox v-model="timeFrame.selected" @change="toggleTimeFrame(ch,timeFrame)" />
               </div>
             </div>
           </transition-group>
@@ -93,8 +93,8 @@ export default Vue.extend({
     },
     selectedChannels() {
       return this.innerChannels.reduce((sum, ch) => {
-        let selectedOffers = ch.channelOffer.some(offer => offer.selected);
-        if (selectedOffers) {
+        let selectedTimeFrames = ch.timeFrame.some(timeFrame => timeFrame.selected);
+        if (selectedTimeFrames) {
           ch.selected = true;
           sum.push(ch);
         } else {
@@ -105,12 +105,12 @@ export default Vue.extend({
     },
     innerChannels() {
       return this.channels.reduce((sum, ch) => {
-        if (ch.showAllOffers === undefined) Vue.set(ch, 'showAllOffers', false);
+        if (ch.showAllTimeFrames === undefined) Vue.set(ch, 'showAllTimeFrames', false);
         if (ch.selected === undefined) Vue.set(ch, 'selected', false);
-        if (ch.channelOffer && ch.channelOffer.length) {
-          ch.cheapestOffer = ChannelApi.getCheapestOffer(ch);
-          ch.channelOffer.forEach(offer => {
-            if (offer.selected === undefined) Vue.set(offer, 'selected', false);
+        if (ch.timeFrame && ch.timeFrame.length) {
+          ch.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(ch);
+          ch.timeFrame.forEach(timeFrame => {
+            if (timeFrame.selected === undefined) Vue.set(timeFrame, 'selected', false);
           });
           sum.push(ch);
         }
@@ -119,20 +119,20 @@ export default Vue.extend({
     }
   },
   methods: {
-    offerTime: ChannelApi.offerTime,
+    timeFrameDates: ChannelApi.timeFrameDates,
     toggleChannel(ch) {
       if (!ch.selected) {
-        ch.channelOffer.forEach(offer => {
-          offer.selected = false;
+        ch.timeFrame.forEach(timeFrame => {
+          timeFrame.selected = false;
         });
       } else {
-        ch.cheapestOffer.selected = true;
+        ch.cheapestTimeFrame.selected = true;
       }
     },
-    toggleOffer(ch, offer) {
-      if (offer.selected) {
+    toggleTimeFrame(ch, timeFrame) {
+      if (timeFrame.selected) {
         ch.selected = true;
-      } else if (!ch.channelOffer.some(of => of.selected)) {
+      } else if (!ch.timeFrame.some(of => of.selected)) {
         ch.selected = false;
       }
     }

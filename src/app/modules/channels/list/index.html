@@ -81,7 +81,7 @@
                         :class="{'text-muted':post.publishAt <= now}">
                         <div class="col-1">{{post.humanReadableNumber}}</div>
                         <div class="col h5">{{post.publishAt*1000 | parseDate(true)}}
-                            <br>{{offerTime(post.channelOffer)}}</div>
+                            <br>{{timeFrameDates(post.channelOffer)}}</div>
                         <div class="col-3">
                             <div class="form-row ">
                                 <div class="col-3">

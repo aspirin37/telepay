@@ -25,9 +25,6 @@
                     <router-link :to="{name:'catalog'}"
                         class="nav-link">Каталог</router-link>
                 </li>
-                <!-- <li class="nav-item">
-              <router-link :to="{name:'support'}" v-if="isAuthorized" class="nav-link">Техподдержка</router-link>
-            </li> -->
                 <li class="nav-item"
                     v-if="!isAuthorized">
                     <!-- <router-link :to="{name:'faq'}" v-if="!isAuthorized" class="nav-link">F.A.Q.</router-link> -->
@@ -46,14 +43,14 @@
                 </li>
                 <li class="nav-item"
                     v-if="isAuthorized && isAdvert">
-                    <router-link :to="{name:'posts'}"
+                    <router-link :to="{name:'posts',tab:'outbound'}"
                         class="nav-link">Постинг</router-link>
                 </li>
-                <li class="nav-item"
+                <!-- <li class="nav-item"
                     v-if="isAuthorized && isAdvert">
-                    <router-link :to="{name:'posts'}"
+                    <router-link :to="{name:'channel-lists'}"
                         class="nav-link">Списки</router-link>
-                </li>
+                </li> -->
                 <li class="ml-auto">
                     <!-- <ul class="list-unstyled d-flex"
                         v-if="!isAuthorized">
@@ -128,6 +125,10 @@
                                             target="_blank"
                                             class="user-menu__item">F.A.Q.</a>
                                     </drop-down-menu-item>
+                                    <!-- <drop-down-menu-item>
+                                        <router-link :to="{name:'support'}"
+                                            class="user-menu__item">Техподдержка</router-link>
+                                    </drop-down-menu-item> -->
                                     <drop-down-menu-item>
                                         <router-link class="user-menu__item"
                                             :to="{ name: 'logout' }">Выйти</router-link>
@@ -144,7 +145,12 @@
         :class="{'is-advert':isAdvert}">
         <div class="container py-2">
             <span>©Telepay.io, 2017-{{year}} гг. Все права защищены</span>
-            <a href="https://landing.telepay.io/terms-and-conditions.html">Условия использования</a>
+            <a href="https://landing.telepay.io/privacy-policy.html"
+                target="_blank">Политика конфиденциальности</a>
+            <a href="https://landing.telepay.io/terms-and-conditions.html"
+                target="_blank">Условия использования</a>
+            <a href="https://landing.telepay.io/contacts.html"
+                target="_blank">Контакты</a>
         </div>
 
     </nav>

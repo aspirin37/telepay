@@ -35,7 +35,7 @@
                 <div class="col-5 h4 m-0">
                     <transition-group name="fade-out" mode="out-in">
                         <div class="form-row" v-if="!ch.showAllOffers && ch.cheapestOffer" :key="ch.cheapestOffer.channelOfferId">
-                            <div class="col-5">{{offerTime(ch.cheapestOffer,true)}} - {{ch.cheapestOffer.inTopHours}}/{{ch.cheapestOffer.inFeedHours}}</div>
+                            <div class="col-5">{{timeFrameDates(ch.cheapestOffer,true)}} - {{ch.cheapestOffer.inTopHours}}/{{ch.cheapestOffer.inFeedHours}}</div>
                             <div class="col-5">{{ ch.cheapestOffer.price | centToRub}}
                                 <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.channelOffer.length > 1" @click="ch.showAllOffers = true"></i>
                             </div>
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="form-row" v-if="ch.showAllOffers" :key="offer.channelOfferId" v-for="offer in ch.channelOffer">
-                            <div class="col-5">{{ offerTime(offer,true) }} - {{ offer.inTopHours }}/{{ offer.inFeedHours }}</div>
+                            <div class="col-5">{{ timeFrameDates(offer,true) }} - {{ offer.inTopHours }}/{{ offer.inFeedHours }}</div>
                             <div class="col-5">{{ offer.price | centToRub}}
                                 <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up" v-if="offer === ch.cheapestOffer" @click="ch.showAllOffers=false"></i>
                             </div>

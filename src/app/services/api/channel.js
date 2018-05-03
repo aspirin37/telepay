@@ -9,11 +9,11 @@ export default {
     delete: ({ channelId }) => channelRes(`${channelId}/delete`).delete({ channelId }).then(_r).catch(_e),
     edit: ({ channelId }) => channelRes(`${channelId}/edit`).get({ channelId }).then(_r).catch(_e),
 
-    getCheapestOffer(channel) {
-        if (!channel || !channel.channelOffer || !channel.channelOffer.length) return {};
-        return channel.channelOffer.sort((a, b) => a.price - b.price)[0];
+    getCheapestTimeFrame(channel) {
+        if (!channel || !channel.timeFrame || !channel.timeFrame.length) return {};
+        return channel.timeFrame.sort((a, b) => a.price - b.price)[0];
     },
-    offerTime({ hour, minute, inTopHours } = {}, short) {
+    timeFrameDates({ hour, minute, inTopHours } = {}, short) {
         let hoursAfterTop = hour + inTopHours;
         if (typeof hour === 'undefined' || typeof minute === 'undefined') return '-';
         if (hour < 10) hour = '0' + hour;

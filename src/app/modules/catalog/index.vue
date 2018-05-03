@@ -108,7 +108,7 @@ export default Vue.extend({
     },
     totalPrice() {
       return this.selectedChannels.reduce((sum, el) => {
-        return sum + el.channelOffer.reduce((ofSum, offer) => ofSum + (offer.selected ? offer.price : 0), 0);
+        return sum + el.timeFrame.reduce((ofSum, offer) => ofSum + (offer.selected ? offer.price : 0), 0);
       }, 0);
     }
   },
@@ -126,7 +126,7 @@ export default Vue.extend({
       this.showFilters = !this.showFilters;
     },
     async getCategories() {
-      let { items, count } = await CatalogApi.list();
+      let { items, total } = await CatalogApi.list();
       this.categories = items;
     },
     async getChannels(params = {}) {
@@ -138,18 +138,20 @@ export default Vue.extend({
         copy.categoryId = copy.category.categoryId;
         delete copy.category;
       }
-      let { items, count } = await CatalogApi.filter(copy);
+      let { items, total } = await CatalogApi.filter(copy);
       let isToday = this.publishDate.day() === moment().day(),
         nowHour = moment().hour(),
         nowMinute = moment().minute();
+
       this.channels = items.map(item => {
-        if (item.channelInfo && item.channelInfo.channelOffer) {
-          item.channelInfo.channelOffer = item.channelInfo.channelOffer.filter(offer => {
+        if (item.channelInfo && item.channelInfo.timeFrame) {
+          item.channelInfo.timeFrame = item.channelInfo.timeFrame.filter(timeFrame => {
             let filterToday = true;
-            if (isToday) {
-              filterToday = offer.hour > nowHour || (offer.hour === nowHour && offer.minute > nowMinute);
-            }
-            return offer.weekDay === params.weekDay && filterToday;
+            // let hour = moment(timeFrame.startPeriodTime*100).hour()
+            // if (isToday) {
+            //   filterToday = timeFrame.hour > nowHour || (timeFrame.hour === nowHour && timeFrame.minute > nowMinute);
+            // }
+            return timeFrame.weekDay === params.weekDay && filterToday;
           });
         }
         return item.channelInfo;
