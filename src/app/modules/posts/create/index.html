@@ -6,6 +6,7 @@
             <i class="fa fa-lg fa-chevron-left"></i> Назад</router-link>
     </h2>
     <channel-list :channels="selectedChannels"
+        :user="$store.state.user"
         placeholder="Предложения не выбраны" />
 
     <div class="row p-4 border-bottom mb-2"

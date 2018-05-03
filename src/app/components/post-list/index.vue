@@ -11,25 +11,25 @@
       </div>
       <div class="body-row" :key="post.postOrderId" v-for="post in posts" :class="{'text-muted':post.publishAt <= now}">
         <div class="col-1">{{post.humanReadableNumber}}</div>
-        <div class="col h5">{{post.publishAt*1000 | parseDate(true)}}<br>{{timeFrameDates(post.channelOffer)}}</div>
+        <div class="col h5">{{post.publishAt*1000 | parseDate(true)}}<br>{{timeFrameDates(post.channelTimeFrame)}}</div>
         <div class="col-3">
           <div class="form-row">
             <div class="col-3">
-              <avatar :src="'/images/channels/'+post.channelOffer.channel.telegramId+'/'+post.channelOffer.channel.photoId+'.jpg'" :circle="true" />
+              <avatar :src="'/images/channels/'+post.channelTimeFrame.channel.telegramId+'/'+post.channelTimeFrame.channel.photoId+'.jpg'" :circle="true" />
             </div>
             <div class="col-9 pl-4">
               <router-link :to="{
-                            name:post.channelOffer.channel.userId === user.userId?'channels:update':'channels:show',
-                            params:{id:post.channelOffer.channel.channelId}
+                            name:post.channelTimeFrame.channel.userId === user.userId?'channels:update':'channels:show',
+                            params:{id:post.channelTimeFrame.channel.channelId}
                         }">
-                <b>{{post.channelOffer.channel.title}}</b>
+                <b>{{post.channelTimeFrame.channel.title}}</b>
               </router-link>
-              <br>{{post.channelOffer.channel.categories || 'Без категории'}}</div>
+              <br>{{post.channelTimeFrame.channel.categories || 'Без категории'}}</div>
           </div>
         </div>
         <div class="col">
           <span v-if="post.status !== 3 && !post.isPosted">{{postStatuses[post.status]}}</span>
-          <a v-else target="_blank" :href="`https://t.me/${post.channelOffer.channel.username}/${post.messageId}`">{{postStatuses[post.status]}}</a>
+          <a v-else target="_blank" :href="`https://t.me/${post.channelTimeFrame.channel.username}/${post.messageId}`">{{postStatuses[post.status]}}</a>
           <span v-show="post.status === 1" class="text-danger">{{post.declineReason}}</span>
         </div>
         <div class="col h5">{{post.sum | centToRub}}</div>
@@ -134,11 +134,11 @@ export default {
         parsedImgs = [post.postTemplate.images];
       }
       return {
-        channel: post.channelOffer.channel.title,
+        channel: post.channelTimeFrame.channel.title,
         text: post.postTemplate.text,
         images: parsedImgs,
         buttons: parsedBtns,
-        time: this.timeFrameDates(post.channelOffer, true),
+        time: this.timeFrameDates(post.channelTimeFrame, true),
         publishAt: post.publishAt * 1000
       };
     },

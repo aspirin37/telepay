@@ -42,11 +42,11 @@ export default {
         parsedImgs = [post.postTemplate.images];
       }
       return {
-        channel: post.channelOffer.channel.title,
+        channel: post.channelTimeFrame.channel.title,
         text: post.postTemplate.text,
         images: parsedImgs,
         buttons: parsedBtns,
-        time: this.timeFrameDates(post.channelOffer, true),
+        time: this.timeFrameDates(post.channelTimeFrame, true),
         publishAt: post.publishAt * 1000
       };
     },
@@ -62,24 +62,24 @@ export default {
       let { items, total } = await ChannelApi.list();
 
       items.forEach(ch => {
-        if (ch.channelOffer) {
-          ch.postOrders = ch.channelOffer.reduce((sum, offer) => {
-            if (offer.postOrder) {
-              let offerCopy = clone(offer);
+        if (ch.channelTimeFrame) {
+          ch.postOrders = ch.channelTimeFrame.reduce((sum, timeFrame) => {
+            if (timeFrame.postOrder) {
+              let timeFrameCopy = clone(timeFrame);
               let channelCopy = clone(ch);
-              delete offerCopy.postOrder;
-              delete channelCopy.channelOffer;
-              offerCopy.channel = channelCopy;
-              offer.postOrder.forEach(post => {
-                post.channelOffer = offerCopy;
+              delete timeFrameCopy.postOrder;
+              delete channelCopy.channelTimeFrame;
+              timeFrameCopy.channel = channelCopy;
+              timeFrame.postOrder.forEach(post => {
+                post.channelTimeFrame = timeFrameCopy;
                 post.showPreview = false;
               });
-              sum.push(...offer.postOrder);
+              sum.push(...timeFrame.postOrder);
             }
             return sum;
           }, []);
         }
-        ch.cheapestOffer = ChannelApi.getCheapestTimeFrame(ch);
+        ch.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(ch);
         ch.showOrders = false;
       });
 

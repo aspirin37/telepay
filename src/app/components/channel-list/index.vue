@@ -82,15 +82,18 @@ export default Vue.extend({
         return {};
       }
     },
+    user: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
     placeholder: {
       type: String,
       default: 'Нет подходящих предложений'
     }
   },
   computed: {
-    user() {
-      return this.$store.state.user;
-    },
     selectedChannels() {
       return this.innerChannels.reduce((sum, ch) => {
         let selectedTimeFrames = ch.timeFrame.some(timeFrame => timeFrame.selected);

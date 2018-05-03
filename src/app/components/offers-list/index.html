@@ -1,4 +1,4 @@
-<div class="offers-list">
+<div class="timeFrames-list">
     <div class="date-row">
         <button class="btn btn-link py-0 text-secondary"
             :class="{'text-muted':weeksPlus<1}"
@@ -55,7 +55,7 @@
                         min="1"
                         max="10000000"
                         placeholder="100"
-                        @input="offer.price = Math.round(initialPrice *1.3)"
+                        @input="timeFrame.price = Math.round(initialPrice *1.3)"
                         type="number" />
                     <span class="input-group-append">
                         <span class="input-group-text">₽</span>
@@ -67,12 +67,12 @@
             <div class="form-group">
                 <label class="col-form-label">Цена с наценкой</label>
                 <div class="input-group">
-                    <input v-model="offer.price"
+                    <input v-model="timeFrame.price"
                         class="form-control"
                         min="1"
                         max="10000000"
                         placeholder="100"
-                        @input="initialPrice = Math.round(offer.price /1.3)"
+                        @input="initialPrice = Math.round(timeFrame.price /1.3)"
                         type="number" />
                     <span class="input-group-append">
                         <span class="input-group-text">₽</span>
@@ -84,7 +84,7 @@
             <div class="form-group">
                 <label class="col-form-label">&nbsp;</label>
                 <button class="btn btn-success btn-block px-4"
-                    @click="addOffer">
+                    @click="addTimeFrame">
                     <i class="fa fa-plus"></i> Добавить
                 </button>
             </div>
@@ -92,7 +92,7 @@
         </div>
     </div>
     <div class="flex-table mt-2"
-        v-if="filteredOffers && filteredOffers.length">
+        v-if="filteredTimeFrames && filteredTimeFrames.length">
         <div class="header-row">
             <div class="col">Время</div>
             <div class="col">Условия</div>
@@ -101,20 +101,20 @@
         </div>
         <div class="body-row"
             :class="{removed:isRemoved(of)}"
-            v-for="of in filteredOffers"
-            :key="of.channelOfferId">
+            v-for="of in filteredTimeFrames"
+            :key="of.channelTimeFrameId">
             <div class="col h4 m-0">{{timeFrameDates(of)}}</div>
             <div class="col h4 m-0">{{of.inTopHours}}/{{of.inFeedHours}}</div>
             <div class="col h4 m-0">{{of.price | centToRub}}</div>
             <div class="col-4">
-                <span @click="removeOffer(of)"
+                <span @click="removeTimeFrame(of)"
                     v-if="channel.userId === user.userId && !isRemoved(of)"
                     class="text-danger pointer h4 m-0">
                     <i class="fa fa-times"></i> Удалить</span>
                 <span v-else-if="channel.userId === user.userId && isRemoved(of)"
                     class="cancel-removal">
                     <b>Предложение удалено.</b>
-                    <span @click="cancelOfferRemoval(of)"
+                    <span @click="cancelTimeFrameRemoval(of)"
                         class="text-success pointer"> Восстановить</span>
                 </span>
                 <router-link :to="{name:'posts:create',params:{selected:[channel]}}"

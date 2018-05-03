@@ -25,18 +25,18 @@
     </div>
         <h2 class="text-center">Рекламные предложения</h2>
 
-    <offers-list v-if="channel && channel.channelId"
-        :channel="channel"></offers-list>
+    <timeframes v-if="channel && channel.channelId"
+        :channel="channel"></timeframes>
   </div>
 </template>
 
 <script>
 import { ChannelApi } from '@services/api';
 import avatar from '@components/avatar';
-import offersList from '@components/offers-list';
+import timeframes from '@components/timeframes';
 import onOff from 'vue-on-off';
 export default {
-  components: { avatar, onOff, offersList },
+  components: { avatar, onOff, timeframes },
   data() {
     return {
       channel: {}

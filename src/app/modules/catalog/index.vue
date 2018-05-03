@@ -108,7 +108,7 @@ export default Vue.extend({
     },
     totalPrice() {
       return this.selectedChannels.reduce((sum, el) => {
-        return sum + el.timeFrame.reduce((ofSum, offer) => ofSum + (offer.selected ? offer.price : 0), 0);
+        return sum + el.timeFrame.reduce((ofSum, timeFrame) => ofSum + (timeFrame.selected ? timeFrame.price : 0), 0);
       }, 0);
     }
   },

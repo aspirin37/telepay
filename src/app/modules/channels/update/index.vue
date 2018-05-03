@@ -15,10 +15,10 @@ export default {
   },
   created() {
     this.getChannelInfo();
-    this.$root.$on('addedChannelOffer', this.getChannelInfo);
+    this.$root.$on('addedChannelTimeFrame', this.getChannelInfo);
   },
   destroyed() {
-    this.$root.$off('addedChannelOffer', this.getChannelInfo);
+    this.$root.$off('addedChannelTimeFrame', this.getChannelInfo);
   },
   computed: {
     mappedTimeframes() {

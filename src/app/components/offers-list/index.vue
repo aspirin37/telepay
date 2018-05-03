@@ -1,7 +1,7 @@
 <template src="./index.html"></template>
 <script>
 import dateInput from '@components/date-input';
-import { ChannelApi, OfferApi } from '@services/api';
+import { ChannelApi, TimeFrameApi } from '@services/api';
 import { clone } from '@utils/clone';
 import { mapState } from 'vuex';
 
@@ -10,7 +10,7 @@ export default Vue.extend({
   data() {
     return {
       weeksPlus: 0,
-      offer: {
+      timeFrame: {
         weekDay: [],
         hour: 12,
         minute: 0,
@@ -25,25 +25,25 @@ export default Vue.extend({
       time: '12:00',
       inFeedConditions: [{ name: 24 }, { name: 48 }],
       inTopConditions: [{ name: 1 }, { name: 2 }],
-      offersToRemove: [],
-      offers: this.channel.channelOffer || [],
+      timeFramesToRemove: [],
+      timeFrames: this.channel.channelTimeFrame || [],
       selectedWeekday: moment().weekday()
     };
   },
   watch: {
     time(val) {
       let arr = val.split(':');
-      this.offer.hour = +arr[0];
-      this.offer.minute = +arr[1];
+      this.timeFrame.hour = +arr[0];
+      this.timeFrame.minute = +arr[1];
     },
     channel(val) {
-      this.offers = this.channel.channelOffer || [];
+      this.timeFrames = this.channel.channelTimeFrame || [];
     },
     removalHours(val) {
       let arr = val.split('/');
       if (arr && arr.length) {
-        this.offer.inTopHours = arr[0];
-        this.offer.inFeedHours = arr[1];
+        this.timeFrame.inTopHours = arr[0];
+        this.timeFrame.inFeedHours = arr[1];
       }
     }
   },
@@ -59,8 +59,8 @@ export default Vue.extend({
         };
       });
     },
-    filteredOffers() {
-      return this.offers.filter(offer => offer.weekDay === this.selectedWeekday).sort((a, b) => a.hour - b.hour);
+    filteredTimeFrames() {
+      return this.timeFrames.filter(timeFrame => timeFrame.weekDay === this.selectedWeekday).sort((a, b) => a.hour - b.hour);
     }
   },
   props: {
@@ -72,8 +72,8 @@ export default Vue.extend({
     }
   },
   destroyed() {
-    if (this.offersToRemove.length) {
-      this.offersToRemove.forEach(this.deleteOffer);
+    if (this.timeFramesToRemove.length) {
+      this.timeFramesToRemove.forEach(this.deleteTimeFrame);
     }
   },
   methods: {
@@ -89,34 +89,34 @@ export default Vue.extend({
         }
       }
     },
-    isRemoved(offer) {
-      return this.offersToRemove.includes(offer);
+    isRemoved(timeFrame) {
+      return this.timeFramesToRemove.includes(timeFrame);
     },
-    removeOffer(offer) {
-      this.offersToRemove.push(offer);
+    removeTimeFrame(timeFrame) {
+      this.timeFramesToRemove.push(timeFrame);
     },
-    cancelOfferRemoval(offer) {
-      let i = this.offersToRemove.indexOf(offer);
-      if (~i) this.offersToRemove.splice(i, 1);
+    cancelTimeFrameRemoval(timeFrame) {
+      let i = this.timeFramesToRemove.indexOf(timeFrame);
+      if (~i) this.timeFramesToRemove.splice(i, 1);
     },
-    deleteOffer(offer) {
-      OfferApi.delete({ channelId: offer.channelId, offerId: offer.channelOfferId });
+    deleteTimeFrame(timeFrame) {
+      TimeFrameApi.delete({ channelId: timeFrame.channelId, timeFrameId: timeFrame.channelTimeFrameId });
     },
-    addOffer() {
-      let copy = clone(this.offer);
+    addTimeFrame() {
+      let copy = clone(this.timeFrame);
       copy.price *= 100;
       copy.channelId = this.channel.channelId;
       copy.weekDay = [this.selectedWeekday];
-      OfferApi.create(copy)
+      TimeFrameApi.create(copy)
         .then(res => {
           this.clearFields();
-          this.$root.$emit('addedChannelOffer');
+          this.$root.$emit('addedChannelTimeFrame');
         })
         .catch(err => console.error(err));
     },
     clearFields() {
       setTimeout(() => {
-        this.offer = {
+        this.timeFrame = {
           weekDay: [],
           hour: 12,
           minute: 0,

@@ -34,22 +34,22 @@
                 <div class="col fa-lg">{{ch.engagementRate}}%</div>
                 <div class="col-5 h4 m-0">
                     <transition-group name="fade-out" mode="out-in">
-                        <div class="form-row" v-if="!ch.showAllOffers && ch.cheapestOffer" :key="ch.cheapestOffer.channelOfferId">
-                            <div class="col-5">{{timeFrameDates(ch.cheapestOffer,true)}} - {{ch.cheapestOffer.inTopHours}}/{{ch.cheapestOffer.inFeedHours}}</div>
-                            <div class="col-5">{{ ch.cheapestOffer.price | centToRub}}
-                                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.channelOffer.length > 1" @click="ch.showAllOffers = true"></i>
+                        <div class="form-row" v-if="!ch.showAllTimeFrames && ch.cheapestTimeFrame" :key="ch.cheapestTimeFrame.channelTimeFrameId">
+                            <div class="col-5">{{timeFrameDates(ch.cheapestTimeFrame,true)}} - {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours}}</div>
+                            <div class="col-5">{{ ch.cheapestTimeFrame.price | centToRub}}
+                                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.channelTimeFrame.length > 1" @click="ch.showAllTimeFrames = true"></i>
                             </div>
                             <div class="col-2 text-center">
                                 <norm-checkbox v-model="ch.selected" @change="toggleChannel(ch)" />
                             </div>
                         </div>
-                        <div class="form-row" v-if="ch.showAllOffers" :key="offer.channelOfferId" v-for="offer in ch.channelOffer">
-                            <div class="col-5">{{ timeFrameDates(offer,true) }} - {{ offer.inTopHours }}/{{ offer.inFeedHours }}</div>
-                            <div class="col-5">{{ offer.price | centToRub}}
-                                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up" v-if="offer === ch.cheapestOffer" @click="ch.showAllOffers=false"></i>
+                        <div class="form-row" v-if="ch.showAllTimeFrames" :key="timeFrame.channelTimeFrameId" v-for="timeFrame in ch.channelTimeFrame">
+                            <div class="col-5">{{ timeFrameDates(timeFrame,true) }} - {{ timeFrame.inTopHours }}/{{ timeFrame.inFeedHours }}</div>
+                            <div class="col-5">{{ timeFrame.price | centToRub}}
+                                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up" v-if="timeFrame === ch.cheapestTimeFrame" @click="ch.showAllTimeFrames=false"></i>
                             </div>
                             <div class="col-2 text-center">
-                                <norm-checkbox v-model="offer.selected" @change="toggleOffer(ch,offer)" />
+                                <norm-checkbox v-model="timeFrame.selected" @change="toggleTimeFrame(ch,timeFrame)" />
                             </div>
                         </div>
                     </transition-group>

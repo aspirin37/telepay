@@ -23,7 +23,7 @@ export default {
         text: '',
         buttons: [],
         images: [],
-        offerId: [],
+        timeFrameId: [],
         postTemplateId: '',
         channel: 'Название канала',
         publishAt: this.$route.params.date || null
@@ -43,7 +43,7 @@ export default {
   created() {
     this.getChannels();
     if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
-      this.post.publishAt = moment().weekday(this.selectedChannels[0].channelOffer[0].weekDay);
+      this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
     }
   },
   computed: {
@@ -53,26 +53,26 @@ export default {
         ...self.$store.state.configs.date,
         enable: [
           function(date) {
-            if (!self.selectedChannels[0] || !self.selectedChannels[0].channelOffer || !self.selectedChannels[0].channelOffer[0]) {
+            if (!self.selectedChannels[0] || !self.selectedChannels[0].timeFrame || !self.selectedChannels[0].timeFrame[0]) {
               return true;
             }
 
             if (self.selectedChannels.length) {
               let weekday = moment(date).weekday();
-              return weekday === self.selectedChannels[0].channelOffer[0].weekDay;
+              return weekday === self.selectedChannels[0].timeFrame[0].weekDay;
             }
           }
         ]
       };
     },
-    selectedOfferIds() {
+    selectedTimeFrameIds() {
       return this.selectedChannels.reduce((sum, ch) => {
-        let selectedOfferIds = ch.channelOffer.reduce((sumOffers, offer) => {
-          if (offer.selected) sumOffers.push(offer.channelOfferId);
-          return sumOffers;
+        let selectedTimeFrameIds = ch.timeFrame.reduce((sumTimeFrames, timeFrame) => {
+          if (timeFrame.selected) sumTimeFrames.push(timeFrame.timeFrameId);
+          return sumTimeFrames;
         }, []);
-        if (selectedOfferIds.length) {
-          return sum.concat(selectedOfferIds);
+        if (selectedTimeFrameIds.length) {
+          return sum.concat(selectedTimeFrameIds);
         }
         return sum;
       }, []);
@@ -87,13 +87,13 @@ export default {
             return sum;
           }
 
-          let filteredOffers = ch.channelOffer.filter(offer => {
-            return offer.weekDay === this.post.publishAt.weekday();
+          let filteredTimeFrames = ch.timeFrame.filter(timeFrame => {
+            return timeFrame.weekDay === this.post.publishAt.weekday();
           });
 
-          if (filteredOffers.length) {
+          if (filteredTimeFrames.length) {
             let copy = clone(ch);
-            copy.channelOffer = filteredOffers;
+            copy.timeFrame = filteredTimeFrames;
             sum.push(copy);
           }
 
@@ -105,7 +105,7 @@ export default {
     },
     totalPrice() {
       return this.selectedChannels.reduce((sum, el) => {
-        return sum + el.channelOffer.reduce((ofSum, offer) => ofSum + (offer.selected ? offer.price : 0), 0);
+        return sum + el.timeFrame.reduce((ofSum, timeFrame) => ofSum + (timeFrame.selected ? timeFrame.price : 0), 0);
       }, 0);
     }
   },
@@ -116,7 +116,7 @@ export default {
       let data = this.getFormData(new FormData(), {
         buttons: JSON.stringify(buttons),
         images: images.map(im => im.file),
-        offerId: this.selectedOfferIds,
+        timeFrameId: this.selectedTimeFrameIds,
         publishAt: publishAt.toISOString(),
         text
       });
@@ -150,15 +150,17 @@ export default {
       let self = this;
       let vm = new Vue({
         components: { channelList },
+        router: this.$router,
         data: {
-          channels: self.channelsToAdd
+          channels: self.channelsToAdd,
+          user: clone(self.$store.state.user)
         },
         computed: {
           selected() {
             return this.channels.filter(ch => ch.selected);
           }
         },
-        template: '<channel-list :channels="channels"></channel-list>'
+        template: '<channel-list :user="user" :channels="channels"></channel-list>'
       });
 
       let swalOut = await swal({
