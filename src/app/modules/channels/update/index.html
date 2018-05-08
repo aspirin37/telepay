@@ -1,34 +1,96 @@
-<div class="container py-3">
+<div class="container py-3"
+    v-if="channel && channel.channelId">
     <h2 class="text-secondary my-4">Редактирование канала
         <router-link tag="small"
             :to="{name:'channels:list'}"
             class="float-right pointer">
             <i class="fa fa-lg fa-chevron-left pt-1"></i> Назад</router-link>
     </h2>
-    <div class="row mt-4"
-        v-if="channel">
+    <div class="row mt-4">
         <div class="col-2 ">
             <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
                 style="max-width: 200px; max-height: 200px;"
+                @error="imageErrorHandler(channel)"
                 :circle="true" />
         </div>
-        <div class="col-8">
-            <h4>{{channel.title}}
-                <small v-if="channel.telegramId">подписчиков: {{channel.subscriberCount | cutKilo}}</small>
+        <div class="col-6">
+            <h4>
+                <a :href="'tg://resolve?domain='+channel.username">{{channel.title}}</a>
+                <i class="fa fa-database"
+                    :class="channel.isBotApproved?'text-success':'text-danger'"></i>
+                <i class="fa fa-check-circle"
+                    :class="channel.status===1?'text-success':'text-danger'"></i>
             </h4>
-            <p>Подтвержден: {{channel.isBotApproved?'Да':'Нет'}}</p>
+            <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
             <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
         </div>
-        <div class="col-2">
-            Автопостинг
-            <on-off v-model="channel.autopost" />
+        <div class="col-4 d-flex align-items-center">
+            <b class="h4 m-0 px-2">Автомодерация</b>
+            <on-off v-model="channel.isAutoPost" />
         </div>
     </div>
-    <h2 class="text-center">Сетка рекламных мест</h2>
 
-    <timeframes :timeframes="mappedTimeframes"
-        v-model="selectedCells"></timeframes>
-        {{selectedCells}}
+    <h2>Сетка рекламных мест</h2>
+    <div class="form-row">
+        <div class="col-3">
+            <div class="form-group">
+                <label>Кол-во постов в сутки</label>
+                <input type="number"
+                    class="form-control"
+                    min="1"
+                    max="23"
+                    step="1"
+                    placeholder="5"
+                    v-model="timeframesData.postCount">
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label>Условия размещения
+                    <i class="fa fa-info-circle"></i>
+                </label>
+                <select v-model="timeframesData.conditions"
+                    class="form-control">
+                    <option value="24">1/24</option>
+                    <option value="48">1/48</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label>Цена за пост</label>
+                <input type="number"
+                    class="form-control"
+                    placeholder="1000"
+                    step="1"
+                    min="1"
+                    max="1000000"
+                    v-model="timeframesData.postPrice">
+            </div>
+        </div>
+        <div class="col-2">
+            <label>&nbsp;</label>
+            <button class="btn-success btn btn-block"
+                @click="saveGlobalTimeFrames">Сохранить</button>
+        </div>
+        <div class="col-12">
+            <p class="text-muted">
+                {{dailyPostsStr}}
+                <br> {{maxPostsStr}}
+            </p>
+        </div>
+    </div>
+
+
+    <h4 @click="showTimeframes=!showTimeframes"
+        class="pointer underline-dash "> Расширенные настройки</h4>
+    <transition name="fade">
+        <timeframes :timeframes="mappedTimeframes"
+            v-show="showTimeframes"
+            :max-posts-str="maxPostsStr"
+            :daily-posts-str="dailyPostsStr"></timeframes>
+    </transition>
+
     <!-- <timeFrames-list v-if="channel && channel.channelId"
         :channel="channel"></timeFrames-list> -->
 

@@ -37,6 +37,7 @@ export default Vue.extend({
       set(val) {
         LS.set('is_advert', val);
         this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: val });
+        this.$router.push({ name: val ? 'catalog' : 'channels:list' });
       }
     },
     ...mapGetters({

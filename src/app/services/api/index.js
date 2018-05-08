@@ -4,7 +4,7 @@ Vue.use(VueResource);
 import ChannelApi from './channel';
 import PostApi from './post';
 import CatalogApi from './catalog';
-import TimeFrameApi from './timeFrame';
+import TimeFrameApi from './timeframe';
 import NotificationApi from './notification';
 import AuthApi from './auth';
 import UserApi from './user';
@@ -37,7 +37,8 @@ export {
     ChannelApi,
     CatalogApi,
     NotificationApi,
-    UserApi,ChannelListsApi,
+    UserApi,
+    ChannelListsApi,
     // FavsApi,
     BalanceApi,
     PostApi,

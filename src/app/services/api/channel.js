@@ -7,7 +7,7 @@ export default {
     create: (params) => channelRes('create').post(params).then(_r).catch(_e),
     show: ({ channelId }) => channelRes(channelId).get().then(_r).catch(_e),
     delete: ({ channelId }) => channelRes(`${channelId}/delete`).delete({ channelId }).then(_r).catch(_e),
-    edit: ({ channelId }) => channelRes(`${channelId}/edit`).get({ channelId }).then(_r).catch(_e),
+    edit: (channelId, data) => channelRes(`${channelId}/edit`).post(data).then(_r).catch(_e),
 
     getCheapestTimeFrame(channel) {
         if (!channel || !channel.timeFrame || !channel.timeFrame.length) return {};

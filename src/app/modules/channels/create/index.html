@@ -17,15 +17,22 @@
                 @error="imageErrorHandler(channel)"
                 :circle="true" />
         </div>
-        <div class="col-8">
-            <h4>{{channel.title}}
-                <small v-if="channel.subscriberCount && channel.telegramId !== 'default'">подписчиков: {{channel.subscriberCount | cutKilo}}</small>
+        <div class="col-6">
+            <h4>
+
+                <a v-if="channel.telegramId!=='default'"
+                    :href="'tg://resolve?domain='+channel.username">{{channel.title}}</a>
+                <span v-else>{{channel.title}}</span>
+                <i class="fa fa-database"
+                    v-show="channel.telegramId!=='default' && !isLoading && !searchError"
+                    :class="channel.isBotApproved?'text-success':'text-danger'"></i>
+                <!-- <i class="fa fa-check-circle"></i> -->
             </h4>
-            <p>Подтвержден: {{channel.isBotApproved?'Да':'Нет'}}</p>
+            <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
             <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
         </div>
-        <div class="col-2">
-            Автопостинг
+        <div class="col-4 d-flex align-items-center">
+            <b class="h4 m-0 px-2">Автомодерация</b>
             <on-off v-model="channel.isAutopost" />
         </div>
     </div>
@@ -41,7 +48,6 @@
                     placeholder="username или t.me/username"
                     @input="getChannelInfo"
                     v-model="usernameQuery">
-
             </div>
         </div>
         <div class="col-4">
@@ -62,25 +68,25 @@
                     v-show="isLoading">Ищем канал...</span>
                 <span class="text-muted"
                     v-show="channel.telegramId!=='default' && !isLoading && !searchError && !channel.isBotApproved">Чтобы привязать канал к сервису вам необходимо добавить
-                    <a href="https://t.me/telepayDevBot"
+                    <a href="tg://resolve?domain=telepayDevBot"
                         target="_blank">нашего бота</a> в канал и дать ему права админа на постинг</span>
                 &nbsp;
             </p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-2">
-            <button class="btn btn-success"
-                :disabled="!channel.telegramId || !channel.isBotApproved"
-                @click="add">Добавить канал</button>
+    <div class="d-flex justify-content-start">
+        <button class="btn btn-success"
+            :disabled="!channel.telegramId || channel.telegramId === 'default'"
+            v-show="channel.isBotApproved || channel.telegramId === 'default'"
+            @click="add">Добавить канал</button>
+        <a href="tg://resolve?domain=telepayDevBot"
+            class="btn btn-success"
+            v-show="!channel.isBotApproved && channel.telegramId !== 'default'">Добавить бота в канал</a>
 
-        </div>
-        <div class="col-2">
-            <button class="btn btn-link"
-                v-show="channel.telegramId!=='default' && !isLoading && !searchError"
-                @click="getChannelInfo">
-                <i class="fa fa-refresh"></i> Обновить</button>
-        </div>
+        <button class="btn btn-link"
+            v-show="channel.telegramId!=='default' && !isLoading && !searchError"
+            @click="getChannelInfo">
+            <i class="fa fa-refresh"></i> Обновить</button>
     </div>
 
 </div>

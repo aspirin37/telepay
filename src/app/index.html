@@ -16,7 +16,9 @@
             size="xl"
             :fixed="true"></loader>
         <navigation></navigation>
-        <router-view :key="$route.fullPath"></router-view>
+        <div class="container-wrap">
+            <router-view></router-view>
+        </div>
     </div>
 </body>
 

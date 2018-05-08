@@ -76,7 +76,8 @@
                     type="text"
                     placeholder="Поиск по каталогу" />
             </div>
-            <transition name="fade">
+            <transition name="fade"
+                mode="out-in">
                 <div class="form-group mb-1"
                     v-show="showFilters">
                     <label class="col-form-label search__label">Цена (руб)</label>
@@ -145,6 +146,7 @@
         </div>
     </div>
     <channel-list :filter="filter"
+        :small-body="showFilters"
         :user="$store.state.user"
         :channels="channels" />
 </div>

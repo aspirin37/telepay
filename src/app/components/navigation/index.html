@@ -1,8 +1,7 @@
 <div>
-    <nav class="header"
+    <nav class="header fixed-top"
         :class="{ 'navbar_main': !logoVisible, 'is-advert':isAdvert }">
         <div class="container py-3 justify-content-between">
-
             <ul class="nav justify-content-between align-items-center d-md-flex">
                 <li class="nav-item">
                     <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"

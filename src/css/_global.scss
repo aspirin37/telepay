@@ -1,6 +1,11 @@
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    padding-bottom: 55px;
+}
+
+.container-wrap {
+    padding-top: 85px;
 }
 
 .pointer {
@@ -172,31 +177,6 @@ body {
     vertical-align: 0;
 }
 
-.timeFrames-list {
-    .date-row {
-        @extend .row;
-        .day {
-            padding: 10px;
-            cursor: pointer;
-            text-align: center;
-            color: theme-color('slate');
-            background: theme-color('cloudy');
-            &.active {
-                color: theme-color('text-white');
-                background: theme-color('slate');
-            }
-            &:first-of-type {
-                border-top-left-radius: 5px;
-                border-bottom-left-radius: 5px;
-            }
-            &:last-of-type {
-                border-top-right-radius: 5px;
-                border-bottom-right-radius: 5px;
-            }
-        }
-    }
-}
-
 .fade-out-enter-active, .fade-out-leave-active {
     transition: .2s ease-in-out;
 }
@@ -215,6 +195,11 @@ body {
     opacity: 0;
 }
 
+.underline-dash {
+    display: inline-block;
+    border-bottom: 1px dotted #aaa;
+}
+
 .flex-table {
     .header-row {
         @extend .row;
@@ -222,6 +207,14 @@ body {
         color: theme-color('light-grey');
         border-radius: 5px;
         background: theme-color('light');
+    }
+    .body {
+        max-height: 68vh;
+        transition: max-height 0.3s ease;
+        overflow: auto;
+        &.small-body {
+            max-height: 48vh;
+        }
     }
     .body-row {
         @extend .row;
