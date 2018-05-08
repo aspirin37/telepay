@@ -1,9 +1,11 @@
-import Tooltip from 'tooltip.js';
-
 export default {
     inserted(el, binding) {
-        let tt = new Tooltip(el, { placement: 'top', title: 'Top' });
-        console.log(el, binding, tt);
-        tt.show();
+        let tooltip = document.createElement('div');
+        tooltip.classList.add('tooltip');
+        tooltip.id = `tooltip-${(Math.random()*1e8).toFixed()}`;
+        tooltip.innerHTML = binding.value;
+        document.body.append(tooltip);
+
+        el.onmouseover = function() {};
     },
 };
