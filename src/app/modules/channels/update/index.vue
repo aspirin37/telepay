@@ -4,6 +4,7 @@ import onOff from 'vue-on-off';
 import avatar from '@components/avatar';
 import timeframes from '@components/timeframes/fake';
 import plural from '@utils/plural';
+import tooltip from '@components/tooltip'
 import {
     ChannelApi,
     TimeFrameApi
@@ -14,6 +15,9 @@ export default {
         avatar,
         onOff,
         timeframes
+    },
+    directives: {
+        tooltip
     },
     data() {
         return {
@@ -84,8 +88,8 @@ export default {
             await TimeFrameApi.create({
                 channelId: this.channel.channelId,
                 postCount: this.timeframesData.postCount,
-                startPeriodTime: 0,
-                endPeriodTime: 23,
+                startPeriodTime: '00:00',
+                endPeriodTime: '23:00',
                 price: this.timeframesData.postPrice * 100,
                 weekDays: [1, 2, 3, 4, 5, 6, 7],
                 inTopHours: 1,
