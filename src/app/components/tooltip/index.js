@@ -26,6 +26,16 @@ class Tooltip {
 
         el.onmouseover = this.mouseover.bind(this);
         el.onmouseout = this.mouseout.bind(this);
+
+        this.t.addEventListener('transitionend', () => {
+            if (this.isShown) {
+                this.isShown = false;
+                this.t.style.top = '-1000px';
+                this.t.style.left = '-1000px';
+            } else {
+                this.isShown = true;
+            }
+        });
     }
     mouseover(ev) {
         let rect = ev.target.getBoundingClientRect();
@@ -34,13 +44,18 @@ class Tooltip {
         this.t.style.left = (rect.left + rect.right) / 2 - tooltipRectDyn.width / 2 + 'px';
         clearTimeout(this.outTimeout);
         clearTimeout(this.inTimeout);
-        this.inTimeout = setTimeout(() => { this.t.classList.add('show'); }, this.options.delayIn || 0);
+        this.inTimeout = setTimeout(() => {
+            this.t.classList.add('show');
+        }, this.options.delayIn || 0);
     }
     mouseout() {
         clearTimeout(this.outTimeout);
         clearTimeout(this.inTimeout);
-        this.outTimeout = setTimeout(() => { this.t.classList.remove('show'); }, this.options.delayOut || 0);
+        this.outTimeout = setTimeout(() => {
+            this.t.classList.remove('show');
+        }, this.options.delayOut || 0);
     }
+
     _classedEl(className, tag = 'div') {
         let el = document.createElement(tag);
         el.className = className;

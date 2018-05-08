@@ -25,11 +25,10 @@ export default {
                 isAutopost: undefined
             },
             showTimeframes: false,
-            priceDaily: 1000,
-            postsDaily: 5,
+            editingConditions: false,
             timeframesData: {
-                postCount: 5,
-                postPrice: 1000,
+                postCount: null,
+                postPrice: null,
                 conditions: '24',
             }
         };
@@ -46,6 +45,7 @@ export default {
     created() {
         this.getChannelInfo();
         this.$root.$on('addedChannelTimeFrame', this.getChannelInfo);
+
     },
     destroyed() {
         this.$root.$off('addedChannelTimeFrame', this.getChannelInfo);
@@ -53,6 +53,12 @@ export default {
     computed: {
         mappedTimeframes() {
             return (this.channel && this.channel.timeFrame) || [];
+        },
+        hasTimeframes() {
+            return this.channel && this.channel.timeFrame && this.channel.timeFrame.length
+        },
+        inFeedHours() {
+            return this.timeframesData.conditions === 'never' ? null : this.timeframesData.conditions;
         },
         maxPostsStr() {
             let {
@@ -68,7 +74,7 @@ export default {
                 postPrice,
                 conditions
             } = this.timeframesData;
-            return `${postCount} ${plural('пост',postCount)} в сутки, условия 1/${conditions} - ${this.cutKiloCentToRub(postPrice)}`
+            return `${postCount} ${plural('пост',postCount)} в сутки, условия 1/${conditions=== 'never' ?'∞' : conditions} - ${this.cutKiloCentToRub(postPrice)}`
         }
     },
     methods: {
@@ -79,13 +85,20 @@ export default {
             this.channel = await ChannelApi.show({
                 channelId: this.$route.params.id
             });
+
+            if (this.hasTimeframes) {
+                this.timeframesData.postCount = this.channel.timeFrame[0].postCount;
+                this.timeframesData.postPrice = this.channel.timeFrame[0].price / 100;
+                this.timeframesData.conditions = this.channel.timeFrame[0].inFeedHours || 'never';
+            }
+            this.editingConditions = false
         },
 
         async saveGlobalTimeFrames() {
             if (this.channel.timeFrame.length) {
                 await Promise.all(this.channel.timeFrame.map(tf => TimeFrameApi.delete(tf.timeFrameId)));
             }
-            let inFeedHours = this.timeframesData.conditions === 'never' ? null : this.timeframesData.conditions
+
             await TimeFrameApi.create({
                 channelId: this.channel.channelId,
                 postCount: this.timeframesData.postCount,
@@ -94,7 +107,7 @@ export default {
                 price: this.timeframesData.postPrice * 100,
                 weekDays: [1, 2, 3, 4, 5, 6, 7],
                 inTopHours: 1,
-                inFeedHours,
+                inFeedHours: this.inFeedHours,
             });
             this.getChannelInfo()
         }
