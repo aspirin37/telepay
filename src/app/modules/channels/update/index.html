@@ -17,16 +17,20 @@
             <h4>
                 <a :href="'tg://resolve?domain='+channel.username">{{channel.title}}</a>
                 <i class="fa fa-database"
+                    v-tooltip="{template:channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в вашем канале'}"
                     :class="channel.isBotApproved?'text-success':'text-danger'"></i>
                 <i class="fa fa-check-circle"
-                    :class="channel.status===1?'text-success':'text-danger'"></i>
+                    v-tooltip="{template:channel.status===1?'Канал подтвержден модератором':channel.status===0?'Канал ожидает проверки модератором':'Ваш канал отклонен модератором, причина указана ниже'}"
+                    :class="channel.status===1?'text-success':channel.status===0?'text-muted':'text-danger'"></i>
             </h4>
             <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
             <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
         </div>
         <div class="col-4 d-flex align-items-center">
             <b class="h4 m-0 px-2">Автомодерация</b>
-            <on-off v-model="channel.isAutoPost" />
+            <on-off v-model="channel.isAutopost" />
+            <i class="fa fa-info-circle mx-2"
+                v-tooltip="{template:'После проверки поста нашими модераторами на допустимость контента, пост должен быть одобрен вами, включите эту опцию чтобы разрешить размещение постов без вашей проверки',delayOut:500}"></i>
         </div>
     </div>
 
@@ -48,12 +52,13 @@
             <div class="form-group">
                 <label>Условия размещения
                     <i class="fa fa-info-circle"
-                        v-tooltip="'Kek lol <h1>h1</h1>'"></i>
+                        v-tooltip="{template:'Время, которое пост должен быть в ленте канала на первом месте / Время поста в ленте до удаления ботом',delayOut:500}"></i>
                 </label>
                 <select v-model="timeframesData.conditions"
                     class="form-control">
                     <option value="24">1/24</option>
                     <option value="48">1/48</option>
+                    <option value="never">1/∞</option>
                 </select>
             </div>
         </div>

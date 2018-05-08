@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             channel: {
-                isAutoPost: false
+                isAutopost: undefined
             },
             showTimeframes: false,
             priceDaily: 1000,
@@ -35,10 +35,10 @@ export default {
         };
     },
     watch: {
-        'channel.isAutoPost': function(isAutoPost, oldval) {
-            if (this.channel.channelId && typeof oldval !== 'undefined' && typeof isAutoPost !== 'undefined') {
+        'channel.isAutopost': function(isAutopost, oldval) {
+            if (this.channel.channelId && typeof oldval !== 'undefined' && typeof isAutopost !== 'undefined') {
                 ChannelApi.edit(this.channel.channelId, {
-                    isAutoPost
+                    isAutopost
                 });
             }
         },
@@ -85,6 +85,7 @@ export default {
             if (this.channel.timeFrame.length) {
                 await Promise.all(this.channel.timeFrame.map(tf => TimeFrameApi.delete(tf.timeFrameId)));
             }
+            let inFeedHours = this.timeframesData.conditions === 'never' ? null : this.timeframesData.conditions
             await TimeFrameApi.create({
                 channelId: this.channel.channelId,
                 postCount: this.timeframesData.postCount,
@@ -93,7 +94,7 @@ export default {
                 price: this.timeframesData.postPrice * 100,
                 weekDays: [1, 2, 3, 4, 5, 6, 7],
                 inTopHours: 1,
-                inFeedHours: this.timeframesData.conditions,
+                inFeedHours,
             });
             this.getChannelInfo()
         }

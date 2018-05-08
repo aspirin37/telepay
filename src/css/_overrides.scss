@@ -4,6 +4,17 @@
 }
 
 // bootstrap
+.tooltip {
+    $tooltipBgColor: rgba(0, 0, 0, 0.85);
+    .arrow::before {
+        border-top-color: $tooltipBgColor
+    }
+    &-inner {
+        background-color: $tooltipBgColor;
+        font-weight: 500;
+    }
+}
+
 .container {
     .cls-1 {
         fill: #000 !important;
