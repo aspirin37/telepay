@@ -121,11 +121,14 @@ export default {
                 publishAt,
                 text
             } = this.post;
+            let timeArr = this.postTime.split(':');
+
             let data = this.getFormData(new FormData(), {
                 buttons: JSON.stringify(buttons),
                 images: images.map(im => im.file),
                 timeFrameId: this.selectedTimeFrameIds,
-                publishAt: publishAt.toISOString(),
+                publishAt: moment(publishAt)
+                    .utc(4).set('hour', timeArr[0]).set('minute', timeArr[1]).toISOString(),
                 text
             });
             PostApi.create(data).then(() => {
