@@ -1,7 +1,24 @@
 <template>
     <div>
+        <div class="row chips"
+            v-if="innerChannels.length && isChips">
+            <div class="col p-1"
+                :key="ch.channelId"
+                v-for="ch in innerChannels">
+                <div class="chip d-flex align-items-center justify-content-between"
+                    :class="{selected:ch.selected}">
+                    <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
+                        class="float-left w-25 h-25"
+                        :circle="true" />
+                    <b class="chip-title float-left">{{ch.timeFrame[0].price | centToRub}}</b>
+                    <i class="fa float-right"
+                        @click="toggleChannel(ch,true)"
+                        :class="ch.selected?'fa-times fa-2x':'fa-repeat fa-lg ml-1'"></i>
+                </div>
+            </div>
+        </div>
         <div class="flex-table"
-            v-if="innerChannels.length">
+            v-if="innerChannels.length && !isChips">
             <div class="header-row">
                 <div class="col-3">Канал</div>
                 <div class="col">Подписчиков</div>
@@ -76,7 +93,7 @@
         </div>
 
         <div class="p-4 text-center"
-            v-else>
+            v-if="!innerChannels.length">
             <h4>{{placeholder}}</h4>
         </div>
     </div>
@@ -121,6 +138,10 @@ export default Vue.extend({
         smallBody: {
             type: Boolean,
             default: false
+        },
+        isChips: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
@@ -153,7 +174,8 @@ export default Vue.extend({
     },
     methods: {
         timeFrameDates: ChannelApi.timeFrameDates,
-        toggleChannel(ch) {
+        toggleChannel(ch, changeModel) {
+            if (changeModel) ch.selected = !ch.selected
             if (!ch.selected) {
                 ch.timeFrame.forEach(timeFrame => {
                     timeFrame.selected = false;

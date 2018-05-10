@@ -6,6 +6,7 @@
             <i class="fa fa-lg fa-chevron-left"></i> Назад</router-link>
     </h2>
     <channel-list :channels="selectedChannels"
+        :is-chips="selectedChannels.length>3"
         :user="$store.state.user"
         placeholder="Предложения не выбраны" />
 
@@ -29,13 +30,21 @@
             <post-preview :post="post" />
         </div>
         <div class="col-7">
-            <div class="row">
-                <div class="col-12">
+            <div class="form-row">
+                <div class="col-6">
                     <div class="form-group">
                         <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
                         <date-input v-model="post.publishAt"
                             placeholder="Выберите дату публикации"
                             :config="dateConfig" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
+                        <input type="time"
+                            class="form-control p-2"
+                            v-model="postTime">
                     </div>
                 </div>
 

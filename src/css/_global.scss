@@ -200,6 +200,50 @@ body {
     border-bottom: 1px dotted #aaa;
 }
 
+.chips {
+    .col {
+        max-width: 300px;
+    }
+    .chip {
+        border-radius: 50px;
+        padding: 8px 16px 8px 8px;
+        color: theme-color('light-grey');
+        background-color: theme-color('light');
+        cursor: pointer;
+        &:hover {
+            background-color: darken(theme-color('light'), 5%);
+        }
+        &-title {
+            font-size: 1.5em;
+            white-space: nowrap;
+            padding: 0 5px;
+        }
+        .avatar {
+            opacity: 0.5;
+        }
+        &.selected {
+            color: inherit;
+            background-color: theme-color('cloudy');
+            .avatar {
+                opacity: 1;
+            }
+            &:hover {
+                background-color: lighten(theme-color('cloudy'), 5%);
+            }
+        }
+        .fa-repeat:hover {
+            transition: color 0.2s ease-in-out;
+            color: theme-color('success');
+            cursor: pointer;
+        }
+        .fa-times:hover {
+            transition: color 0.2s ease-in-out;
+            color: theme-color('danger');
+            cursor: pointer;
+        }
+    }
+}
+
 .flex-table {
     .header-row {
         @extend .row;
