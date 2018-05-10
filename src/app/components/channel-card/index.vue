@@ -34,16 +34,16 @@
                 <div class="col fa-lg">{{ch.engagementRate}}%</div>
                 <div class="col-5 h4 m-0">
                     <transition-group name="fade-out" mode="out-in">
-                        <div class="form-row" v-if="!ch.showAllTimeFrames && ch.cheapestTimeFrame" :key="ch.cheapestTimeFrame.channelTimeFrameId">
+                        <div class="form-row" v-if="!ch.showAllTimeFrames && ch.cheapestTimeFrame" :key="ch.cheapestTimeFrame.timeFrameId">
                             <div class="col-5">{{timeFrameDates(ch.cheapestTimeFrame,true)}} - {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours}}</div>
                             <div class="col-5">{{ ch.cheapestTimeFrame.price | centToRub}}
-                                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.channelTimeFrame.length > 1" @click="ch.showAllTimeFrames = true"></i>
+                                <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down" v-if="ch.timeFrame.length > 1" @click="ch.showAllTimeFrames = true"></i>
                             </div>
                             <div class="col-2 text-center">
                                 <norm-checkbox v-model="ch.selected" @change="toggleChannel(ch)" />
                             </div>
                         </div>
-                        <div class="form-row" v-if="ch.showAllTimeFrames" :key="timeFrame.channelTimeFrameId" v-for="timeFrame in ch.channelTimeFrame">
+                        <div class="form-row" v-if="ch.showAllTimeFrames" :key="timeFrame.timeFrameId" v-for="timeFrame in ch.timeFrame">
                             <div class="col-5">{{ timeFrameDates(timeFrame,true) }} - {{ timeFrame.inTopHours }}/{{ timeFrame.inFeedHours }}</div>
                             <div class="col-5">{{ timeFrame.price | centToRub}}
                                 <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up" v-if="timeFrame === ch.cheapestTimeFrame" @click="ch.showAllTimeFrames=false"></i>

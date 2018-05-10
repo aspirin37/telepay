@@ -190,7 +190,10 @@ export default {
                 ...copy
             }).then(res => {
                 this.$router.push({
-                    name: 'channels:list'
+                    name: 'channels:update',
+                    params: {
+                        channelId: res.channel_id
+                    }
                 });
             });
         }

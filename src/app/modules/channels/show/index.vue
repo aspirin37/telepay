@@ -17,15 +17,14 @@
                 <h4>
                     <a :href="'tg://resolve?domain='+channel.username">{{channel.title}}</a>
                 </h4>
-                <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
+                <b v-if="channel.subscriberCount">Подписчиков: {{channel.subscriberCount | cutKilo}}</b>
+                <br>
+                <b v-if="channel.engagementRate">Коэффициент вовлечения(ER): {{channel.engagementRate | cutKilo}}</b>
                 <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
             </div>
-            <div class="col-4 d-flex align-items-center">
-                <b class="h4 m-0 px-2">Автомодерация</b>
-                <on-off v-model="channel.isAutoPost" />
-            </div>
+
         </div>
-        <h2 class="text-center">Рекламные предложения</h2>
+        <!-- <h2 class="text-center">Рекламные предложения</h2> -->
 
         <!-- <timeframes v-if="channel && channel.channelId"
         :channel="channel"></timeframes> -->

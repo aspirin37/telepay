@@ -1,124 +1,138 @@
 <template src="./index.html"></template>
 <script>
-import { mapState } from 'vuex';
-import { ChannelApi, PostApi } from '@services/api';
+import {
+    mapState
+} from 'vuex';
+import {
+    ChannelApi,
+    PostApi
+} from '@services/api';
 import channelStatuses from '@utils/channel-statuses';
 import postStatuses from '@utils/post-statuses';
-import { clone } from '@utils/clone';
+import {
+    clone
+} from '@utils/clone';
 import avatar from '@components/avatar';
 import postList from '@components/post-list';
 import postPreview from '@components/post-preview';
 
 export default {
-  components: { avatar, postList, postPreview },
-  data() {
-    return {
-      channels: [],
-      channelStatuses,
-      postStatuses
-    };
-  },
-  created() {
-    this.getList();
-  },
-  computed: {
-    ...mapState(['user']),
-    now() {
-      return moment().toDate();
-    }
-  },
-  methods: {
-    timeFrameDates: ChannelApi.timeFrameDates,
-    mapToPreview(post) {
-      let parsedBtns, parsedImgs;
-      try {
-        parsedBtns = JSON.parse(post.postTemplate.buttons);
-      } catch (e) {
-        parsedBtns = [post.postTemplate.buttons];
-      }
-      try {
-        parsedImgs = JSON.parse(post.postTemplate.images);
-      } catch (e) {
-        parsedImgs = [post.postTemplate.images];
-      }
-      return {
-        channel: post.channelTimeFrame.channel.title,
-        text: post.postTemplate.text,
-        images: parsedImgs,
-        buttons: parsedBtns,
-        time: this.timeFrameDates(post.channelTimeFrame, true),
-        publishAt: post.publishAt * 1000
-      };
+    components: {
+        avatar,
+        postList,
+        postPreview
     },
-    togglePreview(ch, post = {}, bool = !post.showPreview) {
-      setTimeout(() => {
-        ch.postOrders.forEach(el => {
-          if (el.postOrderId !== post.postOrderId) el.showPreview = false;
-        });
-        post.showPreview = bool;
-      });
+    data() {
+        return {
+            channels: [],
+            channelStatuses,
+            postStatuses
+        };
     },
-    async getList() {
-      let { items, total } = await ChannelApi.list();
-
-      items.forEach(ch => {
-        if (ch.channelTimeFrame) {
-          ch.postOrders = ch.channelTimeFrame.reduce((sum, timeFrame) => {
-            if (timeFrame.postOrder) {
-              let timeFrameCopy = clone(timeFrame);
-              let channelCopy = clone(ch);
-              delete timeFrameCopy.postOrder;
-              delete channelCopy.channelTimeFrame;
-              timeFrameCopy.channel = channelCopy;
-              timeFrame.postOrder.forEach(post => {
-                post.channelTimeFrame = timeFrameCopy;
-                post.showPreview = false;
-              });
-              sum.push(...timeFrame.postOrder);
-            }
-            return sum;
-          }, []);
+    created() {
+        this.getList();
+    },
+    computed: {
+        ...mapState(['user']),
+        now() {
+            return moment().toDate();
         }
-        ch.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(ch);
-        ch.showOrders = false;
-      });
-
-      console.log(items);
-      this.channels = items;
     },
-    async approvePost(post) {
-      let swalOut = await swal({
-        type: 'success',
-        title: 'Подтвердить размещение поста?',
-        confirmButtonText: 'Да, подтвердить!'
-      });
+    methods: {
+        timeFrameDates: ChannelApi.timeFrameDates,
+        mapToPreview(post) {
+            let parsedBtns, parsedImgs;
+            try {
+                parsedBtns = JSON.parse(post.postTemplate.buttons);
+            } catch (e) {
+                parsedBtns = [post.postTemplate.buttons];
+            }
+            try {
+                parsedImgs = JSON.parse(post.postTemplate.images);
+            } catch (e) {
+                parsedImgs = [post.postTemplate.images];
+            }
+            return {
+                channel: post.timeFrame.channel.title,
+                text: post.postTemplate.text,
+                images: parsedImgs,
+                buttons: parsedBtns,
+                time: this.timeFrameDates(post.timeFrame, true),
+                publishAt: post.publishAt * 1000
+            };
+        },
+        togglePreview(ch, post = {}, bool = !post.showPreview) {
+            setTimeout(() => {
+                ch.postOrders.forEach(el => {
+                    if (el.postOrderId !== post.postOrderId) el.showPreview = false;
+                });
+                post.showPreview = bool;
+            });
+        },
+        async getList() {
+            let {
+                items,
+                total
+            } = await ChannelApi.list();
 
-      if (swalOut && !swalOut.dismiss && swalOut.value) {
-        await PostApi.updateStatus(post.postOrderId, {
-          status: 0
-        });
-        this.getList();
-      }
-    },
-    async declinePost(post) {
-      let swalOut = await swal({
-        type: 'error',
-        title: 'Отклонить размещение поста?',
-        confirmButtonText: 'Да, отклонить!'
-      });
+            items.forEach(ch => {
+                if (ch.timeFrame) {
+                    ch.postOrders = ch.timeFrame.reduce((sum, timeFrame) => {
+                        if (timeFrame.postOrder) {
+                            let timeFrameCopy = clone(timeFrame);
+                            let channelCopy = clone(ch);
+                            delete timeFrameCopy.postOrder;
+                            delete channelCopy.timeFrame;
+                            timeFrameCopy.channel = channelCopy;
+                            timeFrame.postOrder.forEach(post => {
+                                post.timeFrame = timeFrameCopy;
+                                post.showPreview = false;
+                            });
+                            sum.push(...timeFrame.postOrder);
+                        }
+                        return sum;
+                    }, []);
+                }
+                ch.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(ch);
+                ch.showOrders = false;
+            });
 
-      if (swalOut && !swalOut.dismiss && swalOut.value) {
-        await PostApi.updateStatus(post.postOrderId, {
-          status: 1
-        });
-        this.getList();
-      }
-    },
-    toggleOrders(ch) {
-      if (ch.postOrders && ch.postOrders.length) {
-        ch.showOrders = !ch.showOrders;
-      }
+            console.log(items);
+            this.channels = items;
+        },
+        async approvePost(post) {
+            let swalOut = await swal({
+                type: 'success',
+                title: 'Подтвердить размещение поста?',
+                confirmButtonText: 'Да, подтвердить!'
+            });
+
+            if (swalOut && !swalOut.dismiss && swalOut.value) {
+                await PostApi.updateStatus(post.postOrderId, {
+                    status: 0
+                });
+                this.getList();
+            }
+        },
+        async declinePost(post) {
+            let swalOut = await swal({
+                type: 'error',
+                title: 'Отклонить размещение поста?',
+                confirmButtonText: 'Да, отклонить!'
+            });
+
+            if (swalOut && !swalOut.dismiss && swalOut.value) {
+                await PostApi.updateStatus(post.postOrderId, {
+                    status: 1
+                });
+                this.getList();
+            }
+        },
+        toggleOrders(ch) {
+            if (ch.postOrders && ch.postOrders.length) {
+                ch.showOrders = !ch.showOrders;
+            }
+        }
     }
-  }
 };
 </script>

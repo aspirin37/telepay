@@ -26,7 +26,7 @@ export default Vue.extend({
       inFeedConditions: [{ name: 24 }, { name: 48 }],
       inTopConditions: [{ name: 1 }, { name: 2 }],
       timeFramesToRemove: [],
-      timeFrames: this.channel.channelTimeFrame || [],
+      timeFrames: this.channel.timeFrame || [],
       selectedWeekday: moment().weekday()
     };
   },
@@ -37,7 +37,7 @@ export default Vue.extend({
       this.timeFrame.minute = +arr[1];
     },
     channel(val) {
-      this.timeFrames = this.channel.channelTimeFrame || [];
+      this.timeFrames = this.channel.timeFrame || [];
     },
     removalHours(val) {
       let arr = val.split('/');
@@ -100,7 +100,7 @@ export default Vue.extend({
       if (~i) this.timeFramesToRemove.splice(i, 1);
     },
     deleteTimeFrame(timeFrame) {
-      TimeFrameApi.delete({ channelId: timeFrame.channelId, timeFrameId: timeFrame.channelTimeFrameId });
+      TimeFrameApi.delete({ channelId: timeFrame.channelId, timeFrameId: timeFrame.timeFrameId });
     },
     addTimeFrame() {
       let copy = clone(this.timeFrame);

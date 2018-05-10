@@ -102,7 +102,7 @@
         <div class="body-row"
             :class="{removed:isRemoved(of)}"
             v-for="of in filteredTimeFrames"
-            :key="of.channelTimeFrameId">
+            :key="of.timeFrameId">
             <div class="col h4 m-0">{{timeFrameDates(of)}}</div>
             <div class="col h4 m-0">{{of.inTopHours}}/{{of.inFeedHours}}</div>
             <div class="col h4 m-0">{{of.price | centToRub}}</div>

@@ -192,6 +192,9 @@ export default Vue.extend({
                         return timeFrame.weekDay === params.weekDay && filterToday;
                     });
                 }
+                if (item.categoryName) {
+                    item.channelInfo.category = item.categoryName
+                }
                 return item.channelInfo;
             });
         }

@@ -1,54 +1,60 @@
 <template src="./index.html"></template>
 
 <script>
-import { mapState } from 'vuex';
+import {
+    mapState
+} from 'vuex';
 import postList from '@components/post-list';
-import { PostApi } from '@services/api';
+import {
+    PostApi
+} from '@services/api';
 
 export default {
-  components: {
-    postList
-  },
-  data() {
-    return {
-      posts: {
-        in: [],
-        out: []
-      },
-      selected: this.$route.params.tab || 'inbound'
-    };
-  },
-  computed: {
-    ...mapState(['user'])
-  },
-  created() {
-    this.getPosts();
-  },
-  methods: {
-    async getPosts() {
-      this.posts.in = [];
-      this.posts.out = [];
-      let { items, total } = await PostApi.list();
-      items.forEach(postOrder => {
-        if (postOrder && postOrder.channelTimeFrame && postOrder.channelTimeFrame.channel)
-          this.posts[postOrder.channelTimeFrame.channel.userId === this.user.userId ? 'in' : 'out'].push(postOrder);
-      });
-
-      this.posts.in.sort(this._sorter);
-      this.posts.out.sort(this._sorter);
+    components: {
+        postList
     },
-    _sorter(a, b) {
-      let now = Math.round(Date.now() / 1e3);
-      if (a.publishAt >= now && b.publishAt >= now) {
-        return a.publishAt - b.publishAt;
-      } else if (a.publishAt >= now) {
-        return -1;
-      } else if (b.publishAt >= now) {
-        return 1;
-      } else {
-        return b.publishAt - a.publishAt;
-      }
+    data() {
+        return {
+            posts: { in: [],
+                out: []
+            },
+            selected: this.$route.params.tab || 'inbound'
+        };
+    },
+    computed: {
+        ...mapState(['user'])
+    },
+    created() {
+        this.getPosts();
+    },
+    methods: {
+        async getPosts() {
+            this.posts.in = [];
+            this.posts.out = [];
+            let {
+                items,
+                total
+            } = await PostApi.list();
+            items.forEach(postOrder => {
+                if (postOrder && postOrder.timeFrame && postOrder.timeFrame.channel)
+                    this.posts[postOrder.timeFrame.channel.userId === this.user.userId ? 'in' : 'out'].push(postOrder);
+            });
+
+            this.posts.in.sort(this._sorter);
+            this.posts.out.sort(this._sorter);
+        },
+        _sorter(a, b) {
+            let now = Math.round(Date.now() / 1e3);
+            if (a.publishAt >= now && b.publishAt >= now) {
+                return a.publishAt - b.publishAt;
+            } else if (a.publishAt >= now) {
+                return -1;
+            } else if (b.publishAt >= now) {
+                return 1;
+            } else {
+                return b.publishAt - a.publishAt;
+            }
+        }
     }
-  }
 };
 </script>

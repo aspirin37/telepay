@@ -104,10 +104,10 @@ export default {
             return text.replace(/\n/g, () => '<br>');
         },
         replaceHashtags(text) {
-            return text.replace(/\n?#(.+?)\b\n?/g, (str, match) => `<span class="preview__link">${match}</span>`);
+            return text.replace(/\n?(#.+?)\b\n?/g, (str, match) => `<span class="preview__link">${match}</span>`);
         },
         replaceMentions(text) {
-            return text.replace(/\n?@(.+?)\b\n?/g, (str, match) => `<span class="preview__link">${match}</span>`);
+            return text.replace(/\n?(@.+?)\b\n?/g, (str, match) => `<span class="preview__link">${match}</span>`);
         },
         replaceLinks(text) {
             return text.replace(/\[(.+?)\]\((https?:\/\/.+)\)/g, (str, text, link) => `<a class="preview__link" href="${link}" target="_blank" rel="noopener noreferrer nofollow">${text}</a>`);

@@ -98,8 +98,8 @@
                                 class="nav-link">
                                 <i class="fa fa-money"
                                     aria-hidden="true"></i>
-                                <span>{{ (balance.current||0) | centToRub }}
-                                    <span class="text-muted">({{ (balance.hold||0) | centToRub }})</span>
+                                <span>{{ (balance.current||0) | centToRub(2) }}
+                                    <span class="text-muted">({{ (balance.hold||0) | centToRub(2) }})</span>
                                 </span>
                             </router-link>
                         </li>

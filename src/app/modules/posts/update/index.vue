@@ -17,7 +17,7 @@ export default {
   async created() {
     let { items, total } = await CatalogApi.filter();
     this.channels = items.map(item => item.channelInfo).reduce((acc, item) => {
-      acc = [...acc, ...item.channelTimeFrame];
+      acc = [...acc, ...item.timeFrame];
       return acc;
     }, []);
   },
