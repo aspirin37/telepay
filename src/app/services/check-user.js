@@ -4,7 +4,6 @@ import { UserApi, AuthApi } from '@services/api';
 async function checkUserAvailable(App) {
     let auth_key = LS.get('auth_key');
     let isAuth = window.location.pathname.includes('auth/');
-
     if (!auth_key && !isAuth) {
         // нет токена
         App.$router.replace({ name: 'login' });
@@ -20,8 +19,8 @@ async function checkUserAvailable(App) {
 
         if (user && user.userId) {
             App.$store.commit('SET_USER', user);
-            if (isAuth){
-                App.$router.replace({name:'catalog'})
+            if (isAuth) {
+                App.$router.replace({ name: 'catalog' })
             }
         }
     }

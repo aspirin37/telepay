@@ -38,6 +38,16 @@
                     @click="startFetchingUser">{{user.telegramId?'Отвязать':'Привязать'}} аккаунт Telegram</a>
             </div>
         </div>
+        <div class="col-6"
+            v-if="user&&user.referral">
+            <div class="form-group">
+                <p class="text-medium-font font-weight-500 mb-1">Реферральная ссылка</p>
+                <input type="text"
+                    readonly
+                    :value="`https://dev.telepay.io/auth/registration?ref=${user.referral.code}`"
+                    class="form-control">
+            </div>
+        </div>
     </div>
     <h2 class="text-medium-font mb-4">Изменение пароля</h2>
     <div class="row">
