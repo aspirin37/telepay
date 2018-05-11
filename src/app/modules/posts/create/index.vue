@@ -51,6 +51,7 @@ export default {
     }
   },
   created() {
+    this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: true })
     this.getChannels();
     if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
       this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
@@ -100,7 +101,7 @@ export default {
     },
     totalPrice() {
       return this.selectedChannels.reduce((sum, el) => {
-        return sum + el.timeFrame.reduce((ofSum, timeFrame) => ofSum + (timeFrame.selected ? timeFrame.price : 0), 0);
+        return sum + el.timeFrame.reduce((ofSum, timeFrame) => ofSum + (timeFrame.selected ? timeFrame.priceWithCommission : 0), 0);
       }, 0);
     }
   },

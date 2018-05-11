@@ -11,10 +11,12 @@ import loader from '@components/loader';
 import navigation from '@components/navigation';
 // services
 import '@filters';
+import tooltip from '@components/tooltip';
+Vue.directive('tooltip', tooltip);
 
 import check from '@services/check-user';
 
-export const App = new Vue( {
+export const App = new Vue({
     router,
     store,
     components: {
@@ -23,14 +25,14 @@ export const App = new Vue( {
         notifystr,
     },
     beforeMount() {
-        check( this );
+        check(this);
     },
     computed: {
         showSpinner: {
-            get: function () {
+            get: function() {
                 return this.$store.state.loading;
             },
             set: () => {},
         },
     },
-} ).$mount( '#app' );
+}).$mount('#app');

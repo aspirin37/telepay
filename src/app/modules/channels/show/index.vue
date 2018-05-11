@@ -4,16 +4,12 @@ import { ChannelApi } from '@services/api';
 import avatar from '@components/avatar';
 import timeframes from '@components/timeframes';
 import onOff from 'vue-on-off';
-import tooltip from '@components/tooltip';
 import { clone } from '@utils/clone';
 export default {
   components: {
     avatar,
     onOff,
     timeframes
-  },
-  directives: {
-    tooltip
   },
   data() {
     return {

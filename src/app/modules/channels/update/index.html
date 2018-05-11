@@ -5,7 +5,7 @@
            class="float-right pointer">
       <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
   </h2>
-  <div class="row mt-4">
+  <div class="row my-4">
     <div class="col-2 ">
       <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
               style="max-width: 200px; max-height: 200px;"
@@ -34,7 +34,7 @@
          v-tooltip="{template:'После проверки поста нашими модераторами на допустимость контента, пост должен быть одобрен вами, включите эту опцию чтобы разрешить размещение постов без вашей проверки',delayOut:500}"></i>
     </div>
   </div>
-  <h2>Сетка рекламных мест</h2>
+  <h2>Рекламные предложения</h2>
   <div class="form-row">
     <div class="col-3">
       <div class="form-group">
@@ -98,14 +98,14 @@
       </p>
     </div>
   </div>
-  <h4 @click="showTimeframes=!showTimeframes"
+  <!-- <h4 @click="showTimeframes=!showTimeframes"
       class="pointer underline-dash "> Расширенные настройки</h4>
   <transition name="fade">
     <timeframes :timeframes="mappedTimeframes"
                 v-show="showTimeframes"
                 :max-posts-str="maxPostsStr"
                 :daily-posts-str="dailyPostsStr"></timeframes>
-  </transition>
+  </transition> -->
   <!-- <timeFrames-list v-if="channel && channel.channelId"
         :channel="channel"></timeFrames-list> -->
 </div>

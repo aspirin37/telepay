@@ -5,7 +5,7 @@
            class="float-right pointer">
       <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
   </h2>
-  <div class="row mt-4">
+  <div class="row my-4">
     <div class="col-2 ">
       <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
               style="max-width: 200px; max-height: 200px;"
@@ -21,7 +21,8 @@
       <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
     </div>
   </div>
-  <div class="form-row mt-4">
+  <h2>Рекламные предложения</h2>
+  <div class="form-row">
     <div class="col-3">
       <div class="form-group">
         <label>Условия размещения
@@ -39,14 +40,11 @@
         <input type="number"
                readonly
                class="form-control-plaintext fa-lg"
-               :value="channel.timeFrame[0].price/100"> </div>
-    </div>
-    <div class="col-2">
-      <label>&nbsp;</label>
-      <button class="btn-success btn btn-block"
-              @click="$router.push({name:'posts:create',params:{selected:mappedToSelected}})">Создать пост</button>
+               :value="channel.timeFrame[0].priceWithCommission/100"> </div>
     </div>
   </div>
+  <button class="btn-success btn"
+          @click="$router.push({name:'posts:create',params:{selected:mappedToSelected}})">Создать пост</button>
   <!-- <h2 class="text-center">Рекламные предложения</h2> -->
   <!-- <timeframes v-if="channel && channel.channelId"
  :channel="channel"></timeframes> -->
