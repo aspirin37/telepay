@@ -1,6 +1,8 @@
 <template src="./index.html"></template>
 <script>
-import { BalanceApi } from '@services/api';
+import {
+  BalanceApi
+} from '@services/api';
 import transactionTypes from '@utils/transaction-types';
 export default Vue.extend({
   data() {
@@ -14,7 +16,8 @@ export default Vue.extend({
   },
   methods: {
     async getTransactions() {
-      this.transactions = await BalanceApi.getTransactions();
+      let transactions = await BalanceApi.getTransactions();
+      this.transactions = transactions.sort((a, b) => b.createdAt - a.createdAt)
     },
     isPositiveType(type) {
       return [].includes(type);

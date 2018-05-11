@@ -14,7 +14,7 @@ import '@filters';
 
 import check from '@services/check-user';
 
-export const App = new Vue({
+export const App = new Vue( {
     router,
     store,
     components: {
@@ -23,14 +23,14 @@ export const App = new Vue({
         notifystr,
     },
     beforeMount() {
-        check(this);
+        check( this );
     },
     computed: {
         showSpinner: {
-            get: function() {
+            get: function () {
                 return this.$store.state.loading;
             },
             set: () => {},
         },
     },
-}).$mount('#app');
+} ).$mount( '#app' );

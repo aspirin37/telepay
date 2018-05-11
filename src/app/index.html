@@ -3,18 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Telepay</title>
 </head>
 
 <body>
-    <div id="app"
-        :class="{'auth':$route.fullPath.includes('auth')}">
+    <div id="app" class="app" :class="{'auth':$route.fullPath.includes('auth')}">
         <notifystr></notifystr>
-        <loader v-model="showSpinner"
-            size="xl"
-            :fixed="true"></loader>
+        <loader v-model="showSpinner" size="xl" :fixed="true"></loader>
         <navigation></navigation>
         <div class="container-wrap">
             <router-view></router-view>

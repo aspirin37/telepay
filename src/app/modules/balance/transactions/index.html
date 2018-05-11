@@ -1,30 +1,34 @@
 <div class="container py-3">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-medium-font mb-2">История платежей</h1>
-        <router-link class="btn btn-primary"
-            :to="{ name: 'balance:replenishment' }">Пополнить баланс</router-link>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-medium-font mb-2">История платежей</h1>
+    <div>
+      <router-link class="btn btn-primary mx-2"
+                   :to="{ name: 'balance:withdrawal' }">Вывести средства</router-link>
+      <router-link class="btn btn-primary mx-2"
+                   :to="{ name: 'balance:replenishment' }">Пополнить баланс</router-link>
     </div>
-    <div class="flex-table"
-        v-if="transactions && transactions.length">
-        <div class="header-row">
-            <div class="col">Дата</div>
-            <div class="col">Назначение</div>
-            <div class="col">Тип</div>
-            <div class="col">Сумма</div>
-        </div>
-        <div class="body-row"
-            :key="tr.transactionId"
-            v-for="tr in transactions">
-            <div class="col">{{tr.createdAt*1e3 | parseDate}}</div>
-            <div class="col">{{tr.entity || '-'}}</div>
-            <div class="col">{{transactionTypes[tr.type]}}</div>
-            <div class="col">{{isPositiveType(tr.type)?'+':'-'}}{{tr.amount | centToRub}}</div>
-        </div>
+  </div>
+  <div class="flex-table"
+       v-if="transactions && transactions.length">
+    <div class="header-row">
+      <div class="col">Дата</div>
+      <div class="col">Назначение</div>
+      <div class="col">Тип</div>
+      <div class="col">Сумма</div>
     </div>
-    <h4 class="text-center"
-        v-else>Пока не совершено ни одного платежа
-        <br>
-        <router-link class="btn btn-primary m-3"
-            :to="{name:'balance:replenishment'}">Пополните баланс</router-link>
-    </h4>
+    <div class="body-row"
+         :key="tr.transactionId"
+         v-for="tr in transactions">
+      <div class="col">{{tr.createdAt*1e3 | parseDate}}</div>
+      <div class="col">{{tr.entity || '-'}}</div>
+      <div class="col">{{transactionTypes[tr.type]}}</div>
+      <div class="col">{{isPositiveType(tr.type)?'+':'-'}}{{tr.amount | centToRub}}</div>
+    </div>
+  </div>
+  <h4 class="text-center"
+      v-else>Пока не совершено ни одного платежа
+    <br>
+    <router-link class="btn btn-primary m-3"
+                 :to="{name:'balance:replenishment'}">Пополните баланс</router-link>
+  </h4>
 </div>

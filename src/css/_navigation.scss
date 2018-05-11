@@ -17,6 +17,9 @@
             &:hover {
                 text-decoration: underline;
             }
+            &.active {
+                text-decoration: underline;
+            }
         }
         .fa {
             color: #000;
@@ -92,7 +95,9 @@
         .logo .cls-1 {
             fill: #fff !important;
         }
-        .nav-link, .fa, .advert-switch {
+        .nav-link,
+        .fa,
+        .advert-switch {
             color: #fff;
         }
     }

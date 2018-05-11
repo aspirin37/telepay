@@ -1,18 +1,12 @@
 <template>
-    <div class="container py-3">
+    <div class="container py-3" v-if="channel && channel.channelId">
         <h2 class="text-secondary my-4">Просмотр канала
-            <router-link tag="small"
-                :to="{name:'catalog'}"
-                class="float-right pointer">
+            <router-link tag="small" :to="{name:'catalog'}" class="float-right pointer">
                 <i class="fa fa-lg fa-chevron-left pt-1"></i> Назад</router-link>
         </h2>
         <div class="row mt-4">
             <div class="col-2 ">
-                <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
-                    style="max-width: 200px; max-height: 200px;"
-                    @error="imageErrorHandler(channel)"
-                    :circle="true" />
-            </div>
+                <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'" style="max-width: 200px; max-height: 200px;" @error="imageErrorHandler(channel)" :circle="true" /> </div>
             <div class="col-6">
                 <h4>
                     <a :href="'tg://resolve?domain='+channel.username">{{channel.title}}</a>
@@ -22,40 +16,68 @@
                 <b v-if="channel.engagementRate">Коэффициент вовлечения(ER): {{channel.engagementRate | cutKilo}}</b>
                 <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
             </div>
-
+        </div>
+        <div class="form-row mt-4">
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Условия размещения
+                        <i class="fa fa-info-circle" v-tooltip="{template:'Время, которое пост должен быть в ленте канала на первом месте / Время поста в ленте до удаления ботом',delayOut:500}"></i>
+                    </label>
+                    <input type="text" class="form-control-plaintext fa-lg" :value="'1/'+(channel.timeFrame[0].inFeedHours||'∞')" readonly> </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Цена за пост (руб)</label>
+                    <input type="number" readonly class="form-control-plaintext fa-lg" :value="channel.timeFrame[0].price/100"> </div>
+            </div>
+            <div class="col-2">
+                <label>&nbsp;</label>
+                <button class="btn-success btn btn-block" @click="$router.push({name:'posts:create',selected:mappedToSelected})">Создать пост</button>
+            </div>
         </div>
         <!-- <h2 class="text-center">Рекламные предложения</h2> -->
-
         <!-- <timeframes v-if="channel && channel.channelId"
         :channel="channel"></timeframes> -->
     </div>
 </template>
-
 <script>
-import {
-    ChannelApi
-} from '@services/api';
-import avatar from '@components/avatar';
-import timeframes from '@components/timeframes';
-import onOff from 'vue-on-off';
-export default {
-    components: {
-        avatar,
-        onOff,
-        timeframes
-    },
-    data() {
-        return {
-            channel: {}
-        };
-    },
-    async created() {
-        this.channel = await ChannelApi.show({
-            channelId: this.$route.params.id
-        });
-    }
-};
+    import {
+        ChannelApi
+    } from '@services/api';
+    import avatar from '@components/avatar';
+    import timeframes from '@components/timeframes';
+    import onOff from 'vue-on-off';
+    import tooltip from '@components/tooltip';
+    import {
+        clone
+    } from '@utils/clone';
+    export default {
+        components: {
+            avatar,
+            onOff,
+            timeframes
+        },
+        directives: {
+            tooltip
+        },
+        data() {
+            return {
+                channel: {}
+            };
+        },
+        computed: {
+            mappedToSelected() {
+                let copy = clone( this.channel );
+                copy.timeFrame[ 0 ].selected = true;
+                return copy
+            }
+        },
+        async created() {
+            this.channel = await ChannelApi.show( {
+                channelId: this.$route.params.id
+            } );
+        }
+    };
 </script>
-
 <style lang="css">
 </style>
