@@ -82,7 +82,8 @@ export default {
         this.timeframesData.postPrice = this.channel.timeFrame[0].price / 100;
         this.timeframesData.conditions = this.channel.timeFrame[0].inFeedHours || 'never';
       }
-      this.editingConditions = false
+
+      this.editingConditions = !this.channel.timeFrame.length
     },
 
     async saveGlobalTimeFrames() {

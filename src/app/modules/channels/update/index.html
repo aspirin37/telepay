@@ -43,8 +43,8 @@
                min="1"
                max="24"
                step="1"
-               :readonly="!editingConditions && hasTimeframes"
-               :class="!editingConditions && hasTimeframes?'form-control-plaintext fa-lg':'form-control'"
+               :readonly="!editingConditions"
+               :class="!editingConditions?'form-control-plaintext fa-lg':'form-control'"
                @click="editingConditions=true"
                placeholder="5"
                v-model="timeframesData.postCount">
@@ -59,8 +59,8 @@
         <input type="text"
                class="form-control-plaintext fa-lg"
                :value="'1/'+(inFeedHours||'∞')"
-               v-if="!editingConditions && hasTimeframes"
-               :readonly="!editingConditions && hasTimeframes"
+               v-if="!editingConditions"
+               :readonly="!editingConditions"
                @click="editingConditions=true">
         <select v-model="timeframesData.conditions"
                 v-else
@@ -75,8 +75,8 @@
       <div class="form-group">
         <label>Цена за пост</label>
         <input type="number"
-               :readonly="!editingConditions && hasTimeframes"
-               :class="!editingConditions && hasTimeframes?'form-control-plaintext fa-lg':'form-control'"
+               :readonly="!editingConditions"
+               :class="!editingConditions?'form-control-plaintext fa-lg':'form-control'"
                @click="editingConditions=true"
                placeholder="1000"
                step="1"

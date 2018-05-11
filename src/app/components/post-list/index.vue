@@ -41,12 +41,12 @@
         </div>
         <div class="col h5">{{post.sum | centToRub}}</div>
         <div class="col">
-          <button v-if="!isOut && post.status === 2"
+          <button v-if="!isOut && post.status === 0"
                   class="btn btn-link m-0 p-0 text-success"
                   @click="approvePost(post)">
             <i class="fa fa-check fa-2x"></i>
           </button>
-          <button v-if="!isOut && post.status === 2"
+          <button v-if="!isOut && post.status === 0"
                   class="btn btn-link m-0 p-0 text-danger"
                   @click="declinePost(post)">
             <i class="fa fa-times fa-2x"></i>
@@ -83,10 +83,7 @@
 import avatar from '@components/avatar';
 import postPreview from '@components/post-preview';
 import postStatuses from '@utils/post-statuses';
-import {
-  PostApi,
-  ChannelApi
-} from '@services/api';
+import { PostApi, ChannelApi } from '@services/api';
 export default {
   components: {
     avatar,
@@ -184,7 +181,7 @@ export default {
       });
       if (swalOut && !swalOut.dismiss && swalOut.value) {
         await PostApi.updateStatus(post.postOrderId, {
-          status: 0
+          status: 2
         });
         this.getPosts();
       }
