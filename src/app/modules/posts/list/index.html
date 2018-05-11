@@ -1,7 +1,11 @@
 <div class="container py-3 posts">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-secondary mb-0">Посты</h1>
-        <router-link class="btn btn-primary" :to="{ name: 'posts:create' }">Новый пост</router-link>
-    </div>
-    <post-list :posts="posts[isAdvert?'out':'in']" :placeholder="`Нет ${isAdvert?'входящих':'исходящих'} постов`" :is-out="isAdvert"></post-list>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-secondary mb-0">Посты</h1>
+    <router-link class="btn btn-primary"
+                 v-show="is_advert"
+                 :to="{ name: 'posts:create' }">Новый пост</router-link>
+  </div>
+  <post-list :posts="posts[is_advert?'out':'in']"
+             :placeholder="`Нет ${is_advert?'исходящих':'входящих'} постов`"
+             :is-out="is_advert"></post-list>
 </div>

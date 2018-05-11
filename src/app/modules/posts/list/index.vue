@@ -15,7 +15,7 @@ export default {
       selected: this.$route.params.tab || 'inbound'
     };
   },
-  computed: { ...mapState(['user', 'isAdvert'])
+  computed: { ...mapState(['user', 'is_advert'])
   },
   created() {
     this.getPosts();
@@ -29,8 +29,11 @@ export default {
         total
       } = await PostApi.list();
       items.forEach(postOrder => {
-        if (postOrder && postOrder.timeFrame && postOrder.timeFrame.channel) this.posts[postOrder.timeFrame.channel.userId === this.user
-          .userId ? 'in' : 'out'].push(postOrder);
+        if (
+          postOrder &&
+          postOrder.timeFrame &&
+          postOrder.timeFrame.channel
+        ) this.posts[postOrder.timeFrame.channel.userId === this.user.userId ? 'in' : 'out'].push(postOrder);
       });
       this.posts.in.sort(this._sorter);
       this.posts.out.sort(this._sorter);

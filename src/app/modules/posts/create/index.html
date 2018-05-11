@@ -1,68 +1,65 @@
 <div class="container py-3 mb-5">
-    <h2 class="mb-4">Новый пост
-        <router-link tag="small"
-            :to="{name:'posts:list'}"
-            class="float-right pointer">
-            <i class="fa fa-lg fa-chevron-left"></i> Назад</router-link>
-    </h2>
-    <channel-list :channels="selectedChannels"
-        :is-chips="selectedChannels.length>3"
-        :user="$store.state.user"
-        placeholder="Предложения не выбраны" />
-
-    <div class="row p-4 border-bottom mb-2"
-        v-show="channelsToAdd.length">
-        <div class="col-12 text-primary h4">
-            <button class="btn btn-link"
-                @click="selectedChannels.length?openCatalogPopup():$router.push({name:'catalog'})">
-                <i class="fa fa-plus"></i> Добавить канал</button>
-        </div>
+  <h2 class="mb-4">Новый пост
+    <small @click="$router.go(-1)"
+           class="float-right pointer">
+      <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
+  </h2>
+  <channel-list :channels="selectedChannels"
+                :is-chips="selectedChannels.length>3"
+                :user="$store.state.user"
+                placeholder="Предложения не выбраны" />
+  <div class="row p-4 border-bottom mb-2"
+       v-show="channelsToAdd.length">
+    <div class="col-12 text-primary h4">
+      <button class="btn btn-link"
+              @click="selectedChannels.length?openCatalogPopup():$router.push({name:'catalog'})">
+        <i class="fa fa-plus"></i> Добавить канал</button>
     </div>
-    <div class="row">
+  </div>
+  <div class="row">
+    <div class="col-12 text-right">
+      <h2>
+        <small>Стоимость: </small> {{totalPrice|centToRub}}
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5">
+      <post-preview :post="post" />
+    </div>
+    <div class="col-7">
+      <div class="form-row">
+        <div class="col-6">
+          <div class="form-group">
+            <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
+            <date-input v-model="post.publishAt"
+                        placeholder="Выберите дату публикации"
+                        :config="dateConfig" />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
+            <input type="time"
+                   class="form-control p-2"
+                   v-model="postTime">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <p class="text-medium-font font-weight-500 mb-1">Контент</p>
+            <post-input v-model="postData" />
+          </div>
+        </div>
         <div class="col-12 text-right">
-            <h2>
-                <small>Стоимость: </small> {{totalPrice|centToRub}}
-            </h2>
+          <button class="btn btn-primary"
+                  @click="saveTemplate">
+            Сохранить</button>
+          <button class="btn btn-success"
+                  :disabled="!selectedChannels.length"
+                  @click="createPostOrder">Разместить пост</button>
         </div>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-5">
-            <post-preview :post="post" />
-        </div>
-        <div class="col-7">
-            <div class="form-row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
-                        <date-input v-model="post.publishAt"
-                            placeholder="Выберите дату публикации"
-                            :config="dateConfig" />
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
-                        <input type="time"
-                            class="form-control p-2"
-                            v-model="postTime">
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="form-group">
-                        <p class="text-medium-font font-weight-500 mb-1">Контент</p>
-                        <post-input v-model="postData" />
-                    </div>
-                </div>
-                <div class="col-12 text-right">
-                    <button class="btn btn-primary"
-                        @click="saveTemplate">
-                        Сохранить</button>
-                    <button class="btn btn-success"
-                        :disabled="!selectedChannels.length"
-                        @click="createPostOrder">Разместить пост</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>

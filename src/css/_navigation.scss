@@ -1,116 +1,126 @@
 .header {
-    background-color: theme-color('light');
-    transition: background-color 0.2s ease-out;
+  background-color: theme-color('light');
+  transition: background-color 0.2s ease-out;
+  .logo .cls-1 {
+    fill: theme-color('slate') !important;
+  }
+  .nav-item {
+    padding: 0 0.5em;
+  }
+  .nav {
+    .nav-link {
+      font-weight: 500;
+      color: theme-color('slate');
+      text-decoration: none;
+      padding: 0rem 0rem;
+      margin: 0.5rem 1rem;
+      &:hover {
+        text-decoration: underline;
+      }
+      &.active {
+        text-decoration: underline;
+      }
+    }
+    .fa {
+      color: #000;
+    }
+  }
+  .link {
+    color: theme-color('slate');
+  }
+  .navbar {
+    height: 80px;
+    &__logo {
+      width: 200px;
+      .logo {
+        width: 100%;
+        height: 42px;
+        padding: 5px 0;
+        svg {
+          height: 100%;
+        }
+      }
+    }
+    .navbar-brand {
+      width: 200px;
+    }
+    &_main {
+      position: absolute;
+      width: 100%;
+      background: transparent !important;
+      .nav-link {
+        color: theme-color('text-white');
+        padding: 0;
+        margin: 0.5rem 1rem;
+      }
+    }
+  }
+  .advert-switch {
+    .title {
+      font-weight: bold;
+      margin-bottom: 0;
+      float: left;
+      cursor: pointer;
+    }
+    .switch {
+      float: right;
+      margin-left: 10px;
+      .onoffswitch {
+        width: 32px;
+        &-label {
+          border: none
+        }
+        &-inner::after {
+          height: 18px;
+          background-color: theme-color('purplish');
+        }
+        &-switch {
+          width: 14px;
+          height: 14px;
+          right: 16px;
+        }
+        .onoffswitch-checkbox:checked+.onoffswitch-label {
+          .onoffswitch-inner::after {
+            background-color: #fff !important;
+          }
+          .onoffswitch-switch {
+            background-color: #000;
+          }
+        }
+      }
+    }
+  }
+  &.is-advert {
+    background: #853d5e;
+    background: -moz-linear-gradient(left, #853d5e 0%, #4a3172 100%);
+    background: -webkit-linear-gradient(left, #853d5e 0%, #4a3172 100%);
+    background: linear-gradient(to right, #853d5e 0%, #4a3172 100%);
+    background-position: center;
+    background-size: cover;
     .logo .cls-1 {
-        fill: theme-color('slate') !important;
+      fill: #fff !important;
     }
-    .nav-item {
-        padding: 0 0.5em;
-    }
-    .nav {
-        .nav-link {
-            font-weight: 500;
-            color: theme-color('slate');
-            text-decoration: none;
-            padding: 0rem 0rem;
-            margin: 0.5rem 1rem;
-            &:hover {
-                text-decoration: underline;
-            }
-            &.active {
-                text-decoration: underline;
-            }
-        }
-        .fa {
-            color: #000;
-        }
-    }
-    .link {
-        color: theme-color('slate');
-    }
-    .navbar {
-        height: 80px;
-        &__logo {
-            width: 200px;
-            .logo {
-                width: 100%;
-                height: 42px;
-                padding: 5px 0;
-                svg {
-                    height: 100%;
-                }
-            }
-        }
-        .navbar-brand {
-            width: 200px;
-        }
-        &_main {
-            position: absolute;
-            width: 100%;
-            background: transparent !important;
-            .nav-link {
-                color: theme-color('text-white');
-                padding: 0;
-                margin: 0.5rem 1rem;
-            }
-        }
-    }
+    .nav-link,
+    .fa:not(.fa-times),
     .advert-switch {
-        .title {
-            font-weight: bold;
-            margin-bottom: 0;
-            float: left;
-            cursor: pointer;
-        }
-        .switch {
-            float: right;
-            margin-left: 10px;
-            .onoffswitch {
-                width: 32px;
-                &-label {
-                    border: none
-                }
-                &-inner::after {
-                    height: 18px;
-                    background-color: theme-color('purplish');
-                }
-                &-switch {
-                    width: 14px;
-                    height: 14px;
-                    right: 16px;
-                }
-                .onoffswitch-checkbox:checked+.onoffswitch-label {
-                    .onoffswitch-inner::after {
-                        background-color: #fff !important;
-                    }
-                    .onoffswitch-switch {
-                        background-color: #000;
-                    }
-                }
-            }
-        }
+      color: #fff;
     }
-    &.is-advert {
-        background-color: theme-color('purplish');
-        .logo .cls-1 {
-            fill: #fff !important;
-        }
-        .nav-link,
-        .fa,
-        .advert-switch {
-            color: #fff;
-        }
-    }
+  }
 }
 
 .footer-nav {
-    background-color: theme-color('light');
-    transition: background-color 0.2s ease-out;
-    a {
-        color: inherit;
-    }
-    &.is-advert {
-        background-color: theme-color('purplish');
-        color: #fff;
-    }
+  background-color: theme-color('light');
+  transition: background-color 0.2s ease-out;
+  a {
+    color: inherit;
+  }
+  &.is-advert {
+    background: #853d5e;
+    background: -moz-linear-gradient(left, #853d5e 0%, #4a3172 100%);
+    background: -webkit-linear-gradient(left, #853d5e 0%, #4a3172 100%);
+    background: linear-gradient(to right, #853d5e 0%, #4a3172 100%);
+    background-position: center;
+    background-size: cover;
+    color: #fff;
+  }
 }
