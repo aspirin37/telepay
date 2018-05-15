@@ -1,9 +1,14 @@
 <template src="./index.html"></template>
 <script>
+<<<<<<< HEAD
 import { SupportApi } from "@services/api";
 import searchInput from "@components/search-input";
 import supportTextarea from "@components/support-textarea";
 
+=======
+import { SupportApi } from '@services/api';
+import searchInput from '@components/search-input';
+>>>>>>> 372c4661c83a667cd43eec35de8d4297eccc83d6
 export default Vue.extend({
   components: {
     searchInput,
@@ -22,6 +27,7 @@ export default Vue.extend({
       topics: [
         {
           id: 1,
+<<<<<<< HEAD
           name: "Проблема"
         },
         {
@@ -38,6 +44,20 @@ export default Vue.extend({
         text: "",
         images: []
       }
+=======
+          name: 'Проблема'
+        },
+        {
+          id: 2,
+          name: 'Вопрос'
+        },
+        {
+          id: 3,
+          name: 'Предложение'
+        }
+      ],
+      selectedTopic: ''
+>>>>>>> 372c4661c83a667cd43eec35de8d4297eccc83d6
     };
   },
   created() {},

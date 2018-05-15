@@ -11,6 +11,7 @@ import loader from '@components/loader';
 import navigation from '@components/navigation';
 // services
 import '@filters';
+// directives
 import tooltip from '@components/tooltip';
 Vue.directive('tooltip', tooltip);
 
