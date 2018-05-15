@@ -1,24 +1,28 @@
 <template src="./index.html"></template>
 <script>
-import { SupportApi } from "@services/api";
-import searchInput from "@components/search-input";
+import { SupportApi } from '@services/api';
+import searchInput from '@components/search-input';
 export default Vue.extend({
   components: {
     searchInput
   },
   data() {
     return {
-      topics: [{
+      topics: [
+        {
           id: 1,
-          name: "Проблема",
-      }, {
+          name: 'Проблема'
+        },
+        {
           id: 2,
-          name: "Вопрос",
-      }, {
+          name: 'Вопрос'
+        },
+        {
           id: 3,
-          name: "Предложение",
-      }],
-      selectedTopic: ""
+          name: 'Предложение'
+        }
+      ],
+      selectedTopic: ''
     };
   },
   created() {},
