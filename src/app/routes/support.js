@@ -8,7 +8,7 @@ export default {
     path: '/support',
     name: 'support',
     component: abstract,
-    redirect: { name: 'support:list' },
+    redirect: { name: 'support:create' },
     children: _crud_(
         List,
         Create,

@@ -6,8 +6,9 @@
     "license": "MIT",
     "scripts": {
         "test": "karma start karma.conf.js",
-        "ds": "sh dev_utils/ds.sh",
+        "ds": "sh dev_utils/ds.sh --env.url dev",
         "start_ds": "webpack-dev-server --progress --env.NODE_ENV development",
+        "start": "webpack-dev-server --progress --env.NODE_ENV development --env.url dev --open",
         "dpsh": "webpack  --progress --env.NODE_ENV production --env.url dev && git add . && git commit -m",
         "ppsh": "webpack --progress --env.NODE_ENV production && git add . && git commit -m",
         "bdev": "webpack --progress --env.NODE_ENV production --env.url dev",
