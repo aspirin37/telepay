@@ -172,7 +172,7 @@ export default {
             if (!files.length) return;
             if (this.images.length + files.length <= this.maxImages) {
                 for (let i = 0; i < files.length; i++) {
-                    if (files[i].size / 1024 / 1024 > 2) {
+                    if (files[i].size / 1024 / 1024 > 1) {
                         this.$notifystr.danger('Ошибка!', 'Размер файла не должен превышать 2мб');
                     }
                     this._createImage(files[i]);
@@ -198,14 +198,6 @@ export default {
         removeImage(index) {
             this.images = this.images.filter((img, idx) => idx !== index);
         },
-        // showImage(src) {
-        //   swal({
-        //     imageUrl: src.decoded,
-        //     imageHeight: '100%',
-        //     showCancelButton: false,
-        //     showConfirmButton: false
-        //   });
-        // },
 
         addButton() {
             if (this.buttons.length >= 10) {

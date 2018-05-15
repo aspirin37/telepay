@@ -1,8 +1,10 @@
-import {_r, genRes} from './_utils';
+import {_r, _e, genRes} from './_utils';
 
-const supportRes = genRes('support', ['GET', 'POST', 'PUT', 'DELETE']);
+const supportRes = genRes('ticket', ['GET', 'POST']);
 
 export default {
-    getList: (params)=>supportRes().get(params).then(_r),
+    createTicket: (params) => supportRes('create').post(params).then(_r).catch(_e),
+    createMessage: (params) => supportRes('message/create').post(params).then(_r).catch(_e),
+    // getList: (params)=>supportRes().get(params).then(_r).catch(_e),
 };
 

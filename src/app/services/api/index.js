@@ -10,6 +10,7 @@ import AuthApi from './auth';
 import UserApi from './user';
 import BalanceApi from './balance';
 import ChannelListsApi from './channel-lists';
+import SupportApi from './support';
 // import FavsApi from './favs';
 
 let API_BASE;
@@ -42,4 +43,5 @@ export {
     // FavsApi,
     BalanceApi,
     PostApi,
+    SupportApi
 };
