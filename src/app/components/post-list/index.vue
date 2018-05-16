@@ -181,7 +181,8 @@ export default {
       });
       if (swalOut && !swalOut.dismiss && swalOut.value) {
         await PostApi.updateStatus(post.postOrderId, {
-          status: 2
+          status: 2,
+          timeFrame: post.timeFrame.timeFrameId
         });
         this.getPosts();
       }
@@ -194,7 +195,8 @@ export default {
       });
       if (swalOut && !swalOut.dismiss && swalOut.value) {
         await PostApi.updateStatus(post.postOrderId, {
-          status: 1
+          status: 1,
+          timeFrame: post.timeFrame.timeFrameId
         });
         this.getPosts();
       }
