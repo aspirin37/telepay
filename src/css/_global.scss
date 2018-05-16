@@ -258,7 +258,8 @@ body {
     .header-row {
         @extend .row;
         padding: 12px;
-        color: theme-color('light-grey');
+        color: theme-color('cloudy');
+        font-weight: bold;
         border-radius: 5px;
         background: theme-color('light');
     }

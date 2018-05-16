@@ -4,6 +4,7 @@ import Recovery from '@modules/auth/recovery';
 import AuthLayout from '@modules/auth/layout';
 import TelegramLogin from '@modules/auth/telegram-login';
 import Logout from '@modules/auth/logout';
+import NewPass from '@modules/auth/new-pass';
 
 export default {
     path: '/auth',
@@ -30,5 +31,9 @@ export default {
         path: 'logout',
         name: 'logout',
         component: Logout,
+    }, {
+        path: 'new-pass',
+        name: 'new-pass',
+        component: NewPass,
     }],
 };

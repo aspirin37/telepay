@@ -3,6 +3,7 @@
 import { SupportApi } from "@services/api";
 import searchInput from "@components/search-input";
 import supportTextarea from "@components/support-textarea";
+import topics from "@utils/support-topics"
 
 export default Vue.extend({
   components: {
@@ -19,20 +20,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      topics: [
-        {
-          id: 1,
-          name: "Проблема"
-        },
-        {
-          id: 2,
-          name: "Вопрос"
-        },
-        {
-          id: 3,
-          name: "Предложение"
-        }
-      ],
+      topics,
       selectedTopic: "",
       newMessage: {
         text: "",
@@ -52,7 +40,7 @@ export default Vue.extend({
       let ticketData = this.getFormData(new FormData(), {
         name: "",
         userContact: "",
-        id: this.selectedTopic.id,
+        topic: this.selectedTopic.id,
         content: this.newMessage.text,
         images: this.newMessage.images.map(it => it.image)
       });

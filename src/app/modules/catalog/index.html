@@ -39,7 +39,7 @@
                      v-show="showFilters">
                     <label class="col-form-label search__label">Дата размещения</label>
                     <input type="text"
-                           :value="publishDate.format('DD.MM.YYYY')"
+                           :value="publishDate.format('DD.MM.YYYY HH:mm')"
                            disabled
                            class="form-control"
                            v-if="selectedChannels.length">

@@ -6,11 +6,11 @@
     </div>
     <div class="flex-table my-4">
         <div class="header-row">
-            <div class="col-1">
+            <div class="col">
                 Номер
             </div>
-            <div class="col-3">
-                Дата
+            <div class="col pointer" @click="isListReversed = !isListReversed">
+                Дата <i :class="[isListReversed ? 'fa-angle-up' : 'fa-angle-down', 'fa fa-lg']"></i>
             </div>
             <div class="col">
                 Тема
@@ -18,8 +18,28 @@
             <div class="col">
                 <span>Статус</span>
             </div>
+            <div class="col text-center">
+                Кол-во сообщений
+            </div>
+        </div>
+        <div class="body-row" v-for="(ticket, i) in tickets" :key="i">
             <div class="col">
-                Количество оповещений
+                {{ ticket.humanReadableNumber }}
+            </div>
+            <div class="col">
+                {{ ticket.date }}
+            </div>
+            <div class="col">
+                {{ ticket.topic }}
+            </div>
+            <div class="col">
+                <i :class="ticket.statusClass"></i>
+                {{ ticket.statusName }}
+            </div>
+            <div class="col text-center">
+                <router-link class="text-primary" :to="{name:'support:create'}">
+                    <u>{{ ticket.messages.length }}</u>
+                </router-link>
             </div>
         </div>
     </div>
