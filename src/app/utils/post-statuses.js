@@ -1,8 +1,8 @@
 export default {
-    '0': 'Подтвержден', // STATUS_APPROVED
+    '0': 'Проверен модератором', // STATUS_APPROVED
     '1': 'Отклонен', // STATUS_DECLINED
-    '2': 'Ожидает', // STATUS_PENDING
+    '2': 'Ожидает публикации', // STATUS_PENDING
     '3': 'Опубликован', // STATUS_POSTED
     '4': 'Публикуется', // STATUS_IN_PROGRESS
-    '5': 'Проверяется', // STATUS_NEW
+    '5': 'Новый', // STATUS_NEW
 };
