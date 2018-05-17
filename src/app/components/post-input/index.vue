@@ -2,78 +2,74 @@
     <div class="wrap">
         <div class="textarea-input">
             <textarea class="form-control"
-                rows="4"
-                v-model="text"
-                ref="text"></textarea>
+                      rows="4"
+                      v-model="text"
+                      ref="text"></textarea>
             <div class="textarea-input__icons">
                 <label @click="addButton"
-                    class="textarea-input__icon">
+                       class="textarea-input__icon">
                     <i class="fa fa-plus-circle"></i>
                 </label>
                 <label class="textarea-input__file-label textarea-input__icon">
                     <i class="fa fa-camera text-medium-font"
-                        aria-hidden="true"></i>
+                       aria-hidden="true"></i>
                     <input type="file"
-                        accept="image/*"
-                        class="textarea-input__file-input"
-                        @change="addImage" />
+                           accept="image/*"
+                           class="textarea-input__file-input"
+                           @change="addImage" />
                 </label>
                 <dropdown :style="{ 'margin-right': '3px' }"
-                    class="textarea-input__icon">
+                          class="textarea-input__icon">
                     <i slot="trigger"
-                        class="fa fa-smile-o text-medium-font"
-                        aria-hidden="true"></i>
+                       class="fa fa-smile-o text-medium-font"
+                       aria-hidden="true"></i>
                     <div class="textarea-input__emoji"
-                        slot="body">
+                         slot="body">
                         <Picker :emoji-size="16"
-                            :i18n="i18n"
-                            @click="addEmoji" />
+                                :i18n="i18n"
+                                @click="addEmoji" />
                     </div>
                 </dropdown>
             </div>
             <small class="text-muted">{{text.length}}/{{maxLength}}</small>
-
         </div>
         <div v-if="images.length"
-            class="file-previews">
+             class="file-previews">
             <div v-for="(src, i) in images"
-                :key="i"
-                class="file-previews__item"
-                :style="{ 'background-image': 'url(' + src.decoded + ')' }">
+                 :key="i"
+                 class="file-previews__item"
+                 :style="{ 'background-image': 'url(' + src.decoded + ')' }">
                 <span class="file-previews__remove"
-                    @click="removeImage(i)">
+                      @click="removeImage(i)">
                     <i class="fa fa-times"
-                        aria-hidden="true"></i>
+                       aria-hidden="true"></i>
                 </span>
             </div>
         </div>
-
         <div class="form-row mt-2"
-            :key="btn[0].id"
-            v-for="btn in buttons">
+             :key="btn[0].id"
+             v-for="btn in buttons">
             <div class="col">
                 <input class="form-control"
-                    type="text"
-                    v-model="btn[0].text"
-                    placeholder="Текст кнопки">
+                       type="text"
+                       v-model="btn[0].text"
+                       placeholder="Текст кнопки">
             </div>
             <div class="col">
                 <input class="form-control"
-                    type="text"
-                    v-model="btn[0].url"
-                    placeholder="Ссылка">
+                       type="text"
+                       v-model="btn[0].url"
+                       placeholder="Ссылка">
             </div>
             <div class="col-1">
                 <button class="btn"
-                    @click="removeButton(btn[0].id)">
+                        @click="removeButton(btn[0].id)">
                     <i class="fa fa-trash"></i>
                 </button>
             </div>
-
         </div>
     </div>
 </template>
-
 <script>
 import {
     Picker
@@ -156,7 +152,6 @@ export default {
         },
 
         addEmoji(emoji, e) {
-            console.log(emoji);
             let selStart = this.$refs.text.selectionStart;
             if (selStart !== this.text.length) {
                 let start = this.text.substr(0, selStart);
@@ -215,7 +210,6 @@ export default {
     }
 };
 </script>
-
 <style lang="scss">
 .file-previews {
     display: flex;

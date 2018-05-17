@@ -97,7 +97,6 @@ export default {
                 ch.showOrders = false;
             });
 
-            console.log(items);
             this.channels = items;
         },
         async approvePost(post) {

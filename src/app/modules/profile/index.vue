@@ -1,5 +1,4 @@
 <template src="./index.html"></template>
-
 <script>
 import {
     mapState
@@ -39,7 +38,6 @@ export default {
     methods: {
         startFetchingUser() {
             clearTimeout(this.fetchTimeout);
-            console.log(this.fetchedUser, this.user);
             if (!this.fetchedUser || this.user.telegramId === this.fetchedUser.telegramId) {
                 this.getUser();
                 this.fetchTimeout = setTimeout(this.startFetchingUser, 1500);

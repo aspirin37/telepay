@@ -32,10 +32,10 @@
                     </div>
                 </div>
                 <div class="col">
-                    <span v-if="post.status !== 3 && !post.isPosted">{{postStatuses[post.status]}}</span>
+                    <span v-if="post.status !== 3 && !post.isPosted || !post.messageId">{{postStatuses[post.status]}}</span>
                     <a v-else
-                       target="_blank"
-                       :href="`https://t.me/${post.timeFrame.channel.username}/${post.messageId}`">{{postStatuses[post.status]}}</a>
+                       v-tooltip="'Открыть пост в приложении Telegram'"
+                       :href="`tg://resolve?domain=${post.timeFrame.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
                     <span v-show="post.status === 1"
                           class="text-danger">{{post.declineReason}}</span>
                 </div>
