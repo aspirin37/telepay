@@ -8,7 +8,7 @@
                 ref="text"></textarea>
             <div class="textarea-input__icons">
                 <label class="textarea-input__file-label textarea-input__icon">
-                    <i class="fa fa-camera"
+                    <i class="fa fa-lg fa-camera"
                         aria-hidden="true"></i>
                     <input type="file"
                         id="file-upload"

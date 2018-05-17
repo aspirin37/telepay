@@ -3,7 +3,7 @@
 import { SupportApi } from "@services/api";
 import searchInput from "@components/search-input";
 import supportTextarea from "@components/support-textarea";
-import topics from "@utils/support-topics"
+import topics from "@utils/support-topics";
 
 export default Vue.extend({
   components: {
@@ -21,6 +21,8 @@ export default Vue.extend({
   data() {
     return {
       topics,
+      ticketId: this.$route.params.ticketId || null,
+      messages: this.$route.params.messages || null,
       selectedTopic: "",
       newMessage: {
         text: "",
@@ -32,7 +34,7 @@ export default Vue.extend({
   methods: {
     validateMessage() {
       const button = document.querySelector(".btn-success");
-      this.newMessage.text && this.selectedTopic !== ""
+      this.newMessage.text && this.selectedTopic !== "" || this.newMessage.text && this.ticketId
         ? (button.disabled = false)
         : (button.disabled = true);
     },
@@ -45,21 +47,19 @@ export default Vue.extend({
         images: this.newMessage.images.map(it => it.image)
       });
 
-    //   let messageData = this.getFormData(new FormData(), {
-    //     ticketId: this.selectedTopic.id,
-    //     content: this.newMessage.text,
-    //     images: this.newMessage.images.map(it => it.image)
-    //   });
-
       SupportApi.createTicket(ticketData).then(() => {
         this.$router.push({
-          name: 'support:list'
+          name: "support:list"
         });
       });
-        // .then(SupportApi.createMessage(messageData));
     },
     createMessage() {
-      SupportApi.createMessage(data);
+      let messageData = this.getFormData(new FormData(), {
+        // ticketId: this.selectedTopic.id,
+        content: this.newMessage.text,
+        images: this.newMessage.images.map(it => it.image)
+      });
+      SupportApi.createMessage(messageData);
     },
     getFormData(formData, data, previousKey) {
       if (data instanceof Object) {
@@ -80,7 +80,6 @@ export default Vue.extend({
           }
         });
       }
-      // sd
       return formData;
     }
   }

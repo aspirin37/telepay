@@ -3,7 +3,7 @@
         <div class="col-2">
             <h1 class="text-medium-font">Техподдержка</h1>
         </div>
-        <div class="col-4 offset-3">
+        <div class="col-4 offset-3" v-if="!ticketId">
             <div class="form-group mb-2">
                 <label class="mb-1"><b>Тема</b></label>
                 <search-input placeholder="Выберите тему" :options="topics" v-model="selectedTopic"/>

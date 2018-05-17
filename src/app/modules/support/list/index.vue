@@ -6,7 +6,8 @@ import topics from "@utils/support-topics";
 export default Vue.extend({
   data() {
     return {
-      isListReversed: false,
+      ticketId: this.$route.params.ticketId || null,
+      isDateReversed: false,
       ticketsList: [],
       statusList: []
     };
@@ -16,15 +17,15 @@ export default Vue.extend({
     this.getTickets();
   },
   watch: {
-    isListReversed() {
-      this.ticketsList.reverse()
+    isDateReversed() {
+      this.ticketsList.reverse();
     }
   },
   methods: {
     async getTickets() {
       let { items } = await SupportApi.getList();
       items.sort((a, b) => b.createdAt - a.createdAt).forEach((it, i) => {
-        it.date = moment.unix(it.createdAt).format("DD.MM.YYYY в HH:mm");
+        it.date = moment.unix(it.createdAt).format("DD.MM.YYYY");
         it.topic = topics[it.topic].name;
         it.statusName = this.statusList[it.status];
         switch (it.status) {
@@ -41,6 +42,12 @@ export default Vue.extend({
       });
 
       this.ticketsList = items;
+
+      if (!this.ticketsList.length) {
+        this.$router.push({
+          name: "support:create"
+        });
+      }
     },
     async getStatusList() {
       this.statusList = await SupportApi.getStatusList();
