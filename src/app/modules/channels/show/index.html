@@ -14,7 +14,7 @@
         <div class="col-6">
             <h4>
                 <a :href="'tg://resolve?domain='+channel.username"
-                   v-tooltip="'Открыть пост в приложении Telegram'">{{channel.title}}</a>
+                   v-tooltip="'Открыть канал в приложении Telegram'">{{channel.title}}</a>
             </h4>
             <b v-if="channel.subscriberCount">Подписчиков: {{channel.subscriberCount | cutKilo}}</b>
             <br>
