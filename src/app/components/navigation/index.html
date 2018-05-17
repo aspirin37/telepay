@@ -1,49 +1,49 @@
 <div>
     <nav class="header fixed-top"
-        :class="{ 'navbar_main': !logoVisible, 'is-advert':isAdvert }">
+         :class="{ 'navbar_main': !logoVisible, 'is-advert':isAdvert }">
         <div class="container py-3 px-0 justify-content-between">
             <ul class="nav justify-content-between align-items-center d-md-flex">
                 <li class="nav-item">
                     <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"
-                        v-if="logoVisible"
-                        class="navbar__logo">
+                                 v-if="logoVisible"
+                                 class="navbar__logo">
                         <div class="logo"
-                            v-once
-                            v-html="Logo"></div>
+                             v-once
+                             v-html="Logo"></div>
                     </router-link>
                 </li>
                 <li class="nav-item advert-switch d-flex justify-content-between"
                     v-if="isAuthorized">
                     <span @click.self="isAdvert=!isAdvert"
-                        class="title">
+                          class="title">
                         {{isAdvert?'Рекламодатель':'Владелец канала'}}
                     </span>
                     <on-off v-model="isAdvert"></on-off>
                 </li>
                 <li class="nav-item">
                     <router-link :to="{name:'catalog'}"
-                        class="nav-link">Каталог</router-link>
+                                 class="nav-link">Каталог</router-link>
                 </li>
                 <li class="nav-item"
                     v-if="!isAuthorized">
                     <!-- <router-link :to="{name:'faq'}" v-if="!isAuthorized" class="nav-link">F.A.Q.</router-link> -->
                     <a href="https://landing.telepay.io/faq.html"
-                        class="nav-link">F.A.Q.</a>
+                       class="nav-link">F.A.Q.</a>
                 </li>
                 <li class="nav-item"
                     v-if="isAuthorized && !isAdvert">
                     <router-link :to="{name:'channels'}"
-                        class="nav-link">Каналы</router-link>
+                                 class="nav-link">Каналы</router-link>
                 </li>
                 <li class="nav-item"
                     v-if="isAuthorized && !isAdvert">
                     <router-link :to="{name:'posts'}"
-                        class="nav-link">Посты</router-link>
+                                 class="nav-link">Посты</router-link>
                 </li>
                 <li class="nav-item"
                     v-if="isAuthorized && isAdvert">
                     <router-link :to="{name:'posts',tab:'outbound'}"
-                        class="nav-link">Постинг</router-link>
+                                 class="nav-link">Постинг</router-link>
                 </li>
                 <!-- <li class="nav-item"
                     v-if="isAuthorized && isAdvert">
@@ -65,28 +65,29 @@
                     <ul class="list-unstyled d-flex h-100"
                         v-if="isAuthorized">
                         <li class="nav-item notifications">
-
                             <button class="btn btn-link notification-trigger"
-                                @click="showDD = !showDD">
+                                    @click="toggleDD"
+                                    @blur="blurHandler">
                                 <i class="fa fa-lg fa-bell"></i>
                                 <span class="badge badge-pill badge-success"
-                                    v-show="notificationsCount > 0">{{ notificationsCount }}</span>
+                                      v-show="notificationsCount > 0">{{ notificationsCount }}</span>
                             </button>
                             <!-- FIXME надо сделать так чтобы скрывалось только при клике вне уведомлений -->
                             <transition name="fade">
                                 <div class="dropdown-menu show"
-                                    v-show="showDD"
-                                    ref="ddmenu">
+                                     v-show="showDD"
+                                     ref="ddmenu">
                                     <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}</h6>
                                     <span class="dropdown-item"
-                                        v-for="notify in notifications"
-                                        :key="notify.notificationId">
+                                          @click="stopBlur"
+                                          v-for="notify in notifications"
+                                          :key="notify.notificationId">
                                         <div class="form-row">
                                             <div class="col-10"
-                                                v-html="notify.text"></div>
+                                                 v-html="notify.text"></div>
                                             <div class="col-2">
                                                 <i class="fa fa-times fa-lg pointer text-right"
-                                                    @click="setIsRead(notify.notificationId)"></i>
+                                                   @click="setIsRead(notify.notificationId)"></i>
                                             </div>
                                         </div>
                                     </span>
@@ -95,9 +96,9 @@
                         </li>
                         <li class="nav-item">
                             <router-link :to="{ name: 'balance' }"
-                                class="nav-link">
+                                         class="nav-link balance">
                                 <i class="fa fa-money"
-                                    aria-hidden="true"></i>
+                                   aria-hidden="true"></i>
                                 <span>{{ (balance.current||0) | centToRub(2) }}
                                     <span class="text-muted">({{ (balance.hold||0) | centToRub(2) }})</span>
                                 </span>
@@ -106,31 +107,31 @@
                         <li class="nav-item mr-4">
                             <drop-down>
                                 <div class="user-field"
-                                    slot="trigger">
+                                     slot="trigger">
                                     <i class="fa fa-2x fa-user-circle mr-1"
-                                        aria-hidden="true"></i>
+                                       aria-hidden="true"></i>
                                 </div>
                                 <template slot="body">
                                     <drop-down-menu-item>
                                         <router-link class="user-menu__item"
-                                            :to="{ name: 'profile' }">Профиль</router-link>
+                                                     :to="{ name: 'profile' }">Профиль</router-link>
                                     </drop-down-menu-item>
                                     <drop-down-menu-item>
                                         <router-link class="user-menu__item"
-                                            :to="{ name: 'balance' }">Баланс</router-link>
+                                                     :to="{ name: 'balance' }">Баланс</router-link>
                                     </drop-down-menu-item>
                                     <drop-down-menu-item>
                                         <a href="https://landing.telepay.io/faq.html"
-                                            target="_blank"
-                                            class="user-menu__item">F.A.Q.</a>
+                                           target="_blank"
+                                           class="user-menu__item">F.A.Q.</a>
                                     </drop-down-menu-item>
                                     <drop-down-menu-item>
                                         <router-link class="user-menu__item"
-                                            :to="{ name: 'support' }">Техподдержка</router-link>
+                                                     :to="{ name: 'support' }">Техподдержка</router-link>
                                     </drop-down-menu-item>
                                     <drop-down-menu-item>
                                         <router-link class="user-menu__item"
-                                            :to="{ name: 'logout' }">Выйти</router-link>
+                                                     :to="{ name: 'logout' }">Выйти</router-link>
                                     </drop-down-menu-item>
                                 </template>
                             </drop-down>
@@ -141,16 +142,15 @@
         </div>
     </nav>
     <nav class="navbar fixed-bottom navbar-light footer-nav"
-        :class="{'is-advert':isAdvert}">
+         :class="{'is-advert':isAdvert}">
         <div class="container py-2">
             <span>©Telepay.io, 2017-{{year}} гг. Все права защищены</span>
             <a href="https://landing.telepay.io/privacy-policy.html"
-                target="_blank">Политика конфиденциальности</a>
+               target="_blank">Политика конфиденциальности</a>
             <a href="https://landing.telepay.io/terms-and-conditions.html"
-                target="_blank">Условия использования</a>
+               target="_blank">Условия использования</a>
             <a href="https://landing.telepay.io/contacts.html"
-                target="_blank">Контакты</a>
+               target="_blank">Контакты</a>
         </div>
-
     </nav>
 </div>
