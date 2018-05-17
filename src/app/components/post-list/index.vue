@@ -39,7 +39,7 @@
           <span v-show="post.status === 1"
                 class="text-danger">{{post.declineReason}}</span>
         </div>
-        <div class="col h5">{{post.sum | centToRub}}</div>
+        <div class="col h5">{{post.price | centToRub}}</div>
         <div class="col">
           <button v-if="!isOut && post.status === 0"
                   class="btn btn-link m-0 p-0 text-success"
