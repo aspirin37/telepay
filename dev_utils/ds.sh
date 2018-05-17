@@ -52,4 +52,14 @@ else
 	fi
 fi
 
-yarn start_ds $OPEN $API
+yarn start_ds $OPEN $API || { 
+	if [ $? != 1 ]; then
+		echo >&2 "You don't have yarn, using npm"
+		npm run start_ds $OPEN $API || {
+			if [ $? != 1 ]; then
+				echo >&2 "WTF, Install the fucking npm!"
+				exit $ERROR_CODE
+			fi
+		}
+	fi
+}

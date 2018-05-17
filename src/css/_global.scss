@@ -273,6 +273,7 @@ body {
     }
     .body-row {
         @extend .row;
+        margin: 0;
         align-items: center;
         padding: 20px 10px;
         border-bottom: 1px solid theme-color('cloudy');
