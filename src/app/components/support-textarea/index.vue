@@ -129,38 +129,6 @@ export default {
     removeImage(index) {
       this.images = this.images.filter((img, idx) => idx !== index);
     }
-
-    // addImage(e) {
-    //     let files = e.target.files || e.dataTransfer.files;
-    //     if (!files.length) return;
-    //     if (this.images.length + files.length <= this.maxImages) {
-    //         for (let i = 0; i < files.length; i++) {
-    //             if (files[i].size / 1024 / 1024 > 2) {
-    //                 this.$notifystr.danger('Ошибка!', 'Размер файла не должен превышать 2мб');
-    //             }
-    //             this._createImage(files[i]);
-    //         }
-    //         if (this.text.length > 200) {
-    //             this.text = this.text.slice(0, 200);
-    //         }
-    //     } else {
-    //         this.$notifystr.warning('Внимание', `Можно прикрепить только ${this.maxImages} изображение`);
-    //     }
-    // },
-    // _createImage(file) {
-    //     let reader = new FileReader();
-    //     reader.addEventListener('load', e => {
-    //         console.log('loaded image', e, file);
-    //         this.images.push({
-    //             decoded: e.target.result,
-    //             file
-    //         });
-    //     });
-    //     reader.readAsDataURL(file);
-    // },
-    // removeImage(index) {
-    //     this.images = this.images.filter((img, idx) => idx !== index);
-    // },
   }
 };
 </script>

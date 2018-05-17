@@ -21,8 +21,9 @@ export default Vue.extend({
   data() {
     return {
       topics,
-      ticketId: this.$route.params.ticketId || null,
-      messages: this.$route.params.messages || null,
+      ticketId: this.$route.query.ticketId || null,
+      messages: null,
+      topic: null,
       selectedTopic: "",
       newMessage: {
         text: "",
@@ -30,11 +31,26 @@ export default Vue.extend({
       }
     };
   },
-  created() {},
+  created() {
+    if (this.$route.query.ticketId) {
+      this.getMessages();
+    }
+  },
   methods: {
+    async getMessages() {
+      let { items } = await SupportApi.getList();
+      let ticket = items.filter(it => it.ticketId == this.ticketId)[0];
+      this.messages = ticket.messages;
+      this.topic = this.topics[ticket.topic].name;
+
+      this.messages.sort((a,b) => b.createdAt - a.createdAt).forEach((it) => {
+        it.createdAt = moment.unix(it.createdAt).format("DD.MM.YYYY - HH:mm")
+      })
+    },
     validateMessage() {
       const button = document.querySelector(".btn-success");
-      this.newMessage.text && this.selectedTopic !== "" || this.newMessage.text && this.ticketId
+      (this.newMessage.text && this.selectedTopic !== "") ||
+      (this.newMessage.text && this.ticketId)
         ? (button.disabled = false)
         : (button.disabled = true);
     },
@@ -55,11 +71,20 @@ export default Vue.extend({
     },
     createMessage() {
       let messageData = this.getFormData(new FormData(), {
-        // ticketId: this.selectedTopic.id,
+        ticketId: this.ticketId,
         content: this.newMessage.text,
         images: this.newMessage.images.map(it => it.image)
       });
-      SupportApi.createMessage(messageData);
+      SupportApi.createMessage(messageData).then(() => {
+        let message = {
+          content: this.newMessage.text,
+          images: this.newMessage.images.map(it => it.image),
+          createdAt: moment().format("DD.MM.YYYY - HH:mm"),
+        }
+        this.messages.unshift(message)
+        this.newMessage.text = ""
+        this.newMessage.images = []
+      });
     },
     getFormData(formData, data, previousKey) {
       if (data instanceof Object) {
@@ -95,6 +120,34 @@ export default Vue.extend({
   position: absolute;
   right: 15px;
   bottom: 5px;
+}
+
+.message {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.message__author {
+  color: #6c757d;
+}
+
+.message__content {
+  border: 2px solid #dee2ee;
+  color: #576077;
+  font-size: 0.9rem;
+  line-height: 20px;
+  padding: 10px;
+  padding-bottom: 3px;
+  border-radius: 0 0.5rem 0.5rem 0.5rem;
+
+  &--support {
+    border-radius: 0.5rem 0 0.5rem 0.5rem;
+    border-color: #ffc107;
+  }
+}
+
+.message__date {
+  color: #DEE2EE;
 }
 </style>
 

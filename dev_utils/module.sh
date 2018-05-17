@@ -85,7 +85,7 @@ mkdir $path/$name
 
 if [ $EXTERNAL_HTML = 1 ]; then
 	EXT_TMP='<template src="./index.html"></template>
-	<script>
+<script>
 '
 
 	if [ $SERVICE = 1 ]; then
@@ -109,8 +109,9 @@ export default Vue.extend( {
 </script>" 
 else
 	VUE_TMP="<template>
-<div></div>
+	<div></div>
 </template>
+
 <script>
 "
 	if [ $SERVICE = 1 ]; then
@@ -185,14 +186,8 @@ export default {
     children: _crud_(
         List,
         Create,
-        Update, {
-            namespace: '"$name":',
-            crumbs: [
-                null,
-                [{ href: { name: '"$name":list' }, title: '' }, 'Создать '],
-                [{ href: { name: '"$name":list' }, title: '' }, 'Изменить '],
-            ]
-        }),
+        Update,
+        '"$name"'),
 }" > "src/app/routes/"$name".js"
 	else
 		echo "/*

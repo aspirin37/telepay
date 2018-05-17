@@ -6,7 +6,6 @@ import topics from "@utils/support-topics";
 export default Vue.extend({
   data() {
     return {
-      ticketId: this.$route.params.ticketId || null,
       isDateReversed: false,
       ticketsList: [],
       statusList: []
@@ -56,7 +55,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .flex-table {
   font-size: 0.9rem;
 }

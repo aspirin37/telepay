@@ -1,5 +1,5 @@
 <template >
-  <div class="container py-3">
+  <div class="container py-3 px-0">
     избранное
   </div>
 </template>

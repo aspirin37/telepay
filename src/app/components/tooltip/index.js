@@ -2,7 +2,7 @@ class Tooltip {
     constructor(el, binding) {
         this.container = document.getElementById('v-tooltips-container');
         this.options = typeof binding.value !== 'string' ? binding.value : { template: binding.value };
-        if (!this.container) {
+        if(!this.container) {
             this.container = this._classedEl('v-tooltips-container');
             this.container.id = 'v-tooltips-container';
         }
@@ -28,23 +28,21 @@ class Tooltip {
         el.onmouseout = this.mouseout.bind(this);
 
         this.t.addEventListener('transitionend', () => {
-            if (this.isShown) {
-                this.isShown = false;
+            if(!this.isShown) {
                 this.t.style.top = '-1000px';
                 this.t.style.left = '-1000px';
-            } else {
-                this.isShown = true;
             }
         });
     }
     mouseover(ev) {
-        let rect = ev.target.getBoundingClientRect();
-        let tooltipRectDyn = this.t.getBoundingClientRect();
-        this.t.style.top = (rect.top - tooltipRectDyn.height - 6) + 'px';
-        this.t.style.left = (rect.left + rect.right) / 2 - tooltipRectDyn.width / 2 + 'px';
         clearTimeout(this.outTimeout);
         clearTimeout(this.inTimeout);
+        let rect = ev.target.getBoundingClientRect();
+        let tooltipRectDyn = this.t.getBoundingClientRect();
+        this.t.style.top = (rect.top - tooltipRectDyn.height - 6 + window.pageYOffset) + 'px';
+        this.t.style.left = (((rect.left + rect.right) / 2 - tooltipRectDyn.width / 2) + window.pageXOffset) + 'px';
         this.inTimeout = setTimeout(() => {
+            this.isShown = true;
             this.t.classList.add('show');
         }, this.options.delayIn || 0);
     }
@@ -53,6 +51,7 @@ class Tooltip {
         clearTimeout(this.inTimeout);
         this.outTimeout = setTimeout(() => {
             this.t.classList.remove('show');
+            this.isShown = false;
         }, this.options.delayOut || 0);
     }
 

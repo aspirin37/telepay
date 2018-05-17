@@ -1,6 +1,6 @@
 <template>
   <div class="container_full container_main">
-    <div class="container py-3">
+    <div class="container py-3 px-0">
       <div class="mw-500 mx-auto">
         <div class="logo mb-4" v-once v-html="Logo"></div>
         <h2 class="text-center text-white mb-4">
