@@ -8,10 +8,12 @@
             <div class="textarea-input__icons">
                 <label @click="addButton"
                        class="textarea-input__icon">
-                    <i class="fa fa-plus-circle"></i>
+                    <i class="fa fa-plus-circle"
+                       v-tooltip="'Добавить инлайн кнопку'"></i>
                 </label>
                 <label class="textarea-input__file-label textarea-input__icon">
                     <i class="fa fa-camera text-medium-font"
+                       v-tooltip="'Добавить изображение'"
                        aria-hidden="true"></i>
                     <input type="file"
                            accept="image/*"
@@ -21,6 +23,7 @@
                 <dropdown :style="{ 'margin-right': '3px' }"
                           class="textarea-input__icon">
                     <i slot="trigger"
+                       v-tooltip="'Добавить эмоджи'"
                        class="fa fa-smile-o text-medium-font"
                        aria-hidden="true"></i>
                     <div class="textarea-input__emoji"

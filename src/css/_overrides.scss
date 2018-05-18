@@ -5,12 +5,11 @@
 
 // bootstrap
 .tooltip {
-    $tooltipBgColor: #fff;
     .arrow::before {
-        border-top-color: $tooltipBgColor
+        border-top-color: theme-color('cloudy')
     }
     &-inner {
-        background-color: $tooltipBgColor;
+        background-color: #fff;
         color: inherit;
         border: 2px solid theme-color('cloudy');
         font-weight: 500;

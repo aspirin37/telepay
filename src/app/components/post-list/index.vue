@@ -1,93 +1,4 @@
-<template>
-    <div>
-        <div class="flex-table"
-             v-if="posts && posts.length">
-            <div class="header-row">
-                <div class="col-1">Номер</div>
-                <div class="col">Время</div>
-                <div class="col-3">Канал</div>
-                <div class="col">Статус</div>
-                <div class="col">Цена</div>
-                <div class="col">Действия</div>
-            </div>
-            <div class="body-row"
-                 :key="post.postOrderId"
-                 v-for="post in posts"
-                 :class="{'text-muted':post.publishAt <= now}">
-                <div class="col-1">{{post.humanReadableNumber}}</div>
-                <div class="col h5">{{post.publishAt*1000 | parseDate}}</div>
-                <div class="col-3">
-                    <div class="form-row">
-                        <div class="col-3">
-                            <avatar :src="'/images/channels/'+post.timeFrame.channel.telegramId+'/'+post.timeFrame.channel.photoId+'.jpg'"
-                                    :circle="true" /> </div>
-                        <div class="col-9 pl-4">
-                            <router-link :to="{
-                            name:post.timeFrame.channel.userId === user.userId?'channels:update':'channels:show',
-                            params:{id:post.timeFrame.channel.channelId}
-                        }">
-                                <b>{{post.timeFrame.channel.title}}</b>
-                            </router-link>
-                            <br>{{post.timeFrame.channel.categories || 'Без категории'}}</div>
-                    </div>
-                </div>
-                <div class="col"
-                     :class="{'text-danger':[1,6].includes(post.status)}">
-                    <span v-if="post.status !== 3 && !post.isPosted || !post.messageId">{{postStatuses[post.status]}}</span>
-                    <a v-else
-                       v-tooltip="'Открыть пост в приложении Telegram'"
-                       :href="`tg://resolve?domain=${post.timeFrame.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
-                    <span v-show="[1,6].includes(post.status) && post.declineReason">Причина: {{post.declineReason}}</span>
-                </div>
-                <div class="col h5">{{post.price | centToRub}}</div>
-                <div class="col">
-                    <button v-if="!isOut && post.status === 0"
-                            class="btn btn-link m-0 p-0 text-success"
-                            v-tooltip="'Подтвердить размещение поста'"
-                            @click="approvePost(post)">
-                        <i class="fa fa-check fa-2x"></i>
-                    </button>
-                    <button v-if="!isOut && post.status === 0"
-                            class="btn btn-link m-0 p-0 text-danger"
-                            v-tooltip="'Отклонить размещение поста'"
-                            @click="declinePost(post)">
-                        <i class="fa fa-times fa-2x"></i>
-                    </button>
-                    <button class="btn btn-link m-0 p-0"
-                            v-tooltip="'Удалить пост'"
-                            v-if="[0,1,3,5,6].includes(post.status)"
-                            @click="removePost(post)">
-                        <i class="fa fa-trash fa-2x text-warning"></i>
-                    </button>
-                    <button class="btn btn-link m-0 p-0"
-                            v-if="isOut"
-                            v-tooltip="'Повторить размещение поста'"
-                            @click="repeatPost(post)">
-                        <i class="fa fa-refresh fa-2x text-primary"></i>
-                    </button>
-                    <button class="btn btn-link p-0 m-0 text-dark"
-                            v-tooltip="'Превью поста'"
-                            @click="togglePreview(post)"
-                            @blur="togglePreview(post,false)">
-                        <i class="fa fa-2x"
-                           :class="post.showPreview?'fa-eye-slash':'fa-eye'"></i>
-                    </button>
-                    <transition name="fade">
-                        <div class="popover fade show bs-popover-bottom post-preview"
-                             v-show="post.showPreview">
-                            <div class="arrow"></div>
-                            <div class="popover-body">
-                                <post-preview :post="mapToPreview(post)"></post-preview>
-                            </div>
-                        </div>
-                    </transition>
-                </div>
-            </div>
-        </div>
-        <h2 class="text-center"
-            v-else>{{placeholder}}</h2>
-    </div>
-</template>
+<template src="./index.html"></template>
 <script>
 import avatar from '@components/avatar';
 import postPreview from '@components/post-preview';
@@ -185,12 +96,12 @@ export default {
         async removePost(post) {
             let swalOut = await swal({
                 type: 'question',
-                title: 'Удаление поста для упрощения разработки',
-                text: 'ТОЛЬКО ДЛЯ ДЕВА',
+                title: 'Удалить пост?',
                 confirmButtonText: 'Да, удалить!'
             });
             if (swalOut && !swalOut.dismiss && swalOut.value) {
-                PostApi.delete(post.postOrderId);
+                await PostApi.delete(post.postOrderId);
+                this.$root.$emit('posts_list:getPosts');
             }
         },
         async approvePost(post) {

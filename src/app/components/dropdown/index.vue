@@ -70,7 +70,6 @@ export default {
             this.visible = !this.visible;
         },
         clickOutside(e) {
-            console.log(this.$refs);
             if (!this.$refs.trigger.contains(e.target)) this.hide();
         }
     }
