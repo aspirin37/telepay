@@ -1,12 +1,13 @@
 <template src="./index.html"></template>
 <script>
-import { mapState } from 'vuex';
-import { ChannelApi, PostApi, CatalogApi } from '@services/api';
+import { mapState, mapActions } from 'vuex';
+import { ChannelApi, PostApi, CatalogApi, PostTemplateApi } from '@services/api';
 import channelList from '@components/channel-list';
 import postPreview from '@components/post-preview';
 import postInput from '@components/post-input';
 import dateInput from '@components/date-input';
 import { clone } from '@utils/clone';
+import WebStorage from '@utils/storage';
 
 export default {
     components: {
@@ -18,49 +19,57 @@ export default {
     data() {
         return {
             channels: [],
-            selectedChannels: this.$route.params.selected || [],
             postData: {
                 text: 'Текст...',
                 buttons: [],
                 images: []
             },
-            postTime: '',
-            post: {
-                text: '',
-                buttons: [],
-                images: [],
-                timeFrameId: [],
-                postTemplateId: '',
-                channel: 'Название канала',
-                publishAt: this.$route.params.date || null
-            }
+            postTemplates: [],
+            postTime: moment().add(1, 'hour').format('HH:mm'),
+            errors: { time: false }
         };
     },
     watch: {
+        'post.postTemplateId': function(val) {
+            if (val) this.watchPostTemplateId(val);
+        },
+        'post.publishAt': function() {
+            this.watchPostTime()
+        },
+        postTime() {
+            this.watchPostTime()
+        },
         postData(val) {
-            if (val) {
-                let {
-                    text,
-                    images,
-                    buttons
-                } = val;
-                this.post.text = text;
-                this.post.images = images;
-                this.post.buttons = buttons;
-            }
+            this.watchPostData()
         }
     },
     created() {
-        this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: true })
+        this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: true });
+        if (this.post && this.post.text !== this.postData.text || this.post.buttons.length || this.post.images.length) {
+            this.postData = {
+                text: this.post.text,
+                buttons: this.post.buttons,
+                images: this.post.images,
+            }
+        }
         this.getChannels();
+        this.getPostTemplates();
         if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
             this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
         }
+
+    },
+    destroyed() {
+        if (this.post) this.savePost(this.post)
     },
     computed: {
-        dateConfig() {
-            return this.$store.state.configs.date;
-        },
+        ...mapState({
+            'configs': 'configs',
+            'user': 'user',
+            'selectedChannels': 'selectedChannels',
+            'post': 'savedPost',
+        }),
+
         selectedTimeFrameIds() {
             return this.selectedChannels.reduce((sum, ch) => {
                 let selectedTimeFrameIds = ch.timeFrame.reduce((sumTimeFrames, timeFrame) => {
@@ -84,7 +93,7 @@ export default {
                     }
 
                     let filteredTimeFrames = ch.timeFrame.filter(timeFrame => {
-                        return timeFrame.weekDay === this.post.publishAt.weekday() + 1;
+                        return timeFrame.weekDay === moment(this.post.publishAt).weekday() + 1;
                     });
 
                     if (filteredTimeFrames.length) {
@@ -108,27 +117,102 @@ export default {
     },
 
     methods: {
-        createPostOrder() {
+        ...mapActions({
+            'savePost': 'SAVE_POST',
+            'dropSavedPost': 'DROP_SAVED_POST',
+            'saveSelectedChannels': 'SAVE_SELECTED_CHANNELS',
+            'dropSelectedChannels': 'DROP_SELECTED_CHANNELS',
+        }),
+        async getChannels() {
+            if (!this.post.publishAt) {
+                this.post.publishAt = moment();
+            }
+            let { items, total } = await CatalogApi.filter({
+                weekDay: moment(this.post.publishAt).weekday() + 1
+            });
+
+            this.channels = items.map(item => item.channelInfo);
+            if (this.post.timeFrameId && this.post.timeFrameId.length) {
+                this.selectedChannels = this.channels.filter((ch) => {
+                    let selectedTf = ch.timeFrame.find(tf => this.post.timeFrameId.includes(tf.timeFrameId));
+                    if (selectedTf) {
+                        ch.selected = true;
+                        selectedTf.selected = true;
+                    }
+
+                    return selectedTf
+                })
+            }
+        },
+        async getPostTemplates() {
+            let { items } = await PostTemplateApi.list({ limit: 1000 })
+            this.postTemplates = items;
+            if (this.post.postTemplateId) {
+                this.watchPostTemplateId(this.post.postTemplateId)
+            }
+        },
+        watchPostTime() {
+            let timeArr = this.postTime.split(':');
+            let postTime = moment(this.post.publishAt).set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0)
+            this.errors.time = moment() > postTime;
+        },
+        watchPostTemplateId(val) {
+            if (val && typeof val === 'string') {
+                let template = this.postTemplates.find(pt => pt.postTemplateId === val);
+                if (!template) return;
+
+                this.savedPostData = clone(this.postData);
+                this.postData = {
+                    text: template.text,
+                    buttons: typeof template.buttons === 'string' ? JSON.parse(template.buttons) : template.buttons,
+                    images: typeof template.images === 'string' ? JSON.parse(template.images) : template.images,
+                }
+                this.watchPostData();
+            } else {
+                this.postData = clone(this.savedPostData);
+                this.watchPostData();
+            }
+        },
+        watchPostData() {
+            if (this.postData) {
+                let {
+                    text,
+                    images,
+                    buttons
+                } = this.postData;
+                this.post.text = text;
+                this.post.images = images;
+                this.post.buttons = buttons;
+            }
+        },
+
+        createPost(isTemplate) {
+            let timeArr = this.postTime.split(':');
+            if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0)) {
+                this.$refs.timeInput.focus()
+                return;
+            }
             let {
                 buttons,
                 images,
                 publishAt,
                 text
             } = this.post;
-            let timeArr = this.postTime.split(':');
 
             let data = this.getFormData(new FormData(), {
                 buttons: JSON.stringify(buttons),
-                images: images.map(im => im.file),
+                images: images && images.map(im => im.file),
                 timeFrameId: this.selectedTimeFrameIds,
                 publishAt: moment(publishAt)
                     .utc(4).set('hour', timeArr[0]).set('minute', timeArr[1]).toISOString(),
-                text: text.replace(/↵/g, '\n')
+                text: text.replace(/↵/g, '\n'),
+                isTemplate
             });
+
             PostApi.create(data).then(() => {
-                this.$router.push({
-                    name: 'posts:list'
-                });
+                this.dropSavedPost();
+                if (!isTemplate) this.dropSelectedChannels();
+                this.$router.push({ name: 'posts:list' });
             });
         },
         getFormData(formData, data, previousKey) {
@@ -152,7 +236,13 @@ export default {
             }
             return formData;
         },
-        saveTemplate() {},
+        // async saveTemplate() {
+        //     await PostTemplateApi.save({
+        //         text: this.post.text,
+        //         images: this.post.images,
+        //         buttons: this.post.buttons,
+        //     })
+        // },
         async openCatalogPopup() {
             let self = this;
             let vm = new Vue({
@@ -160,9 +250,10 @@ export default {
                     channelList
                 },
                 router: this.$router,
+
                 data: {
-                    channels: self.channelsToAdd,
-                    user: clone(self.$store.state.user)
+                    channels: clone(self.channelsToAdd),
+                    user: clone(self.user)
                 },
                 computed: {
                     selected() {
@@ -189,21 +280,10 @@ export default {
                 }
             });
             if (swalOut && !swalOut.dismiss) {
-                self.selectedChannels = self.selectedChannels.concat(vm.selected);
+                self.saveSelectedChannels(self.selectedChannels.concat(vm.selected));
             }
         },
-        async getChannels() {
-            if (!this.post.publishAt) {
-                this.post.publishAt = moment();
-            }
-            let {
-                items,
-                total
-            } = await CatalogApi.filter({
-                weekDay: this.post.publishAt.weekday() + 1
-            });
-            this.channels = items.map(item => item.channelInfo);
-        }
+
     }
 };
 </script>

@@ -1,6 +1,6 @@
 <template src="./index.html"></template>
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import { CatalogApi, ChannelApi } from '@services/api';
 
@@ -9,10 +9,7 @@ import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
 
-import {
-    clone,
-    cloneWFn
-} from '@utils/clone';
+import { clone, cloneWFn } from '@utils/clone';
 
 export default Vue.extend({
     components: {
@@ -129,10 +126,7 @@ export default Vue.extend({
         }
     },
     computed: {
-        ...mapState(['configs']),
-        selectedChannels() {
-            return this.channels.filter(ch => ch.selected);
-        },
+        ...mapState(['configs', 'user', 'selectedChannels']),
         totalPrice() {
             return this.selectedChannels.reduce((sum, el) => {
                 return sum + el.timeFrame.reduce((ofSum, timeFrame) => ofSum + (timeFrame.selected ? timeFrame.priceWithCommission :
@@ -141,6 +135,59 @@ export default Vue.extend({
         }
     },
     methods: {
+        ...mapActions({
+            'dropSelectedChannels': 'DROP_SELECTED_CHANNELS',
+        }),
+        async getCategories() {
+            let { items, total } = await CatalogApi.list();
+            this.categories = items;
+        },
+        async getChannels(params = {}) {
+            clearTimeout(this.debounceTimeout);
+            let copy = clone(params);
+            if (!copy.limit) copy.limit = 1000
+            copy.priceFrom *= 100;
+            copy.priceTo *= 100;
+            if (copy.category) {
+                copy.categoryId = copy.category.categoryId;
+                delete copy.category;
+            }
+            let { items, total } = await CatalogApi.filter(copy);
+            this.totalChannels = total;
+            let isToday = this.publishDate.day() === moment().day(),
+                nowHour = moment().hour(),
+                nowMinute = moment().minute();
+
+            this.channels = items.map(item => {
+                if (item.channelInfo && item.channelInfo.timeFrame) {
+                    item.channelInfo.timeFrame = item.channelInfo.timeFrame.filter(timeFrame => {
+                        // timeFrame.price * 1.3;
+                        // let filterToday = true;
+                        // let hour = moment(timeFrame.startPeriodTime*100).hour()
+                        // if (isToday) {
+                        //   filterToday = timeFrame.hour > nowHour || (timeFrame.hour === nowHour && timeFrame.minute > nowMinute);
+                        // }
+                        return timeFrame.weekDay === params.weekDay //&& filterToday;
+                    });
+                }
+                if (item.categoryName) {
+                    item.channelInfo.category = item.categoryName
+                }
+                return item.channelInfo;
+            });
+
+            if (this.selectedChannels) {
+                this.selectedChannels.forEach(sch => {
+                    this.channels = this.channels.map(ch => {
+                        if (ch.channelId === sch.channelId) {
+                            ch.timeFrame.forEach(tf => { tf.selected = true })
+                            ch.selected = true;
+                        }
+                        return ch
+                    });
+                })
+            }
+        },
         compileDate(val, key) {
             if (val) {
                 let [hour, minute] = val.split(':');
@@ -153,49 +200,13 @@ export default Vue.extend({
         toggleFilters() {
             this.showFilters = !this.showFilters;
         },
-        async getCategories() {
-            let {
-                items,
-                total
-            } = await CatalogApi.list();
-            this.categories = items;
-        },
-        async getChannels(params = {}) {
-            clearTimeout(this.debounceTimeout);
-            let copy = clone(params);
-            copy.limit = 100;
-            copy.priceFrom *= 100;
-            copy.priceTo *= 100;
-            if (copy.category) {
-                copy.categoryId = copy.category.categoryId;
-                delete copy.category;
-            }
-            let {
-                items,
-                total
-            } = await CatalogApi.filter(copy);
-            this.totalChannels = total;
-            let isToday = this.publishDate.day() === moment().day(),
-                nowHour = moment().hour(),
-                nowMinute = moment().minute();
-
-            this.channels = items.map(item => {
-                if (item.channelInfo && item.channelInfo.timeFrame) {
-                    item.channelInfo.timeFrame = item.channelInfo.timeFrame.filter(timeFrame => {
-                        // timeFrame.price * 1.3;
-                        let filterToday = true;
-                        // let hour = moment(timeFrame.startPeriodTime*100).hour()
-                        // if (isToday) {
-                        //   filterToday = timeFrame.hour > nowHour || (timeFrame.hour === nowHour && timeFrame.minute > nowMinute);
-                        // }
-                        return timeFrame.weekDay === params.weekDay && filterToday;
-                    });
-                }
-                if (item.categoryName) {
-                    item.channelInfo.category = item.categoryName
-                }
-                return item.channelInfo;
+        dropSelected() {
+            this.channels = this.channels.map(ch => {
+                ch.timeFrame.forEach(tf => { tf.selected = false })
+                ch.selected = false;
+                return ch
             });
+            this.dropSelectedChannels();
         }
     }
 });

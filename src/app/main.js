@@ -25,8 +25,8 @@ export const App = new Vue({
         loader,
         notifystr,
     },
-    beforeMount() {
-        check(this);
+    async beforeMount() {
+        await check(this);
     },
     computed: {
         showSpinner: {

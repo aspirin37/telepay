@@ -61,6 +61,7 @@ export default {
                 publishAt: post.publishAt * 1000
             };
         },
+
         togglePreview(ch, post = {}, bool = !post.showPreview) {
             setTimeout(() => {
                 ch.postOrders.forEach(el => {

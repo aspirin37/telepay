@@ -21,5 +21,6 @@ export function _r(r) {
     return new Vue.Promise.resolve(r.data);
 }
 export function _e(e) {
+    console.error(e);
     return new Vue.Promise.reject(e);
 }

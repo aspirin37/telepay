@@ -10,7 +10,7 @@ import {
 import {
     clone
 } from '@utils/clone';
-import LS from '@utils/local-storage';
+import WebStorage from '@utils/storage';
 
 export default {
     components: {

@@ -33,12 +33,12 @@
             </div>
             <small class="text-muted">{{text.length}}/{{maxLength}}</small>
         </div>
-        <div v-if="images.length"
+        <div v-if="images && images.length"
              class="file-previews">
             <div v-for="(src, i) in images"
                  :key="i"
                  class="file-previews__item"
-                 :style="{ 'background-image': 'url(' + src.decoded + ')' }">
+                 :style="{ 'background-image': `url(${typeof src === 'string'?'/images/posts/'+src:src.decoded})` }">
                 <span class="file-previews__remove"
                       @click="removeImage(i)">
                     <i class="fa fa-times"
@@ -71,9 +71,7 @@
     </div>
 </template>
 <script>
-import {
-    Picker
-} from 'emoji-mart-vue';
+import { Picker } from 'emoji-mart-vue';
 import dropdown from '@components/dropdown';
 export default {
     components: {
@@ -111,18 +109,12 @@ export default {
         };
     },
     created() {
-        if (this.value) {
-            let {
-                text,
-                images,
-                buttons
-            } = this.value;
-            this.text = text;
-            this.iamges = images;
-            this.buttons = buttons;
-        }
+        this.watchValue();
     },
     watch: {
+        value() {
+            this.watchValue();
+        },
         buttons() {
             this.updateModel();
         },
@@ -130,7 +122,7 @@ export default {
             this.updateModel();
         },
         text(msg) {
-            if (msg.length > this.maxLength) {
+            if (msg && msg.length > this.maxLength) {
                 this.text = msg.slice(0, this.maxLength);
                 return;
             }
@@ -139,10 +131,23 @@ export default {
     },
     computed: {
         maxLength() {
-            return this.images.length ? 200 : 4096;
+            return this.images && this.images.length ? 200 : 4096;
         }
     },
     methods: {
+        watchValue() {
+            if (this.value) {
+                let {
+                    text,
+                    images,
+                    buttons
+                } = this.value;
+
+                this.text = text;
+                this.images = images;
+                this.buttons = buttons;
+            }
+        },
         updateModel() {
             this.$emit('input', {
                 text: this.text,
@@ -165,7 +170,7 @@ export default {
         addImage(e) {
             let files = e.target.files || e.dataTransfer.files;
             if (!files.length) return;
-            if (this.images.length + files.length <= this.maxImages) {
+            if (this.images && this.images.length + files.length <= this.maxImages) {
                 for (let i = 0; i < files.length; i++) {
                     if (files[i].size / 1024 / 1024 > 1) {
                         this.$notifystr.danger('Ошибка!', 'Размер файла не должен превышать 2мб');
@@ -195,7 +200,7 @@ export default {
         },
 
         addButton() {
-            if (this.buttons.length >= 10) {
+            if (this.buttons && this.buttons.length >= 10) {
                 return this.$notifystr.warning('Внимание', 'Можно прикрепить не более 10 кнопок');
             }
             this.buttons.push([{

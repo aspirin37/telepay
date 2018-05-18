@@ -6,7 +6,7 @@
     </h2>
     <channel-list :channels="selectedChannels"
                   :is-chips="selectedChannels.length>3"
-                  :user="$store.state.user"
+                  :user="user"
                   placeholder="Предложения не выбраны" />
     <div class="row p-4 border-bottom mb-2"
          v-show="channelsToAdd.length">
@@ -21,7 +21,8 @@
             <h2 class="mb-0">
                 <small>Стоимость: </small> {{totalPrice|centToRub}}
             </h2>
-            <router-link :to="{name:'balance:replenishment'}">Пополнить баланс</router-link>
+            <router-link v-show="user.balance.current<totalPrice"
+                         :to="{name:'balance:replenishment'}">Пополнить баланс</router-link>
         </div>
     </div>
     <div class="row">
@@ -31,19 +32,39 @@
         <div class="col-7">
             <div class="form-row">
                 <div class="col-6">
-                    <div class="form-group">
+                    <div class="form-group m-0">
                         <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
                         <date-input v-model="post.publishAt"
                                     placeholder="Выберите дату публикации"
-                                    :config="dateConfig" />
+                                    :config="configs.date" />
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="form-group">
+                    <div class="form-group m-0">
                         <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
                         <input type="time"
+                               ref="timeInput"
+                               required
+                               :class="{'is-invalid':errors.time}"
                                class="form-control p-2"
                                v-model="postTime">
+                        <div class="help-block">
+                            <small v-show="errors.time"
+                                   class="text-danger">Время публикации не может быть в прошлом</small>
+                            <small v-show="!errors.time">&nbsp;</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12"
+                     v-if="postTemplates&&postTemplates.length">
+                    <div class="form-group">
+                        <p class="text-medium-font font-weight-500 mb-1">Шаблон поста</p>
+                        <select class="form-control"
+                                v-model="post.postTemplateId">
+                            <option value="">Новый пост</option>
+                            <option :value="template.postTemplateId"
+                                    v-for="template in postTemplates">{{template.text | cutLongStr(50)}}</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-12">
@@ -54,11 +75,11 @@
                 </div>
                 <div class="col-12 text-right">
                     <button class="btn btn-primary"
-                            @click="saveTemplate">
+                            @click.prevent="createPost(true)">
                         Сохранить</button>
                     <button class="btn btn-success"
-                            :disabled="!selectedChannels.length"
-                            @click="createPostOrder">Разместить пост</button>
+                            @click.prevent="createPost(false)"
+                            :disabled="!selectedChannels.length">Разместить пост</button>
                 </div>
             </div>
         </div>

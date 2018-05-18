@@ -3,7 +3,7 @@
 </template>
 <script>
 import { UserApi } from '@services/api';
-import LS from '@utils/local-storage';
+import WebStorage from '@utils/storage';
 export default Vue.extend({
     data() {
         return {};
@@ -11,7 +11,7 @@ export default Vue.extend({
     created() {
         if (this.$route.query && this.$route.query.t) {
             Vue.http.headers.common['X-API-TOKEN'] = this.$route.query.t;
-            LS.set('auth_key', this.$route.query.t);
+            WebStorage.set('auth_key', this.$route.query.t);
             this.getUser();
         } else {
             this.$router.push({ name: 'login' });
@@ -26,7 +26,7 @@ export default Vue.extend({
             } else {
                 this.$notifystr.danger('Ошибка входа!', 'Профиль не является профилем пользователя');
                 this.$store.commit('SET_USER', null);
-                LS.clear();
+                WebStorage.clear();
             }
         }
     }

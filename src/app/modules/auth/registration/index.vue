@@ -2,7 +2,7 @@
 import template from "./index.html";
 
 import { AuthApi, UserApi } from "@services/api";
-import LS from "@utils/local-storage";
+import WebStorage from "@utils/storage";
 import normCheckbox from "@components/checkbox";
 import { clone } from "@utils/clone";
 
@@ -37,7 +37,7 @@ export default Vue.extend({
                     .then(res => {
                         if (res && res.token) {
                             Vue.http.headers.common["X-API-TOKEN"] = res.token;
-                            LS.set("auth_key", res.token);
+                            WebStorage.set("auth_key", res.token);
                             return UserApi.getUser();
                         }
                         return null;

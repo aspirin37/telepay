@@ -3,6 +3,7 @@
 import { mapState } from 'vuex';
 import postList from '@components/post-list';
 import { PostApi } from '@services/api';
+import WebStorage from '@utils/storage';
 export default {
     components: {
         postList
@@ -25,10 +26,7 @@ export default {
         async getPosts() {
             this.posts.in = [];
             this.posts.out = [];
-            let {
-                items,
-                total
-            } = await PostApi.list();
+            let { items, total } = await PostApi.list({ limit: 1000 });
             items.forEach(postOrder => {
                 if (
                     postOrder &&

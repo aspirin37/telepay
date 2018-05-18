@@ -4,7 +4,7 @@ import dropDown from '@components/dropdown';
 import dropDownMenuItem from '@components/dropdown/menu-item.vue';
 import onOff from 'vue-on-off';
 import Logo from '@assets/logo.svg';
-import LS from '@utils/local-storage';
+import WebStorage from '@utils/storage';
 import { clone } from '@utils/clone';
 import { mapGetters } from 'vuex';
 import { NotificationApi } from '@services/api';
@@ -35,7 +35,7 @@ export default Vue.extend({
                 return this.$store.state.is_advert;
             },
             set(val) {
-                LS.set('is_advert', val);
+                WebStorage.set('is_advert', val);
                 this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: val });
                 this.$router.push({ name: val ? 'catalog' : 'channels:list' });
             }
@@ -49,7 +49,7 @@ export default Vue.extend({
             return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
         },
         isAuthorized() {
-            return this.hasUser && LS.get('auth_key');
+            return this.hasUser && WebStorage.get('auth_key');
         }
     },
     methods: {

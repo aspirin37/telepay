@@ -1,8 +1,18 @@
-import LS from '@utils/local-storage';
+import WebStorage from '@utils/storage';
 export default {
     user: { balance: {}, email: {} },
     loading: false,
-    is_advert: LS.get('is_advert'),
+    is_advert: WebStorage.get('is_advert'),
+    savedPost: WebStorage.get('savedPost', true) || {
+        text: '',
+        buttons: [],
+        images: [],
+        timeFrameId: [],
+        postTemplateId: '',
+        channel: 'Название канала',
+        publishAt: null
+    },
+    selectedChannels: WebStorage.get('selectedChannels', true) || [],
     configs: {
         date: {
             dateFormat: 'd.m.Y',

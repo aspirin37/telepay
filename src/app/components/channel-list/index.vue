@@ -61,11 +61,11 @@
                             <div class="form-row"
                                  v-if="!ch.showAllTimeFrames && ch.cheapestTimeFrame"
                                  :key="ch.cheapestTimeFrame.timeFrameId">
-                                <!-- <div class="col-5">{{timeFrameDates(ch.cheapestTimeFrame,true)}} - {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours}}</div> -->
+                                <!-- <div class="col-5">{{timeFrameDates(ch.cheapestTimeFrame,true)}} - {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours}}</div>  -->
                                 <div class="col-10">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}
-                                    <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down"
+                                    <!-- <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down"
                                        v-if="ch.timeFrame.length > 1"
-                                       @click="ch.showAllTimeFrames = true"></i>
+                                       @click="ch.showAllTimeFrames = true"></i> -->
                                 </div>
                                 <div class="col-2 text-center">
                                     <norm-checkbox v-model="ch.selected"
@@ -183,6 +183,7 @@ export default Vue.extend({
             } else {
                 ch.cheapestTimeFrame.selected = true;
             }
+            if (this.$store) this.$store.dispatch('SAVE_SELECTED_CHANNELS', this.innerChannels.filter(ch => ch.selected))
         },
         toggleTimeFrame(ch, timeFrame) {
             if (timeFrame.selected) {

@@ -11,12 +11,12 @@ import UserApi from './user';
 import BalanceApi from './balance';
 import ChannelListsApi from './channel-lists';
 import SupportApi from './support';
-// import FavsApi from './favs';
+import PostTemplateApi from './post-templates';
 
 let API_BASE;
 let protocol = (document.location && document.location.protocol) || 'http:';
 
-switch (process.env.url) {
+switch(process.env.url) {
     case 'loc':
         API_BASE = `${protocol}//0.0.0.0:8080`;
         break;
@@ -40,7 +40,7 @@ export {
     NotificationApi,
     UserApi,
     ChannelListsApi,
-    // FavsApi,
+    PostTemplateApi,
     BalanceApi,
     PostApi,
     SupportApi

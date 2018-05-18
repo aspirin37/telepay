@@ -9,10 +9,10 @@ export default {
         function setKey(object, mutatedKey) {
             let currentKey = mutatedKey || key;
 
-            if (typeof object === 'object') {
-                if (currentKey && typeof currentKey === 'string' && !currentKey.includes('.')) {
-                    object[currentKey] = value;
-                } else if (currentKey.includes('.')) {
+            if(typeof object === 'object') {
+                if(currentKey && typeof currentKey === 'string' && !currentKey.includes('.')) {
+                    if(object[currentKey] !== value) object[currentKey] = value;
+                } else if(currentKey.includes('.')) {
                     mutatedKey = currentKey.split('.');
                     let mutatedObject = object[mutatedKey[0]];
                     mutatedKey.shift();

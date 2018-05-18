@@ -31,47 +31,54 @@
                             <br>{{post.timeFrame.channel.categories || 'Без категории'}}</div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col"
+                     :class="{'text-danger':[1,6].includes(post.status)}">
                     <span v-if="post.status !== 3 && !post.isPosted || !post.messageId">{{postStatuses[post.status]}}</span>
                     <a v-else
                        v-tooltip="'Открыть пост в приложении Telegram'"
                        :href="`tg://resolve?domain=${post.timeFrame.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
-                    <span v-show="post.status === 1"
-                          class="text-danger">{{post.declineReason}}</span>
+                    <span v-show="[1,6].includes(post.status) && post.declineReason">Причина: {{post.declineReason}}</span>
                 </div>
                 <div class="col h5">{{post.price | centToRub}}</div>
                 <div class="col">
                     <button v-if="!isOut && post.status === 0"
                             class="btn btn-link m-0 p-0 text-success"
+                            v-tooltip="'Подтвердить размещение поста'"
                             @click="approvePost(post)">
                         <i class="fa fa-check fa-2x"></i>
                     </button>
                     <button v-if="!isOut && post.status === 0"
                             class="btn btn-link m-0 p-0 text-danger"
+                            v-tooltip="'Отклонить размещение поста'"
                             @click="declinePost(post)">
                         <i class="fa fa-times fa-2x"></i>
                     </button>
-                    <!-- <button class="btn btn-link m-0 p-0 text-warning"
+                    <!-- <button class="btn btn-link m-0 p-0"
                         @click="removePost(post)">
                         <i class="fa fa-trash fa-2x"></i>
                     </button> -->
-                    <button class="btn btn-link m-0 p-0 text-warning"
-                            v-if="isOut">
+                    <button class="btn btn-link m-0 p-0"
+                            v-if="isOut && post.status === 3"
+                            v-tooltip="'Повторить размещение поста'"
+                            @click="repeatPost(post)">
                         <i class="fa fa-refresh fa-2x text-primary"></i>
                     </button>
                     <button class="btn btn-link p-0 m-0 text-dark"
+                            v-tooltip="'Превью поста'"
                             @click="togglePreview(post)"
                             @blur="togglePreview(post,false)">
                         <i class="fa fa-2x"
                            :class="post.showPreview?'fa-eye-slash':'fa-eye'"></i>
                     </button>
-                    <div class="popover fade show bs-popover-bottom post-preview"
-                         v-show="post.showPreview">
-                        <div class="arrow"></div>
-                        <div class="popover-body">
-                            <post-preview :post="mapToPreview(post)"></post-preview>
+                    <transition name="fade">
+                        <div class="popover fade show bs-popover-bottom post-preview"
+                             v-show="post.showPreview">
+                            <div class="arrow"></div>
+                            <div class="popover-body">
+                                <post-preview :post="mapToPreview(post)"></post-preview>
+                            </div>
                         </div>
-                    </div>
+                    </transition>
                 </div>
             </div>
         </div>
@@ -139,7 +146,7 @@ export default {
                     if (el.postOrderId !== post.postOrderId) el.showPreview = false;
                 });
                 post.showPreview = bool;
-            });
+            }, 100);
         },
         mapToPreview(post) {
             let parsedBtns, parsedImgs;
@@ -161,6 +168,17 @@ export default {
                 time: this.timeFrameDates(post.timeFrame, true),
                 publishAt: post.publishAt * 1000
             };
+        },
+        async repeatPost(post) {
+            let { text, images, buttons } = this.mapToPreview(post)
+            let postToSave = {
+                timeFrameId: [post.timeFrame.timeFrameId],
+                postTemplateId: post.postTemplate.postTemplateId,
+                channel: 'Название канала',
+                publishAt: moment().format('YYYY-MM-DD')
+            };
+            this.$store.dispatch('SAVE_POST', postToSave)
+            this.$router.push({ name: 'posts:create' })
         },
         async removePost(post) {
             let swalOut = await swal({
