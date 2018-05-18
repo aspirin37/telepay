@@ -201,20 +201,27 @@ export default {
                 buttons,
                 images,
                 publishAt,
-                text
+                text,
+                postTemplateId
             } = this.post;
 
-            let data = this.getFormData(new FormData(), {
-                buttons: JSON.stringify(buttons),
-                images: images && images.map(im => im.file),
+            let data = {
                 timeFrameId: this.selectedTimeFrameIds,
                 publishAt: moment(publishAt)
                     .utc(4).set('hour', timeArr[0]).set('minute', timeArr[1]).toISOString(),
-                text: text.replace(/↵/g, '\n'),
                 isTemplate
+            };
+
+            if(postTemplateId){
+                data.postTemplateId =postTemplateId; 
+            } else {
+                
+            }
+            let formData = this.getFormData(new FormData(), {
+                
             });
 
-            PostApi.create(data).then(() => {
+            PostApi.create(formData).then(() => {
                 this.dropSavedPost();
                 if (!isTemplate) this.dropSelectedChannels();
                 this.$router.push({ name: 'posts:list' });

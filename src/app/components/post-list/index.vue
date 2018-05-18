@@ -53,12 +53,14 @@
                             @click="declinePost(post)">
                         <i class="fa fa-times fa-2x"></i>
                     </button>
-                    <!-- <button class="btn btn-link m-0 p-0"
-                        @click="removePost(post)">
-                        <i class="fa fa-trash fa-2x"></i>
-                    </button> -->
                     <button class="btn btn-link m-0 p-0"
-                            v-if="isOut && post.status === 3"
+                            v-tooltip="'Удалить пост'"
+                            v-if="[0,1,3,5,6].includes(post.status)"
+                            @click="removePost(post)">
+                        <i class="fa fa-trash fa-2x text-warning"></i>
+                    </button>
+                    <button class="btn btn-link m-0 p-0"
+                            v-if="isOut"
                             v-tooltip="'Повторить размещение поста'"
                             @click="repeatPost(post)">
                         <i class="fa fa-refresh fa-2x text-primary"></i>
