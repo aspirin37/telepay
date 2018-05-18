@@ -52,9 +52,9 @@
                     </div>
                     <div class="col h4 m-0">
                         <!-- <telestat-link :channel="ch.username" v-if="ch.subscriberCount>=300" :text="$options.filters.cutSum(ch.subscriberCount)" /> -->
-                        <span>{{ch.subscriberCount | cutSum(2)}}</span>
+                        <span>{{ch.subscriberCount | cutSum(1)}}</span>
                     </div>
-                    <div class="col fa-lg">{{ch.engagementRate}}%</div>
+                    <div class="col fa-lg">{{ch.engagementRate | cutSum}}%</div>
                     <div class="col-5 h4 m-0">
                         <transition-group name="fade-out"
                                           mode="out-in">
