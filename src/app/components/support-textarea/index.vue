@@ -17,14 +17,14 @@
                         @change="addImage" />
                 </label>
             </div>
-
         </div>
         <div v-if="images.length"
             class="file-previews">
             <div v-for="(src, i) in images"
                 :key="i"
-                class="file-previews__item"
-                :style="{ 'background-image': 'url(' + src.decoded + ')' }">
+                class="file-previews__item rounded"
+                :style="{ 'background-image': 'url(' + src.decoded + ')' }"
+                @click="showImage(src.decoded)">
                 <span class="file-previews__remove"
                     @click="removeImage(i)">
                     <i class="fa fa-times"
@@ -37,20 +37,14 @@
 </template>
 
 <script>
+
 export default {
-  props: {
-    value: {
-      default: ""
-    },
-    maxImages: {
-      type: Number,
-      default: 3
-    }
-  },
+  props: ["newText", "newImages"],
   data() {
     return {
-      text: "Введите сообщение...",
-      images: []
+      text: "",
+      images: [],
+      maxImages: 2
     };
   },
   created() {
@@ -61,6 +55,12 @@ export default {
     }
   },
   watch: {
+    newText() {
+      this.text = this.newText;
+    },
+    newImages() {
+      this.images = this.newImages;
+    },
     images() {
       this.updateModel();
     },
@@ -128,6 +128,17 @@ export default {
     },
     removeImage(index) {
       this.images = this.images.filter((img, idx) => idx !== index);
+    },
+    showImage(src) {
+      swal({
+        width: "80%",
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        animation: false,
+        imageUrl: src
+      });
+      document.querySelector(".swal2-close").blur();
     }
   }
 };
@@ -138,13 +149,13 @@ export default {
   display: flex;
   position: absolute;
   left: 0;
-  top: 100%;
+  bottom: 0;
   padding-top: 10px;
   .file-previews__item {
     position: relative;
     width: 50px;
     height: 50px;
-    margin-right: 3px;
+    margin-right: 6px;
     cursor: pointer;
     background-position: center;
     background-size: cover;
