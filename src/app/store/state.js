@@ -3,15 +3,15 @@ export default {
     user: { balance: {}, email: {} },
     loading: false,
     is_advert: WebStorage.get('is_advert'),
-    savedPost: WebStorage.get('savedPost', true) || {
-        text: '',
+    savedPost: (WebStorage.get('savedPost', true) || {
+        text: 'Текст...',
         buttons: [],
         images: [],
         timeFrameId: [],
         postTemplateId: '',
         channel: 'Название канала',
         publishAt: null
-    },
+    }),
     selectedChannels: WebStorage.get('selectedChannels', true) || [],
     configs: {
         date: {

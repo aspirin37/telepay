@@ -158,6 +158,7 @@ export default {
 
         addEmoji(emoji, e) {
             let selStart = this.$refs.text.selectionStart;
+            console.log(selStart);
             if (selStart !== this.text.length) {
                 let start = this.text.substr(0, selStart);
                 let end = this.text.substr(selStart);

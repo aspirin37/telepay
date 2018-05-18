@@ -45,7 +45,13 @@ export default {
     },
     created() {
         this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: true });
-        if (this.post && this.post.text !== this.postData.text || this.post.buttons.length || this.post.images.length) {
+        if (this.post &&
+            (
+                this.post.text !== this.postData.text ||
+                (this.post.buttons && this.post.buttons.length) ||
+                (this.post.images && this.post.images.length)
+            )
+        ) {
             this.postData = {
                 text: this.post.text,
                 buttons: this.post.buttons,
@@ -54,10 +60,6 @@ export default {
         }
         this.getChannels();
         this.getPostTemplates();
-        if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
-            this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
-        }
-
     },
     destroyed() {
         if (this.post) this.savePost(this.post)
@@ -142,6 +144,9 @@ export default {
 
                     return selectedTf
                 })
+            }
+            if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
+                this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
             }
         },
         async getPostTemplates() {
