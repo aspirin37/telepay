@@ -9,15 +9,16 @@ import '@services/interceptor';
 import notifystr from 'notifystr';
 import loader from '@components/loader';
 import navigation from '@components/navigation';
+
 // services
 import '@filters';
 // directives
 import tooltip from '@components/tooltip';
-Vue.directive('tooltip', tooltip);
+Vue.directive( 'tooltip', tooltip );
 
 import check from '@services/check-user';
 
-export const App = new Vue({
+export const App = new Vue( {
     router,
     store,
     components: {
@@ -26,14 +27,14 @@ export const App = new Vue({
         notifystr,
     },
     async beforeMount() {
-        await check(this);
+        await check( this );
     },
     computed: {
         showSpinner: {
-            get: function() {
+            get: function () {
                 return this.$store.state.loading;
             },
-            set: () => {},
+            set: () => { },
         },
     },
-}).$mount('#app');
+} ).$mount( '#app' );

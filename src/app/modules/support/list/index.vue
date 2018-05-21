@@ -1,8 +1,8 @@
 <template src="./index.html"></template>
 
 <script>
-import { SupportApi } from "@services/api";
-import topics from "@utils/support-topics";
+import { SupportApi } from '@services/api';
+import topics from '@utils/support-topics';
 export default Vue.extend({
   data() {
     return {
@@ -24,19 +24,18 @@ export default Vue.extend({
     async getTickets() {
       let { items } = await SupportApi.getList();
       items.sort((a, b) => b.createdAt - a.createdAt).forEach((it, i) => {
-        it.date = moment.unix(it.createdAt).format("DD.MM.YYYY");
+        it.date = moment.unix(it.createdAt).format('DD.MM.YYYY');
         it.topic = topics[it.topic].name;
         it.statusName = this.statusList[it.status];
-        console.log(this.statusList)
         switch (it.status) {
           case 0:
-            it.statusClass = "fa fa-exclamation-circle text-info";
+            it.statusClass = 'fa fa-exclamation-circle text-info';
             break;
           case 1:
-            it.statusClass = "fa fa-clock-o text-warning";
+            it.statusClass = 'fa fa-clock-o text-warning';
             break;
           case 2:
-            it.statusClass = "fa fa-check text-success";
+            it.statusClass = 'fa fa-check text-success';
             break;
         }
       });
@@ -45,7 +44,7 @@ export default Vue.extend({
 
       if (!this.ticketsList.length) {
         this.$router.push({
-          name: "support:create"
+          name: 'support:create'
         });
       }
     },
