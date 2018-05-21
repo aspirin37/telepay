@@ -45,7 +45,7 @@
                             <router-link :to="{name:ch.userId === user.userId?'channels:update':'channels:show',params:{id:ch.channelId}}">
                                 <b>{{ch.title}}</b>
                             </router-link>
-                            <br>{{ch.categories || 'Без категории'}}</div>
+                            <br>{{ch.category || 'Без категории'}}</div>
                     </div>
                 </div>
                 <div class="col h4 m-0">

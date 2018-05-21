@@ -20,14 +20,14 @@
                     <div class="col-3">
                         <avatar :src="'/images/channels/'+post.timeFrame.channel.telegramId+'/'+post.timeFrame.channel.photoId+'.jpg'"
                                 :circle="true" /> </div>
-                    <div class="col-9 pl-4">
+                    <div class="col-9 pl-4 d-flex align-items-center">
                         <router-link :to="{
                             name:post.timeFrame.channel.userId === user.userId?'channels:update':'channels:show',
                             params:{id:post.timeFrame.channel.channelId}
                         }">
                             <b>{{post.timeFrame.channel.title}}</b>
                         </router-link>
-                        <br>{{post.timeFrame.channel.categories || 'Без категории'}}</div>
+                    </div>
                 </div>
             </div>
             <div class="col"

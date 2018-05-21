@@ -4,29 +4,29 @@
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Логин</label>
         <input type="email"
-            placeholder="example@email.com"
-            required
-            class="form-control input-auth"
-            v-model="user.login">
+               placeholder="example@email.com"
+               required
+               class="form-control input-auth"
+               v-model="user.login">
     </div>
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Пароль</label>
         <input type="password"
-            placeholder="Введите пароль"
-            required
-            class="form-control input-auth"
-            v-model="user.password">
+               placeholder="Введите пароль"
+               required
+               class="form-control input-auth"
+               v-model="user.password">
     </div>
     <div class="form-group">
         <button class="btn-auth btn btn-block btn-lg"
-            type="submit">Войти</button>
+                type="submit">Войти</button>
     </div>
     <router-link :to="{name:'recovery',params:{login:user.login}}"
-        class="float-left text-light">
+                 class="float-left text-light">
         <u>Забыли пароль?</u>
     </router-link>
     <router-link :to="{name:'registration',params:{login:user.login}}"
-        class="float-right text-light">
+                 class="float-right text-light">
         <u>Регистрация</u>
     </router-link>
 </form>

@@ -94,6 +94,7 @@ export default {
                         return sum;
                     }, []);
                 }
+                ch.category = ch.categoryItem[0] && ch.categoryItem[0].category.name
                 ch.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(ch);
                 ch.showOrders = false;
             });
