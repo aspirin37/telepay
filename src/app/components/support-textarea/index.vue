@@ -149,7 +149,7 @@ export default {
   display: flex;
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: -40px;
   padding-top: 10px;
   .file-previews__item {
     position: relative;
