@@ -23,7 +23,11 @@ export default Vue.extend({
   data() {
     return {
       topics,
+      ticketStatus: this.$route.query.status || null,
       ticketId: this.$route.query.ticketId || null,
+      rating: 0,
+      isRated: false,
+      isRatingDisabled: false,
       messages: null,
       topic: null,
       selectedTopic: "",
@@ -37,16 +41,26 @@ export default Vue.extend({
     if (this.$route.query.ticketId) {
       this.getMessages();
     }
+    if (this.$route.query.rating) {
+      this.rating = Number(this.$route.query.rating)
+      this.isRatingDisabled = true
+    }
   },
   methods: {
+    setRating(rating) {
+      let data = {
+        rating
+      };
+      SupportApi.setRating(this.ticketId, data).then(() => {
+        this.isRated = true;
+      });
+    },
     isAuthorNeeded(message, i, messages) {
       if (i == 0) {
-        return true
+        return true;
       }
-      while (i < messages.length - 1) {
-        return message.isSupport != messages[i - 1].isSupport
-          ? true
-          : false;
+      while (i < messages.length) {
+        return message.isSupport != messages[i - 1].isSupport ? true : false;
       }
     },
     async getMessages() {
@@ -145,6 +159,16 @@ export default Vue.extend({
   position: absolute;
   right: 15px;
   bottom: 5px;
+}
+
+.rating {
+  position: relative;
+
+  &__wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
 
 .message {

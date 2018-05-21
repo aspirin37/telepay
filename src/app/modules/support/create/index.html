@@ -20,10 +20,16 @@
                     <b>Сообщение</b>
                 </label>
                 <support-textarea v-model="newMessage" :newText="newMessage.text" :newImages="newMessage.images" />
-                <button class="btn btn-success btn-md float-right" type="button" @click="ticketId ? createMessage() : createTicket()">Отправить</button>
-                <div class="raiting col-4 offset-4 d-flex flex-column align-items-center">
-                    <star-rating :show-rating="false" active-color="#ffc107" :star-size="20"></star-rating>
-                    Оцените нашу помощь
+                <button class="btn btn-success btn-md float-right" type="button" @click="ticketId ? createMessage() : createTicket()" disabled>Отправить</button>
+                <div class="rating col-4 offset-4" v-if="ticketStatus == 2">
+                    <div class="rating__wrapper d-flex flex-column align-items-center" v-if="!isRated">
+                        <star-rating :show-rating="false" active-color="#ffc107" :star-size="20" :rating="rating" :read-only="isRatingDisabled" @rating-selected="setRating"></star-rating>
+                        <span>{{ rating ? "Ваша оценка" : "Оцените нашу помощь" }}</span>
+                    </div>
+                    <div class="rating__wrapper d-flex flex-column align-items-center" v-else>
+                        <span class="fa fa-2x fa-thumbs-up"></span>
+                        <span>Спасибо за Ваш отзыв!</span>
+                    </div>
                 </div>
             </div>
         </div>
