@@ -6,7 +6,15 @@ export default {
     },
     'DROP_SAVED_POST': function({ state }) {
         WebStorage.rm('savedPost', true);
-        state.savedPost = false;
+        state.savedPost = {
+            text: 'Текст...',
+            buttons: [],
+            images: [],
+            timeFrameId: [],
+            postTemplateId: '',
+            channel: 'Название канала',
+            publishAt: null
+        };
     },
     'SAVE_SELECTED_CHANNELS': function({ state }, payload) {
         WebStorage.set('selectedChannels', payload, true);

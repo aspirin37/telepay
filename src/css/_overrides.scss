@@ -5,12 +5,13 @@
 
 // bootstrap
 .tooltip {
-    $tooltipBgColor: rgba(0, 0, 0, 0.85);
     .arrow::before {
-        border-top-color: $tooltipBgColor
+        border-top-color: theme-color('cloudy')
     }
     &-inner {
-        background-color: $tooltipBgColor;
+        background-color: #fff;
+        color: inherit;
+        border: 2px solid theme-color('cloudy');
         font-weight: 500;
     }
 }
@@ -98,11 +99,13 @@ select.form-control {
     border-right: 0;
 }
 
-button, .btn {
+button,
+.btn {
     cursor: pointer;
 }
 
-.btn, .form-control {
+.btn,
+.form-control {
     font-weight: 400 !important;
 }
 
@@ -167,7 +170,8 @@ button, .btn {
     }
 }
 
-.selectr-th__option:hover, .selectr-th__option.highlight {
+.selectr-th__option:hover,
+.selectr-th__option.highlight {
     background-color: rgb(3, 169, 244) !important;
 }
 

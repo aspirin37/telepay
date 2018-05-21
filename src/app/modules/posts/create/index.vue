@@ -45,7 +45,13 @@ export default {
     },
     created() {
         this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: true });
-        if (this.post && this.post.text !== this.postData.text || this.post.buttons.length || this.post.images.length) {
+        if (this.post &&
+            (
+                this.post.text !== this.postData.text ||
+                (this.post.buttons && this.post.buttons.length) ||
+                (this.post.images && this.post.images.length)
+            )
+        ) {
             this.postData = {
                 text: this.post.text,
                 buttons: this.post.buttons,
@@ -54,10 +60,6 @@ export default {
         }
         this.getChannels();
         this.getPostTemplates();
-        if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
-            this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
-        }
-
     },
     destroyed() {
         if (this.post) this.savePost(this.post)
@@ -143,6 +145,9 @@ export default {
                     return selectedTf
                 })
             }
+            if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
+                this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
+            }
         },
         async getPostTemplates() {
             let { items } = await PostTemplateApi.list({ limit: 1000 })
@@ -196,20 +201,28 @@ export default {
                 buttons,
                 images,
                 publishAt,
-                text
+                text,
+                postTemplateId
             } = this.post;
 
-            let data = this.getFormData(new FormData(), {
-                buttons: JSON.stringify(buttons),
-                images: images && images.map(im => im.file),
+            let data = {
                 timeFrameId: this.selectedTimeFrameIds,
                 publishAt: moment(publishAt)
                     .utc(4).set('hour', timeArr[0]).set('minute', timeArr[1]).toISOString(),
-                text: text.replace(/↵/g, '\n'),
                 isTemplate
-            });
+            };
 
-            PostApi.create(data).then(() => {
+            if (postTemplateId) {
+                data.postTemplateId = postTemplateId;
+            } else {
+                data.buttons = JSON.stringify(buttons);
+                data.images = images && images.map(im => im.file);
+                data.text = text.replace(/↵/g, '\n');
+            }
+
+            let formData = this.getFormData(new FormData(), data);
+
+            PostApi.create(formData).then(() => {
                 this.dropSavedPost();
                 if (!isTemplate) this.dropSelectedChannels();
                 this.$router.push({ name: 'posts:list' });
