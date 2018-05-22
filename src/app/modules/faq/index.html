@@ -12,37 +12,41 @@
             <span class="search__cancel-btn fa fa-lg fa-close pointer"></span>
             <div class="tabs">
                 <div class="tabs-row d-flex">
-                    <div class="tab tab--active btn"
+                    <div :class="[tabSelected == 0 ? 'tab--active' : '' , 'tab btn']"
                          @click="tabSelected = 0">Общие</div>
-                    <div class="tab btn"
+                    <div :class="[tabSelected == 1 ? 'tab--active' : '' , 'tab btn']"
                          @click="tabSelected = 1">Рекламодателю</div>
-                    <div class="tab btn"
+                    <div :class="[tabSelected == 2 ? 'tab--active' : '' , 'tab btn']"
                          @click="tabSelected = 2">Администратору</div>
                 </div>
-                <div class="tab-content"
-                     v-if="tabSelected == 0">
-                    <div class="faq">
-                        <div class="faq__item"
-                             v-for="(it, i, arr) in commonQuestions"
-                             @click="questionSelected = i">
-                            <div class="faq__question pointer">
-                                <span class="font-weight-bold mr-1">{{ it.question }}</span>
-                                <span :class="[questionSelected == i ? 'fa-angle-down' : 'fa-angle-right', 'fa fa-lg']"></span>
-                                <transition name="show-tab-content"
-                                            mode="out-in">
-                                    <div class="faq__answer"
-                                         v-show="questionSelected == i">
-                                        <div class="faq__answer-text">{{ it.answer }}</div>
-                                    </div>
-                                </transition>
-                            </div>
-                        </div>
+                <transition name="fade-2"
+                            mode="out-in">
+                    <div class="tab-content"
+                         key="0"
+                         v-if="tabSelected == 0">
+                        <collapse v-for="(it, i) in faq.commonQuestions"
+                                  :collapseHeader="it.question"
+                                  :collapseContent="it.answer"
+                                  :key="i"></collapse>
                     </div>
-                </div>
-                <div class="tab-content"
-                     v-if="tabSelected == 1"> 1 </div>
-                <div class="tab-content"
-                     v-if="tabSelected == 2"> 2 </div>
+                    <div class="tab-content"
+                         key="1"
+                         v-if="tabSelected == 1">
+                        <collapse v-for="(it, i) in faq.adsQuestions"
+                                  :collapseHeader="it.question"
+                                  :collapseContent="it.answer"
+                                  :isPre="it.isPre"
+                                  :key="i"></collapse>
+                    </div>
+                    <div class="tab-content"
+                         key="2"
+                         v-if="tabSelected == 2">
+                        <collapse v-for="(it, i) in faq.adminQuestions"
+                                  :collapseHeader="it.question"
+                                  :collapseContent="it.answer"
+                                  :key="i"></collapse>
+                    </div>
+                </transition>
             </div>
         </div>
     </div>

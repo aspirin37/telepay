@@ -205,15 +205,14 @@ body {
     opacity: 0;
 }
 
-.show-tab-content-enter-active,
-.show-tab-content-leave-active {
-    transition: max-height 0.5s ease-in-out;
-    max-height: 200px;
+.fade-2-enter-active,
+.fade-2-leave-active {
+    transition: .2s ease-in-out;
 }
 
-.show-tab-content-enter,
-.show-tab-content-leave-to {
-    max-height: 0;
+.fade-2-enter,
+.fade-2-leave-to {
+    opacity: 0;
 }
 
 .underline-dash {

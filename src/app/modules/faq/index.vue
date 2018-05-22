@@ -1,26 +1,17 @@
 <template src="./index.html"></template>
 
 <script>
-// import { SupportApi } from '@services/api';
-// import topics from '@utils/support-topics';
+import collapse from '@components/collapse';
+import faq from '@utils/faq-questions';
 
 export default Vue.extend({
+  components: {
+    collapse
+  },
   data() {
     return {
       tabSelected: 0,
-      questionSelected: 0,
-      commonQuestions: [
-        {
-          question: 'lorem1?',
-          answer:
-            'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique commodi nihil dolores rerum, voluptates possimus assumenda dicta eaque maiores eius neque, hic numquam minima accusantium. Repudiandae aliquam amet quis officia?!'
-        },
-        {
-          question: 'lorem2?',
-          answer:
-            'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique commodi nihil dolores rerum, voluptates possimus assumenda dicta eaque maiores eius neque, hic numquam minima accusantium. Repudiandae aliquam amet quis officia?!'
-        }
-      ]
+      faq
     };
   },
   created() {},
@@ -72,8 +63,8 @@ export default Vue.extend({
   }
 }
 
-.faq {
-  &__question {
+.collapse-item {
+  &__header {
     padding-top: 21px;
     padding-bottom: 11px;
     border-bottom: 1px solid #e5e5e5;
@@ -81,12 +72,12 @@ export default Vue.extend({
     font-size: 16px;
   }
 
-  &__answer {
+  &__wrapper {
     overflow: hidden;
     color: #576077;
   }
 
-  &__answer-text {
+  &__text {
     padding-top: 22px;
   }
 }
