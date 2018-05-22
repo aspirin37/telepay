@@ -4,6 +4,6 @@ export default {
     '2': 'Ожидает публикации', // STATUS_PENDING
     '3': 'Опубликован', // STATUS_POSTED
     '4': 'Публикуется', // STATUS_IN_PROGRESS
-    '5': 'Новый', // STATUS_NEW
+    '5': 'Ожидает проверки модератором', // STATUS_NEW
     '6': 'Отклонен модератором', // STATUS_DECLINED
 };

@@ -12,7 +12,7 @@
          v-if="transactions && transactions.length">
         <div class="header-row">
             <div class="col">Дата</div>
-            <div class="col">Назначение</div>
+            <!-- <div class="col">Назначение</div> -->
             <div class="col">Тип</div>
             <div class="col">Сумма</div>
         </div>
@@ -20,9 +20,9 @@
              :key="tr.transactionId"
              v-for="tr in transactions">
             <div class="col">{{tr.createdAt*1e3 | parseDate}}</div>
-            <div class="col">{{tr.entity || '-'}}</div>
+            <!-- <div class="col">{{tr.entity || '-'}}</div> -->
             <div class="col">{{transactionTypes[tr.type]}}</div>
-            <div class="col">{{isPositiveType(tr.type)?'+':'-'}}{{tr.amount | centToRub(2)}}</div>
+            <div class="col h4 m-0">{{isPositiveType(tr.type)?'+':'-'}} {{tr.amount | centToRub(2)}}</div>
         </div>
     </div>
     <h4 class="text-center"
