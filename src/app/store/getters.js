@@ -1,7 +1,7 @@
 export default {
     getUsername: (state, getters) => {
         if (state.user && state.user.email) {
-            return state.user.email.address;
+            return state.user.name || state.user.email.address;
         }
     },
     getLoading: (state) => state.loading,

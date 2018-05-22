@@ -40,13 +40,13 @@
             </div>
             <div class="col h5">{{post.price | centToRub}}</div>
             <div class="col">
-                <button v-if="!isOut && post.status === 0"
+                <button v-if="!isOut && post.status === 0 && post.publishAt > now"
                         class="btn btn-link m-0 p-0 text-success"
                         v-tooltip="'Подтвердить размещение поста'"
                         @click="approvePost(post)">
                     <i class="fa fa-check fa-2x"></i>
                 </button>
-                <button v-if="!isOut && post.status === 0"
+                <button v-if="!isOut && post.status === 0 && post.publishAt > now"
                         class="btn btn-link m-0 p-0 text-danger"
                         v-tooltip="'Отклонить размещение поста'"
                         @click="declinePost(post)">
