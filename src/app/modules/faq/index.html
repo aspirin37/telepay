@@ -8,8 +8,10 @@
                 <span class="search__icon fa fa-2x fa-search"></span>
                 <input class="search__input form-control"
                        type="text"
+                       v-model="searchInputValue"
                        placeholder="Введите Ваш вопрос" /> </div>
-            <span class="search__cancel-btn fa fa-lg fa-close pointer"></span>
+            <span class="search__cancel-btn fa fa-lg fa-close pointer"
+                  @click="searchInputValue = ''"></span>
             <div class="tabs">
                 <div class="tabs-row d-flex">
                     <div :class="[tabSelected == 0 ? 'tab--active' : '' , 'tab btn']"
@@ -24,7 +26,7 @@
                     <div class="tab-content"
                          key="0"
                          v-if="tabSelected == 0">
-                        <collapse v-for="(it, i) in faq.commonQuestions"
+                        <collapse v-for="(it, i) in filteredFaq.commonQuestions"
                                   :collapseHeader="it.question"
                                   :collapseContent="it.answer"
                                   :key="i"></collapse>
@@ -32,21 +34,31 @@
                     <div class="tab-content"
                          key="1"
                          v-if="tabSelected == 1">
-                        <collapse v-for="(it, i) in faq.adsQuestions"
+                        <collapse v-for="(it, i) in filteredFaq.adsQuestions"
                                   :collapseHeader="it.question"
                                   :collapseContent="it.answer"
-                                  :isPre="it.isPre"
                                   :key="i"></collapse>
                     </div>
                     <div class="tab-content"
                          key="2"
                          v-if="tabSelected == 2">
-                        <collapse v-for="(it, i) in faq.adminQuestions"
+                        <collapse v-for="(it, i) in filteredFaq.adminQuestions"
                                   :collapseHeader="it.question"
                                   :collapseContent="it.answer"
                                   :key="i"></collapse>
                     </div>
                 </transition>
+            </div>
+            <div class="row">
+                <div class="col-1 mr-5">
+                    <span class="fa fa-info-circle fa-5x text-danger text-center"></span>
+                </div>
+                <div class="col-10">
+                    <h6>Не нашли нужный вопрос?</h6>
+                    <span>Мы всегда открыты для конструктивной критики и предложениям. Все пожелания и претензии направляйте
+                        <router-link :to="{name:'support:create'}">сюда.</router-link>
+                    </span>
+                </div>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 <script>
 import collapse from '@components/collapse';
 import faq from '@utils/faq-questions';
+import { clone } from '@utils/clone';
 
 export default Vue.extend({
   components: {
@@ -11,11 +12,51 @@ export default Vue.extend({
   data() {
     return {
       tabSelected: 0,
+      searchInputValue: '',
+      filteredFaq: {},
       faq
     };
   },
-  created() {},
-  watch: {},
+  watch: {
+    searchInputValue: function() {
+      this.filteredFaq = clone(this.faq);
+
+      if (this.searchInputValue) {
+        let filterQuestions = (arr, value) => {
+          return arr.filter(
+            it =>
+              it.answer.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) > -1 ||
+              it.question.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) > -1
+          );
+        };
+
+        this.filteredFaq.commonQuestions = filterQuestions(this.filteredFaq.commonQuestions, this.searchInputValue);
+        this.filteredFaq.adsQuestions = filterQuestions(this.filteredFaq.adsQuestions, this.searchInputValue);
+        this.filteredFaq.adminQuestions = filterQuestions(this.filteredFaq.adminQuestions, this.searchInputValue);
+
+        if (this.filteredFaq.commonQuestions.length) {
+          this.tabSelected = 0;
+          return;
+        }
+
+        if (this.filteredFaq.adsQuestions.length) {
+          this.tabSelected = 1;
+          return;
+        }
+
+        if (this.filteredFaq.adminQuestions.length) {
+          this.tabSelected = 2;
+          return;
+        }
+      } else {
+        this.tabSelected = 0;
+        this.filteredFaq = clone(this.faq);
+      }
+    }
+  },
+  created() {
+    this.filteredFaq = clone(this.faq);
+  },
   methods: {}
 });
 </script>
@@ -49,6 +90,10 @@ export default Vue.extend({
   margin-bottom: 11px;
 }
 
+.tabs {
+  margin-bottom: 50px;
+}
+
 .tab {
   width: 165px;
   margin-right: 13px;
@@ -80,6 +125,10 @@ export default Vue.extend({
   &__text {
     padding-top: 22px;
   }
+}
+
+.faq-redirect {
+  margin-bottom: 50px;
 }
 </style>
 
