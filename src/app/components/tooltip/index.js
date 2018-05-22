@@ -2,6 +2,8 @@ class Tooltip {
     constructor(el, binding) {
         this.container = document.getElementById('v-tooltips-container');
         this.options = typeof binding.value !== 'string' ? binding.value : { template: binding.value };
+
+
         if(!this.container) {
             this.container = this._classedEl('v-tooltips-container');
             this.container.id = 'v-tooltips-container';
@@ -9,6 +11,7 @@ class Tooltip {
 
         this.t = this._classedEl('tooltip bs-tooltip-top fade');
         this.t.id = `tooltip-${(Math.random()*1e8).toFixed()}`;
+        el.tooltipId = this.t.id;
 
         let arrow = this._classedEl('arrow');
         this.t.append(arrow);
@@ -60,14 +63,22 @@ class Tooltip {
         el.className = className;
         return el;
     }
-
+    static destroy(el) {
+        if(el && el.tooltipId) {
+            document.getElementById(el.tooltipId).remove();
+        }
+    }
 }
 
 export default {
     inserted(el, binding) {
         return new Tooltip(el, binding);
     },
+    update(el, binding) {
+        Tooltip.destroy(el);
+        return new Tooltip(el, binding);
+    },
     unbind(el) {
-        el.remove();
+        Tooltip.destroy(el);
     }
 };
