@@ -37,7 +37,7 @@
                 {{ ticket.statusName }}
             </div>
             <div class="col text-center">
-                <router-link class="text-primary" :to="{name:'support:create', query:{ticketId: ticket.ticketId}}">
+                <router-link class="text-primary" :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: 2, rating: ticket.rating}}">
                     <u>{{ ticket.messages.length }}</u>
                 </router-link>
             </div>

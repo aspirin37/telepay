@@ -1,17 +1,17 @@
 <div class="container py-3 px-0">
     <div class="d-flex flex-column">
-        <div class="col-2 mb-3">
-            <h1>Техподдержка</h1>
+        <div class="mb-3">
+            <h1>Техподдержка
+                <small @click="$router.go(-1)" class="float-right pointer">
+                    <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
+            </h1>
         </div>
-        <div class="col-4 offset-3 p-0"
-             v-if="!ticketId">
+        <div class="col-4 offset-3 p-0" v-if="!ticketId">
             <div class="form-group mb-2">
                 <label class="mb-1">
                     <b>Тема</b>
                 </label>
-                <search-input placeholder="Выберите тему"
-                              :options="topics"
-                              v-model="selectedTopic" />
+                <search-input placeholder="Выберите тему" :options="topics" v-model="selectedTopic" />
             </div>
         </div>
         <div class="col-6 offset-3 mb-4 p-0">
@@ -19,29 +19,31 @@
                 <label class="mb-1">
                     <b>Сообщение</b>
                 </label>
-                <support-textarea v-model="newMessage" />
-                <button class="btn btn-success btn-md float-right"
-                        type="button"
-                        @click="ticketId ? createMessage() : createTicket()">Отправить</button>
+                <support-textarea v-model="newMessage" :newText="newMessage.text" :newImages="newMessage.images" />
+                <button class="btn btn-success btn-md float-right" type="button" @click="ticketId ? createMessage() : createTicket()" disabled>Отправить</button>
+                <div class="rating col-4 offset-4" v-if="ticketStatus == 2">
+                    <div class="rating__wrapper d-flex flex-column align-items-center" v-if="!isRated">
+                        <star-rating :show-rating="false" active-color="#ffc107" :star-size="20" :rating="rating" :read-only="isRatingDisabled" @rating-selected="setRating"></star-rating>
+                        <span>{{ rating ? "Ваша оценка" : "Оцените нашу помощь" }}</span>
+                    </div>
+                    <div class="rating__wrapper d-flex flex-column align-items-center" v-else>
+                        <span class="fa fa-2x fa-thumbs-up"></span>
+                        <span>Спасибо за Ваш отзыв!</span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-6 offset-3 p-0"
-             v-if="ticketId">
-            <h3 class="mb-3">{{ topic }}</h3>
-            <!-- <div class="message col-10 mb-3 float-right">
-                <h6 class="message__author text-right">Техподдержка</h6>
-                <div class="message__content message__content--support">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. In, deserunt voluptate? Ipsum error, provident quia ut repellat
-                    accusantium suscipit sed repellendus tenetur atque aliquid perferendis, rem mollitia voluptatibus natus
-                    delectus?
-                </div>
-            </div> -->
-            <div :class="[message.isSupport ? 'float-right' : 'float-left', 'message col-10 mb-3']"
-                 v-for="message in messages">
-                <h6 :class="[message.isSupport ? 'text-right' : '', 'message__author']">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>
+        <div class="col-6 offset-3 p-0" v-if="ticketId">
+            <h4 class="mb-3">Чат с оператором</h4>
+            <div :class="[message.isSupport ? 'float-right' : 'float-left', 'message col-10 mb-3']" v-for="(message, i) in messages">
+                <h6 :class="[message.isSupport ? 'text-right' : '', 'message__author']" v-if="isAuthorNeeded(message, i, messages)">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>
                 <div :class="[message.isSupport ? 'message__content--support float-right' : '', 'message__content float-left']">
-                    <div class="message__text mb-1">{{ message.content }}</div>
-                    <small class="message__date">{{ message.createdAt }}</small>
+                    <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text mb-1']">{{ message.content }}</div>
+                    <div class="message__images" v-if="message.files.length">
+                        <img class="rounded img-thumbnail img-fluid mb-3 pointer" :src="message.isJustCreated ? image : '/images/tickets/' + ticketId + '/' + image.fileId + '.' + image.extension"
+                            v-for="image in message.files" @click="showImage"></img>
+                    </div>
+                    <small :class="[message.isSupport ? 'text-right' : '', 'message__date d-block']">{{ message.createdAt }}</small>
                 </div>
             </div>
         </div>

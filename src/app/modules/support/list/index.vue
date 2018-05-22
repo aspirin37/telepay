@@ -27,6 +27,7 @@ export default Vue.extend({
         it.date = moment.unix(it.createdAt).format("DD.MM.YYYY");
         it.topic = topics[it.topic].name;
         it.statusName = this.statusList[it.status];
+        console.log(this.statusList)
         switch (it.status) {
           case 0:
             it.statusClass = "fa fa-exclamation-circle text-info";

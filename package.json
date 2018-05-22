@@ -65,6 +65,7 @@
         "vue-on-off": "^1.0.4",
         "vue-resource": "^1.5.0",
         "vue-router": "^3.0.1",
+        "vue-star-rating": "^1.6.0",
         "vuex": "^3.0.1"
     },
     "optionalDependencies": {
