@@ -3,8 +3,10 @@
         <h1 class="text-medium-font mb-2">История платежей</h1>
         <div>
             <router-link class="btn btn-primary mx-2"
+                         v-show="transactions && transactions.length"
                          :to="{ name: 'balance:withdrawal' }">Вывести средства</router-link>
             <router-link class="btn btn-primary mx-2"
+                         v-show="transactions && transactions.length"
                          :to="{ name: 'balance:replenishment' }">Пополнить баланс</router-link>
         </div>
     </div>

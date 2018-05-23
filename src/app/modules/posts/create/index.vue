@@ -58,6 +58,7 @@ export default {
                 images: this.post.images,
             }
         }
+
         this.getChannels();
         this.getPostTemplates();
     },
@@ -112,8 +113,7 @@ export default {
         },
         totalPrice() {
             return this.selectedChannels.reduce((sum, el) => {
-                return sum + el.timeFrame.reduce((ofSum, timeFrame) => ofSum + (timeFrame.selected ? timeFrame.priceWithCommission :
-                    0), 0);
+                return sum + el.timeFrame.reduce((ofSum, tf) => ofSum + (tf.selected ? tf.priceWithCommission : 0), 0);
             }, 0);
         }
     },
@@ -145,9 +145,9 @@ export default {
                     return selectedTf
                 })
             }
-            if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
-                this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
-            }
+            // if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
+            //     this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
+            // }
         },
         async getPostTemplates() {
             let { items } = await PostTemplateApi.list({ limit: 1000 })
