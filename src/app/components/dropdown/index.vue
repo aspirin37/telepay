@@ -1,17 +1,15 @@
 <template>
-    <div class="dropp"
+    <div class="v-dropdown"
          ref="wrap">
-        <div class="dropp__trigger"
+        <div class="v-dropdown__trigger"
              ref="trigger">
             <slot name="trigger"></slot>
         </div>
-        <transition name="dropp">
-            <div :class="classes"
-                 v-show="visible"
-                 ref="dd_body">
-                <div class="dropp__body">
-                    <slot name="body"></slot>
-                </div>
+        <transition name="v-dropdown">
+            <div class="v-dropdown__body"
+                 :class="classes"
+                 v-show="visible">
+                <slot name="body"></slot>
             </div>
         </transition>
     </div>
@@ -27,7 +25,7 @@ export default {
         dropPosition: {
             type: String,
             default: 'center'
-        }
+        },
     },
     data() {
         return {
@@ -37,7 +35,7 @@ export default {
     computed: {
         classes() {
             return [
-                `dropp__body_${this.dropPosition}`
+                `v-dropdown__body_${this.dropPosition}`
             ]
         }
     },
@@ -64,19 +62,19 @@ export default {
             this.visible = true;
         },
         hide() {
-            this.visible = false;
+            setTimeout(() => { this.visible = false }, 100);
         },
         toggle() {
             this.visible = !this.visible;
         },
         clickOutside(e) {
-            if (!this.$refs.trigger.contains(e.target)) this.hide();
+            if (!this.$refs.wrap.contains(e.target)) this.hide();
         }
     }
 }
 </script>
 <style lang="scss">
-.dropp {
+.v-dropdown {
     position: relative;
     height: 100%;
     &__trigger {
@@ -101,18 +99,18 @@ export default {
     }
 }
 
-.dropp-enter-active,
-.dropp-leave-active {
+.v-dropdown-enter-active,
+.v-dropdown-leave-active {
     transition: .2s ease-in-out;
 }
 
-.dropp-enter,
-.dropp-leave-to {
+.v-dropdown-enter,
+.v-dropdown-leave-to {
     opacity: 0;
     transform: translate(-50%, 20px);
 }
 
-.dropp__body {
+.v-dropdown__body {
     /* position: relative; */
     background-color: #fff;
     min-width: 200px;
@@ -120,7 +118,7 @@ export default {
     border-radius: 5px;
 }
 
-.dropp__body:before {
+.v-dropdown__body:before {
     content: '';
     position: absolute;
     top: -18px;

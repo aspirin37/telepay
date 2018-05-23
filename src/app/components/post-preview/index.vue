@@ -61,21 +61,20 @@ export default {
         formattedDate() {
             let date = this.post.publishAt;
             if (/\d{2}\.\d{2}\.\d{4}/.test(date)) {
-                date = date
-                    .split('.')
-                    .reverse()
-                    .join('-');
+                date = date.split('.').reverse().join('-');
             }
             let ftd = moment(date).format('MMMM DD');
             return ftd[0].toUpperCase() + ftd.slice(1);
         }
     },
+
     methods: {
         getImageSrc(src) {
             if (typeof src === 'string') return '/images/posts/' + src;
             return src && src.decoded;
         },
         replaceMarkdown(text) {
+            if (!text) return
             text = this.replaceBold(text);
             text = this.replaceItalic(text);
             text = this.replacePre(text);

@@ -8,16 +8,18 @@ export default {
     component: abstract,
     redirect: '/balance/transactions',
     children: [{
-        path: 'transactions',
-        name: 'balance:transactions',
-        component: Transactions,
-    }, {
-        path: 'withdrawal',
-        name: 'balance:withdrawal',
-        component: Withdrawal,
-    }, {
-        path: 'replenishment',
-        name: 'balance:replenishment',
-        component: Replenishment,
-    }],
+            path: 'transactions',
+            name: 'balance:transactions',
+            component: Transactions,
+        }, {
+            path: 'withdrawal',
+            name: 'balance:withdrawal',
+            component: Withdrawal,
+        },
+        //  {
+        //     path: 'replenishment',
+        //     name: 'balance:replenishment',
+        //     component: Replenishment,
+        // }
+    ],
 };

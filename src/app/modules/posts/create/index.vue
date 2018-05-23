@@ -95,9 +95,7 @@ export default {
                         return sum;
                     }
 
-                    let filteredTimeFrames = ch.timeFrame.filter(timeFrame => {
-                        return timeFrame.weekDay === moment(this.post.publishAt).weekday() + 1;
-                    });
+                    let filteredTimeFrames = ch.timeFrame.filter(tf => tf.weekDay === moment(this.post.publishAt).weekday() + 1);
 
                     if (filteredTimeFrames.length) {
                         let copy = clone(ch);
@@ -135,7 +133,7 @@ export default {
 
             this.channels = items.map(item => item.channelInfo);
             if (this.post.timeFrameId && this.post.timeFrameId.length) {
-                this.selectedChannels = this.channels.filter((ch) => {
+                let selectedChannels = this.channels.filter((ch) => {
                     let selectedTf = ch.timeFrame.find(tf => this.post.timeFrameId.includes(tf.timeFrameId));
                     if (selectedTf) {
                         ch.selected = true;
@@ -143,11 +141,9 @@ export default {
                     }
 
                     return selectedTf
-                })
+                });
+                this.$store.commit('CHANGE_STATE', { key: 'selectedChannels', value: selectedChannels })
             }
-            // if (this.selectedChannels && this.selectedChannels.length && !this.$route.params.date) {
-            //     this.post.publishAt = moment().weekday(this.selectedChannels[0].timeFrame[0].weekDay);
-            // }
         },
         async getPostTemplates() {
             let { items } = await PostTemplateApi.list({ limit: 1000 })
@@ -167,16 +163,15 @@ export default {
                 if (!template) return;
 
                 this.savedPostData = clone(this.postData);
-                this.postData = {
+                Vue.set(this, 'postData', {
                     text: template.text,
                     buttons: typeof template.buttons === 'string' ? JSON.parse(template.buttons) : template.buttons,
                     images: typeof template.images === 'string' ? JSON.parse(template.images) : template.images,
-                }
-                this.watchPostData();
+                });
             } else {
                 this.postData = clone(this.savedPostData);
-                this.watchPostData();
             }
+            this.watchPostData();
         },
         watchPostData() {
             if (this.postData) {
@@ -225,6 +220,7 @@ export default {
             PostApi.create(formData).then(() => {
                 this.dropSavedPost();
                 if (!isTemplate) this.dropSelectedChannels();
+                this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - this.totalPrice })
                 this.$router.push({ name: 'posts:list' });
             });
         },
