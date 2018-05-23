@@ -63,6 +63,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .search {
+  display: block;
   position: relative;
   margin-bottom: 50px;
 

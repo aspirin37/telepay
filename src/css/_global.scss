@@ -1,3 +1,4 @@
+
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -153,13 +154,13 @@ body {
 .notifications {
     position: relative;
     .notification-trigger {
-        top: 0;
-        right: -8px;
-        position: absolute;
+        // top: 0;
+        // right: -8px;
+        position: relative;
         text-decoration: none;
         .badge {
-            top: -10px;
-            right: 15px;
+            top: 3px;
+            right: 3px;
             font-size: 0.6em;
         }
     }
