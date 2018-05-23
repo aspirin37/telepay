@@ -63,8 +63,11 @@
                     {{channelStatuses[ch.status]}}
                 </div>
                 <div class="col-11 offset-1 my-2"
-                     v-if="ch.showOrders">
-                    <div class="flex-table"
+                     v-if="ch.showOrders && ch.postOrders && ch.postOrders.length">
+                    <post-list :posts="ch.postOrders"
+                               :placeholder="`Нет входящих постов`"
+                               :is-out="false"></post-list>
+                    <!-- <div class="flex-table"
                          v-if="ch.postOrders && ch.postOrders.length">
                         <div class="header-row">
                             <div class="col-1">Номер</div>
@@ -79,10 +82,9 @@
                              v-for="post in ch.postOrders"
                              :class="{'text-muted':post.publishAt <= now}">
                             <div class="col-1">{{post.humanReadableNumber}}</div>
-                            <div class="col h5">{{post.publishAt*1000 | parseDate(true)}}
-                                <br>{{timeFrameDates(post.timeFrame)}}</div>
+                            <div class="col h5">{{post.publishAt*1000 | parseDate}}</div>
                             <div class="col-3">
-                                <div class="form-row ">
+                                <div class="form-row">
                                     <div class="col-3">
                                         <avatar :src="'/images/channels/'+post.timeFrame.channel.telegramId+'/'+post.timeFrame.channel.photoId+'.jpg'"
                                                 :circle="true" />
@@ -132,7 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
