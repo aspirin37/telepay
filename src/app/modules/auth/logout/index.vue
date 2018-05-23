@@ -10,7 +10,7 @@ export default {
         clearFront() {
             WebStorage.clear();
             delete Vue.http.headers.common['X-API-TOKEN'];
-            this.$store.dispatch('DROP_STATE');
+            this.$store.commit('DROP_STATE');
             this.$router.push({ name: 'login' });
         }
     }

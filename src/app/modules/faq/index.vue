@@ -1,30 +1,62 @@
 <template src="./index.html"></template>
 
 <script>
-// import { SupportApi } from '@services/api';
-// import topics from '@utils/support-topics';
+import collapse from '@components/collapse';
+import faq from '@utils/faq-questions';
+import { clone } from '@utils/clone';
 
 export default Vue.extend({
+  components: {
+    collapse
+  },
   data() {
     return {
       tabSelected: 0,
-      questionSelected: 0,
-      commonQuestions: [
-        {
-          question: 'lorem1?',
-          answer:
-            'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique commodi nihil dolores rerum, voluptates possimus assumenda dicta eaque maiores eius neque, hic numquam minima accusantium. Repudiandae aliquam amet quis officia?!'
-        },
-        {
-          question: 'lorem2?',
-          answer:
-            'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique commodi nihil dolores rerum, voluptates possimus assumenda dicta eaque maiores eius neque, hic numquam minima accusantium. Repudiandae aliquam amet quis officia?!'
-        }
-      ]
+      searchInputValue: '',
+      filteredFaq: {},
+      faq
     };
   },
-  created() {},
-  watch: {},
+  watch: {
+    searchInputValue: function() {
+      this.filteredFaq = clone(this.faq);
+
+      if (this.searchInputValue) {
+        let filterQuestions = (arr, value) => {
+          return arr.filter(
+            it =>
+              it.answer.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) > -1 ||
+              it.question.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) > -1
+          );
+        };
+
+        this.filteredFaq.commonQuestions = filterQuestions(this.filteredFaq.commonQuestions, this.searchInputValue);
+        this.filteredFaq.adsQuestions = filterQuestions(this.filteredFaq.adsQuestions, this.searchInputValue);
+        this.filteredFaq.adminQuestions = filterQuestions(this.filteredFaq.adminQuestions, this.searchInputValue);
+
+        if (this.filteredFaq.commonQuestions.length) {
+          this.tabSelected = 0;
+          return;
+        }
+
+        if (this.filteredFaq.adsQuestions.length) {
+          this.tabSelected = 1;
+          return;
+        }
+
+        if (this.filteredFaq.adminQuestions.length) {
+          this.tabSelected = 2;
+          return;
+        }
+      } else {
+        this.tabSelected = 0;
+        this.filteredFaq = clone(this.faq);
+      }
+    }
+  },
+  created() {
+    this.filteredFaq = clone(this.faq);
+  },
   methods: {}
 });
 </script>
@@ -58,6 +90,10 @@ export default Vue.extend({
   margin-bottom: 11px;
 }
 
+.tabs {
+  margin-bottom: 50px;
+}
+
 .tab {
   width: 165px;
   margin-right: 13px;
@@ -72,8 +108,8 @@ export default Vue.extend({
   }
 }
 
-.faq {
-  &__question {
+.collapse-item {
+  &__header {
     padding-top: 21px;
     padding-bottom: 11px;
     border-bottom: 1px solid #e5e5e5;
@@ -81,14 +117,18 @@ export default Vue.extend({
     font-size: 16px;
   }
 
-  &__answer {
+  &__wrapper {
     overflow: hidden;
     color: #576077;
   }
 
-  &__answer-text {
+  &__text {
     padding-top: 22px;
   }
+}
+
+.faq-redirect {
+  margin-bottom: 50px;
 }
 </style>
 

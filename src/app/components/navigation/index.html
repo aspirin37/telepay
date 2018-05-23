@@ -27,8 +27,6 @@
                     <router-link :to="{name:'faq'}"
                                  v-if="!isAuthorized"
                                  class="nav-link">F.A.Q.</router-link>
-                    <!-- <a href="https://landing.telepay.io/faq.html"
-                       class="nav-link">F.A.Q.</a> -->
                 </li>
                 <li class="nav-item"
                     v-if="isAuthorized && !isAdvert">
@@ -126,9 +124,6 @@
                                                      :to="{ name: 'balance' }">Баланс</router-link>
                                     </drop-down-menu-item>
                                     <drop-down-menu-item>
-                                        <!-- <a href="https://landing.telepay.io/faq.html"
-                                           target="_blank"
-                                           class="user-menu__item">F.A.Q.</a> -->
                                         <router-link class="user-menu__item"
                                                      :to="{name:'faq'}">F.A.Q.</router-link>
                                     </drop-down-menu-item>

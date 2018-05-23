@@ -22,5 +22,31 @@ export default {
             }
         }
         setKey(state, key);
+    },
+    'DROP_STATE': function(state) {
+        let emptyState = {
+            user: { balance: {}, email: {} },
+            loading: false,
+            is_advert: false,
+            savedPost: false,
+            configs: {
+                date: {
+                    dateFormat: 'd.m.Y',
+                    defaultDate: moment().format('DD.MM.YYYY'),
+                    minDate: 'today'
+                },
+                time: {
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: 'H:i',
+                    time_24hr: true,
+                },
+            },
+        };
+
+        // нельзя просто так взять и сделать state = emptyState :(
+        for(let key in emptyState) {
+            state[key] = emptyState[key];
+        }
     }
 };

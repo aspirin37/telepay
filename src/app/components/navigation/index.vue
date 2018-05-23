@@ -25,9 +25,9 @@ export default Vue.extend({
     created() {
         this.getNotificationList();
     },
-    destroyed() {
-        clearTimeout(this.updateTimeout);
-    },
+    // destroyed() {
+    //     clearTimeout(this.updateTimeout);
+    // },
 
     computed: {
         isAdvert: {
@@ -41,16 +41,13 @@ export default Vue.extend({
             }
         },
         ...mapGetters({
-            hasUser: 'hasUser',
+            isAuthorized: 'isAuthorized',
             getUsername: 'getUsername',
             balance: 'getUserBalance'
         }),
         logoVisible() {
             return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
         },
-        isAuthorized() {
-            return this.hasUser && WebStorage.get('auth_key');
-        }
     },
     methods: {
         toggleDD() {
@@ -59,7 +56,7 @@ export default Vue.extend({
         },
         blurHandler() {
             this.closeDDTimeout = setTimeout(() => {
-                this.showDD = false
+                this.showDD = false;
             }, 200);
         },
         stopBlur() {
@@ -67,9 +64,11 @@ export default Vue.extend({
         },
         async getNotificationList() {
             clearTimeout(this.updateTimeout);
-            let { items, total } = await NotificationApi.list();
-            this.notifications = items;
-            this.notificationsCount = total;
+            if (this.user && this.user.user_id) {
+                let { items, total } = await NotificationApi.list();
+                this.notifications = items;
+                this.notificationsCount = total;
+            }
             this.updateTimeout = setTimeout(this.getNotificationList, 1e4);
         },
         async setIsRead(notificationId) {
