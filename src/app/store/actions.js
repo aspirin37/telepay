@@ -1,48 +1,31 @@
 import WebStorage from '@utils/storage';
 export default {
-    'SAVE_POST': function({ state }, payload) {
+    'SAVE_POST': function({ commit }, payload) {
         WebStorage.set('savedPost', payload, true);
-        state.savedPost = payload;
+        commit('CHANGE_STATE', { key: 'savedPost', value: payload });
     },
-    'DROP_SAVED_POST': function({ state }) {
+    'DROP_SAVED_POST': function({ commit }) {
         WebStorage.rm('savedPost', true);
-        state.savedPost = {
-            text: 'Текст...',
-            buttons: [],
-            images: [],
-            timeFrameId: [],
-            postTemplateId: '',
-            channel: 'Название канала',
-            publishAt: null
-        };
+        commit('CHANGE_STATE', {
+            key: 'savedPost',
+            value: {
+                text: 'Текст...',
+                buttons: [],
+                images: [],
+                timeFrameId: [],
+                postTemplateId: '',
+                channel: 'Название канала',
+                publishAt: null
+            }
+        });
     },
-    'SAVE_SELECTED_CHANNELS': function({ state }, payload) {
+    'SAVE_SELECTED_CHANNELS': function({ commit }, payload) {
         WebStorage.set('selectedChannels', payload, true);
-        state.selectedChannels = payload;
+        commit('CHANGE_STATE', { key: 'selectedChannels', value: payload });
     },
-    'DROP_SELECTED_CHANNELS': function({ state }) {
+    'DROP_SELECTED_CHANNELS': function({ commit }) {
         WebStorage.rm('selectedChannels', true);
-        state.selectedChannels = [];
+        commit('CHANGE_STATE', { key: 'selectedChannels', value: [] });
     },
-    'DROP_STATE': function({ state }) {
-        state = {
-            user: { balance: {}, email: {} },
-            loading: false,
-            is_advert: false,
-            savedPost: false,
-            configs: {
-                date: {
-                    dateFormat: 'd.m.Y',
-                    defaultDate: moment().format('DD.MM.YYYY'),
-                    minDate: 'today'
-                },
-                time: {
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: 'H:i',
-                    time_24hr: true,
-                },
-            },
-        };
-    }
+
 };

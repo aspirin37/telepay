@@ -2340,8 +2340,8 @@ elliptic@^6.0.0:
     minimalistic-crypto-utils "^1.0.0"
 
 emoji-mart-vue@^2.5.3:
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/emoji-mart-vue/-/emoji-mart-vue-2.5.3.tgz#961e23e835478e523590f985dd72e8b4dd1e8b62"
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue/-/emoji-mart-vue-2.6.3.tgz#4fadc9bce355380aa42727acfc879040cc782404"
 
 emojis-list@^2.0.0:
   version "2.1.0"

@@ -30,11 +30,14 @@
                          slot="body">
                         <Picker :emoji-size="16"
                                 :i18n="i18n"
-                                @click="addEmoji" />
+                                :show-preview="false"
+                                :show-search="false"
+                                :show-skinTones="false"
+                                @select="addEmoji" />
                     </div>
                 </dropdown>
             </div>
-            <small class="text-muted">{{text.length}}/{{maxLength}}</small>
+            <small class="text-muted">{{(text&&text.length)||0}}/{{maxLength}}</small>
         </div>
         <div v-if="images && images.length"
              class="file-previews">
@@ -160,6 +163,7 @@ export default {
         },
 
         addEmoji(emoji, e) {
+            console.log(emoji, e);
             let selStart = this.$refs.text.selectionStart;
             console.log(selStart);
             if (selStart !== this.text.length) {

@@ -23,11 +23,13 @@ export default {
             channel: {
                 title: 'Заголовок вашего канала',
                 description: `Здесь будет отображено описание вашего канала.
-          Введите ссылку или юзернейм канала в поле ниже и мы автоматически заполним эти поля в соответствии с данными вашего канала.
-          После создания наш бот будет автоматически обновлять данные вашего канала`,
+          Введите ссылку или юзернейм канала в поле ниже и мы автоматически получим информацию о канале.
+          После добавления канала в сервисе наш бот будет автоматически обновлять данные вашего канала`,
                 telegramId: 'default',
-                photod: 'default',
-                isAutopost: false
+                photoId: 'default',
+                isAutopost: false,
+                isBotApproved: false,
+                blackList: []
             },
             usernameQuery: '',
             categories: [],
@@ -66,11 +68,9 @@ export default {
     },
     methods: {
         async getCategories() {
-            let {
-                items,
-                total
-            } = await CatalogApi.list();
+            let { items, total } = await CatalogApi.list();
             this.categories = items;
+            this.channel.blackList = this.channel.blackList.concat(items.filter(c => c.name === '18+' || c.name === 'Азартные игры'))
         },
         connectWebsocket() {
             // TODO вынести сокет в миксин
@@ -124,11 +124,28 @@ export default {
                 }
                 if (res.content && !res.content.error) {
                     self.searchError = false;
-                    self.channel = res.content;
+                    self.channel.title = res.content.title;
+                    self.channel.description = res.content.description;
+                    self.channel.telegramId = res.content.telegramId;
+                    self.channel.photoId = res.content.photoId;
+                    self.channel.isBotApproved = res.content.isBotApproved;
+                    self.channel.subscriberCount = res.content.subscriberCount;
                 } else {
                     self.searchError = true;
+                    self.channel = {
+                        title: 'Заголовок вашего канала',
+                        description: `Здесь будет отображено описание вашего канала.
+          Введите ссылку или юзернейм канала в поле ниже и мы автоматически получим информацию о канале.
+          После добавления канала в сервисе наш бот будет автоматически обновлять данные вашего канала`,
+                        telegramId: 'default',
+                        photoId: 'default',
+                        isBotApproved: false,
+                        isAutopost: self.channel.isAutopost,
+                        blackList: self.channel.blackList
+                    }
                 }
                 self.isLoading = false;
+
             };
         },
 
@@ -151,27 +168,27 @@ export default {
             }
         },
 
-        imageErrorHandler(channel) {
-            if (channel.photoId !== 'default' && channel.telegramId !== 'default') {
-                let {
-                    photoId,
-                    id
-                } = channel;
-                this.savedImageData = {
-                    photoId,
-                    id
-                };
-                channel.photoId = 'loading';
-                channel.telegramId = 'loading';
-                let int = setInterval(() => {
-                    channel.photoId = this.savedImageData.photoId;
-                    channel.telegramId = this.savedImageData.id;
-                }, 1000);
-                setTimeout(() => {
-                    clearInterval(int)
-                }, 5000)
-            }
-        },
+        // imageErrorHandler(channel) {
+        // if (channel.photoId !== 'default' && channel.telegramId !== 'default') {
+        //     let {
+        //         photoId,
+        //         id
+        //     } = channel;
+        //     this.savedImageData = {
+        //         photoId,
+        //         id
+        //     };
+        //     channel.photoId = 'loader';
+        //     channel.telegramId = 'loader';
+        //     let int = setInterval(() => {
+        //         channel.photoId = this.savedImageData.photoId;
+        //         channel.telegramId = this.savedImageData.id;
+        //     }, 1000);
+        //     setTimeout(() => {
+        //         clearInterval(int)
+        //     }, 5000)
+        // }
+        // },
         addChannelHelp() {
             swal({
                 width: '60%',
@@ -182,12 +199,14 @@ export default {
         },
         add() {
             let copy = clone(this.channel);
-            let categoryId = copy.category && copy.category.categoryId;
+            copy.categoryId = copy.category && copy.category.categoryId;
+            console.log(copy);
+            if (copy.blackList) copy.blackListIds = copy.blackList.map(c => c.categoryId);
             delete copy.category;
+            delete copy.blackList;
 
             ChannelApi.create({
                 username: this.parsedUsernameQuery.slice(1),
-                categoryId,
                 ...copy
             }).then(res => {
                 this.$router.push({

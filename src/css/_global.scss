@@ -96,6 +96,9 @@ body {
         border: 2px solid theme-color('text-white');
         border-radius: 0.25rem;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        &:focus {
+            outline: none;
+        }
     }
     &__dropdown {
         position: absolute;
@@ -110,6 +113,7 @@ body {
             border-bottom: 1px solid #f5f5f5;
             font-size: 14px;
             cursor: pointer;
+            user-select: none;
             &:hover,
             &_hovered,
             &_active {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <slot name="trigger">
-            <button class="btn btn-primary"></button>
+            <button class="btn btn-primary">{{triggerText}}</button>
         </slot>
     </div>
 </template>
@@ -10,7 +10,11 @@ export default Vue.extend({
     data() {
         return {};
     },
-    props: {},
+    props: {
+        triggerText: {
+
+        }
+    },
     created() {},
     methods: {}
 });
