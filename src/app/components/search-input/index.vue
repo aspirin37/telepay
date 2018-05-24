@@ -4,16 +4,8 @@
         <span class="search-input__cleaner"
               v-if="after"
               @click="clearInput">
-            <svg class="search-input__cleaner-icon"
-                 v-if="cleanerVisible && !multiple"
-                 x="0"
-                 y="0"
-                 viewBox="0 0 21.9 21.9">
-                <path d="M14.1,11.3c-0.2-0.2-0.2-0.5,0-0.7l7.5-7.5c0.2-0.2,0.3-0.5,0.3-0.7s-0.1-0.5-0.3-0.7l-1.4-1.4C20,0.1,19.7,0,19.5,0
-        c-0.3,0-0.5,0.1-0.7,0.3l-7.5,7.5c-0.2,0.2-0.5,0.2-0.7,0L3.1,0.3C2.9,0.1,2.6,0,2.4,0S1.9,0.1,1.7,0.3L0.3,1.7C0.1,1.9,0,2.2,0,2.4 s0.1,0.5,0.3,0.7l7.5,7.5c0.2,0.2,0.2,0.5,0,0.7l-7.5,7.5C0.1,19,0,19.3,0,19.5s0.1,0.5,0.3,0.7l1.4,1.4c0.2,0.2,0.5,0.3,0.7,0.3
-        s0.5-0.1,0.7-0.3l7.5-7.5c0.2-0.2,0.5-0.2,0.7,0l7.5,7.5c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3l1.4-1.4c0.2-0.2,0.3-0.5,0.3-0.7
-        s-0.1-0.5-0.3-0.7L14.1,11.3z" />
-            </svg>
+            <span class="search-input__cleaner-icon"
+                  v-if="cleanerVisible && !multiple">&times;</span>
             <i v-if="!cleanerVisible || multiple"
                class="fa fa-chevron-down"
                aria-hidden="true"></i>
@@ -38,12 +30,12 @@
             <div class="search-input__dropdown"
                  v-show="dropdownVisible"
                  ref="dropdown">
-                <div v-for="(option, i) in getOptions"
-                     :key="option.id"
+                <div v-for="(option, i) in innerOptions"
+                     :key="i"
                      class="search-input__dropdown-item"
                      @click="select(option, i)"
                      :class="[getActive(option), getHovered(i)]">
-                    {{ option.name }}
+                    <span class="search-input__option-name">{{ option.name }}</span>
                     <div class="float-right"
                          v-if="multiple">
                         <norm-checkbox v-model="option.selected" />
@@ -105,13 +97,17 @@ export default {
             dropdownVisible: false,
             cursor: -1,
             filteredOptions: [],
-            numeredOptions: [],
         };
     },
     created() {
-        this.getNumered(this.options);
-        if (this.multiple && this.value && this.value.length) {
-            this.value.forEach(opt => { if (!opt.selected) Vue.set(opt, 'selected', true) })
+
+        if (this.multiple) {
+            if (this.value && this.value.length) {
+                this.value.forEach(opt => { if (!opt.selected) Vue.set(opt, 'selected', true) })
+            }
+            if (this.options && this.options.length) {
+                this.options.forEach(opt => { if (opt.selected === undefined) Vue.set(opt, 'selected', false) })
+            }
         }
     },
     mounted() {
@@ -121,25 +117,17 @@ export default {
         window.removeEventListener('click', this.inputBlur);
     },
     watch: {
-        options(n) {
-            this.getNumered(n);
-        },
-        getOptions(n) {
-            let entry = 0;
-            n.forEach((prop, i) => {
-                if (prop.id === this.cursor) {
-                    return (entry = i + 1);
-                }
-            });
-            this.cursor = entry;
+        innerOptions(val) {
+            let entry = val[this.cursor];
+            if (!entry) this.cursor = 0;
         },
         searchString(n) {
             this.$emit('input', n);
         }
     },
     computed: {
-        getOptions() {
-            return this.searchString ? this.filteredOptions : this.numeredOptions;
+        innerOptions() {
+            return this.searchString ? this.filteredOptions : this.options;
         },
         showNoDataOption() {
             return !this.filteredOptions.length && this.searchString.length > 0;
@@ -148,7 +136,7 @@ export default {
             return this.searchString !== '' || this.selected;
         },
         selectedItems() {
-            return (this.searchString ? this.filteredOptions : this.numeredOptions).filter(o => o.selected)
+            return this.innerOptions.filter(o => o.selected)
         },
         parsedMultiplePlaceholder() {
             return this.multiplePlaceholder(this.selectedItems.length)
@@ -171,18 +159,17 @@ export default {
             if (!this.multiple) {
                 this.$emit('input', item);
                 this.selected = item;
-                this.cursor = index;
                 this.hideDropdown();
             } else {
                 Vue.set(item, 'selected', !item.selected)
                 setTimeout(() => this.$emit('input', this.selectedItems));
-                this.cursor = index - 1;
             }
+            this.cursor = index;
             this.stopSearching();
             this.$emit('select', item);
         },
         keyBoardSelect() {
-            this.select(this.getOptions[this.cursor], this.cursor);
+            this.select(this.innerOptions[this.cursor], this.cursor);
         },
         clearInput() {
             if (!this.multiple) {
@@ -222,7 +209,7 @@ export default {
         },
         scrollDropdown(e) {
             this.$nextTick(() => {
-                if (e.keyCode === 40 && this.cursor < this.getOptions.length - 1) this.scrollDown(this.$refs.dropdown);
+                if (e.keyCode === 40 && this.cursor < this.innerOptions.length - 1) this.scrollDown(this.$refs.dropdown);
                 else if (e.keyCode === 38 && this.cursor >= 0) this.scrollUp(this.$refs.dropdown);
             });
         },
@@ -241,10 +228,77 @@ export default {
         focusOnInput() {
             this.$refs.searchInput.focus();
         },
-        getNumered(options) {
-            this.numeredOptions = options.map((item, i) => ({ ...item, id: i }));
-        }
     },
 
 };
 </script>
+<style lang="scss">
+.search-input {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0;
+    &__cleaner {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 50px;
+        cursor: pointer;
+        z-index: 20;
+        right: 0;
+        color: #000;
+        background-color: #DEE2EE;
+        border-radius: 0 3px 3px 0;
+        overflow: hidden;
+        &-icon {
+            font-size: 2.6em;
+        }
+    }
+    &__option-name {
+        width: 90%;
+        float: left;
+        display: block;
+    }
+    &__value {
+        background-color: #fff;
+        text-align: left;
+        display: block;
+        outline: none;
+        width: 100%;
+        font-size: 15px;
+        line-height: 20px;
+        padding: 10px;
+        color: #576077;
+        border: 2px solid #DEE2EE;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        &:focus {
+            outline: none;
+        }
+    }
+    &__dropdown {
+        position: absolute;
+        overflow-y: auto;
+        width: 100%;
+        left: 0;
+        z-index: 10;
+        max-height: 200px;
+        &-item {
+            overflow: auto;
+            background: #fff;
+            padding: 10px;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+            &:hover,
+            &_hovered,
+            &_active {
+                background: #f5f5f5;
+                border-bottom: 1px solid #fff;
+            }
+        }
+    }
+}
+</style>
