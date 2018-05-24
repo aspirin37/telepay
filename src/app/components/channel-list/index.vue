@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-9 pl-4">
                                 <router-link v-if="ch&&user"
-                                             :to="{name:ch.userId === user.userId?'channels:update':'channels:show',params:{id:ch.channelId}}">
+                                             :to="{name:ch.userId === user.userId?'channels:update':'channels:show',params:{username:ch.username}}">
                                     <b>{{ch.title}}</b>
                                 </router-link>
                                 <br>{{ch.category || 'Без категории'}}</div>

@@ -23,7 +23,7 @@
                     <div class="col-9 pl-4 d-flex align-items-center">
                         <router-link :to="{
                             name:post.timeFrame.channel.userId === user.userId?'channels:update':'channels:show',
-                            params:{id:post.timeFrame.channel.channelId}
+                            params:{username:post.timeFrame.channel.username}
                         }">
                             <b>{{post.timeFrame.channel.title}}</b>
                         </router-link>

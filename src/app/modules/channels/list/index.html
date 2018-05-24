@@ -42,14 +42,14 @@
                                     :circle="true" />
                         </div>
                         <div class="col-9">
-                            <router-link :to="{name:'channels:update',params:{id:ch.channelId}}">
+                            <router-link :to="{name:'channels:update',params:{username:ch.username}}">
                                 <b>{{ch.title}}</b>
                             </router-link>
                             <br>{{ch.category || 'Без категории'}}
                             <br>
                             <router-link v-if="ch.userId === user.userId && (!ch.timeFrame || !ch.timeFrame.length)"
                                          class="text-danger"
-                                         :to="{name:'channels:update',params:{id:ch.channelId}}">Добавьте рекламные места</router-link>
+                                         :to="{name:'channels:update',params:{username:ch.username}}">Добавьте рекламные места</router-link>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                                     <div class="col-9 pl-4">
                                         <router-link :to="{
                                           name:post.timeFrame.channel.userId === user.userId?'channels:update':'channels:show',
-                                          params:{id:post.timeFrame.channel.channelId}
+                                          params:{username:post.timeFrame.channel.username}
                                       }">
                                             <b>{{post.timeFrame.channel.title}}</b>
                                         </router-link>

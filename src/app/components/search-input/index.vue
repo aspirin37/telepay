@@ -33,12 +33,12 @@
                 <div v-for="(option, i) in innerOptions"
                      :key="i"
                      class="search-input__dropdown-item"
-                     @click="select(option, i)"
+                     @click="select(option, i,$event)"
                      :class="[getActive(option), getHovered(i)]">
                     <span class="search-input__option-name">{{ option.name }}</span>
                     <div class="float-right"
                          v-if="multiple">
-                        <norm-checkbox v-model="option.selected" />
+                        <norm-checkbox v-model="option.selected"/>
                     </div>
                 </div>
                 <div v-if="showNoDataOption"
@@ -100,11 +100,8 @@ export default {
         };
     },
     created() {
-
+        this.watchValue(this.value)
         if (this.multiple) {
-            if (this.value && this.value.length) {
-                this.value.forEach(opt => { if (!opt.selected) Vue.set(opt, 'selected', true) })
-            }
             if (this.options && this.options.length) {
                 this.options.forEach(opt => { if (opt.selected === undefined) Vue.set(opt, 'selected', false) })
             }
@@ -117,6 +114,9 @@ export default {
         window.removeEventListener('click', this.inputBlur);
     },
     watch: {
+        value(val) {
+            this.watchValue(val)
+        },
         innerOptions(val) {
             let entry = val[this.cursor];
             if (!entry) this.cursor = 0;
@@ -143,6 +143,15 @@ export default {
         }
     },
     methods: {
+        watchValue(val) {
+            if (this.multiple) {
+                if (val && val.length) {
+                    val.forEach(opt => { if (!opt.selected) Vue.set(opt, 'selected', true) })
+                }
+            } else {
+                this.selected = val
+            }
+        },
         search(e) {
             if (this.selected) this.selected = null;
             this.searchAction(this.searchString).then(res => {
@@ -155,7 +164,8 @@ export default {
                 this.hideDropdown();
             }
         },
-        select(item, index) {
+        select(item, index,event) {
+            if(event.target.id && event.target.id.startsWith('checkbox')) return;
             if (!this.multiple) {
                 this.$emit('input', item);
                 this.selected = item;
@@ -166,6 +176,7 @@ export default {
             }
             this.cursor = index;
             this.stopSearching();
+            console.log('select emitted')
             this.$emit('select', item);
         },
         keyBoardSelect() {

@@ -14,9 +14,11 @@ export default {
         List,
         Create,
         Update,
-        'channels:'
+        'channels:',
+        false,
+        'username'
     ), {
-        path: '/show/:id',
+        path: 'show/:username',
         name: 'channels:show',
         component: Show,
     }],

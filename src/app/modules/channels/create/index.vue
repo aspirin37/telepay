@@ -1,15 +1,10 @@
 <template src="./index.html"></template>
 <script>
-import {
-    ChannelApi,
-    CatalogApi
-} from '@services/api';
+import { ChannelApi, CatalogApi } from '@services/api';
 import searchInput from '@components/search-input';
 import avatar from '@components/avatar';
 import WebStorage from '@utils/storage';
-import {
-    clone
-} from '@utils/clone';
+import { clone } from '@utils/clone';
 import onOff from 'vue-on-off';
 export default {
     components: {
@@ -200,21 +195,17 @@ export default {
         add() {
             let copy = clone(this.channel);
             copy.categoryId = copy.category && copy.category.categoryId;
-            console.log(copy);
             if (copy.blackList) copy.blackListIds = copy.blackList.map(c => c.categoryId);
             delete copy.category;
             delete copy.blackList;
 
+            let username = this.parsedUsernameQuery.slice(1);
+
             ChannelApi.create({
-                username: this.parsedUsernameQuery.slice(1),
+                username,
                 ...copy
             }).then(res => {
-                this.$router.push({
-                    name: 'channels:update',
-                    params: {
-                        channelId: res.channel_id
-                    }
-                });
+                this.$router.push({ name: 'channels:update', params: { username } });
             });
         }
     }
