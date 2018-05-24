@@ -185,7 +185,14 @@ export default {
                 this.post.buttons = buttons;
             }
         },
-
+        async openPaymentModal() {
+            await swal({
+                title: `К оплате - ${this.$options.filters.centToRub(this.totalPrice)}`,
+                confirmButtonText: 'Перейти к выбору способа оплаты',
+                showCancelButton: false,
+            });
+            // createPost(false)
+        },
         createPost(isTemplate) {
             let timeArr = this.postTime.split(':');
             if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0)) {

@@ -24,55 +24,55 @@ const PATHS = {
 
 const common = function(env) {
     return merge([{
-            entry: {
-                'bundle': PATHS.source + '/app/main.js',
+        entry: {
+            'bundle': PATHS.source + '/app/main.js',
+        },
+        mode: env.NODE_ENV,
+        output: {
+            path: PATHS.build,
+            publicPath: '/',
+            filename: '[name].[hash].js',
+        },
+        resolve: {
+            extensions: ['.js', '.vue'],
+            modules: ['node_modules'],
+            alias: {
+                '@assets': path.resolve(PATHS.source, 'assets'),
+                '@modules': path.resolve(PATHS.source, 'app/modules'),
+                '@components': path.resolve(PATHS.source, 'app/components'),
+                '@services': path.resolve(PATHS.source, 'app/services'),
+                '@store': path.resolve(PATHS.source, 'app/store'),
+                '@routes': path.resolve(PATHS.source, 'app/routes'),
+                '@utils': path.resolve(PATHS.source, 'app/utils'),
+                '@mixins': path.resolve(PATHS.source, 'app/mixins'),
+                '@filters': path.resolve(PATHS.source, 'app/filters'),
+                'vue$': 'vue/dist/vue.esm.js',
             },
-            mode: env.NODE_ENV,
-            output: {
-                path: PATHS.build,
-                publicPath: '/',
-                filename: '[name].[hash].js',
-            },
-            resolve: {
-                extensions: ['.js', '.vue'],
-                modules: ['node_modules'],
-                alias: {
-                    '@assets': path.resolve(PATHS.source, 'assets'),
-                    '@modules': path.resolve(PATHS.source, 'app/modules'),
-                    '@components': path.resolve(PATHS.source, 'app/components'),
-                    '@services': path.resolve(PATHS.source, 'app/services'),
-                    '@store': path.resolve(PATHS.source, 'app/store'),
-                    '@routes': path.resolve(PATHS.source, 'app/routes'),
-                    '@utils': path.resolve(PATHS.source, 'app/utils'),
-                    '@mixins': path.resolve(PATHS.source, 'app/mixins'),
-                    '@filters': path.resolve(PATHS.source, 'app/filters'),
-                    'vue$': 'vue/dist/vue.esm.js',
-                },
-            },
-            plugins: [
+        },
+        plugins: [
             // new BundleAnalyzerPlugin({ analyzerPort: 5541 }),
             // new webpack.optimize.ModuleConcatenationPlugin(),
             new HtmlWebpackPlugin({
-                    inject: 'body',
-                    template: PATHS.source + '/app/index.html',
-                    // favicon: PATHS.source + '/assets/gb_fav.ico',
-                    minify: {
-                        caseSensitive: true,
-                        collapseWhitespace: true,
-                    },
-                }),
+                inject: 'body',
+                template: PATHS.source + '/app/index.html',
+                // favicon: PATHS.source + '/assets/gb_fav.ico',
+                minify: {
+                    caseSensitive: true,
+                    collapseWhitespace: true,
+                },
+            }),
             new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ru)$/), // load only en/ru locale
             new webpack.DefinePlugin({
-                    'process.env': {
-                        url: '\'' + env.url + '\'',
-                        NODE_ENV: '\'' + env.NODE_ENV + '\'',
-                    },
-                }),
+                'process.env': {
+                    url: '\'' + env.url + '\'',
+                    NODE_ENV: '\'' + env.NODE_ENV + '\'',
+                },
+            }),
             new webpack.ProvidePlugin({
-                    Vue: ['vue/dist/vue.esm.js', 'default'], // WARNING!!! DO NOT DELETE, Vue needs to be imported in almost every component/module
-                    swal: 'sweetalert2',
-                    moment: 'moment',
-                }),
+                Vue: ['vue/dist/vue.esm.js', 'default'], // WARNING!!! DO NOT DELETE, Vue needs to be imported in almost every component/module
+                swal: path.resolve(PATHS.source, 'app/components/swal'),
+                moment: 'moment',
+            }),
             new CleanWebpackPlugin(['build']),
         ],
     },
@@ -85,7 +85,7 @@ const common = function(env) {
 };
 
 module.exports = function(env) {
-    if (env.NODE_ENV === 'production') {
+    if(env.NODE_ENV === 'production') {
         return merge([
             common(env),
             extractCSS(),
@@ -93,7 +93,7 @@ module.exports = function(env) {
             extractAssets(PATHS),
         ]);
     }
-    if (env.NODE_ENV === 'development') {
+    if(env.NODE_ENV === 'development') {
         return merge([
             common(env),
             devserver(PATHS),

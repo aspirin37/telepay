@@ -78,7 +78,7 @@
                             @click.prevent="createPost(true)">
                         Сохранить пост</button>
                     <button class="btn btn-success"
-                            @click.prevent="createPost(false)"
+                            @click.prevent="openPaymentModal"
                             :disabled="!selectedChannels.length">Оплатить размещение</button>
                 </div>
             </div>
