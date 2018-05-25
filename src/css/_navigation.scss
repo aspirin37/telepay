@@ -97,6 +97,7 @@
                 height: auto;
                 padding-left: 0;
                 position: static;
+                background-color: transparent;
             }   
         }
 
@@ -274,9 +275,17 @@
     }
     &.is-advert {
         background: #853d5e;
-        background: -moz-linear-gradient(left, #853d5e 0%, #4a3172 100%);
-        background: -webkit-linear-gradient(left, #853d5e 0%, #4a3172 100%);
-        background: linear-gradient(to right, #853d5e 0%, #4a3172 100%);
+
+        svg {
+            fill: #fff;
+        }
+
+        @include media-breakpoint-up(lg) {
+            background: -moz-linear-gradient(left, #853d5e 0%, #4a3172 100%);
+            background: -webkit-linear-gradient(left, #853d5e 0%, #4a3172 100%);
+            background: linear-gradient(to right, #853d5e 0%, #4a3172 100%);
+        }
+
         background-position: center;
         background-size: cover;
         .logo .cls-1 {
@@ -288,6 +297,18 @@
             color: #fff;
         }
     }
+
+    .is-advert {
+        background: #853d5e;
+
+        svg {
+            fill: #fff;
+        }
+
+        @include media-breakpoint-up(lg) {
+            background: transparent;
+        }
+    }
     .notifications .dropdown-menu {
         max-height: 200px;
         overflow-y: auto;
@@ -297,7 +318,9 @@
         position: absolute;
         right: 0;
         top: 0;
-    } 
+    }
+
+
 }
 
 .footer-nav {

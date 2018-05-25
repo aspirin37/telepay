@@ -12,11 +12,11 @@
     <div id="app"
          class="app"
          :class="{'auth':$route.fullPath.includes('auth')}">
+        <loader v-model="showSpinner"
+                size="xl"
+                :fixed="true"></loader>
         <div class="app-wrapper">
             <notifystr></notifystr>
-            <loader v-model="showSpinner"
-                    size="xl"
-                    :fixed="true"></loader>
             <navigation></navigation>
             <div class="container-wrap">
                 <router-view></router-view>

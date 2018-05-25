@@ -2,7 +2,8 @@
     <nav class="header fixed-top"
          :class="{ 'navbar_main': !logoVisible, 'is-advert':isAdvert }">
         <div class="container header__container">
-            <ul class="nav nav--top">
+            <ul class="nav nav--top"
+                :class="{'is-advert':isAdvert }">
                 <li class="nav-item nav-item--user-mobile">
                     <div class="user-field text-light">
                         <span>{{ getUsername ? getUsername[0] : "U" }}</span>
@@ -21,9 +22,7 @@
                 <li class="nav-item advert-switch order-last order-lg-first d-lg-flex justify-content-between"
                     v-if="isAuthorized">
                     <span @click.self="isAdvert=!isAdvert"
-                          class="title d-block d-lg-none"> {{isAdvert?'Реклама':'Владелец'}} </span>
-                    <span @click.self="isAdvert=!isAdvert"
-                          class="title d-none d-lg-block"> {{isAdvert?'Рекламодатель':'Владелец канала'}} </span>
+                          class="title"> {{ isAdvert? 'Реклама' : 'Владелец' }} </span>
                     <on-off v-model="isAdvert"></on-off>
                 </li>
                 <li class="nav-item nav-item--aside">

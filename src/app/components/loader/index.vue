@@ -1,5 +1,5 @@
 <template>
-  <div :class="['spinner spinner-gritcode',spinnerSize,{'spinner-fixed':fixed}]" v-show="active||locked">
+  <div :class="['spinner spinner-gritcode', spinnerSize, { 'spinner-fixed':fixed, 'mobile-menu-spinner': isMenuOpened }]" v-show="active||locked">
     <div class="spinner-wrapper">
       <div class="spinner-circle"></div>
       <div class="spinner-text">{{text}}</div>
@@ -8,6 +8,8 @@
 </template>
 <script>
 const MIN_WAIT = 500; // in ms
+
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'spinner',
@@ -41,7 +43,10 @@ export default {
   computed: {
     spinnerSize() {
       return 'spinner-' + (this.size ? this.size : 'sm');
-    }
+    },
+    ...mapGetters({
+      isMenuOpened: 'getMenuState'
+    })
   },
   watch: {
     active(val, old) {
@@ -131,6 +136,10 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.mobile-menu-spinner {
+  transform: translateX(0);
 }
 
 .spinner-gritcode {

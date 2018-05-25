@@ -51,6 +51,7 @@ export default Vue.extend({
   },
   created() {
     this.getNotificationList();
+    this.addWindowResizeHandler();
   },
   computed: {
     isAdvert: {
@@ -73,8 +74,16 @@ export default Vue.extend({
     }
   },
   methods: {
+    addWindowResizeHandler() {
+      window.addEventListener('resize', () => {
+        this.isMenuOpened = false;
+        this.$store.commit('TOGGLE_MENU', false);
+        document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
+      });
+    },
     toggleMenu() {
       this.isMenuOpened = !this.isMenuOpened;
+      this.$store.commit('TOGGLE_MENU', this.isMenuOpened);
       document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
     },
     toggleDD() {
