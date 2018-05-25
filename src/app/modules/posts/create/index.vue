@@ -219,8 +219,10 @@ export default {
 
             PostApi.create(formData).then(() => {
                 this.dropSavedPost();
-                if (!isTemplate) this.dropSelectedChannels();
-                this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - this.totalPrice })
+                if (!isTemplate) {
+                    this.dropSelectedChannels();
+                    this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - this.totalPrice })
+                }
                 this.$router.push({ name: 'posts:list' });
             });
         },

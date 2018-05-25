@@ -4,51 +4,55 @@
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Логин</label>
         <input type="email"
-            placeholder="example@email.com"
-            required
-            class="form-control input-auth"
-            v-model="user.login">
+               placeholder="example@email.com"
+               required
+               tabindex="1"
+               class="form-control input-auth"
+               v-model="user.login">
     </div>
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Пароль</label>
         <input type="password"
-            placeholder="Введите пароль"
-            required
-            class="form-control input-auth"
-            v-model="user.password">
+               placeholder="Введите пароль"
+               required
+               tabindex="2"
+               class="form-control input-auth"
+               v-model="user.password">
     </div>
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Подтверждение пароля</label>
         <input type="password"
-            placeholder="Подтвердите пароль"
-            required
-            class="form-control input-auth"
-            v-model="passCheck">
+               placeholder="Подтвердите пароль"
+               required
+               tabindex="3"
+               class="form-control input-auth"
+               v-model="passCheck">
         <div class="help-text text-left text-danger"
-            v-if="validations.passwordMatch">
+             v-if="validations.passwordMatch">
             Пароли не совпадают!
         </div>
     </div>
     <div class="form-group text-white text-left d-flex align-items-center">
-        <norm-checkbox v-model="checkedTerms" />
+        <norm-checkbox v-model="checkedTerms"
+                       tabindex="4" />
         <span class="ml-2 pointer"
-            :class="{'text-danger':!checkedTerms && validations.checkedTerms}"
-            @click="checkedTerms = !checkedTerms">{{!checkedTerms && validations.checkedTerms?'Вам необходимо согласиться с ':'Я согласен с '}}
+              :class="{'text-danger':!checkedTerms && validations.checkedTerms}"
+              @click="checkedTerms = !checkedTerms">{{!checkedTerms && validations.checkedTerms?'Вам необходимо согласиться с ':'Я согласен с '}}
             <a href="https://landing.telepay.io/terms-and-conditions.html"
-                target="_blank">условиями использования</a>
+               target="_blank">условиями использования</a>
         </span>
-
     </div>
     <div class="form-group">
         <button class="btn-auth btn btn-block btn-lg"
-            type="submit">Зарегистрироваться</button>
+                tabindex="5"
+                type="submit">Зарегистрироваться</button>
     </div>
     <router-link :to="{name:'recovery',params:{login:user.login}}"
-        class="float-left text-light">
+                 class="float-left text-light">
         <u>Забыли пароль?</u>
     </router-link>
     <router-link :to="{name:'login',params:{login:user.login}}"
-        class="float-right text-light">
+                 class="float-right text-light">
         <u>Войти</u>
     </router-link>
 </form>
