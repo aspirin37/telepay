@@ -3,8 +3,14 @@
     background: transparent;
 }
 
+// .v-tooltips-container {
+//     position: absolue;
+// }
+
 // bootstrap
 .tooltip {
+    top: -1000px;
+    left: -1000px;
     .arrow::before {
         border-top-color: theme-color('cloudy')
     }
