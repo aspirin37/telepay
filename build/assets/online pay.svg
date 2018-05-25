@@ -1,57 +1,32 @@
-<svg width="472" height="512" viewBox="0 0 472 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>&#208;&#184;&#208;&#186;&#208;&#190;&#208;&#189;&#208;&#186;&#208;&#176; &#208;&#190;&#208;&#189;&#208;&#187;&#208;&#176;&#208;&#185;&#208;&#189; &#208;&#191;&#208;&#187;&#208;&#176;&#209;&#130;&#208;&#181;&#208;&#182;&#208;&#176;</title>
-<desc>Created using Figma</desc>
-<g id="Canvas" transform="matrix(13.4737 0 0 13.4737 1886.32 -73000.4)">
-<g id="&#208;&#184;&#208;&#186;&#208;&#190;&#208;&#189;&#208;&#186;&#208;&#176; &#208;&#190;&#208;&#189;&#208;&#187;&#208;&#176;&#208;&#185;&#208;&#189; &#208;&#191;&#208;&#187;&#208;&#176;&#209;&#130;&#208;&#181;&#208;&#182;&#208;&#176;">
-<g id="Vector">
-<use xlink:href="#path0_fill" transform="translate(-140 5425.91)" fill="#BADDFA"/>
-</g>
-<g id="Vector (Stroke)">
-<use xlink:href="#path1_fill" transform="translate(-139.889 5425.97)" fill="#465B64"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path2_fill" transform="translate(-135.107 5433.91)" fill="#273238"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path3_fill" transform="translate(-133.233 5452.97)" fill="#465A65"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path4_fill" transform="translate(-133.233 5418)" fill="#398E3D"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path5_fill" transform="translate(-131.651 5419.4)" fill="#A4D5A6"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path6_fill" transform="translate(-124.082 5424.19)" fill="#398E3D"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path7_fill" transform="translate(-132.357 5418.45)" fill="#398E3D"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path7_fill" transform="translate(-117.56 5418.45)" fill="#398E3D"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path8_fill" transform="translate(-128.316 5430.28)" fill="#398E3D"/>
-</g>
-<g id="Vector" opacity="0.2">
-<use xlink:href="#path9_fill" transform="translate(-133.233 5434.93)"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path10_fill" transform="translate(-125.41 5449.64)" fill="#465A65"/>
-</g>
-</g>
-</g>
-<defs>
-<path id="path0_fill" d="M 35 0L 0 0L 0 23.9185L 35 23.9185L 35 0Z"/>
-<path id="path1_fill" fill-rule="evenodd" d="M 0 0L 34.8491 0L 34.8491 23.8037L 0 23.8037L 0 0ZM 2.9694 3.04599L 2.9694 20.7577L 31.8797 20.7577L 31.8797 3.04599L 2.9694 3.04599Z"/>
-<path id="path2_fill" d="M 24.057 6.05702L 1.15855 6.05702C 0.520862 6.05702 0 5.52273 0 4.86859L 0 1.18843C 0 0.534296 0.520862 6.09549e-07 1.15855 6.09549e-07L 24.057 6.09549e-07C 24.6947 6.09549e-07 25.2156 0.534296 25.2156 1.18843L 25.2156 4.86859C 25.2156 5.52273 24.6947 6.05702 24.057 6.05702Z"/>
-<path id="path3_fill" d="M 21.4673 3.03101L 0 3.03101L 0 1.89251C 0 0.848883 0.827538 -6.09549e-07 1.84492 -6.09549e-07L 19.6224 -6.09549e-07C 20.6398 -6.09549e-07 21.4673 0.848883 21.4673 1.89251L 21.4673 3.03101Z"/>
-<path id="path4_fill" d="M 21.4673 0L 0 0L 0 18.975L 21.4673 18.975L 21.4673 0Z"/>
-<path id="path5_fill" d="M 18.3032 0L 0 0L 0 17.5769L 18.3032 17.5769L 18.3032 0Z"/>
-<path id="path6_fill" d="M 1.53338 3.14586C 2.38024 3.14586 3.06676 2.44163 3.06676 1.57293C 3.06676 0.704224 2.38024 0 1.53338 0C 0.686518 0 0 0.704224 0 1.57293C 0 2.44163 0.686518 3.14586 1.53338 3.14586Z"/>
-<path id="path7_fill" d="M 2.50695 5.14323C 3.89151 5.14323 5.01391 3.99188 5.01391 2.57161C 5.01391 1.15135 3.89151 0 2.50695 0C 1.1224 0 0 1.15135 0 2.57161C 0 3.99188 1.1224 5.14323 2.50695 5.14323Z"/>
-<path id="path8_fill" d="M 11.5369 5.91721C 11.5369 6.17687 11.5223 6.43652 11.4882 6.69119L 0.0486787 6.69119C 0.0146036 6.43652 0 6.18186 0 5.91721C 0 5.47779 0.0486789 5.05335 0.136301 4.64389C 0.705842 1.98738 3.00834 0 5.76843 0C 8.52851 0 10.8359 1.98738 11.4006 4.64389C 11.4882 5.05335 11.5369 5.47779 11.5369 5.91721Z"/>
-<path id="path9_fill" d="M 21.4673 0L 0 0L 0 2.0473L 21.4673 2.0473L 21.4673 0Z"/>
-<path id="path10_fill" d="M 5.81224 0L 0 0L 0 3.33061L 5.81224 3.33061L 5.81224 0Z"/>
-</defs>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Слой_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 472 512" style="enable-background:new 0 0 472 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#BADDFA;}
+	.st1{fill:#465B64;}
+	.st2{fill:#273238;}
+	.st3{fill:#465A65;}
+	.st4{fill:#398E3D;}
+	.st5{fill:#A4D5A6;}
+	.st6{opacity:0.3;}
+</style>
+<path id="path0_fill_1_" class="st0" d="M472.6,106.7H1V429h471.6V106.7z"/>
+<path id="path1_fill_1_" class="st1" d="M2.5,107.5H472v320.7H2.5V107.5z M42.5,148.5v238.6H432V148.5H42.5z"/>
+<path id="path2_fill_1_" class="st2" d="M391.1,296.1H82.5c-8.6,0-15.6-7.2-15.6-16v-49.6c0-8.8,7-16,15.6-16h308.5
+	c8.6,0,15.6,7.2,15.6,16v49.6C406.7,288.9,399.7,296.1,391.1,296.1z"/>
+<path id="path3_fill_1_" class="st3" d="M381.4,512.1H92.2v-15.3c0-14.1,11.2-25.5,24.9-25.5h239.5c13.7,0,24.9,11.4,24.9,25.5
+	V512.1z"/>
+<path id="path4_fill_1_" class="st4" d="M381.4,0.1H92.2v255.7h289.2V0.1z"/>
+<path id="path5_fill_1_" class="st5" d="M360.1,19H113.5v236.8h246.6V19z"/>
+<path id="path6_fill_1_" class="st4" d="M236.1,125.9c11.4,0,20.7-9.5,20.7-21.2c0-11.7-9.2-21.2-20.7-21.2
+	c-11.4,0-20.7,9.5-20.7,21.2C215.5,116.4,224.7,125.9,236.1,125.9z"/>
+<path id="path7_fill_3_" class="st4" d="M137.8,75.5c18.7,0,33.8-15.5,33.8-34.6c0-19.1-15.1-34.6-33.8-34.6
+	c-18.7,0-33.8,15.5-33.8,34.6C104,60,119.1,75.5,137.8,75.5z"/>
+<path id="path7_fill_2_" class="st4" d="M337.1,75.5c18.7,0,33.8-15.5,33.8-34.6c0-19.1-15.1-34.6-33.8-34.6
+	c-18.7,0-33.8,15.5-33.8,34.6C303.4,60,318.5,75.5,337.1,75.5z"/>
+<path id="path8_fill_1_" class="st4" d="M313.9,245.3c0,3.5-0.2,7-0.7,10.4H159.1c-0.5-3.4-0.7-6.9-0.7-10.4
+	c0-5.9,0.7-11.6,1.8-17.2c7.7-35.8,38.7-62.6,75.9-62.6c37.2,0,68.3,26.8,75.9,62.6C313.2,233.6,313.9,239.4,313.9,245.3z"/>
+<path id="path10_fill_1_" class="st3" d="M275.9,426.4h-78.3v44.9h78.3V426.4z"/>
+<path id="path9_fill_1_" class="st6" d="M381.4,228.2H92.2v27.6h289.2V228.2z"/>
 </svg>

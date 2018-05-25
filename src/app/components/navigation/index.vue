@@ -15,6 +15,13 @@ import Burger from '@assets/burger-01.svg';
 import Question from '@assets/vopros.svg';
 import Wallet from '@assets/money.svg';
 import Bell from '@assets/bell.svg';
+import Catalog from '@assets/catalog.svg';
+import Channels from '@assets/channels.svg';
+import Posts from '@assets/message.svg';
+import Support from '@assets/support.svg';
+import Exit from '@assets/exit.svg';
+import Payments from '@assets/payments.svg';
+import Cross from '@assets/crest-01.svg';
 
 export default Vue.extend({
   components: { onOff, dropDown, dropDownMenuItem },
@@ -26,12 +33,20 @@ export default Vue.extend({
       notificationsCount: 0,
       updateTimeout: null,
       year: moment().year(),
+      isMenuOpened: false,
       LogoDesktop,
       LogoMobile,
       Burger,
       Question,
       Wallet,
-      Bell
+      Bell,
+      Catalog,
+      Channels,
+      Posts,
+      Support,
+      Exit,
+      Payments,
+      Cross
     };
   },
   created() {
@@ -58,6 +73,10 @@ export default Vue.extend({
     }
   },
   methods: {
+    toggleMenu() {
+      this.isMenuOpened = !this.isMenuOpened;
+      document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
+    },
     toggleDD() {
       this.showDD = !this.showDD;
       if (this.showDD) this.$refs.ddmenu.scrollTop = 0;

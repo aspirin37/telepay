@@ -4,8 +4,26 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+body, html, .app, .container-wrap {
+    height: 100%;
+} 
+
 .app {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.app-wrapper {
+    height: 100%;
     padding-bottom: 55px;
+    transform: translateX(0);
+    transition: all 0.3s ease-in-out;
+
+    &--toggled {
+        transform: translateX(196px);
+    }
 }
 
 .container-wrap {
@@ -162,9 +180,11 @@ body {
         // right: -8px;
         position: relative;
         text-decoration: none;
+        padding: 10px 0;
         .badge {
-            top: 3px;
-            right: 3px;
+            top: 6px;
+            right: 1px;
+            font-size: 10px;
             font-size: 0.6em;
         }
     }
@@ -186,6 +206,16 @@ body {
 
 .fa-fix {
     vertical-align: 0;
+}
+
+.show-menu-enter-active,
+.show-menu-leave-active {
+    transition: .2s ease-in-out;
+}
+
+.show-menu-enter,
+.show-menu-leave-to {
+    transform: translateX(0);
 }
 
 .fade-out-enter-active,

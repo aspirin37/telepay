@@ -2,14 +2,104 @@
     background-color: theme-color('light');
     transition: background-color 0.2s ease-out;
 
+    &__container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 10px 0.25rem;
+        max-width: 100%;
+
+        @include media-breakpoint-up(lg) {
+            max-width: 960px;
+            flex-direction: row;
+            padding: 0.75rem 0;
+
+        }
+
+        @include media-breakpoint-up(xl) {
+            max-width: 1140px;
+        }
+    }
+
     .logo .cls-1 {
         fill: theme-color('slate') !important;
     }
     .nav-item {
         padding: 0 0.5em;
+
+        &--user-mobile {
+            display: flex;
+            align-items: center;
+            padding: 10px 0.25rem;
+            margin-bottom: 40px;
+
+            @include media-breakpoint-up(lg) {
+                display: none;
+            }  
+        }
+
+        &--exit {
+            opacity: 0.5;
+        }
+
+        &__icon {
+            display: flex;
+            align-items: center;
+            width: 30px;
+
+            & svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            &__exit svg {
+                fill: black;
+            }
+        }
+
+        &--aside {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 15px;
+
+            @include media-breakpoint-up(lg) {
+                display: block;
+                padding: 0.25rem;
+                margin-bottom: 0;
+            }  
+        }
     }
 
     .nav {
+        &--top {
+            transform: translateX(-196px);
+            position: fixed;
+            z-index: 1050;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            width: 196px;
+            height: 100%;
+            padding-left: 17px;
+            box-sizing: border-box;
+            // transform: translateX(-196px);
+            background-color: #f8f9fa;
+    
+            @include media-breakpoint-up(lg) {
+                transform: translateX(0); 
+                align-items: center;
+                flex-direction: row;
+                width: auto;
+                height: auto;
+                padding-left: 0;
+                position: static;
+            }   
+        }
+
         &--bottom {
             width: 100%;
             position: relative;
@@ -36,15 +126,20 @@
             padding: 0rem 0rem;
             background-color: transparent;
             &:hover {
-                text-decoration: underline;
+                text-decoration: none;
+
+                @include media-breakpoint-up(lg) {
+                    text-decoration: underline;
+                }
             }
-            &.active:not(.balance) {
-                text-decoration: underline;
+            &.active:not(.balance):not(.nav-link--user) {
+                text-decoration: none;
+
+                @include media-breakpoint-up(lg) {
+                    text-decoration: underline;
+                }
             }
 
-            &--balance {
-                padding-right: 25px;
-            }
 
             @include media-breakpoint-up(lg) {
                 margin: 0.5rem 1rem;
@@ -84,6 +179,11 @@
             }
         }
 
+        &__cross svg {
+            width: 16px;
+            height: 100%;
+        }
+
         &__burger svg {
             width: 22px;
             height: 100%;
@@ -95,16 +195,20 @@
         }
 
         &__wallet svg {
-            position: absolute;
-            right: 0;
-            top: 0;
             width: 16px;
-            height: auto;
+            height: 100%;
         }
 
         &__bell svg {
+            position: relative;
+            top: 2px;
             width: 16px;
             height: 100%;
+        }
+
+        &__sum {
+            position: relative;
+            top: 2px;
         }
 
         .navbar-brand {
@@ -122,11 +226,23 @@
         }
     }
     .advert-switch {
+        margin-top: 60px;
+        margin-bottom: 50px;
+
+        @include media-breakpoint-up(lg) {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
         .title {
-            font-weight: bold;
             margin-bottom: 0;
             float: left;
             cursor: pointer;
+            font-weight: 500; 
+
+            @include media-breakpoint-up(lg) {
+                font-weight: bold;                
+            }
         }
         .switch {
             float: right;
@@ -185,8 +301,14 @@
 }
 
 .footer-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-top: auto;
     background-color: theme-color('light');
     transition: background-color 0.2s ease-out;
+
     a {
         color: inherit;
     }
@@ -202,11 +324,21 @@
 }
 
 .user-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 40px;
     height: 40px;
     margin: 0;
+    margin-right: 15px;
     background-color: #50BCED;
     border-radius: 50%;
     font-size: 1.3rem;
     text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+
+    @include media-breakpoint-up(lg) {
+        margin: 0;
+    }
 }

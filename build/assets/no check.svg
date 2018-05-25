@@ -1,12 +1,11 @@
-<svg width="473" height="512" viewBox="0 0 473 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>Vector</title>
-<desc>Created using Figma</desc>
-<g id="Canvas" transform="matrix(39.3846 0 0 39.3846 -6183.38 -75460.9)">
-<g id="Vector">
-<use xlink:href="#path0_stroke" transform="translate(158 1917)" fill="#EB5757"/>
-</g>
-</g>
-<defs>
-<path id="path0_stroke" d="M 9.26006 -0.672673L 4.26006 4.82733L 5.73994 6.17267L 10.7399 0.672673L 9.26006 -0.672673ZM 4.26006 4.82733L -0.73994 10.3273L 0.73994 11.6727L 5.73994 6.17267L 4.26006 4.82733ZM 5.73994 4.82733L 0.73994 -0.672673L -0.73994 0.672673L 4.26006 6.17267L 5.73994 4.82733ZM -0.73994 0.672673L 9.26006 11.6727L 10.7399 10.3273L 0.73994 -0.672673L -0.73994 0.672673Z"/>
-</defs>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Слой_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 473 512" style="enable-background:new 0 0 473 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#EB5757;}
+</style>
+<path id="path0_stroke_1_" class="st0" d="M404.3,12.9L207.4,229.5l58.3,53L462.6,65.9L404.3,12.9z M207.4,229.5L10.4,446.1l58.3,53
+	l196.9-216.6L207.4,229.5z M265.6,229.5L68.7,12.9l-58.3,53l196.9,216.6L265.6,229.5z M10.4,65.9l393.8,433.2l58.3-53L68.7,12.9
+	L10.4,65.9z"/>
 </svg>

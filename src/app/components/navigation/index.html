@@ -1,9 +1,16 @@
 <div>
     <nav class="header fixed-top"
          :class="{ 'navbar_main': !logoVisible, 'is-advert':isAdvert }">
-        <div class="container py-1 py-lg-3 d-flex flex-column flex-lg-row justify-content-between">
-            <ul class="nav nav--top align-items-center d-none d-lg-flex flex-column flex-lg-row">
-                <li class="nav-item d-none d-lg-block">
+        <div class="container header__container">
+            <ul class="nav nav--top">
+                <li class="nav-item nav-item--user-mobile">
+                    <div class="user-field text-light">
+                        <span>{{ getUsername ? getUsername[0] : "U" }}</span>
+                    </div>
+                    <router-link class="nav-link nav-link--user"
+                                 :to="{ name: 'profile' }">Профиль</router-link>
+                </li>
+                <li class="nav-item d-none d-lg-block order-lg-first">
                     <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"
                                  v-if="logoVisible"
                                  class="navbar__logo">
@@ -11,13 +18,17 @@
                              v-html="LogoDesktop"></div>
                     </router-link>
                 </li>
-                <li class="nav-item advert-switch d-flex justify-content-between"
+                <li class="nav-item advert-switch order-last order-lg-first d-lg-flex justify-content-between"
                     v-if="isAuthorized">
                     <span @click.self="isAdvert=!isAdvert"
-                          class="title"> {{isAdvert?'Рекламодатель':'Владелец канала'}} </span>
+                          class="title d-block d-lg-none"> {{isAdvert?'Реклама':'Владелец'}} </span>
+                    <span @click.self="isAdvert=!isAdvert"
+                          class="title d-none d-lg-block"> {{isAdvert?'Рекламодатель':'Владелец канала'}} </span>
                     <on-off v-model="isAdvert"></on-off>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item nav-item--aside">
+                    <div class="nav-item__icon d-lg-none"
+                         v-html="Catalog"></div>
                     <router-link :to="{name:'catalog'}"
                                  class="nav-link">Каталог</router-link>
                 </li>
@@ -25,34 +36,60 @@
                     v-if="!isAuthorized">
                     <router-link :to="{name:'faq'}"
                                  v-if="!isAuthorized"
-                                 class="nav-link">F.A.Q.</router-link>
+                                 class="nav-link d-none d-lg-block">F.A.Q.</router-link>
                 </li>
-                <li class="nav-item"
+                <li class="nav-item nav-item--aside"
                     v-if="isAuthorized && !isAdvert">
+                    <div class="nav-item__icon d-lg-none"
+                         v-html="Channels"></div>
                     <router-link :to="{name:'channels'}"
                                  class="nav-link">Каналы</router-link>
                 </li>
-                <li class="nav-item"
+                <li class="nav-item nav-item--aside"
                     v-if="isAuthorized && !isAdvert">
+                    <div class="nav-item__icon d-lg-none"
+                         v-html="Posts"></div>
                     <router-link :to="{name:'posts'}"
                                  class="nav-link">Посты</router-link>
                 </li>
-                <li class="nav-item"
+                <li class="nav-item nav-item--aside"
                     v-if="isAuthorized && isAdvert">
+                    <div class="nav-item__icon d-lg-none"
+                         v-html="Posts"></div>
                     <router-link :to="{name:'posts',tab:'outbound'}"
                                  class="nav-link">Постинг</router-link>
+                </li>
+                <li class="nav-item nav-item--aside d-lg-none">
+                    <div class="nav-item__icon"
+                         v-html="Payments"></div>
+                    <router-link :to="{ name: 'balance' }"
+                                 class="nav-link">Платежи</router-link>
+                </li>
+                <li class="nav-item nav-item--aside d-lg-none">
+                    <div class="nav-item__icon"
+                         v-html="Support"></div>
+                    <router-link :to="{ name: 'support' }"
+                                 class="nav-link">Поддержка</router-link>
+                </li>
+                <li class="nav-item nav-item--aside nav-item--exit order-last d-lg-none"
+                    v-if="isAuthorized">
+                    <div class="nav-item__icon nav-item__icon--exit"
+                         v-html="Exit"></div>
+                    <router-link :to="{ name: 'logout' }"
+                                 class="nav-link">Выйти</router-link>
                 </li>
             </ul>
             <ul class="nav nav--bottom list-unstyled d-flex mb-0"
                 v-if="isAuthorized">
-                <li class="nav-item d-flex d-lg-none">
-                    <div class="navbar__burger pointer"
-                         v-html="Burger"></div>
+                <li class="nav-item d-flex d-lg-none"
+                    @click="toggleMenu">
+                    <div :class="[isMenuOpened ? 'navbar__cross' : 'navbar__burger',  'pointer']"
+                         v-html="isMenuOpened ? Cross : Burger"></div>
                 </li>
                 <li class="nav-item d-flex d-lg-none">
                     <router-link class="align-self-center"
                                  :to="{name:'faq'}">
-                        <div class="navbar__question pointer"
+                        <div class="navbar__question d-flex pointer"
                              v-html="Question"></div>
                     </router-link>
                 </li>
@@ -70,7 +107,7 @@
                             @click="toggleDD"
                             @blur="blurHandler">
                         <!-- <i class="fa fa-lg fa-bell"></i> -->
-                        <div class="navbar__bell pointer"
+                        <div class="navbar__bell d-flex align-items-center pointer"
                              v-html="Bell"></div>
                         <span class="notifications__badge badge badge-pill badge-success"
                               v-show="notificationsCount > 0">{{ notificationsCount }}</span>
@@ -98,23 +135,17 @@
                 </li>
                 <li class="nav-item d-flex order-1 order-lg-0 ml-auto ml-lg-0">
                     <router-link :to="{ name: 'balance' }"
-                                 class="nav-link nav-link--balance align-self-center">
-                        <span>{{ (balance.current|| 0) | centToRub(2) }} </span>
-                        <span class="navbar__wallet pointer"
+                                 class="nav-link nav-link--balance d-flex align-self-center">
+                        <span class="navbar__sum order-0 mr-2 order-lg-1 mr-lg-0">{{ (balance.current|| 0) | centToRub(2) }} </span>
+                        <span class="navbar__wallet pointer order-1 mr-2 order-lg-0 mr-lg-2"
                               v-html="Wallet"></span>
                     </router-link>
                 </li>
                 <li class="nav-item mr-4 d-none d-lg-block">
                     <drop-down>
                         <div class="user-field text-center text-light font-weight-bold d-flex align-items-center justify-content-center"
-                             slot="trigger"
-                             v-if="getUsername">
-                            <span>{{ getUsername[0] }}</span>
-                        </div>
-                        <div class="user-field"
-                             v-else>
-                            <i class="fa fa-2x fa-user-circle mr-1"
-                               aria-hidden="true"></i>
+                             slot="trigger">
+                            <span>{{ getUsername[0] || "U" }}</span>
                         </div>
                         <template slot="body">
                             <drop-down-menu-item>
@@ -141,151 +172,6 @@
                     </drop-down>
                 </li>
             </ul>
-            <!-- <ul class="nav justify-content-between align-items-center d-flex flex-column flex-sm-row">
-                <li class="nav-item d-none d-sm-block">
-                    <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"
-                                 v-if="logoVisible"
-                                 class="navbar__logo">
-                        <div class="logo"
-                             v-html="LogoDesktop"></div>
-                    </router-link>
-                </li>
-                <li class="nav-item advert-switch d-flex justify-content-between"
-                    v-if="isAuthorized">
-                    <span @click.self="isAdvert=!isAdvert"
-                          class="title"> {{isAdvert?'Рекламодатель':'Владелец канала'}} </span>
-                    <on-off v-model="isAdvert"></on-off>
-                </li>
-                <li class="nav-item">
-                    <router-link :to="{name:'catalog'}"
-                                 class="nav-link">Каталог</router-link>
-                </li>
-                <li class="nav-item"
-                    v-if="!isAuthorized">
-                    <router-link :to="{name:'faq'}"
-                                 v-if="!isAuthorized"
-                                 class="nav-link">F.A.Q.</router-link>
-                </li>
-                <li class="nav-item"
-                    v-if="isAuthorized && !isAdvert">
-                    <router-link :to="{name:'channels'}"
-                                 class="nav-link">Каналы</router-link>
-                </li>
-                <li class="nav-item"
-                    v-if="isAuthorized && !isAdvert">
-                    <router-link :to="{name:'posts'}"
-                                 class="nav-link">Посты</router-link>
-                </li>
-                <li class="nav-item"
-                    v-if="isAuthorized && isAdvert">
-                    <router-link :to="{name:'posts',tab:'outbound'}"
-                                 class="nav-link">Постинг</router-link>
-                </li>
-                <li class="nav-bottom ml-sm-auto px-4 px-sm-0">
-                    <ul class="list-unstyled d-flex h-100"
-                        v-if="isAuthorized">
-                        <li class="nav-item d-flex d-sm-none">
-                            <div class="navbar__burger"
-                                 v-html="Burger"></div>
-                        </li>
-                        <li class="nav-item"></li>
-                        <li class="nav-item notifications order-2 order-sm-0">
-                            <button class="btn btn-link notification-trigger"
-                                    @click="toggleDD"
-                                    @blur="blurHandler">
-                                <i class="fa fa-lg fa-bell"></i>
-                                <span class="badge badge-pill badge-success"
-                                      v-show="notificationsCount > 0">{{ notificationsCount }}</span>
-                            </button>
-                            <transition name="fade">
-                                <div class="dropdown-menu show"
-                                     v-show="showDD"
-                                     ref="ddmenu">
-                                    <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}</h6>
-                                    <span class="dropdown-item"
-                                          @click="stopBlur"
-                                          v-for="notify in notifications"
-                                          :key="notify.notificationId">
-                                        <div class="form-row">
-                                            <div class="col-10"
-                                                 v-html="notify.text"></div>
-                                            <div class="col-2">
-                                                <i class="fa fa-times fa-lg pointer text-right"
-                                                   @click="setIsRead(notify.notificationId)"></i>
-                                            </div>
-                                        </div>
-                                    </span>
-                                </div>
-                            </transition>
-                        </li>
-                        <li class="nav-item order-1 order-sm-0 ml-auto ml-sm-0">
-                            <router-link :to="{ name: 'balance' }"
-                                         class="nav-link balance">
-                                <i class="fa fa-money"
-                                   aria-hidden="true"></i>
-                                <span>{{ (balance.current|| 0) | centToRub(2) }} </span>
-                            </router-link>
-                        </li>
-                        <li class="nav-item nav-item--logo d-sm-none order-0">
-                            <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"
-                                         v-if="logoVisible"
-                                         class="navbar__logo">
-                                <div class="logo d-sm-none"
-                                     v-once
-                                     v-html="LogoMobile"></div>
-                            </router-link>
-                        </li>
-                        <li class="nav-item mr-4 d-none d-sm-block">
-                            <drop-down>
-                                <div class="user-field text-center text-light font-weight-bold d-flex align-items-center justify-content-center"
-                                     slot="trigger"
-                                     v-if="getUsername">
-                                    <span>{{ getUsername[0] }}</span>
-                                </div>
-                                <div class="user-field"
-                                     v-else>
-                                    <i class="fa fa-2x fa-user-circle mr-1"
-                                       aria-hidden="true"></i>
-                                </div>
-                                <template slot="body">
-                                    <drop-down-menu-item>
-                                        <router-link class="user-menu__item"
-                                                     :to="{ name: 'profile' }">Профиль</router-link>
-                                    </drop-down-menu-item>
-                                    <drop-down-menu-item>
-                                        <router-link class="user-menu__item"
-                                                     :to="{ name: 'balance' }">Баланс</router-link>
-                                    </drop-down-menu-item>
-                                    <drop-down-menu-item>
-                                        <router-link class="user-menu__item"
-                                                     :to="{name:'faq'}">F.A.Q.</router-link>
-                                    </drop-down-menu-item>
-                                    <drop-down-menu-item>
-                                        <router-link class="user-menu__item"
-                                                     :to="{ name: 'support' }">Техподдержка</router-link>
-                                    </drop-down-menu-item>
-                                    <drop-down-menu-item>
-                                        <router-link class="user-menu__item"
-                                                     :to="{ name: 'logout' }">Выйти</router-link>
-                                    </drop-down-menu-item>
-                                </template>
-                            </drop-down>
-                        </li>
-                    </ul>
-                </li>
-            </ul> -->
-        </div>
-    </nav>
-    <nav class="navbar fixed-bottom navbar-light footer-nav"
-         :class="{'is-advert':isAdvert}">
-        <div class="container py-2">
-            <span>©Telepay.io, 2017-{{year}} гг. Все права защищены</span>
-            <a href="https://landing.telepay.io/privacy-policy.html"
-               target="_blank">Политика конфиденциальности</a>
-            <a href="https://landing.telepay.io/terms-and-conditions.html"
-               target="_blank">Условия использования</a>
-            <a href="https://landing.telepay.io/contacts.html"
-               target="_blank">Контакты</a>
         </div>
     </nav>
 </div>

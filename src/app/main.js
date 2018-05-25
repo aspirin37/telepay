@@ -9,6 +9,7 @@ import '@services/interceptor';
 import notifystr from 'notifystr';
 import loader from '@components/loader';
 import navigation from '@components/navigation';
+import pageFooter from '@components/footer';
 
 // services
 import '@filters';
@@ -23,6 +24,7 @@ export const App = new Vue( {
     store,
     components: {
         navigation,
+        pageFooter,
         loader,
         notifystr,
     },

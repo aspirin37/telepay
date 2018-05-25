@@ -1,14 +1,13 @@
-<svg width="512" height="512" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>Vector</title>
-<desc>Created using Figma</desc>
-<g id="Canvas" transform="matrix(39.3846 0 0 39.3846 17565.5 -147968)">
-<g id="Vector">
-<use xlink:href="#path0_fill" transform="translate(-446 3757)" fill="#EB5757"/>
-<use xlink:href="#path1_fill" transform="translate(-446 3757)" fill="#EB5757"/>
-</g>
-</g>
-<defs>
-<path id="path0_fill" d="M 6.5 0C 2.91017 0 0 2.91017 0 6.5C 0 10.0898 2.91017 13 6.5 13C 10.0898 13 13 10.0898 13 6.5C 13 2.91017 10.0899 0 6.5 0ZM 6.5 11.8235C 3.55991 11.8235 1.17649 9.44009 1.17649 6.5C 1.17649 3.55991 3.55991 1.17649 6.5 1.17649C 9.43859 1.18006 11.8199 3.56138 11.8235 6.5C 11.8235 9.44012 9.44012 11.8235 6.5 11.8235Z"/>
-<path id="path1_fill" fill-rule="evenodd" d="M 6.63021 5.55634L 4.63146 3.45239L 3.68896 4.34777L 5.73366 6.50008L 3.68896 8.65239L 4.63146 9.54777L 6.63021 7.44382L 8.62897 9.54777L 9.57146 8.65239L 7.52677 6.50008L 9.57146 4.34777L 8.62897 3.45239L 6.63021 5.55634Z"/>
-</defs>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Слой_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#EB5757;}
+</style>
+<path id="path0_fill_1_" class="st0" d="M256-0.1C114.6-0.1,0,114.6,0,255.9c0,141.4,114.6,256,256,256c141.4,0,256-114.6,256-256
+	C512,114.6,397.4-0.1,256-0.1z M256,465.6c-115.8,0-209.7-93.9-209.7-209.7S140.2,46.3,256,46.3c115.7,0.1,209.5,93.9,209.7,209.7
+	C465.6,371.7,371.8,465.6,256,465.6z"/>
+<path id="path1_fill_1_" class="st0" d="M261.1,218.8l-78.7-82.9l-37.1,35.3l80.5,84.8l-80.5,84.8l37.1,35.3l78.7-82.9l78.7,82.9
+	l37.1-35.3L296.4,256l80.5-84.8l-37.1-35.3L261.1,218.8z"/>
 </svg>
