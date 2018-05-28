@@ -135,7 +135,7 @@ export default Vue.extend({
 
 .tab {
   width: 113px;
-  padding: 0.375rem 0;
+  padding: 0.5rem 0;
   background-color: #dee2ee;
   color: #576077;
   border-radius: 3px 3px 0 0;
@@ -145,7 +145,7 @@ export default Vue.extend({
 
   @include media-breakpoint-up(lg) {
     width: 165px;
-    padding: 0.75rem 0.75rem;
+    padding: 0.75rem;
     margin-right: 13px;
     font-size: 16px;
   }
