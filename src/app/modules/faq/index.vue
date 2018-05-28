@@ -62,23 +62,53 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@import '~bootstrap/scss/bootstrap.scss';
+.faq-container {
+  padding: 0 8px;
+
+  @include media-breakpoint-up(lg) {
+    padding: 0 15px;
+  }
+}
+
+.faq {
+  padding-bottom: 0;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 40px;
+  }
+}
+
 .search {
   display: block;
   position: relative;
-  margin-bottom: 50px;
+
+  margin-bottom: 23px;
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 50px;
+  }
 
   &__icon {
     position: absolute;
     color: #dee2ee;
-    top: 10px;
+    top: 12px;
     left: 15px;
+
+    @include media-breakpoint-up(lg) {
+      top: 10px;
+    }
   }
 
   &__cancel-btn {
     position: absolute;
     color: #dee2ee;
-    top: 15px;
+    top: 12px;
     right: 30px;
+
+    @include media-breakpoint-up(lg) {
+      top: 20px;
+    }
   }
 
   &__input {
@@ -88,20 +118,37 @@ export default Vue.extend({
 }
 
 .tabs-row {
+  justify-content: space-between;
   margin-bottom: 11px;
+
+  @include media-breakpoint-up(lg) {
+    justify-content: start;
+  }
 }
 
 .tabs {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 50px;
+  }
 }
 
 .tab {
-  width: 165px;
-  margin-right: 13px;
+  width: 113px;
+  padding: 0.375rem 0;
   background-color: #dee2ee;
   color: #576077;
   border-radius: 3px 3px 0 0;
-  font-size: 16px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+
+  @include media-breakpoint-up(lg) {
+    width: 165px;
+    padding: 0.75rem 0.75rem;
+    margin-right: 13px;
+    font-size: 16px;
+  }
 
   &--active {
     background-color: #576076;
@@ -128,8 +175,16 @@ export default Vue.extend({
   }
 }
 
-.faq-redirect {
+.faq__redirect {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   margin-bottom: 50px;
+
+  @include media-breakpoint-up(lg) {
+    flex-direction: row;
+    text-align: left;
+  }
 }
 </style>
 

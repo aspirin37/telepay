@@ -102,6 +102,7 @@
         }
 
         &--bottom {
+            align-items: center;
             width: 100%;
             position: relative;
      
@@ -185,9 +186,14 @@
             height: 100%;
         }
 
-        &__burger svg {
-            width: 22px;
-            height: 100%;
+        &__burger {
+            display: flex;
+            align-items: center;
+
+            & svg {
+                width: 22px;
+                height: 100%;
+            }
         }
 
         &__question svg {
@@ -202,7 +208,7 @@
 
         &__bell svg {
             position: relative;
-            top: 2px;
+            top: 0;
             width: 16px;
             height: 100%;
         }
@@ -344,6 +350,24 @@
         background-size: cover;
         color: #fff;
     }
+
+    &__item {
+        margin-bottom: 8px;
+
+        @include media-breakpoint-up(lg) {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.footer-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+    }
 }
 
 .user-field {
@@ -358,6 +382,7 @@
     border-radius: 50%;
     font-size: 1.3rem;
     text-transform: uppercase;
+    text-decoration: none;
     text-align: center;
     font-weight: 600;
 

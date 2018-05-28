@@ -33,7 +33,6 @@ export default Vue.extend({
       notificationsCount: 0,
       updateTimeout: null,
       year: moment().year(),
-      isMenuOpened: false,
       LogoDesktop,
       LogoMobile,
       Burger,
@@ -53,6 +52,14 @@ export default Vue.extend({
     this.getNotificationList();
     this.addWindowResizeHandler();
   },
+  watch: {
+    // $route(to, from) {
+    //   this.$store.commit('TOGGLE_MENU', false);
+    // },
+    isMenuOpened() {
+      document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
+    }
+  },
   computed: {
     isAdvert: {
       get() {
@@ -67,7 +74,8 @@ export default Vue.extend({
     ...mapGetters({
       isAuthorized: 'isAuthorized',
       getUsername: 'getUsername',
-      balance: 'getUserBalance'
+      balance: 'getUserBalance',
+      isMenuOpened: 'getMenuState'
     }),
     logoVisible() {
       return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
@@ -76,15 +84,12 @@ export default Vue.extend({
   methods: {
     addWindowResizeHandler() {
       window.addEventListener('resize', () => {
-        this.isMenuOpened = false;
         this.$store.commit('TOGGLE_MENU', false);
         document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
       });
     },
     toggleMenu() {
-      this.isMenuOpened = !this.isMenuOpened;
-      this.$store.commit('TOGGLE_MENU', this.isMenuOpened);
-      document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
+      this.$store.commit('TOGGLE_MENU', !this.isMenuOpened);
     },
     toggleDD() {
       this.showDD = !this.showDD;

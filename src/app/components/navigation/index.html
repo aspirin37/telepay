@@ -5,11 +5,10 @@
             <ul class="nav nav--top"
                 :class="{'is-advert':isAdvert }">
                 <li class="nav-item nav-item--user-mobile">
-                    <div class="user-field text-light">
-                        <span>{{ getUsername ? getUsername[0] : "U" }}</span>
-                    </div>
-                    <router-link class="nav-link nav-link--user"
-                                 :to="{ name: 'profile' }">Профиль</router-link>
+                    <router-link tag="div"
+                                 class="user-field text-light"
+                                 :to="{ name: 'profile' }">{{ getUsername ? getUsername[0] : "U" }}</router-link>
+                    <span class="nav-link nav-link--user">Профиль</span>
                 </li>
                 <li class="nav-item d-none d-lg-block order-lg-first">
                     <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"

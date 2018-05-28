@@ -1,15 +1,15 @@
 <template >
-    <div class="collapse-item" @click="itemSelected == false ? itemSelected = true : itemSelected = false">
-        <div class="collapse-item__header pointer">
-            <span class="font-weight-bold mr-1">{{ collapseHeader }}</span>
-            <span :class="[itemSelected ? 'fa-angle-down' : 'fa-angle-right', 'fa fa-lg']"></span>
-            <transition name="collapse">
-                <div class="collapse-item__wrapper" v-show="itemSelected">
-                    <pre class="collapse-item__content">{{ collapseContent }}</pre>
-                </div>
-            </transition>
+  <div class="collapse-item" @click="itemSelected == false ? itemSelected = true : itemSelected = false">
+    <div class="collapse-item__header pointer">
+      <span class="collapse--item__header-text mr-1">{{ collapseHeader }}</span>
+      <span :class="[itemSelected ? 'fa-angle-down' : 'fa-angle-right', 'fa fa-lg']"></span>
+      <transition name="collapse">
+        <div class="collapse-item__wrapper" v-show="itemSelected">
+          <pre class="collapse-item__content">{{ collapseContent }}</pre>
         </div>
+      </transition>
     </div>
+  </div>
 </template>
 
 <script>
@@ -25,13 +25,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~bootstrap/scss/bootstrap.scss';
+
 .collapse-item {
   &__header {
     padding-top: 21px;
-    padding-bottom: 11px;
+    padding-bottom: 21px;
     border-bottom: 1px solid #e5e5e5;
     color: #2d9cdb;
     font-size: 16px;
+  }
+
+  &__header-text {
+    font-weight: 600;
+    font-size: 15px;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 16px;
+    }
   }
 
   &__wrapper {
@@ -41,6 +52,7 @@ export default {
 
   &__content {
     padding-top: 22px;
+    line-height: 20px;
   }
 }
 

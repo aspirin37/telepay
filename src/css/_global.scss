@@ -13,9 +13,14 @@ body {
 }
 
 .app-wrapper {
-    padding-bottom: 55px;
+    min-height: 100vh;
+    padding-bottom: 135px;
     transform: translateX(0);
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
+
+    @include media-breakpoint-up(lg) {
+        padding-bottom: 55px;
+    }
 
     &--toggled {
         transform: translateX(196px);
@@ -23,8 +28,11 @@ body {
 }
 
 .container-wrap {
-    padding-top: 85px;
-    min-height: 100vh
+    padding-top: 62px;
+
+    @include media-breakpoint-up(lg) {
+        padding-top: 85px;
+    }
 }
 
 .pointer {
