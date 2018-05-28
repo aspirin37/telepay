@@ -18,6 +18,7 @@
                     </div>
                 </div>
                 <button class="btn btn-success"
+                        @click="openPaymentModal"
                         :disabled="!amount || !checkedTerms">Пополнить баланс</button>
             </div>
         </div>
@@ -29,11 +30,5 @@
                    target="_blank">условиями использования</a>
             </span>
         </div>
-        <!-- <pre>{{formLink}}</pre>
-        <iframe v-if="formLink"
-                :src="formLink"
-                frameborder="0"
-                width="500"
-                height="500"></iframe> -->
     </div>
 </div>

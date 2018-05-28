@@ -8,6 +8,7 @@ import postInput from '@components/post-input';
 import dateInput from '@components/date-input';
 import { clone } from '@utils/clone';
 import WebStorage from '@utils/storage';
+import paymentModal from '@mixins/payment-modal';
 
 export default {
     components: {
@@ -29,6 +30,7 @@ export default {
             errors: { time: false }
         };
     },
+    mixins: [paymentModal],
     watch: {
         'post.postTemplateId': function(val) {
             if (val) this.watchPostTemplateId(val);
@@ -185,14 +187,7 @@ export default {
                 this.post.buttons = buttons;
             }
         },
-        async openPaymentModal() {
-            await swal({
-                title: `К оплате - ${this.$options.filters.centToRub(this.totalPrice)}`,
-                confirmButtonText: 'Перейти к выбору способа оплаты',
-                showCancelButton: false,
-            });
-            // createPost(false)
-        },
+
         createPost(isTemplate) {
             let timeArr = this.postTime.split(':');
             if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0)) {
