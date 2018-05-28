@@ -8,7 +8,7 @@
                        type="text"
                        v-model="searchInputValue"
                        placeholder="Введите Ваш вопрос" /> </div>
-            <span class="search__cancel-btn fa fa-lg fa-close pointer"
+            <span :class="[searchInputValue ? 'text-danger' : '', 'search__cancel-btn fa fa-lg fa-close pointer']"
                   @click="searchInputValue = ''"></span>
             <div class="tabs">
                 <div class="tabs-row d-flex">
