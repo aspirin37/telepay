@@ -86,6 +86,7 @@ export default {
     methods: {
         async getCategories() {
             let { items, total } = await CatalogApi.list();
+            items.sort((a, b) => (a.name === '18+' || a.name === 'Азартные игры') ? -1 : 1)
             this.categories = items;
         },
         async handleSelect(item) {

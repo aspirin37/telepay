@@ -8,27 +8,32 @@
             <div class="row">
                 <div class="input-group col">
                     <input type="number"
-                        class="form-control"
-                        placeholder="Cумма пополнения"
-                        v-model="amount">
+                           class="form-control"
+                           placeholder="Cумма пополнения"
+                           v-model="amount">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <i class="fa fa-rouble"></i>
                         </div>
                     </div>
                 </div>
-
                 <button class="btn btn-success"
-                    :disabled="!amount || !checkedTerms">Пополнить баланс</button>
+                        :disabled="!amount || !checkedTerms">Пополнить баланс</button>
             </div>
         </div>
         <div class="my-2 d-flex align-items-center">
             <norm-checkbox v-model="checkedTerms" />
             <span class="ml-2 pointer"
-                @click="checkedTerms = !checkedTerms">Я согласен с
+                  @click="checkedTerms = !checkedTerms">Я согласен с
                 <a href="https://landing.telepay.io/terms-and-conditions.html"
-                    target="_blank">условиями использования</a>
+                   target="_blank">условиями использования</a>
             </span>
         </div>
+        <!-- <pre>{{formLink}}</pre>
+        <iframe v-if="formLink"
+                :src="formLink"
+                frameborder="0"
+                width="500"
+                height="500"></iframe> -->
     </div>
 </div>
