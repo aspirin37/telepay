@@ -1,45 +1,66 @@
-<div class="container py-3">
-    <div class="d-flex flex-row align-items-baseline">
+<div class="container py-4 py-lg-3">
+    <div class="d-flex flex-row align-items-baseline mb-4">
         <h1>Техподдержка</h1>
-        <router-link class="btn btn-primary ml-auto" :to="{ name: 'support:create'}">Новый вопрос</router-link>
+        <router-link class="btn btn-primary ml-auto"
+                     :to="{ name: 'support:create'}">Новый вопрос</router-link>
     </div>
-    <div class="flex-table my-4">
+    <div class="flex-table d-none d-md-block my-4">
         <div class="header-row">
-            <div class="col">
-                Номер
-            </div>
-            <div class="col pointer" @click="isDateReversed = !isDateReversed">
-                Дата
+            <div class="col"> Номер </div>
+            <div class="col pointer"
+                 @click="isDateReversed = !isDateReversed"> Дата
                 <i :class="[isDateReversed ? 'fa-angle-up' : 'fa-angle-down', 'fa fa-lg']"></i>
             </div>
-            <div class="col">
-                Тема
-            </div>
+            <div class="col"> Тема </div>
             <div class="col">
                 <span>Статус</span>
             </div>
-            <div class="col text-center">
-                Кол-во сообщений
-            </div>
+            <div class="col text-center"> Кол-во сообщений </div>
         </div>
-        <div class="body-row" v-for="(ticket, i) in ticketsList" :key="i">
+        <div class="body-row"
+             v-for="(ticket, i) in ticketsList"
+             :key="i">
+            <div class="col"> {{ ticket.humanReadableNumber }} </div>
+            <div class="col"> {{ ticket.date }} </div>
+            <div class="col"> {{ ticket.topic }} </div>
             <div class="col">
-                {{ ticket.humanReadableNumber }}
-            </div>
-            <div class="col">
-                {{ ticket.date }}
-            </div>
-            <div class="col">
-                {{ ticket.topic }}
-            </div>
-            <div class="col">
-                <i :class="ticket.statusClass"></i>
-                {{ ticket.statusName }}
-            </div>
+                <i :class="ticket.statusClass"></i> {{ ticket.statusName }} </div>
             <div class="col text-center">
-                <router-link class="text-primary" :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: 2, rating: ticket.rating}}">
+                <router-link class="text-primary"
+                             :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: 2, rating: ticket.rating}}">
                     <u>{{ ticket.messages.length }}</u>
                 </router-link>
+            </div>
+        </div>
+    </div>
+    <div class="support-icons d-flex d-md-none justify-content-between">
+        <div class="support-icons__item"
+             v-once
+             v-html="Calendar"></div>
+        <div class="support-icons__item"
+             v-once
+             v-html="Status"></div>
+    </div>
+    <div class="flex-table d-md-none flex-column">
+        <div class="body-row d-flex flex-column"
+             v-for="(ticket, i) in ticketsList"
+             :key="i">
+            <div class="support-row">
+                <div class="col-8">
+                    <span>Тема: </span>
+                    <span class="text-primary">{{ ticket.topic }}</span>
+                </div>
+                <div class="col-4">
+                    <router-link class="text-primary text-right"
+                                 :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: 2, rating: ticket.rating}}">
+                        <span class="fa fa-lg fa-angle-right d-block d-md-none"></span>
+                    </router-link>
+                </div>
+            </div>
+            <div class="support-row">
+                <div class="col-8"> {{ ticket.date }} </div>
+                <div class="col-4 text-right">
+                    <i :class="ticket.statusClass"></i> {{ ticket.statusName }} </div>
             </div>
         </div>
     </div>

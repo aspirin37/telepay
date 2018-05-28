@@ -1,14 +1,14 @@
-<div class="container faq-container py-4 p-lg-0">
+<div class="container faq-container py-4 p-md-0">
     <div class="faq d-flex flex-column">
         <h1 class="main-title mb-3">F.A.Q.</h1>
-        <div class="col-12 p-0 p-lg-2 col-lg-8 offset-lg-2">
+        <div class="col-12 p-0 p-md-2 col-md-8 offset-md-2">
             <div class="search form-group">
                 <span class="search__icon fa fa-search"></span>
                 <input class="search__input form-control"
                        type="text"
                        v-model="searchInputValue"
                        placeholder="Введите Ваш вопрос" /> </div>
-            <span :class="[searchInputValue ? 'text-danger' : '', 'search__cancel-btn fa fa-lg fa-close pointer']"
+            <span :class="[searchInputValue ? 'text-danger' : '', 'search__cancel-btn fa fa-md fa-close pointer']"
                   @click="searchInputValue = ''"></span>
             <div class="tabs">
                 <div class="tabs-row d-flex">
@@ -48,7 +48,7 @@
                 </transition>
             </div>
             <div class="faq__redirect row">
-                <div class="col-lg-1 mb-3 mb-lg-0 mr-lg-5">
+                <div class="col-md-1 mb-3 mb-md-0 mr-md-5">
                     <span class="fa fa-info-circle fa-5x text-danger text-center"></span>
                 </div>
                 <div class="col-10">

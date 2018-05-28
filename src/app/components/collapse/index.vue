@@ -40,7 +40,7 @@ export default {
     font-weight: 600;
     font-size: 15px;
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
       font-size: 16px;
     }
   }

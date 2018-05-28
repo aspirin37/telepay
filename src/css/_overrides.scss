@@ -7,9 +7,11 @@
 
 h1 {
     font-size: 22px !important;
+    font-weight: 500;
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
         font-size: 2rem !important;
+        font-weight: 600;
     }
 }
 
@@ -94,7 +96,7 @@ h1 {
     font-size: 1.33333em;
     line-height: 0.75em;
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
         font-size: 2em;
     }
 }
