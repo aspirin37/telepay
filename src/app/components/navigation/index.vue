@@ -58,6 +58,12 @@ export default Vue.extend({
     // },
     isMenuOpened() {
       document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
+    },
+    isAuthorized() {
+      if (!this.isAuthorized) {
+        this.$store.commit('TOGGLE_MENU', false);
+        document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
+      }
     }
   },
   computed: {

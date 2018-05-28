@@ -66,7 +66,7 @@ export default Vue.extend({
 .faq-container {
   padding: 0 8px;
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     padding: 0 15px;
   }
 }
@@ -74,7 +74,7 @@ export default Vue.extend({
 .faq {
   padding-bottom: 0;
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     padding-bottom: 40px;
   }
 }
@@ -85,7 +85,7 @@ export default Vue.extend({
 
   margin-bottom: 23px;
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     margin-bottom: 50px;
   }
 
@@ -95,7 +95,7 @@ export default Vue.extend({
     top: 12px;
     left: 15px;
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
       top: 10px;
     }
   }
@@ -106,7 +106,7 @@ export default Vue.extend({
     top: 12px;
     right: 30px;
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
       top: 20px;
     }
   }
@@ -121,14 +121,14 @@ export default Vue.extend({
   justify-content: space-between;
   margin-bottom: 11px;
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     justify-content: start;
   }
 }
 
 .tabs {
   margin-bottom: 25px;
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     margin-bottom: 50px;
   }
 }
@@ -143,7 +143,7 @@ export default Vue.extend({
   line-height: 15px;
   text-align: center;
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     width: 165px;
     padding: 0.75rem;
     margin-right: 13px;
@@ -181,7 +181,7 @@ export default Vue.extend({
   text-align: center;
   margin-bottom: 50px;
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     flex-direction: row;
     text-align: left;
   }

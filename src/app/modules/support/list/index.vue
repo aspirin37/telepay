@@ -3,12 +3,18 @@
 <script>
 import { SupportApi } from '@services/api';
 import topics from '@utils/support-topics';
+
+import Calendar from '@assets/calendar.svg';
+import Status from '@assets/status.svg';
+
 export default Vue.extend({
   data() {
     return {
       isDateReversed: false,
       ticketsList: [],
-      statusList: []
+      statusList: [],
+      Calendar,
+      Status
     };
   },
   created() {

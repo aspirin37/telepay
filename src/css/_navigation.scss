@@ -181,9 +181,14 @@
             }
         }
 
-        &__cross svg {
-            width: 16px;
-            height: 100%;
+        &__cross {
+            display: flex;
+            align-items: center;
+
+            & svg {
+                width: 16px;
+                height: 100%;
+            }
         }
 
         &__burger {
