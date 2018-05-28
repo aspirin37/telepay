@@ -3,5 +3,7 @@ export default [
     `notification/${uuidRegexp}/read`,
     'notification/list',
     'catalog/filter',
-    'user'
+    'catalog/blacklist/remove',
+    'catalog/blacklist/add',
+    'user',
 ];

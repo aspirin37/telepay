@@ -185,7 +185,14 @@ export default {
                 this.post.buttons = buttons;
             }
         },
-
+        async openPaymentModal() {
+            await swal({
+                title: `К оплате - ${this.$options.filters.centToRub(this.totalPrice)}`,
+                confirmButtonText: 'Перейти к выбору способа оплаты',
+                showCancelButton: false,
+            });
+            // createPost(false)
+        },
         createPost(isTemplate) {
             let timeArr = this.postTime.split(':');
             if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0)) {
@@ -219,8 +226,10 @@ export default {
 
             PostApi.create(formData).then(() => {
                 this.dropSavedPost();
-                if (!isTemplate) this.dropSelectedChannels();
-                this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - this.totalPrice })
+                if (!isTemplate) {
+                    this.dropSelectedChannels();
+                    this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - this.totalPrice })
+                }
                 this.$router.push({ name: 'posts:list' });
             });
         },

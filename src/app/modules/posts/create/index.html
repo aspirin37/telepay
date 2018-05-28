@@ -74,11 +74,12 @@
                 </div>
                 <div class="col-12 text-right">
                     <button class="btn btn-primary"
+                            v-show="!post.postTemplateId"
                             @click.prevent="createPost(true)">
-                        Сохранить</button>
+                        Сохранить пост</button>
                     <button class="btn btn-success"
-                            @click.prevent="createPost(false)"
-                            :disabled="!selectedChannels.length">Разместить пост</button>
+                            @click.prevent="openPaymentModal"
+                            :disabled="!selectedChannels.length">Оплатить размещение</button>
                 </div>
             </div>
         </div>

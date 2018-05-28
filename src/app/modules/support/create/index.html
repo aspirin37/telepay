@@ -21,8 +21,7 @@
                     <b>Сообщение</b>
                 </label>
                 <support-textarea v-model="newMessage"
-                                  :newText="newMessage.text"
-                                  :newImages="newMessage.images" />
+                                  :autofocus="true" />
                 <button class="btn btn-success btn-md float-right"
                         type="button"
                         @click="ticketId ? createMessage() : createTicket()"
