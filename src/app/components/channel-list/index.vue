@@ -12,7 +12,8 @@
                             :circle="true" />
                     <b class="chip-title float-left">
                         {{ch.title}}
-                        <br> {{ch.timeFrame[0].priceWithCommission | centToRub}}
+                        <br> {{ch.cheapestTimeFrame.priceWithCommission | centToRub}}
+                        <br> {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}
                     </b>
                     <i class="fa float-right"
                        @click="toggleChannel(ch,true)"
