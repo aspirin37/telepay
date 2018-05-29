@@ -64,9 +64,9 @@ export default {
     methods: {
         async getCategories() {
             let { items, total } = await CatalogApi.list();
-            items.sort((a, b) => (a.name === '18+' || a.name === 'Азартные игры') ? -1 : 1)
+            items.sort((a, b) => (a.name === '18+' || a.name === 'Азартные игры') ? -1 : 1);
             this.categories = items;
-            this.channel.blackList = this.channel.blackList.concat(items.filter(c => c.name === '18+' || c.name === 'Азартные игры'))
+            this.channel.blackList = this.channel.blackList.concat(items.filter(c => c.name === '18+' || c.name === 'Азартные игры'));
         },
         connectWebsocket() {
             // TODO вынести сокет в миксин

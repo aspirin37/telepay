@@ -48,7 +48,7 @@
     </div>
     <h2>Рекламные предложения</h2>
     <div class="form-row">
-        <div class="col-3">
+        <div class="col-2">
             <div class="form-group">
                 <label>Кол-во постов в сутки</label>
                 <input type="number"
@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <div class="form-group">
                 <label v-tooltip="{template:'Время, которое пост должен быть в ленте канала на первом месте / Время поста в ленте до удаления ботом',delayOut:500}">Условия размещения
                 </label>
@@ -97,7 +97,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <div class="form-group">
                 <label>Цена за пост</label>
                 <input type="number"
@@ -118,11 +118,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-2"
-             v-show="editingConditions">
+        <div class="col-2">
             <label>&nbsp;</label>
-            <button class="btn-success btn btn-block"
+            <button class="btn-primary btn btn-block"
+                    v-show="!editingConditions"
+                    @click="editingConditions = true">Изменить</button>
+            <button class="btn-success btn btn-block m-0"
+                    v-show="editingConditions"
                     @click="saveGlobalTimeFrames">Сохранить</button>
+        </div>
+        <div class="col-2">
+            <label>&nbsp;</label>
+            <button class="btn-danger btn btn-block"
+                    v-show="channel.timeFrame.length"
+                    @click="deleteTimeFrames(true)">Удалить</button>
         </div>
         <div class="col-12"
              v-show="timeframesData&&timeframesData.postCount && timeframesData.postPrice && timeframesData.conditions">

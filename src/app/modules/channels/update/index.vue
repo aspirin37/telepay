@@ -17,6 +17,7 @@ export default {
             channel: {
                 isAutopost: undefined
             },
+            cache: {},
             categories: [],
             showTimeframes: false,
             editingConditions: false,
@@ -121,14 +122,29 @@ export default {
             }
 
             if (this.hasTimeframes) {
-                this.timeframesData.postCount = this.channel.timeFrame[0].postCount;
-                this.timeframesData.postPrice = this.channel.timeFrame[0].price / 100;
-                this.timeframesData.conditions = this.channel.timeFrame[0].inFeedHours || 'never';
+                let { postCount, price, inFeedHours } = this.channel.timeFrame[0];
+                this.cache = { postCount, postPrice: price, inFeedHours };
+                this.timeframesData.postCount = postCount;
+                this.timeframesData.postPrice = price / 100;
+                this.timeframesData.conditions = inFeedHours || 'never';
             }
 
             this.editingConditions = !this.channel.timeFrame.length
         },
-
+        async deleteTimeFrames(alert) {
+            let swalOut;
+            if (alert) {
+                swalOut = await swal({
+                    title: 'Вы уверены что хотите удалить рекламные предложения канала?',
+                    html: 'Канал не будет виден в каталоге.<br>Все посты на этом канале <b>ожидающие постинга</b> будут опубликованы.<br>Все посты <b>ожидающие подтверждения</b> будут отклонены.',
+                    confirmButtonText: 'Да, удалить!'
+                })
+            }
+            if (this.channel.timeFrame.length && ((swalOut && !swalOut.dismiss) || !swalOut)) {
+                await Promise.all(this.channel.timeFrame.map(tf => TimeFrameApi.delete(tf.timeFrameId)));
+                this.channel.timeFrame = [];
+            }
+        },
         async saveGlobalTimeFrames() {
             if (!this.timeframesData.postCount) this.errors.postCount = true
             if (!this.timeframesData.postPrice) this.errors.postPrice = true
@@ -138,10 +154,15 @@ export default {
                 return;
             }
 
-
-            if (this.channel.timeFrame.length) {
-                await Promise.all(this.channel.timeFrame.map(tf => TimeFrameApi.delete(tf.timeFrameId)));
+            if (
+                this.timeframesData.postCount === this.cache.postCount &&
+                this.timeframesData.postPrice === this.cache.postPrice / 100 &&
+                this.inFeedHours === this.cache.inFeedHours
+            ) {
+                this.editingConditions = false;
+                return;
             }
+            await this.deleteTimeFrames(false)
 
             await TimeFrameApi.create({
                 channelId: this.channel.channelId,
