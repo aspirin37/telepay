@@ -121,7 +121,7 @@ export default Vue.extend({
             isJustCreated: true
           };
 
-          mode == 'reversed' ? this.messages.push(message) : this.messages.unshift(message);
+          mode == 'mobile' ? this.messages.push(message) : this.messages.unshift(message);
           this.newMessage.text = '';
           this.newMessage.images = [];
         });

@@ -2,7 +2,7 @@
     <div class=" support-chat-container"
          v-if="$mq == 'sm' && ticketId">
         <heading text="История сообщений" />
-        <form class="d-flex flex-column">
+        <div class="d-flex flex-column">
             <div class="form-group__label mb-1">Тема:
                 <span class="text-primary">{{ topic }}</span>
             </div>
@@ -29,8 +29,8 @@
                           placeholder="Введите сообщение"
                           rows="1"
                           v-model="newMessage.text"
-                          @submit="createMessage('reversed')"> </textarea> </div>
-        </form>
+                          @keyup.enter="createMessage('mobile')"> </textarea> </div>
+        </div>
     </div>
     <div v-else>
         <heading text="Техподдержка" />
