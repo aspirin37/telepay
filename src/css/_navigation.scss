@@ -1,7 +1,6 @@
 .header {
     background-color: theme-color('light');
     transition: background-color 0.2s ease-out;
-
     &__container {
         position: relative;
         display: flex;
@@ -9,69 +8,56 @@
         justify-content: space-between;
         padding: 10px 0.25rem;
         max-width: 100%;
-
         @include media-breakpoint-up(lg) {
             max-width: 960px;
             flex-direction: row;
             padding: 0.75rem 0;
-
         }
-
         @include media-breakpoint-up(xl) {
             max-width: 1140px;
         }
     }
-
     .logo .cls-1 {
         fill: theme-color('slate') !important;
     }
     .nav-item {
         padding: 0 0.5em;
-
         &--user-mobile {
             display: flex;
             align-items: center;
             padding: 10px 0.25rem;
             margin-bottom: 40px;
-
             @include media-breakpoint-up(lg) {
                 display: none;
-            }  
+            }
         }
-
         &--exit {
             opacity: 0.5;
         }
-
         &__icon {
             display: flex;
             align-items: center;
             width: 30px;
-
             & svg {
                 width: 16px;
                 height: 16px;
             }
-
             &__exit svg {
                 fill: black;
             }
         }
-
         &--aside {
             display: flex;
             flex-direction: row;
             align-items: center;
             margin-bottom: 15px;
-
             @include media-breakpoint-up(lg) {
                 display: block;
                 padding: 0.25rem;
                 margin-bottom: 0;
-            }  
+            }
         }
     }
-
     .nav {
         &--top {
             transform: translateX(-196px);
@@ -85,12 +71,10 @@
             width: 196px;
             height: 100%;
             padding-left: 17px;
-            box-sizing: border-box;
-            // transform: translateX(-196px);
+            box-sizing: border-box; // transform: translateX(-196px);
             background-color: #f8f9fa;
-    
             @include media-breakpoint-up(lg) {
-                transform: translateX(0); 
+                transform: translateX(0);
                 align-items: center;
                 flex-direction: row;
                 width: auto;
@@ -98,27 +82,22 @@
                 padding-left: 0;
                 position: static;
                 background-color: transparent;
-            }   
+            }
         }
-
         &--bottom {
             align-items: center;
             width: 100%;
             position: relative;
-     
             @include media-breakpoint-up(lg) {
                 width: auto;
-            }    
-            
+            }
             .nav-item {
                 margin-right: 11px;
             }
-
             .notifications {
                 margin-right: 0;
             }
         }
-
         .nav-link {
             // display: flex;
             position: relative;
@@ -129,20 +108,16 @@
             background-color: transparent;
             &:hover {
                 text-decoration: none;
-
                 @include media-breakpoint-up(lg) {
                     text-decoration: underline;
                 }
             }
             &.active:not(.balance):not(.nav-link--user) {
                 text-decoration: none;
-
                 @include media-breakpoint-up(lg) {
                     text-decoration: underline;
                 }
             }
-
-
             @include media-breakpoint-up(lg) {
                 margin: 0.5rem 1rem;
             }
@@ -162,11 +137,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 32px;
-
             @include media-breakpoint-up(lg) {
                 position: static;
             }
-
             .logo {
                 width: 100%;
                 height: 42px;
@@ -175,54 +148,44 @@
                     height: 100%;
                 }
             }
-
             @include media-breakpoint-up(lg) {
                 width: 200px
             }
         }
-
         &__cross {
             display: flex;
             align-items: center;
-
             & svg {
                 width: 16px;
                 height: 100%;
             }
         }
-
         &__burger {
             display: flex;
             align-items: center;
-
             & svg {
                 width: 22px;
                 height: 100%;
             }
         }
-
         &__question svg {
             width: 20px;
             height: 100%;
         }
-
         &__wallet svg {
             width: 16px;
             height: 100%;
         }
-
         &__bell svg {
             position: relative;
             top: 0;
             width: 16px;
             height: 100%;
         }
-
         &__sum {
             position: relative;
             top: 2px;
         }
-
         .navbar-brand {
             width: 200px;
         }
@@ -240,20 +203,17 @@
     .advert-switch {
         margin-top: 60px;
         margin-bottom: 50px;
-
         @include media-breakpoint-up(lg) {
             margin-top: 0;
             margin-bottom: 0;
         }
-
         .title {
             margin-bottom: 0;
             float: left;
             cursor: pointer;
-            font-weight: 500; 
-
+            font-weight: 500;
             @include media-breakpoint-up(lg) {
-                font-weight: bold;                
+                font-weight: bold;
             }
         }
         .switch {
@@ -286,17 +246,14 @@
     }
     &.is-advert {
         background: #853d5e;
-
         svg {
             fill: #fff;
         }
-
         @include media-breakpoint-up(lg) {
             background: -moz-linear-gradient(left, #853d5e 0%, #4a3172 100%);
             background: -webkit-linear-gradient(left, #853d5e 0%, #4a3172 100%);
             background: linear-gradient(to right, #853d5e 0%, #4a3172 100%);
         }
-
         background-position: center;
         background-size: cover;
         .logo .cls-1 {
@@ -308,14 +265,11 @@
             color: #fff;
         }
     }
-
     .is-advert {
         background: #853d5e;
-
         svg {
             fill: #fff;
         }
-
         @include media-breakpoint-up(lg) {
             background: transparent;
         }
@@ -324,14 +278,37 @@
         max-height: 200px;
         overflow-y: auto;
     }
-
-    .notifications__badge {
-        position: absolute;
-        right: 0;
-        top: 0;
+    .notifications {
+        position: relative;
+        .notification-trigger {
+            // top: 0;
+            // right: -8px;
+            position: relative;
+            text-decoration: none;
+            padding: 10px 0;
+            .badge {
+                position: absolute;
+                top: 6px;
+                right: -12px;
+                font-size: 10px;
+                font-size: 0.6em;
+            }
+        }
+        .dropdown-menu {
+            top: 46px;
+            right: -10px;
+            left: initial;
+            min-width: 250px;
+            .dropdown-item {
+                white-space: normal;
+                padding: 0.25rem 0.75rem;
+                &:active {
+                    color: initial;
+                    background-color: #eee;
+                }
+            }
+        }
     }
-
-
 }
 
 .footer-nav {
@@ -342,7 +319,6 @@
     margin-top: auto;
     background-color: theme-color('light');
     transition: background-color 0.2s ease-out;
-
     a {
         color: inherit;
     }
@@ -355,10 +331,8 @@
         background-size: cover;
         color: #fff;
     }
-
     &__item {
         margin-bottom: 8px;
-
         @include media-breakpoint-up(lg) {
             margin-bottom: 0;
         }
@@ -369,7 +343,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
     @include media-breakpoint-up(lg) {
         flex-direction: row;
     }
@@ -390,7 +363,6 @@
     text-decoration: none;
     text-align: center;
     font-weight: 600;
-
     @include media-breakpoint-up(lg) {
         margin: 0;
     }

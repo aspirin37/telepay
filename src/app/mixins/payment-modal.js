@@ -76,6 +76,7 @@ export default {
                 },
                 showCloseButton: true,
                 showConfirmButton: false,
+                showCancelButton: false,
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 allowEnterKey: false,

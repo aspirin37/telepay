@@ -119,12 +119,14 @@
                                   @click="stopBlur"
                                   v-for="notify in notifications"
                                   :key="notify.notificationId">
-                                <div class="form-row">
+                                <div class="form-row"
+                                     :class="{'text-muted':notify.loading}">
                                     <div class="col-10"
                                          v-html="notify.text"></div>
                                     <div class="col-2">
-                                        <i class="fa fa-times fa-lg pointer text-right"
-                                           @click="setIsRead(notify.notificationId)"></i>
+                                        <i class="fa fa-lg pointer text-right text-black-50"
+                                           :class="notify.loading?'fa-spin fa-refresh':'fa-times'"
+                                           @click="setIsRead(notify)"></i>
                                     </div>
                                 </div>
                             </span>
