@@ -55,12 +55,12 @@ const common = function(env) {
             new HtmlWebpackPlugin({
                 inject: 'body',
                 template: PATHS.source + '/app/index.html',
-                // favicon: PATHS.source + '/assets/gb_fav.ico',
                 minify: {
                     caseSensitive: true,
                     collapseWhitespace: true,
                 },
             }),
+            new webpack.optimize.SplitChunksPlugin(),
             new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ru)$/), // load only en/ru locale
             new webpack.DefinePlugin({
                 'process.env': {
@@ -73,7 +73,7 @@ const common = function(env) {
                 swal: path.resolve(__dirname, 'src/app/components/swal'),
                 moment: 'moment',
             }),
-            new CleanWebpackPlugin(['build']),
+            new CleanWebpackPlugin(['build/bundle*']),
         ],
     },
     images(),

@@ -129,8 +129,7 @@ export default Vue.extend({
         ...mapState(['configs', 'user', 'selectedChannels']),
         totalPrice() {
             return this.selectedChannels.reduce((sum, el) => {
-                return sum + el.timeFrame.reduce((ofSum, timeFrame) => ofSum + (timeFrame.selected ? timeFrame.priceWithCommission :
-                    0), 0);
+                return sum + el.timeFrame.reduce((ofSum, tf) => ofSum + (tf.selected ? tf.priceWithCommission : 0), 0);
             }, 0);
         }
     },
