@@ -134,7 +134,10 @@ export default {
                 weekDay: moment(this.post.publishAt).weekday() + 1
             });
 
-            this.channels = items.map(item => item.channelInfo);
+            this.channels = items.map(item => {
+                item.channelInfo.category = item.categoryName;
+                return item.channelInfo
+            });
             if (this.post.timeFrameId && this.post.timeFrameId.length) {
                 let selectedChannels = this.channels.filter((ch) => {
                     let selectedTf = ch.timeFrame.find(tf => this.post.timeFrameId.includes(tf.timeFrameId));
@@ -257,6 +260,15 @@ export default {
         //         buttons: this.post.buttons,
         //     })
         // },
+        dropTemplate() {
+            this.post.postTemplateId = '';
+            this.post.text = 'Текст...';
+            this.post.buttons = [];
+            this.post.images = [];
+            this.postData.text = 'Текст...';
+            this.postData.buttons = [];
+            this.postData.images = [];
+        },
         async openCatalogPopup() {
             let self = this;
             let vm = new Vue({

@@ -64,12 +64,16 @@
                             <option :value="template.postTemplateId"
                                     v-for="template in postTemplates">{{template.text | cutLongStr(50)}}</option>
                         </select>
+                        <span class="btn-link m-0 p-0 pointer"
+                              v-show="post.postTemplateId"
+                              @click="dropTemplate">Сбросить</span>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-group m-0">
                         <p class="text-medium-font font-weight-500 mb-1">Контент</p>
-                        <post-input v-model="postData" />
+                        <post-input v-model="postData"
+                                    class="mb-2" />
                         <div class="float-right text-right">
                             <button class="btn btn-primary"
                                     v-show="!post.postTemplateId"

@@ -27,18 +27,21 @@ export default {
                     swal.hideLoading();
                     this.paymentModal.hasSuccess = true;
                     if(info) info.innerText =
-                        `Транзакция прошла успешно! Это окно закроется автоматически через ${this.paymentModal.AUTO_DISMISS_SECONDS} секунд`;
+                        `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.AUTO_DISMISS_SECONDS} c`;
+
                     this.paymentModal.closeTimeout.interval = setInterval(() => {
                         this.paymentModal.closeTimeout.counter--;
                         if(info) info.innerText =
-                            `Транзакция прошла успешно! Это окно закроется автоматически через ${this.paymentModal.closeTimeout.counter} секунд`;
+                            `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.closeTimeout.counter} c`;
                         if(this.paymentModal.closeTimeout.counter <= 0) clearInterval(this.paymentModal.closeTimeout.interval)
-                    }, 1e3)
+                    }, 1e3);
+
                     this.paymentModal.closeTimeout.timeout = setTimeout(() => {
-                        swal.close();
+                        swal.clickConfirm();
                         clearInterval(this.paymentModal.closeTimeout.interval)
                         this.paymentModal.closeTimeout.counter = this.paymentModal.AUTO_DISMISS_SECONDS;
                     }, this.paymentModal.AUTO_DISMISS_SECONDS * 1e3);
+
                     break;
                 case 'paymentProcessingStart':
                     if(info) info.innerText = 'Обработка транзакции, ожидайте завершения...';
@@ -69,7 +72,7 @@ export default {
                     window.removeEventListener('message', self.messageListener);
                     clearTimeout(self.paymentModal.closeTimeout.timeout);
                     clearInterval(self.paymentModal.closeTimeout.interval);
-                    self.paymentModal.closeTimeout.counter = self.paymentModal.AUTO_DISMISS_SECONDS0;
+                    self.paymentModal.closeTimeout.counter = self.paymentModal.AUTO_DISMISS_SECONDS;
                 },
                 showCloseButton: true,
                 showConfirmButton: false,
@@ -77,9 +80,10 @@ export default {
                 allowEscapeKey: false,
                 allowEnterKey: false,
             });
-
+            console.log(swalOut, this.paymentModal.hasSuccess)
             if(swalOut && this.paymentModal.hasSuccess) {
                 callback()
+                this.paymentModal.hasSuccess = false
             }
         }
     }

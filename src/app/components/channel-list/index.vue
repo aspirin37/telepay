@@ -10,7 +10,10 @@
                     <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
                             class="float-left w-25 h-25"
                             :circle="true" />
-                    <b class="chip-title float-left">{{ch.timeFrame[0].priceWithCommission | centToRub}}</b>
+                    <b class="chip-title float-left">
+                        {{ch.title}}
+                        <br> {{ch.timeFrame[0].priceWithCommission | centToRub}}
+                    </b>
                     <i class="fa float-right"
                        @click="toggleChannel(ch,true)"
                        :class="ch.selected?'fa-times fa-2x':'fa-repeat fa-lg ml-1'"></i>
@@ -26,7 +29,7 @@
                     <span v-tooltip="'% активной аудитории'">ER</span>
                 </div>
                 <div class="col-5 d-flex justify-content-between">
-                    <!-- <span>Условия</span> -->
+                    <span>Условия</span>
                     <span>Цена</span>
                     <span>Выбрать</span>
                 </div>
@@ -61,8 +64,8 @@
                             <div class="form-row"
                                  v-if="!ch.showAllTimeFrames && ch.cheapestTimeFrame"
                                  :key="ch.cheapestTimeFrame.timeFrameId">
-                                <!-- <div class="col-5">{{timeFrameDates(ch.cheapestTimeFrame,true)}} - {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours}}</div>  -->
-                                <div class="col-10">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}
+                                <div class="col-5">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
+                                <div class="col-5">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}
                                     <!-- <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down"
                                        v-if="ch.timeFrame.length > 1"
                                        @click="ch.showAllTimeFrames = true"></i> -->

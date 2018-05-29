@@ -118,8 +118,11 @@ export default {
         this.watchValue();
     },
     watch: {
-        value() {
-            this.watchValue();
+        value: {
+            deep: true,
+            handler() {
+                this.watchValue();
+            }
         },
         buttons() {
             this.updateModel();
@@ -178,10 +181,12 @@ export default {
         addImage(e) {
             let files = e.target.files || e.dataTransfer.files;
             if (!files.length) return;
-            if (this.images && this.images.length + files.length <= this.maxImages) {
+            if (!this.images) this.images = [];
+            if ((this.images.length + files.length) <= this.maxImages) {
                 for (let i = 0; i < files.length; i++) {
                     if (files[i].size / 1024 / 1024 > 1) {
                         this.$notifystr.danger('Ошибка!', 'Размер файла не должен превышать 2мб');
+                        return
                     }
                     this._createImage(files[i]);
                 }
