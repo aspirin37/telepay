@@ -1,6 +1,7 @@
 <template src="./index.html"></template>
 <script>
 import { SupportApi } from '@services/api';
+import { clone } from '@utils/clone';
 import StarRating from 'vue-star-rating';
 import searchInput from '@components/search-input';
 import heading from '@components/heading';
@@ -30,7 +31,7 @@ export default Vue.extend({
       rating: 0,
       isRated: false,
       isRatingDisabled: false,
-      messages: null,
+      messages: [],
       topic: null,
       selectedTopic: '',
       newMessage: {
@@ -38,6 +39,12 @@ export default Vue.extend({
         images: []
       }
     };
+  },
+  computed: {
+    messagesReversed() {
+      let copy = clone(this.messages);
+      return copy.reverse();
+    }
   },
   created() {
     if (this.$route.query.ticketId) {
@@ -80,6 +87,8 @@ export default Vue.extend({
       this.messages = ticket.messages;
       this.topic = this.topics[ticket.topic].name;
 
+      this.scrollChatDown();
+
       this.messages.sort((a, b) => b.createdAt - a.createdAt).forEach(it => {
         it.createdAt = moment.unix(it.createdAt).format('DD.MM.YYYY - HH:mm');
       });
@@ -121,10 +130,22 @@ export default Vue.extend({
             isJustCreated: true
           };
 
-          mode == 'mobile' ? this.messages.push(message) : this.messages.unshift(message);
+          this.messages.unshift(message);
           this.newMessage.text = '';
           this.newMessage.images = [];
+
+          this.scrollChatDown();
         });
+      }
+    },
+    scrollChatDown() {
+      if (this.$mq == 'sm') {
+        setTimeout(() => {
+          this.$nextTick(function() {
+            const chat = document.querySelector('.support-chat');
+            chat.scrollTop = chat.scrollHeight;
+          });
+        }, 140);
       }
     },
     getFormData(formData, data, previousKey) {
@@ -178,6 +199,7 @@ export default Vue.extend({
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: 100;
   width: 100%;
   padding: 17px;
   padding-top: 14px;
