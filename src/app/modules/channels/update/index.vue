@@ -43,8 +43,7 @@ export default {
 
     },
     created() {
-        this.getChannelInfo();
-        this.getCategories()
+        this.getData();
         this.$root.$on('addedChannelTimeFrame', this.getChannelInfo);
     },
     destroyed() {
@@ -85,17 +84,27 @@ export default {
         }
     },
     methods: {
+        async getData() {
+            await this.getChannelInfo();
+            await this.getCategories();
+        },
         async getCategories() {
             let { items, total } = await CatalogApi.list();
-            items.sort((a, b) => (a.name === '18+' || a.name === 'Азартные игры') ? -1 : 1)
+            items.sort((a, b) => (a.name === '18+' || a.name === 'Азартные игры') ? -1 : 1);
             this.categories = items;
+            if (this.channel.blacklist && this.channel.blacklist.length) {
+                this.categories.forEach(cat => {
+                    if (this.channel.blacklist.find(c => cat.categoryId === c.categoryId)) {
+                        cat.selected = true;
+                    }
+                });
+            }
+
         },
         async handleSelect(item) {
             if (item.selected) {
-                console.log('add black', item.categoryId)
                 await CatalogApi.blacklistAdd({ channelId: this.channel.channelId, categoryIds: [item.categoryId] })
             } else {
-                console.log('remove black', item.categoryId)
                 await CatalogApi.blacklistRemove({ channelId: this.channel.channelId, categoryIds: [item.categoryId] })
             }
         },
@@ -174,6 +183,7 @@ export default {
                 inTopHours: 1,
                 inFeedHours: this.inFeedHours,
             });
+
             this.getChannelInfo()
         }
     }
