@@ -3,11 +3,13 @@
 import { SupportApi } from '@services/api';
 import StarRating from 'vue-star-rating';
 import searchInput from '@components/search-input';
+import heading from '@components/heading';
 import supportTextarea from '@components/support-textarea';
 import topics from '@utils/support-topics';
 
 export default Vue.extend({
   components: {
+    heading,
     searchInput,
     supportTextarea,
     StarRating
@@ -23,7 +25,7 @@ export default Vue.extend({
   data() {
     return {
       topics,
-      ticketStatus: this.$route.query.status || null,
+      ticketStatus: this.$route.params.status,
       ticketId: this.$route.query.ticketId || null,
       rating: 0,
       isRated: false,
@@ -41,15 +43,12 @@ export default Vue.extend({
     if (this.$route.query.ticketId) {
       this.getMessages();
     }
-    if (this.$route.query.rating) {
-      this.rating = Number(this.$route.query.rating);
+    if (this.$route.params.rating) {
+      this.rating = Number(this.$route.params.rating);
       this.isRatingDisabled = true;
     }
     if (this.$route.params.topic) {
       this.selectedTopic = this.topics[this.$route.params.topic];
-    }
-    if (this.$route.params.text) {
-      this.newMessage.text = this.$route.params.text;
     }
   },
   methods: {
@@ -65,6 +64,14 @@ export default Vue.extend({
       }
       while (i < messages.length) {
         return message.isSupport != messages[i - 1].isSupport ? true : false;
+      }
+    },
+    isAuthorNeededMobile(message, i, messages) {
+      if (i == messages.length - 1) {
+        return true;
+      }
+      while (i < messages.length - 1) {
+        return message.isSupport != messages[i + 1].isSupport ? true : false;
       }
     },
     async getMessages() {
@@ -98,25 +105,27 @@ export default Vue.extend({
         });
       });
     },
-    createMessage() {
-      let messageData = this.getFormData(new FormData(), {
-        ticketId: this.ticketId,
-        content: this.newMessage.text,
-        images: this.newMessage.images.map(it => it.image)
-      });
-      SupportApi.createMessage(messageData).then(() => {
-        let message = {
+    createMessage(mode) {
+      if (this.newMessage.text) {
+        let messageData = this.getFormData(new FormData(), {
+          ticketId: this.ticketId,
           content: this.newMessage.text,
-          files: this.newMessage.images.map(it => it.decoded),
-          createdAt: moment().format('DD.MM.YYYY - HH:mm'),
-          isSupport: false,
-          isJustCreated: true
-        };
+          images: this.newMessage.images.map(it => it.image)
+        });
+        SupportApi.createMessage(messageData).then(() => {
+          let message = {
+            content: this.newMessage.text,
+            files: this.newMessage.images.map(it => it.decoded),
+            createdAt: moment().format('DD.MM.YYYY - HH:mm'),
+            isSupport: false,
+            isJustCreated: true
+          };
 
-        this.messages.unshift(message);
-        this.newMessage.text = '';
-        this.newMessage.images = [];
-      });
+          mode == 'reversed' ? this.messages.push(message) : this.messages.unshift(message);
+          this.newMessage.text = '';
+          this.newMessage.images = [];
+        });
+      }
     },
     getFormData(formData, data, previousKey) {
       if (data instanceof Object) {
@@ -156,6 +165,46 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import '~bootstrap/scss/bootstrap.scss';
 
+.support-chat {
+  max-height: calc(100vh - (240px));
+  overflow-y: auto;
+}
+
+.support-chat-container {
+  margin-bottom: -151px;
+}
+
+.support-textarea-mobile {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 17px;
+  padding-top: 14px;
+  border-top: 1px solid #e5e5e5;
+  box-sizing: border-box;
+  resize: none;
+  border-radius: 0;
+  background-color: #f6f7fb;
+  font-size: 16px;
+  line-height: 20px;
+  color: rgba(87, 96, 119, 0.5);
+
+  &::-webkit-input-placeholder {
+    color: rgba(87, 96, 119, 0.5);
+  }
+
+  &::-moz-placeholder {
+    color: rgba(87, 96, 119, 0.5);
+  }
+  &:-ms-input-placeholder {
+    color: rgba(87, 96, 119, 0.5);
+  }
+  &:-moz-placeholder {
+    color: rgba(87, 96, 119, 0.5);
+  }
+}
+
 .form-group-textarea {
   position: relative;
 }
@@ -181,7 +230,9 @@ export default Vue.extend({
   padding-right: 0;
 
   &__author {
-    color: #6c757d;
+    font-size: 16px;
+    line-height: 20px;
+    color: #576077;
   }
 
   &__content {
@@ -196,6 +247,15 @@ export default Vue.extend({
     &--support {
       border-radius: 0.5rem 0 0.5rem 0.5rem;
       border-color: #ffc107;
+    }
+
+    &--support-reversed {
+      border-color: #ffc107;
+      border-radius: 0 0.5rem 0.5rem 0.5rem !important;
+    }
+
+    &--reversed {
+      border-radius: 0.5rem 0 0.5rem 0.5rem;
     }
   }
 

@@ -1,22 +1,22 @@
 <template>
-    <div class="wrap mb-3">
-        <div class="textarea-input">
-            <textarea class="form-control" placeholder="Введите сообщение..." rows="4" v-model="text" ref="text"></textarea>
-            <div class="textarea-input__icons">
-                <label class="textarea-input__file-label textarea-input__icon">
-                    <i class="fa fa-lg fa-camera" aria-hidden="true"></i>
-                    <input type="file" id="file-upload" accept="image/*" class="textarea-input__file-input" @change="addImage" />
-                </label>
-            </div>
-        </div>
-        <div v-if="images.length" class="file-previews">
-            <div v-for="(src, i) in images" :key="i" class="file-previews__item rounded" :style="{ 'background-image': 'url(' + src.decoded + ')' }" @click="showImage(src.decoded)">
-                <span class="file-previews__remove" @click="removeImage(i)">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </span>
-            </div>
-        </div>
+  <div class="wrap mb-3">
+    <div class="textarea-input">
+      <textarea class="form-control" placeholder="Введите сообщение..." rows="4" v-model="text" ref="text"></textarea>
+      <div class="textarea-input__icons">
+        <label class="textarea-input__file-label textarea-input__icon">
+          <i class="fa fa-lg fa-camera" aria-hidden="true"></i>
+          <input type="file" id="file-upload" accept="image/*" class="textarea-input__file-input" @change="addImage" />
+        </label>
+      </div>
     </div>
+    <div v-if="images.length" class="file-previews">
+      <div v-for="(src, i) in images" :key="i" class="file-previews__item rounded" :style="{ 'background-image': 'url(' + src.decoded + ')' }" @click="showImage(src.decoded)">
+        <span class="file-previews__remove" @click="removeImage(i)">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -129,7 +129,7 @@ export default {
   display: flex;
   position: absolute;
   left: 0;
-  bottom: -10px;
+  bottom: -60px;
   padding-top: 10px;
   .file-previews__item {
     position: relative;

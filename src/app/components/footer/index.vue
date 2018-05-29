@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light footer-nav" :class="{'is-advert':isAdvert}">
+  <nav class="navbar navbar-light footer-nav" :class="{'is-advert':isAdvert}" v-if="!isMobileSupportChat">
     <div class="footer-wrapper container py-2">
       <span class="order-last order-lg-first">©Telepay.io, 2017-{{year}} гг.<br class="d-lg-none"> Все права защищены</span>
       <a class="footer-nav__item" href="https://landing.telepay.io/privacy-policy.html" target="_blank">Политика конфиденциальности</a>
@@ -10,6 +10,11 @@
 </template>
 <script type="text/javascript">
 export default {
+  computed: {
+    isMobileSupportChat() {
+      return this.$mq == 'sm' && this.$route.path == '/support/create' && this.$route.query.ticketId;
+    }
+  },
   data() {
     return {
       year: moment().year(),

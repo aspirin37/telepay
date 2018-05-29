@@ -28,7 +28,7 @@
                 <i :class="ticket.statusClass"></i> {{ ticket.statusName }} </div>
             <div class="col text-center">
                 <router-link class="text-primary"
-                             :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: 2, rating: ticket.rating}}">
+                             :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: ticket.status, rating: ticket.rating}}">
                     <u>{{ ticket.messages.length }}</u>
                 </router-link>
             </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="col-4">
                     <router-link class="text-primary text-right"
-                                 :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: 2, rating: ticket.rating}}">
+                                 :to="{name:'support:create', query:{ticketId: ticket.ticketId}, params:{status: ticket.status, rating: ticket.rating}}">
                         <span class="fa fa-lg fa-angle-right d-block d-md-none"></span>
                     </router-link>
                 </div>

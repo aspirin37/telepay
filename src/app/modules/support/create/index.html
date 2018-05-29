@@ -1,66 +1,96 @@
 <div class="container py-3">
-    <div class="d-flex flex-column">
-        <h1 class="mb-3 d-flex justify-content-between align-items-baseline">Техподдержка
-            <small @click="$router.go(-1)"
-                   class="float-right pointer">
-                <i class="fa fa-lg fa-chevron-left d-none d-md-inline"></i>
-                <i class="fa fa-lg fa-angle-left d-inline d-md-none"
-                   style="vertical-align: -8%"></i> Назад</small>
-        </h1>
-        <div class="col-12 col-md-4 offset-md-3 p-0"
-             v-if="!ticketId">
-            <div class="form-group mb-2">
-                <label class="form-group__label mb-1">Тема </label>
-                <search-input placeholder="Выберите тему"
-                              :options="topics"
-                              v-model="selectedTopic" /> </div>
-        </div>
-        <div class="col-12 col-md-6 offset-md-3 mb-4 p-0">
-            <div class="form-group form-group-textarea">
-                <label class="form-group__label mb-1">Сообщение </label>
-                <support-textarea v-model="newMessage"
-                                  :autofocus="true" />
-                <button class="btn-create btn btn-success btn-md float-right"
-                        type="button"
-                        @click="ticketId ? createMessage() : createTicket()"
-                        disabled>Отправить</button>
-                <div class="rating d-none d-md-block col-4 offset-4"
-                     v-if="ticketStatus == 2">
-                    <div class="rating__wrapper d-flex flex-column align-items-center"
-                         v-if="!isRated">
-                        <star-rating :show-rating="false"
-                                     active-color="#ffc107"
-                                     :star-size="20"
-                                     :rating="rating"
-                                     :read-only="isRatingDisabled"
-                                     @rating-selected="setRating"></star-rating>
-                        <span>{{ rating ? "Ваша оценка" : "Оцените нашу помощь" }}</span>
+    <div class=" support-chat-container"
+         v-if="$mq == 'sm' && ticketId">
+        <heading text="История сообщений" />
+        <form class="d-flex flex-column">
+            <div class="form-group__label mb-1">Тема:
+                <span class="text-primary">{{ topic }}</span>
+            </div>
+            <div class="support-chat mt-3">
+                <div class="support-chat__wrapper">
+                    <div :class="[message.isSupport ? 'float-left' : 'float-right', 'message col-10 mb-3']"
+                         v-for="(message, i) in messages">
+                        <h6 :class="[message.isSupport ? '' : 'text-right' , 'message__author']"
+                            v-if="isAuthorNeededMobile(message, i, messages)">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>
+                        <div :class="[message.isSupport ? 'message__content--support-reversed' : 'float-right', 'message__content message__content--reversed float-left']">
+                            <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text mb-1']">{{ message.content }}</div>
+                            <div class="message__images"
+                                 v-if="message.files.length">
+                                <img class="rounded img-thumbnail img-fluid mb-3 pointer"
+                                     :src="message.isJustCreated ? image : '/images/tickets/' + ticketId + '/' + image.fileId + '.' + image.extension"
+                                     v-for="image in message.files"
+                                     @click="showImage"></img>
+                            </div>
+                            <small :class="[message.isSupport ? '' : 'text-right', 'message__date d-block']">{{ message.createdAt }}</small>
+                        </div>
                     </div>
-                    <div class="rating__wrapper d-flex flex-column align-items-center"
-                         v-else>
-                        <span class="fa fa-2x fa-thumbs-up"></span>
-                        <span>Спасибо за Ваш отзыв!</span>
+                </div>
+                <textarea class="form-control support-textarea-mobile"
+                          placeholder="Введите сообщение"
+                          rows="1"
+                          v-model="newMessage.text"
+                          @submit="createMessage('reversed')"> </textarea> </div>
+        </form>
+    </div>
+    <div v-else>
+        <heading text="Техподдержка" />
+        <div class="d-flex flex-column">
+            <div class="col-12 col-md-4 offset-md-3 p-0"
+                 v-if="!ticketId">
+                <div class="form-group mb-2">
+                    <label class="form-group__label mb-1">Тема </label>
+                    <search-input placeholder="Выберите тему"
+                                  :options="topics"
+                                  v-model="selectedTopic" /> </div>
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 mb-4 p-0">
+                <div class="form-group form-group-textarea">
+                    <label class="form-group__label mb-1">Сообщение </label>
+                    <support-textarea v-model="newMessage"
+                                      :autofocus="true"
+                                      :newMessage="newMessage" />
+                    <button class="btn-create btn btn-success btn-md float-right"
+                            type="button"
+                            @click="ticketId ? createMessage() : createTicket()"
+                            disabled>Отправить</button>
+                    <div class="rating d-none d-md-block col-4 offset-4"
+                         v-if="ticketStatus == 2">
+                        <div class="rating__wrapper d-flex flex-column align-items-center"
+                             v-if="!isRated">
+                            <star-rating :show-rating="false"
+                                         active-color="#ffc107"
+                                         :star-size="20"
+                                         :rating="rating"
+                                         :read-only="isRatingDisabled"
+                                         @rating-selected="setRating"></star-rating>
+                            <span>{{ rating ? "Ваша оценка" : "Оцените нашу помощь" }}</span>
+                        </div>
+                        <div class="rating__wrapper d-flex flex-column align-items-center"
+                             v-else>
+                            <span class="fa fa-2x fa-thumbs-up"></span>
+                            <span>Спасибо за Ваш отзыв!</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-6 offset-3 p-0"
-             v-if="ticketId">
-            <h4 class="mb-3">Чат с оператором</h4>
-            <div :class="[message.isSupport ? 'float-right' : 'float-left', 'message col-10 mb-3']"
-                 v-for="(message, i) in messages">
-                <h6 :class="[message.isSupport ? 'text-right' : '', 'message__author']"
-                    v-if="isAuthorNeeded(message, i, messages)">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>
-                <div :class="[message.isSupport ? 'message__content--support float-right' : '', 'message__content float-left']">
-                    <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text mb-1']">{{ message.content }}</div>
-                    <div class="message__images"
-                         v-if="message.files.length">
-                        <img class="rounded img-thumbnail img-fluid mb-3 pointer"
-                             :src="message.isJustCreated ? image : '/images/tickets/' + ticketId + '/' + image.fileId + '.' + image.extension"
-                             v-for="image in message.files"
-                             @click="showImage"></img>
+            <div class="col-6 offset-3 p-0"
+                 v-if="ticketId">
+                <h4 class="mb-3">Чат с оператором</h4>
+                <div :class="[message.isSupport ? 'float-right' : 'float-left', 'message col-10 mb-3']"
+                     v-for="(message, i) in messages">
+                    <h6 :class="[message.isSupport ? 'text-right' : '', 'message__author']"
+                        v-if="isAuthorNeeded(message, i, messages)">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>
+                    <div :class="[message.isSupport ? 'message__content--support float-right' : '', 'message__content float-left']">
+                        <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text mb-1']">{{ message.content }}</div>
+                        <div class="message__images"
+                             v-if="message.files.length">
+                            <img class="rounded img-thumbnail img-fluid mb-3 pointer"
+                                 :src="message.isJustCreated ? image : '/images/tickets/' + ticketId + '/' + image.fileId + '.' + image.extension"
+                                 v-for="image in message.files"
+                                 @click="showImage"></img>
+                        </div>
+                        <small :class="[message.isSupport ? 'text-right' : '', 'message__date d-block']">{{ message.createdAt }}</small>
                     </div>
-                    <small :class="[message.isSupport ? 'text-right' : '', 'message__date d-block']">{{ message.createdAt }}</small>
                 </div>
             </div>
         </div>

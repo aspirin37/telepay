@@ -10,6 +10,14 @@ import notifystr from 'notifystr';
 import loader from '@components/loader';
 import navigation from '@components/navigation';
 import pageFooter from '@components/footer';
+import VueMq from 'vue-mq'
+
+Vue.use( VueMq, {
+    breakpoints: {
+        sm: 768,
+        md: 992,
+    }
+} )
 
 // services
 import '@filters';
