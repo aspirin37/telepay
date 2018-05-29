@@ -1,4 +1,5 @@
 import { BalanceApi } from '@services/api';
+import plural from '@utils/plural';
 export default {
     data() {
         return {
@@ -27,12 +28,12 @@ export default {
                     swal.hideLoading();
                     this.paymentModal.hasSuccess = true;
                     if(info) info.innerText =
-                        `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.AUTO_DISMISS_SECONDS} c`;
+                        `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.AUTO_DISMISS_SECONDS} с`;
 
                     this.paymentModal.closeTimeout.interval = setInterval(() => {
                         this.paymentModal.closeTimeout.counter--;
                         if(info) info.innerText =
-                            `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.closeTimeout.counter} c`;
+                            `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.closeTimeout.counter} с`;
                         if(this.paymentModal.closeTimeout.counter <= 0) clearInterval(this.paymentModal.closeTimeout.interval)
                     }, 1e3);
 

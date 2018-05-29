@@ -71,7 +71,7 @@ export default {
                 postPrice
             } = this.timeframesData;
             let totalPostsCount = postCount * 7;
-            return `Максимум за неделю: <span class="h5">${totalPostsCount}</span> ${plural('пост',totalPostsCount)} - доход: <span class="h5">${this.cutKiloCentToRub(totalPostsCount*postPrice)}</span>`
+            return `Максимум за неделю: <span class="h5">${totalPostsCount}</span> ${this.pluralizePost(totalPostsCount)} - доход: <span class="h5">${this.cutKiloCentToRub(totalPostsCount*postPrice)}</span>`
         },
         dailyPostsStr() {
             let {
@@ -79,7 +79,7 @@ export default {
                 postPrice,
                 conditions
             } = this.timeframesData;
-            return `<span class="h5">${postCount}</span> ${plural('пост',postCount)} в сутки, каждый по <span class="h5">${this.cutKiloCentToRub(postPrice)}</span><br>
+            return `<span class="h5">${postCount}</span> ${this.pluralizePost(postCount)} в сутки, каждый по <span class="h5">${this.cutKiloCentToRub(postPrice)}</span><br>
             <span class="h5">1</span> час в топе, присутствие в канале - <span class="h5">${conditions=== 'never' ?'∞' : conditions+'ч'}</span>`
         }
     },
@@ -101,6 +101,7 @@ export default {
             }
 
         },
+        pluralizePost: plural('пост', ['ов', '', 'а']),
         async handleSelect(item) {
             if (item.selected) {
                 await CatalogApi.blacklistAdd({ channelId: this.channel.channelId, categoryIds: [item.categoryId] })
