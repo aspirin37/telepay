@@ -12,11 +12,14 @@
                   @click="searchInputValue = ''"></span>
             <div class="tabs">
                 <div class="tabs-row d-flex">
-                    <div :class="[tabSelected == 0 ? 'tab--active' : '' , 'tab']"
+                    <div class="pointer"
+                         :class="[tabSelected == 0 ? 'tab--active' : '' , 'tab']"
                          @click="tabSelected = 0">Общие</div>
-                    <div :class="[tabSelected == 1 ? 'tab--active' : '' , 'tab']"
+                    <div class="pointer"
+                         :class="[tabSelected == 1 ? 'tab--active' : '' , 'tab']"
                          @click="tabSelected = 1">Рекламодателю</div>
-                    <div :class="[tabSelected == 2 ? 'tab--active' : '' , 'tab']"
+                    <div class="pointer"
+                         :class="[tabSelected == 2 ? 'tab--active' : '' , 'tab']"
                          @click="tabSelected = 2">Администратору</div>
                 </div>
                 <transition name="fade-2"

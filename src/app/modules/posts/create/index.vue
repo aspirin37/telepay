@@ -6,6 +6,7 @@ import channelList from '@components/channel-list';
 import postPreview from '@components/post-preview';
 import postInput from '@components/post-input';
 import dateInput from '@components/date-input';
+import collapse from '@components/collapse';
 import { clone } from '@utils/clone';
 import WebStorage from '@utils/storage';
 import paymentModal from '@mixins/payment-modal';
@@ -15,7 +16,8 @@ export default {
         postPreview,
         channelList,
         dateInput,
-        postInput
+        postInput,
+        collapse,
     },
     data() {
         return {
@@ -74,7 +76,6 @@ export default {
             'selectedChannels': 'selectedChannels',
             'post': 'savedPost',
         }),
-
         selectedTimeFrameIds() {
             return this.selectedChannels.reduce((sum, ch) => {
                 let selectedTimeFrameIds = ch.timeFrame.reduce((sumTimeFrames, timeFrame) => {

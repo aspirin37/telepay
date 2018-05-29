@@ -77,7 +77,7 @@ export default {
                 allowEscapeKey: false,
                 allowEnterKey: false,
             });
-            console.log(swalOut)
+
             if(swalOut && this.paymentModal.hasSuccess) {
                 callback()
             }

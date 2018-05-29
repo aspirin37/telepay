@@ -67,19 +67,53 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="form-group">
+                    <div class="form-group m-0">
                         <p class="text-medium-font font-weight-500 mb-1">Контент</p>
                         <post-input v-model="postData" />
+                        <div class="float-right text-right">
+                            <button class="btn btn-primary"
+                                    v-show="!post.postTemplateId"
+                                    @click.prevent="createPost(true)">
+                                Сохранить пост</button>
+                            <button class="btn btn-success"
+                                    @click.prevent="openPaymentModal(totalPrice/100,createPost)"
+                                    :disabled="!selectedChannels.length">Оплатить размещение</button>
+                        </div>
+                        <collapse collapseHeader="Правила форматирования"
+                                  class="w-75 border-bottom-0">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4>Результат</h4>
+                                </div>
+                                <div class="col-6">
+                                    <h4>Правило</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 border-right">
+                                    <a href="https://telepay.io"
+                                       target="_blank">Ссылка</a>
+                                </div>
+                                <div class="col-6">[Ссылка](https://telepay.io)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 border-right">
+                                    <b>Жирный</b>
+                                </div>
+                                <div class="col-6">*Жирный*</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 border-right">
+                                    <i>Курсив</i>
+                                </div>
+                                <div class="col-6">_Курсив_</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 border-right"><pre class="m-0 d-inline">Выделение кода</pre></div>
+                                <div class="col-6">`Выделение кода`</div>
+                            </div>
+                        </collapse>
                     </div>
-                </div>
-                <div class="col-12 text-right">
-                    <button class="btn btn-primary"
-                            v-show="!post.postTemplateId"
-                            @click.prevent="createPost(true)">
-                        Сохранить пост</button>
-                    <button class="btn btn-success"
-                            @click.prevent="openPaymentModal(totalPrice/100,createPost)"
-                            :disabled="!selectedChannels.length">Оплатить размещение</button>
                 </div>
             </div>
         </div>
