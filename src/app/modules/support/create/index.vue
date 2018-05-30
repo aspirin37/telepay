@@ -189,7 +189,7 @@ export default Vue.extend({
 .support-chat {
   display: flex;
   flex-direction: column;
-  flex-basis: calc(100vh - (210px));
+  flex-basis: calc(100vh - (260px));
   padding-bottom: 20px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
