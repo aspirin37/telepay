@@ -3,7 +3,7 @@
         <h1 class="text-medium-font mb-2">История платежей</h1>
         <div>
             <router-link class="btn btn-primary mx-2"
-                         v-show="user && user.balance && user.balance.current>100 && transactions && transactions.length"
+                         v-show="user && user.balance && user.balance.current>1000 && transactions && transactions.length"
                          :to="{ name: 'balance:withdrawal' }">Вывести средства</router-link>
         </div>
     </div>

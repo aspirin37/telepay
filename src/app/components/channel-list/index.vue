@@ -23,7 +23,7 @@
         </div>
         <div class="flex-table"
              v-if="innerChannels.length && !isChips">
-            <div class="header-row">
+            <div class="header-row mx-0">
                 <div class="col-3">Канал</div>
                 <div class="col">Подписчиков</div>
                 <div class="col">
@@ -58,7 +58,7 @@
                         <!-- <telestat-link :channel="ch.username" v-if="ch.subscriberCount>=300" :text="$options.filters.cutSum(ch.subscriberCount)" /> -->
                         <span>{{ch.subscriberCount | cutSum(1)}}</span>
                     </div>
-                    <div class="col fa-lg">{{ch.engagementRate | cutSum}}%</div>
+                    <div class="col h4 m-0">{{ch.engagementRate | cutSum}}%</div>
                     <div class="col-5 h4 m-0">
                         <transition-group name="fade-out"
                                           mode="out-in">
