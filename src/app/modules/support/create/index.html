@@ -8,7 +8,7 @@
             </div>
             <div class="support-chat mt-3">
                 <div class="support-chat__wrapper">
-                    <div :class="[message.isSupport ? 'float-left' : 'float-right', 'message col-10 mb-3']"
+                    <div :class="[message.isSupport ? 'mr-auto' : 'ml-auto', 'message col-10 mb-3']"
                          v-for="(message, i) in messagesReversed">
                         <h6 :class="[message.isSupport ? '' : 'text-right' , 'message__author']"
                             v-if="isAuthorNeededMobile(message, i, messagesReversed)">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>

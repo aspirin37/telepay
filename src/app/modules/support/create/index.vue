@@ -187,10 +187,18 @@ export default Vue.extend({
 @import '~bootstrap/scss/bootstrap.scss';
 
 .support-chat {
-  max-height: calc(100vh - (200px));
+  display: flex;
+  flex-direction: column;
+  flex-basis: calc(100vh - (210px));
   padding-bottom: 20px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+
+  &__wrapper {
+      display: flex;
+	  flex-direction: column;
+      margin-top: auto;
+  }
 }
 
 .support-chat-container {

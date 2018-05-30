@@ -331,7 +331,7 @@
     background-color: theme-color('light');
     transition: background-color 0.2s ease-out;
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
         position: fixed;
     }
 
