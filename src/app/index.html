@@ -29,7 +29,8 @@
                     size="xl"
                     :fixed="true"></loader>
             <notifystr></notifystr>
-            <div class="app-wrapper">
+            <div class="app-wrapper"
+                 :class="{'app-wrapper--toggled': isMenuOpened}">
                   <navigation></navigation>
                   <div class="container-wrap">
                         <router-view></router-view>

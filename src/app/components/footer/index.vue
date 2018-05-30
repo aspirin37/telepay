@@ -13,12 +13,21 @@ export default {
   computed: {
     isMobileSupportChat() {
       return this.$mq == 'sm' && this.$route.path == '/support/create' && this.$route.query.ticketId;
+    },
+    isAdvert: {
+      get() {
+        return this.$store.state.is_advert;
+      },
+      set(val) {
+        WebStorage.set('is_advert', val);
+        this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: val });
+        this.$router.push({ name: val ? 'catalog' : 'channels:list' });
+      }
     }
   },
   data() {
     return {
-      year: moment().year(),
-      isAdvert: this.$store.state.is_advert
+      year: moment().year()
     };
   }
 };

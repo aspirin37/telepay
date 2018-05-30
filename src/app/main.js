@@ -3,6 +3,8 @@ import './config';
 
 import router from './routes';
 import store from './store';
+import { mapGetters } from 'vuex';
+import VueMq from 'vue-mq'
 import '@services/interceptor';
 
 // components
@@ -10,7 +12,6 @@ import notifystr from 'notifystr';
 import loader from '@components/loader';
 import navigation from '@components/navigation';
 import pageFooter from '@components/footer';
-import VueMq from 'vue-mq'
 
 Vue.use( VueMq, {
     breakpoints: {
@@ -46,5 +47,8 @@ export const App = new Vue( {
             },
             set: () => { },
         },
+        ...mapGetters( {
+            isMenuOpened: 'getMenuState'
+        } ),
     },
 } ).$mount( '#app' );

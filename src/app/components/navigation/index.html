@@ -1,9 +1,10 @@
 <div>
     <nav class="header fixed-top"
          :class="{ 'navbar_main': !logoVisible, 'is-advert':isAdvert }">
-        <div class="container header__container">
+        <div class="container header__container"
+             :class="{'header__container--toggled': isMenuOpened}">
             <ul class="nav nav--top"
-                :class="{'is-advert':isAdvert }">
+                :class="{'is-advert':isAdvert, 'nav--top--toggled': isMenuOpened }">
                 <li class="nav-item nav-item--user-mobile">
                     <router-link tag="div"
                                  class="user-field text-light"
