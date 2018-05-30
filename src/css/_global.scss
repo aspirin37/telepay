@@ -12,15 +12,18 @@ body {
 }
 
 .app-wrapper {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
-    padding-bottom: 151px;
-    transform: translateX(0);
+    position: relative;
+    left: 0;
+    top: 0;
     transition: all 0.2s ease-in-out;
     @include media-breakpoint-up(lg) {
         padding-bottom: 55px;
     }
     &--toggled {
-        transform: translateX(196px);
+        left: 196px;
     }
 }
 

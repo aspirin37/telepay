@@ -24,117 +24,119 @@ import Payments from '@assets/payments.svg';
 import Cross from '@assets/crest-01.svg';
 
 export default Vue.extend({
-    components: { onOff, dropDown, dropDownMenuItem },
-    data() {
-        return {
-            isVisible: false,
-            showDD: false,
-            notifications: [],
-            notificationsCount: 0,
-            updateTimeout: null,
-            year: moment().year(),
-            LogoDesktop,
-            LogoMobile,
-            Burger,
-            Question,
-            Wallet,
-            Bell,
-            Catalog,
-            Channels,
-            Posts,
-            Support,
-            Exit,
-            Payments,
-            Cross
-        };
+  components: { onOff, dropDown, dropDownMenuItem },
+  data() {
+    return {
+      isVisible: false,
+      showDD: false,
+      notifications: [],
+      notificationsCount: 0,
+      updateTimeout: null,
+      year: moment().year(),
+      LogoDesktop,
+      LogoMobile,
+      Burger,
+      Question,
+      Wallet,
+      Bell,
+      Catalog,
+      Channels,
+      Posts,
+      Support,
+      Exit,
+      Payments,
+      Cross
+    };
+  },
+  created() {
+    this.getNotificationList();
+    this.addWindowResizeHandler();
+  },
+  destroyed() {
+    clearTimeout(this.updateTimeout);
+  },
+  watch: {
+    isMenuOpened() {
+      document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
+      document.querySelector('.nav--top').classList.toggle('nav--top--toggled');
+      document.querySelector('.header__container').classList.toggle('header__container--toggled');
     },
-    created() {
-        this.getNotificationList();
-        this.addWindowResizeHandler();
-    },
-    destroyed() {
-
-        clearTimeout(this.updateTimeout);
-    },
-    watch: {
-        // $route(to, from) {
-        //   this.$store.commit('TOGGLE_MENU', false);
-        // },
-        isMenuOpened() {
-            document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
-        },
-        isAuthorized() {
-            if (!this.isAuthorized) {
-                this.$store.commit('TOGGLE_MENU', false);
-                document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
-            }
-        }
-    },
-    computed: {
-        user() {
-            return this.$store.state.user
-        },
-        isAdvert: {
-            get() {
-                return this.$store.state.is_advert;
-            },
-            set(val) {
-                WebStorage.set('is_advert', val);
-                this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: val });
-                this.$router.push({ name: val ? 'catalog' : 'channels:list' });
-            }
-        },
-        ...mapGetters({
-            isAuthorized: 'isAuthorized',
-            getUsername: 'getUsername',
-            balance: 'getUserBalance',
-            isMenuOpened: 'getMenuState'
-        }),
-        logoVisible() {
-            return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
-        }
-    },
-    methods: {
-        addWindowResizeHandler() {
-            window.addEventListener('resize', () => {
-                this.$store.commit('TOGGLE_MENU', false);
-                document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
-            });
-        },
-        toggleMenu() {
-            this.$store.commit('TOGGLE_MENU', !this.isMenuOpened);
-        },
-        toggleDD() {
-            this.showDD = !this.showDD;
-            if (this.showDD) this.$refs.ddmenu.scrollTop = 0;
-        },
-        blurHandler() {
-            this.closeDDTimeout = setTimeout(() => {
-                this.showDD = false;
-            }, 200);
-        },
-        stopBlur() {
-            clearTimeout(this.closeDDTimeout);
-        },
-        async getNotificationList() {
-            clearTimeout(this.updateTimeout);
-            if (this.user && this.user.userId) {
-                let { items, total } = await NotificationApi.list();
-                items.forEach((nf) => nf.loading = false)
-                this.notifications = items;
-                this.notificationsCount = total;
-                this.updateTimeout = setTimeout(this.getNotificationList, 1e4);
-            } else {
-                this.updateTimeout = setTimeout(this.getNotificationList, 1e3);
-            }
-        },
-        async setIsRead(notification) {
-            if (notification.loading) return
-            notification.loading = true;
-            await NotificationApi.markAsRead({ notificationId: notification.notificationId });
-            this.notifications = this.notifications.filter(n => n.notificationId !== notification.notificationId);
-            this.getNotificationList();
-        }
+    isAuthorized() {
+      if (!this.isAuthorized) {
+        this.$store.commit('TOGGLE_MENU', false);
+        document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
+        document.querySelector('.nav--top').classList.remove('nav--top--toggled');
+        document.querySelector('.header__container').classList.remove('header__container--toggled');
+      }
     }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+    isAdvert: {
+      get() {
+        return this.$store.state.is_advert;
+      },
+      set(val) {
+        WebStorage.set('is_advert', val);
+        this.$store.commit('CHANGE_STATE', { key: 'is_advert', value: val });
+        this.$router.push({ name: val ? 'catalog' : 'channels:list' });
+      }
+    },
+    ...mapGetters({
+      isAuthorized: 'isAuthorized',
+      getUsername: 'getUsername',
+      balance: 'getUserBalance',
+      isMenuOpened: 'getMenuState'
+    }),
+    logoVisible() {
+      return this.$route.name !== 'main' && !this.$route.fullPath.includes('auth');
+    }
+  },
+  methods: {
+    addWindowResizeHandler() {
+      window.addEventListener('resize', () => {
+        this.$store.commit('TOGGLE_MENU', false);
+        document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
+        document.querySelector('.nav--top').classList.remove('nav--top--toggled');
+        document.querySelector('.header__container').classList.remove('header__container--toggled');
+      });
+    },
+    toggleMenu() {
+      this.$store.commit('TOGGLE_MENU', !this.isMenuOpened);
+    },
+    toggleDD() {
+      this.showDD = !this.showDD;
+      if (this.showDD) this.$refs.ddmenu.scrollTop = 0;
+    },
+    blurHandler() {
+      this.closeDDTimeout = setTimeout(() => {
+        this.showDD = false;
+      }, 200);
+    },
+    stopBlur() {
+      clearTimeout(this.closeDDTimeout);
+    },
+    async getNotificationList() {
+      clearTimeout(this.updateTimeout);
+      if (this.user && this.user.userId) {
+        let { items, total } = await NotificationApi.list();
+        items.forEach(nf => (nf.loading = false));
+        this.notifications = items;
+        this.notificationsCount = total;
+        this.updateTimeout = setTimeout(this.getNotificationList, 1e4);
+      } else {
+        this.updateTimeout = setTimeout(this.getNotificationList, 1e3);
+      }
+    },
+    async setIsRead(notification) {
+      if (notification.loading) return;
+      notification.loading = true;
+      await NotificationApi.markAsRead({ notificationId: notification.notificationId });
+      this.notifications = this.notifications.filter(n => n.notificationId !== notification.notificationId);
+      this.getNotificationList();
+    }
+  }
 });
 </script>
