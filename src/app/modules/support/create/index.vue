@@ -145,7 +145,7 @@ export default Vue.extend({
             const chat = document.querySelector('.support-chat');
             chat.scrollTop = chat.scrollHeight;
           });
-        }, 140);
+        }, 200);
       }
     },
     getFormData(formData, data, previousKey) {
@@ -190,10 +190,12 @@ export default Vue.extend({
   max-height: calc(100vh - (200px));
   padding-bottom: 20px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .support-chat-container {
   margin-bottom: -151px;
+  -webkit-overflow-scrolling: auto;
 }
 
 .support-textarea-mobile {
