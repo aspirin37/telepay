@@ -119,14 +119,10 @@
     </div>
 </template>
 <script>
-import {
-    ChannelApi
-} from '@services/api';
+import { ChannelApi } from '@services/api';
 import avatar from '@components/avatar';
 import normCheckbox from '@components/checkbox';
-import {
-    clone
-} from '@utils/clone';
+import { clone } from '@utils/clone';
 export default Vue.extend({
     components: {
         avatar,
