@@ -2,6 +2,7 @@
 <script>
 import { SupportApi } from '@services/api';
 import { clone } from '@utils/clone';
+import { mapGetters } from 'vuex';
 import StarRating from 'vue-star-rating';
 import searchInput from '@components/search-input';
 import heading from '@components/heading';
@@ -44,7 +45,10 @@ export default Vue.extend({
     messagesReversed() {
       let copy = clone(this.messages);
       return copy.reverse();
-    }
+    },
+    ...mapGetters({
+      isMenuOpened: 'getMenuState'
+    })
   },
   created() {
     if (this.$route.query.ticketId) {
@@ -142,7 +146,7 @@ export default Vue.extend({
       if (this.$mq == 'sm') {
         setTimeout(() => {
           this.$nextTick(function() {
-            const chat = document.querySelector('.support-chat');
+            const chat = document.querySelector('.chat');
             chat.scrollTop = chat.scrollHeight;
           });
         }, 200);
@@ -185,6 +189,70 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 @import '~bootstrap/scss/bootstrap.scss';
+
+.chat {
+  overflow-y: auto;
+
+  &__header {
+    // position: fixed;
+    // top: 62px;
+    // z-index: 10;
+    // left: 0;
+    width: 100%;
+    padding: 1rem 15px;
+    padding: 1rem 0;
+    background: white;
+    transition: 0.2s ease-in-out;
+
+    &--toggled {
+      left: 196px;
+    }
+  }
+
+  &__body {
+    padding-top: 180px;
+    padding-bottom: 60px;
+  }
+
+  &__input {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    padding: 17px;
+    padding-top: 14px;
+    border: none;
+    outline: none;
+    border-top: 1px solid #e5e5e5;
+    box-sizing: border-box;
+    resize: none;
+    border-radius: 0;
+    background-color: #f6f7fb;
+    font-size: 16px;
+    line-height: 20px;
+    color: rgba(87, 96, 119, 0.5);
+
+    &::-webkit-input-placeholder {
+      color: rgba(87, 96, 119, 0.5);
+    }
+
+    &::-moz-placeholder {
+      color: rgba(87, 96, 119, 0.5);
+    }
+    &:-ms-input-placeholder {
+      color: rgba(87, 96, 119, 0.5);
+    }
+    &:-moz-placeholder {
+      color: rgba(87, 96, 119, 0.5);
+    }
+
+    &--toggled {
+      left: 196px;
+    }
+  }
+}
 
 .support-chat {
   display: flex;
