@@ -143,9 +143,14 @@
                 </li>
                 <li class="nav-item mr-4 d-none d-lg-block">
                     <drop-down>
-                        <div class="user-field text-center text-light font-weight-bold d-flex align-items-center justify-content-center"
-                             slot="trigger">
-                            <span>{{ getUsername[0] || "U" }}</span>
+                        <div slot="trigger"
+                             class=" d-flex align-items-center justify-content-center">
+                            <div class="user-field text-light font-weight-bold d-flex align-items-center justify-content-center">
+                                <span>{{ getUsername[0] || "?" }}</span>
+                            </div>
+                            <div v-html="Angle"
+                                 class="v-dropdown__angle mx-2 mt-2"
+                                 v-once></div>
                         </div>
                         <template slot="body">
                             <drop-down-menu-item>
@@ -154,7 +159,7 @@
                             </drop-down-menu-item>
                             <drop-down-menu-item>
                                 <router-link class="user-menu__item"
-                                             :to="{ name: 'balance' }">Баланс</router-link>
+                                             :to="{ name: 'balance' }">Транзакции</router-link>
                             </drop-down-menu-item>
                             <drop-down-menu-item>
                                 <router-link class="user-menu__item"

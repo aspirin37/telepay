@@ -23,10 +23,12 @@ import Exit from '@assets/exit.svg';
 import Payments from '@assets/payments.svg';
 import Cross from '@assets/crest-01.svg';
 
+import Angle from '@assets/down-01.svg';
 export default Vue.extend({
   components: { onOff, dropDown, dropDownMenuItem },
   data() {
     return {
+      Angle,
       isVisible: false,
       showDD: false,
       notifications: [],

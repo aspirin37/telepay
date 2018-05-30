@@ -1,15 +1,9 @@
 <template src="./index.html"></template>
 <script>
-import {
-    mapState
-} from 'vuex';
+import { mapState } from 'vuex';
 import passwordInput from '@components/password-input';
-import {
-    UserApi
-} from '@services/api';
-import {
-    clone
-} from '@utils/clone';
+import { UserApi } from '@services/api';
+import { clone } from '@utils/clone';
 import WebStorage from '@utils/storage';
 
 export default {
@@ -19,7 +13,8 @@ export default {
     data() {
         return {
             fetchedUser: null,
-            fetchTimeout: null
+            fetchTimeout: null,
+            passData: { old_password: '', new_password: '' }
         };
     },
     computed: {
@@ -32,6 +27,10 @@ export default {
             }
         }
     },
+    created() {
+        this.cache = clone(this.user);
+        this.getUser();
+    },
     destroyed() {
         clearTimeout(this.fetchTimeout);
     },
@@ -41,12 +40,37 @@ export default {
             if (!this.fetchedUser || this.user.telegramId === this.fetchedUser.telegramId) {
                 this.getUser();
                 this.fetchTimeout = setTimeout(this.startFetchingUser, 1500);
-            } else {
-                this.$store.commit('SET_USER', this.fetchedUser);
             }
         },
         async getUser() {
             this.fetchedUser = await UserApi.getUser();
+            this.$store.commit('SET_USER', this.fetchedUser);
+        },
+        async editUser(needPassword) {
+            let swalOut;
+            if (needPassword) {
+                swalOut = await swal({
+                    title: 'Для изменения email необходимо ввести пароль',
+                    input: 'password'
+                });
+            }
+            if (swalOut && swalOut.dismiss) return;
+
+            let { name, email } = clone(this.user);
+            let data = { name, email: email.address };
+            if (swalOut && swalOut.value) data.password = swalOut.value
+
+            UserApi.update(data).catch((err) => {
+                console.log(err)
+            });
+        },
+        changePassword() {
+            let { new_password, old_password } = this.passData;
+            UserApi.changePassword({ new_password, old_password })
+                .then(() => {
+                    Vue.set(this, 'passData', { old_password: '', new_password: '' })
+                    console.log(this.passData)
+                });
         }
     }
 };

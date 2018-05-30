@@ -5,18 +5,20 @@
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Имя</p>
                 <input type="text"
-                    v-model="user.name"
-                    class="form-control"
-                    placeholder="Имя">
+                       v-model="user.name"
+                       @change="editUser"
+                       class="form-control"
+                       placeholder="Имя">
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">E-mail</p>
                 <input type="email"
-                    v-model="user.email.address"
-                    class="form-control"
-                    placeholder="E-mail">
+                       v-model="user.email.address"
+                       class="form-control"
+                       @change="editUser(true)"
+                       placeholder="E-mail">
             </div>
         </div>
         <!-- <div class="col-4">
@@ -33,19 +35,20 @@
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Telegram аккаунт</p>
                 <a :href="'tg://resolve?domain=telepayDevBot&start='+(user.telegramId?'unlinkAccountxxxdividerxxx':'linkAccountxxxdividerxxx')+user.telegramAuthCode"
-                    class="btn btn-block"
-                    :class="user.telegramId?'btn-light text-primary':'btn-tg'"
-                    @click="startFetchingUser">{{user.telegramId?'Отвязать':'Привязать'}} аккаунт Telegram</a>
+            
+                   class="btn btn-block"
+                   :class="user.telegramId?'btn-light text-primary':'btn-tg'"
+                   @click="startFetchingUser">{{user.telegramId?'Отвязать':'Привязать'}} аккаунт Telegram</a>
             </div>
         </div>
         <div class="col-6"
-            v-if="user&&user.referral">
+             v-if="user&&user.referral">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Реферральная ссылка</p>
                 <input type="text"
-                    readonly
-                    :value="`https://dev.telepay.io/auth/registration?ref=${user.referral.code}`"
-                    class="form-control">
+                       readonly
+                       :value="`https://dev.telepay.io/auth/registration?ref=${user.referral.code}`"
+                       class="form-control">
             </div>
         </div>
     </div>
@@ -55,17 +58,20 @@
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Старый пароль</p>
                 <password-input classes="form-control"
-                    placeholder="Старый пароль" />
+                                v-model="passData.old_password"
+                                placeholder="Старый пароль" />
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Новый пароль</p>
                 <password-input classes="form-control"
-                    placeholder="Новый пароль"
-                    :readonly="true" />
+                                v-model="passData.new_password"
+                                placeholder="Новый пароль" />
             </div>
         </div>
     </div>
-    <button class="btn btn-success">Сохранить</button>
+    <button class="btn btn-success"
+            :disabled="!passData.old_password || !passData.new_password"
+            @click="changePassword">Изменить пароль</button>
 </div>
