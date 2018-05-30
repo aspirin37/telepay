@@ -97,13 +97,14 @@ export default Vue.extend({
     }
   },
   methods: {
+    closeMenu() {
+      this.$store.commit('TOGGLE_MENU', false);
+      document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
+      document.querySelector('.nav--top').classList.remove('nav--top--toggled');
+      document.querySelector('.header__container').classList.remove('header__container--toggled');
+    },
     addWindowResizeHandler() {
-      window.addEventListener('resize', () => {
-        this.$store.commit('TOGGLE_MENU', false);
-        document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
-        document.querySelector('.nav--top').classList.remove('nav--top--toggled');
-        document.querySelector('.header__container').classList.remove('header__container--toggled');
-      });
+      window.addEventListener('resize', this.closeMenu);
     },
     toggleMenu() {
       this.$store.commit('TOGGLE_MENU', !this.isMenuOpened);

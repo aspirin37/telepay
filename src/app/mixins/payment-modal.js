@@ -56,7 +56,7 @@ export default {
         async openPaymentModal(amount, callback) {
             this.paymentModal.hasSuccess = false;
             this.paymentModal.closeTimeout.counter = this.paymentModal.AUTO_DISMISS_SECONDS;
-            let link = await BalanceApi.getForm({ amount });
+            let link = await BalanceApi.getForm({ amount: Math.ceil(amount) });
             this.paymentModal.randomId = (Math.random() * 1e6).toFixed();
             let self = this;
             let swalOut = await swal({

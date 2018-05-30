@@ -166,9 +166,7 @@ export default {
         },
 
         addEmoji(emoji, e) {
-            console.log(emoji, e);
             let selStart = this.$refs.text.selectionStart;
-            console.log(selStart);
             if (selStart !== this.text.length) {
                 let start = this.text.substr(0, selStart);
                 let end = this.text.substr(selStart);
@@ -200,7 +198,7 @@ export default {
         _createImage(file) {
             let reader = new FileReader();
             reader.addEventListener('load', e => {
-                console.log('loaded image', e, file);
+                // console.log('loaded image', e, file);
                 this.images.push({
                     decoded: e.target.result,
                     file
