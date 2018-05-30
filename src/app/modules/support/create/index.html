@@ -1,5 +1,5 @@
 <div>
-    <div class="chat container"
+    <!-- <div class="chat container"
          v-if="$mq == 'sm' && ticketId">
         <div class="chat__header"
              :class="{ 'chat__header--toggled': isMenuOpened }">
@@ -31,7 +31,7 @@
                placeholder="Введите сообщение"
                v-model="newMessage.text"
                @keyup.enter.prevent="createMessage('mobile')"> </input>
-    </div>
+    </div> -->
     <!-- <div class="container support-chat-container"
          v-if="$mq == 'sm' && ticketId">
         <heading text="История сообщений" />
@@ -62,8 +62,7 @@
                placeholder="Введите сообщение"
                v-model="newMessage.text"
                @keyup.enter.prevent="createMessage('mobile')"> </input> -->
-    <div class="container py-3"
-         v-else>
+    <div class="container py-3">
         <heading text="Техподдержка" />
         <div class="d-flex flex-column">
             <div class="col-12 col-md-4 offset-md-3 p-0"
@@ -75,8 +74,16 @@
                                   v-model="selectedTopic" /> </div>
             </div>
             <div class="col-12 col-md-6 offset-md-3 mb-4 p-0">
+                <!-- <div class="chat__header pt-4 pb-2"
+                     v-if="ticketId && $mq == 'sm'">
+                    <heading text="История сообщений" />
+                    <div class="form-group__label mb-1">Тема:
+                        <span class="text-primary">{{ topic }}</span>
+                    </div>
+                </div> -->
                 <div class="form-group form-group-textarea">
-                    <label class="form-group__label mb-1">Сообщение </label>
+                    <label class="form-group__label mb-1"
+                           v-if="$mq == 'lg' || $mq == 'sm' && !ticketId">Сообщение </label>
                     <support-textarea v-model="newMessage"
                                       :autofocus="true"
                                       :newMessage="newMessage" />
@@ -104,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 offset-3 p-0"
+            <div class="col-12 col-lg-6 offset-lg-3 p-0"
                  v-if="ticketId">
                 <h4 class="mb-3">Чат с оператором</h4>
                 <div :class="[message.isSupport ? 'float-right' : 'float-left', 'message col-10 mb-3']"

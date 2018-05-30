@@ -194,12 +194,13 @@ export default Vue.extend({
   overflow-y: auto;
 
   &__header {
-    position: fixed;
-    top: 62px;
-    z-index: 10;
-    left: 0;
+    // position: fixed;
+    // top: 62px;
+    // z-index: 10;
+    // left: 0;
     width: 100%;
     padding: 1rem 15px;
+    padding: 1rem 0;
     background: white;
     transition: 0.2s ease-in-out;
 

@@ -32,8 +32,8 @@
             <div class="app-wrapper"
                  :class="{'app-wrapper--toggled': isMenuOpened}">
                   <navigation></navigation>
-                  <div class="container-wrap"
-                       :class="{'container-wrap--chat': $route.path == '/support/create'}">
+                  <div class="container-wrap">
+                        <!-- :class="{'container-wrap--chat': $route.path == '/support/create'}" -->
                         <router-view></router-view>
                   </div>
                   <page-footer></page-footer>
