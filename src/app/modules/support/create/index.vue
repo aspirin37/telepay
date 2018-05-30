@@ -202,7 +202,6 @@ export default Vue.extend({
 }
 
 .support-chat-container {
-  margin-bottom: -151px;
   -webkit-overflow-scrolling: auto;
 }
 

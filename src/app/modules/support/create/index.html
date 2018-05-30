@@ -25,11 +25,11 @@
                     </div>
                     <!-- </div> -->
                 </div>
-                <input class="support-textarea-mobile"
-                       placeholder="Введите сообщение"
-                       v-model="newMessage.text"
-                       @keyup.enter.prevent="createMessage('mobile')"> </input>
             </div>
+            <input class="support-textarea-mobile"
+                   placeholder="Введите сообщение"
+                   v-model="newMessage.text"
+                   @keyup.enter.prevent="createMessage('mobile')"> </input>
         </div>
     </div>
     <div v-else>
