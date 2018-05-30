@@ -53,16 +53,23 @@ export default Vue.extend({
   created() {
     this.getNotificationList();
     this.addWindowResizeHandler();
-    this.addOutOfMenuClickHandler();
+    this.addOutOfMenuTapHandler();
   },
   destroyed() {
     clearTimeout(this.updateTimeout);
   },
   watch: {
-    isMenuOpened() {
+    //   TODO поправить этот костыль
+    isAdvert() {
       document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
-      document.querySelector('.nav--top').classList.toggle('nav--top--toggled');
       document.querySelector('.header__container').classList.toggle('header__container--toggled');
+    },
+    isMenuOpened() {
+      this.$nextTick(function() {
+        document.querySelector('.app-wrapper').classList.toggle('app-wrapper--toggled');
+        document.querySelector('.nav--top').classList.toggle('nav--top--toggled');
+        document.querySelector('.header__container').classList.toggle('header__container--toggled');
+      });
     },
     isAuthorized() {
       if (!this.isAuthorized) {
