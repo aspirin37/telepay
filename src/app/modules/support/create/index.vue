@@ -189,19 +189,34 @@ export default Vue.extend({
 .support-chat {
   display: flex;
   flex-direction: column;
-  flex-basis: calc(100vh - (260px));
-  padding-bottom: 20px;
+  // //   flex-basis: calc(100vh - (210px));
+  //     /*height: calc(100vh - 75vw);*/
+  //   flex-basis: 100vh;
+  //   margin-top: -210px;
+  //   padding-top: 210px;
+  //   -moz-box-sizing: border-box;
+  //   box-sizing: border-box;
+  flex-grow: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
   &__wrapper {
-      display: flex;
-	  flex-direction: column;
-      margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding-bottom: 70px;
   }
 }
 
 .support-chat-container {
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding-top: 77px;
+  padding-bottom: 60px;
+  //   overflow-y: auto;
   -webkit-overflow-scrolling: auto;
 }
 

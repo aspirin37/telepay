@@ -1,13 +1,12 @@
-<div class="container py-3">
-    <div class=" support-chat-container"
+<div>
+    <div class="container support-chat-container"
          v-if="$mq == 'sm' && ticketId">
         <heading text="История сообщений" />
-        <div class="d-flex flex-column">
-            <div class="form-group__label mb-1">Тема:
-                <span class="text-primary">{{ topic }}</span>
-            </div>
-            <div class="support-chat mt-3">
-                <!-- <div class="support-chat__wrapper"> -->
+        <div class="form-group__label mb-1">Тема:
+            <span class="text-primary">{{ topic }}</span>
+        </div>
+        <div class="support-chat mt-3">
+            <div class="support-chat__wrapper">
                 <div :class="[message.isSupport ? 'mr-auto' : 'ml-auto', 'message col-10 mb-3']"
                      v-for="(message, i) in messagesReversed">
                     <h6 :class="[message.isSupport ? '' : 'text-right' , 'message__author']"
@@ -23,16 +22,16 @@
                         </div>
                         <small :class="[message.isSupport ? '' : 'text-right', 'message__date d-block']">{{ message.createdAt }}</small>
                     </div>
-                    <!-- </div> -->
                 </div>
             </div>
-            <input class="support-textarea-mobile d-none"
-                   placeholder="Введите сообщение"
-                   v-model="newMessage.text"
-                   @keyup.enter.prevent="createMessage('mobile')"> </input>
         </div>
+        <input class="support-textarea-mobile"
+               placeholder="Введите сообщение"
+               v-model="newMessage.text"
+               @keyup.enter.prevent="createMessage('mobile')"> </input>
     </div>
-    <div v-else>
+    <div class="container py-3"
+         v-else>
         <heading text="Техподдержка" />
         <div class="d-flex flex-column">
             <div class="col-12 col-md-4 offset-md-3 p-0"
