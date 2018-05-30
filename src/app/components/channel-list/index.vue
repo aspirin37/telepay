@@ -25,19 +25,24 @@
              v-if="innerChannels.length && !isChips">
             <div class="header-row mx-0">
                 <div class="col-3">Канал</div>
-                <div class="col">Подписчиков</div>
+                <div class="col">Размещения</div>
+                <div class="col">Подписано</div>
                 <div class="col">
                     <span v-tooltip="'% активной аудитории'">ER</span>
                 </div>
-                <div class="col-5 d-flex justify-content-between">
+                <div class="col">Условия</div>
+                <div class="col">Цена</div>
+                <div class="col">Выбрать</div>
+                <!-- <div class="col-5 d-flex justify-content-between">
                     <span>Условия</span>
                     <span>Цена</span>
                     <span>Выбрать</span>
-                </div>
+                </div> -->
             </div>
             <div class="body"
                  :class="{'small-body':smallBody}">
                 <div class="body-row"
+                     :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0}"
                      :key="ch.channelId"
                      v-for="ch in innerChannels">
                     <div class="col-3">
@@ -55,11 +60,22 @@
                         </div>
                     </div>
                     <div class="col h4 m-0">
+                        {{ch.cheapestTimeFrame.postCount-ch.cheapestTimeFrame.postAmount}}/{{ch.cheapestTimeFrame.postCount}}
+                    </div>
+                    <div class="col h4 m-0">
                         <!-- <telestat-link :channel="ch.username" v-if="ch.subscriberCount>=300" :text="$options.filters.cutSum(ch.subscriberCount)" /> -->
                         <span>{{ch.subscriberCount | cutSum(1)}}</span>
                     </div>
-                    <div class="col h4 m-0">{{ch.engagementRate | cutSum}}%</div>
-                    <div class="col-5 h4 m-0">
+                    <div class="col h4 m-0">{{ ch.engagementRate | cutSum}}%</div>
+                    <div class="col h4 m-0">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
+                    <div class="col h4 m-0">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
+                    <div class="col h4 m-0">
+                        <norm-checkbox v-model="ch.selected"
+                                       v-tooltip="ch.cheapestTimeFrame.postAmount === 0?'Все размещения на выбранную дату на канале уже заняты':''"
+                                       :disabled="ch.cheapestTimeFrame.postAmount === 0"
+                                       @change="toggleChannel(ch)" />
+                    </div>
+                    <!-- <div class="col-5 h4 m-0">
                         <transition-group name="fade-out"
                                           mode="out-in">
                             <div class="form-row"
@@ -67,9 +83,9 @@
                                  :key="ch.cheapestTimeFrame.timeFrameId">
                                 <div class="col-5">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
                                 <div class="col-5">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}
-                                    <!-- <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down"
+                                    <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-down"
                                        v-if="ch.timeFrame.length > 1"
-                                       @click="ch.showAllTimeFrames = true"></i> -->
+                                       @click="ch.showAllTimeFrames = true"></i>
                                 </div>
                                 <div class="col-2 text-center">
                                     <norm-checkbox v-model="ch.selected"
@@ -80,7 +96,7 @@
                                  v-if="ch.showAllTimeFrames"
                                  :key="timeFrame.timeFrameId"
                                  v-for="timeFrame in ch.timeFrame">
-                                <!-- <div class="col-5">{{ timeFrameDates(timeFrame,true) }} - {{ timeFrame.inTopHours }}/{{ timeFrame.inFeedHours }}</div> -->
+                                <div class="col-5">{{ timeFrameDates(timeFrame,true) }} - {{ timeFrame.inTopHours }}/{{ timeFrame.inFeedHours }}</div>
                                 <div class="col-5">{{ timeFrame.priceWithCommission | centToRub}}
                                     <i class="fa fa-lg fa-fix mx-1 pointer fa-chevron-up"
                                        v-if="timeFrame === ch.cheapestTimeFrame"
@@ -92,7 +108,7 @@
                                 </div>
                             </div>
                         </transition-group>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

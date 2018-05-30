@@ -1,10 +1,11 @@
 <template>
     <label class="control"
-           :class="{ 'control_checked': checked }"
+           :class="{ 'control_checked': checked,'control_disabled':disabled }"
            :for="randomId"
            @keypress.enter="checked=!checked">
         <input type="checkbox"
                :name="randomId"
+               :disabled="disabled"
                class="control__input"
                v-model="checked"
                :id="randomId" />
@@ -32,6 +33,10 @@ export default {
         name: {
             type: [String, Number],
             default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         },
         label: {
             type: String,
@@ -78,6 +83,11 @@ export default {
     height: 20px;
     width: 20px;
     margin: 0;
+}
+
+.control_disabled {
+    background-color: #eee;
+    cursor: not-allowed;
 }
 
 .control__input {
