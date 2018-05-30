@@ -135,8 +135,8 @@ export default Vue.extend({
                 nowMinute = moment().minute();
 
             this.channels = items.map(item => {
-                if (item.channelInfo && item.channelInfo.timeFrame) {
-                    item.channelInfo.timeFrame = item.channelInfo.timeFrame.filter(timeFrame => {
+                if (item && item.timeFrame) {
+                    item.timeFrame = item.timeFrame.filter(timeFrame => {
                         // timeFrame.price * 1.3;
                         // let filterToday = true;
                         // let hour = moment(timeFrame.startPeriodTime*100).hour()
@@ -146,10 +146,9 @@ export default Vue.extend({
                         return timeFrame.weekDay === params.weekDay //&& filterToday;
                     });
                 }
-                if (item.categoryName) {
-                    item.channelInfo.category = item.categoryName
-                }
-                return item.channelInfo;
+
+                if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
+                return item;
             });
 
             if (this.selectedChannels) {
