@@ -203,6 +203,8 @@ export default Vue.extend({
   width: 100%;
   padding: 17px;
   padding-top: 14px;
+  border: none;
+  outline: none;
   border-top: 1px solid #e5e5e5;
   box-sizing: border-box;
   resize: none;
