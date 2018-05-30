@@ -46,37 +46,14 @@ export default Vue.extend({
                     .set('second', 0)
             },
             publishDate: moment(),
-            filterConditions: '1/24',
+            filterConditions: '',
             // weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
             categories: [],
             channels: [],
-            conditions: [{
-                    name: '1/24'
-                },
-                {
-                    name: '2/24'
-                },
-                {
-                    name: '3/24'
-                },
-                {
-                    name: '1/48'
-                },
-                {
-                    name: '2/48'
-                },
-                {
-                    name: '3/48'
-                },
-                {
-                    name: '1/72'
-                },
-                {
-                    name: '2/72'
-                },
-                {
-                    name: '3/72'
-                }
+            conditions: [
+                { name: '1/24' },
+                { name: '1/48' },
+                { name: '1/∞' },
             ],
             showFilters: false
         };
@@ -90,14 +67,14 @@ export default Vue.extend({
             if (!val || !val.name) {
                 this.filter.inTopHours = null;
                 this.filter.inFeedHours = null;
-                this.getChannels(this.filter);
+                // this.getChannels(this.filter);
                 return;
             }
             let arr = val.name.split('/');
             if (arr && arr.length) {
                 this.filter.inTopHours = arr[0];
-                this.filter.inFeedHours = arr[1];
-                this.getChannels(this.filter);
+                this.filter.inFeedHours = arr[1] === '∞' ? 0 : arr[1];
+                // this.getChannels(this.filter);
             }
         },
         timeFrom(val) {

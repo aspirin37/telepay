@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </transition>
-            <transition name="fade">
+            <!-- <transition name="fade">
                 <div class="form-group mb-1"
                      v-show="showFilters">
                     <label class="col-form-label search__label">Дата размещения</label>
@@ -48,7 +48,7 @@
                                 placeholder="Выберите дату публикации"
                                 :config="configs.date" />
                 </div>
-            </transition>
+            </transition> -->
             <transition name="fade">
                 <div class="form-group mb-1"
                      v-show="showFilters">
@@ -104,16 +104,16 @@
                     </div>
                 </div>
             </transition>
-            <!-- <transition name="fade">
+            <transition name="fade">
                 <div class="form-group mb-1"
-                    v-show="showFilters">
+                     v-show="showFilters">
                     <label class="col-form-label search__label">Условия</label>
                     <search-input v-model="filterConditions"
-                        placeholder="Выберите условия"
-                        :options="conditions" />
+                                  placeholder="Выберите условия"
+                                  :options="conditions" />
                 </div>
-            </transition> -->
-            <transition name="fade">
+            </transition>
+            <!-- <transition name="fade">
                 <div class="form-group mb-1"
                      v-show="showFilters">
                     <label class="col-form-label search__label">Время размещения</label>
@@ -132,7 +132,7 @@
                                v-model="timeTo">
                     </div>
                 </div>
-            </transition>
+            </transition> -->
         </div>
         <div class="col-2">
             <router-link class="btn btn-block"
