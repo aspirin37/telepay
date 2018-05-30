@@ -198,7 +198,6 @@ export default Vue.extend({
   //   box-sizing: border-box;
   flex-grow: 1;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 
   &__wrapper {
     display: flex;
@@ -217,7 +216,7 @@ export default Vue.extend({
   padding-top: 77px;
   padding-bottom: 60px;
   //   overflow-y: auto;
-  -webkit-overflow-scrolling: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .support-textarea-mobile {
