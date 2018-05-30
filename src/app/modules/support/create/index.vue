@@ -146,7 +146,7 @@ export default Vue.extend({
       if (this.$mq == 'sm') {
         setTimeout(() => {
           this.$nextTick(function() {
-            const chat = document.querySelector('.chat__body');
+            const chat = document.querySelector('.chat');
             chat.scrollTop = chat.scrollHeight;
           });
         }, 200);
@@ -191,7 +191,6 @@ export default Vue.extend({
 @import '~bootstrap/scss/bootstrap.scss';
 
 .chat {
-  height: 100vh;
   overflow-y: auto;
 
   &__header {
