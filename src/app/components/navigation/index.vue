@@ -53,6 +53,7 @@ export default Vue.extend({
   created() {
     this.getNotificationList();
     this.addWindowResizeHandler();
+    this.addOutOfMenuClickHandler();
   },
   destroyed() {
     clearTimeout(this.updateTimeout);
@@ -65,10 +66,7 @@ export default Vue.extend({
     },
     isAuthorized() {
       if (!this.isAuthorized) {
-        this.$store.commit('TOGGLE_MENU', false);
-        document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
-        document.querySelector('.nav--top').classList.remove('nav--top--toggled');
-        document.querySelector('.header__container').classList.remove('header__container--toggled');
+        this.closeMenu();
       }
     }
   },
@@ -97,11 +95,15 @@ export default Vue.extend({
     }
   },
   methods: {
+    addOutOfMenuClickHandler() {
+      document.addEventListener('click', e => {
+        if (!document.querySelector('.header.fixed-top').contains(e.target)) {
+          this.closeMenu();
+        }
+      });
+    },
     closeMenu() {
       this.$store.commit('TOGGLE_MENU', false);
-      document.querySelector('.app-wrapper').classList.remove('app-wrapper--toggled');
-      document.querySelector('.nav--top').classList.remove('nav--top--toggled');
-      document.querySelector('.header__container').classList.remove('header__container--toggled');
     },
     addWindowResizeHandler() {
       window.addEventListener('resize', this.closeMenu);
