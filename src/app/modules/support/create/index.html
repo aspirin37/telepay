@@ -1,5 +1,38 @@
 <div>
-    <div class="container support-chat-container"
+    <div class="chat container"
+         v-if="$mq == 'sm' && ticketId">
+        <div class="chat__header"
+             :class="{ 'chat__header--toggled': isMenuOpened }">
+            <heading text="История сообщений" />
+            <div class="form-group__label mb-1">Тема:
+                <span class="text-primary">{{ topic }}</span>
+            </div>
+        </div>
+        <div class="chat__body d-flex flex-column">
+            <div :class="[message.isSupport ? 'mr-auto' : 'ml-auto', 'message col-10 mb-3']"
+                 v-for="(message, i) in messagesReversed">
+                <h6 :class="[message.isSupport ? '' : 'text-right' , 'message__author']"
+                    v-if="isAuthorNeededMobile(message, i, messagesReversed)">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>
+                <div :class="[message.isSupport ? 'message__content--support-reversed' : 'float-right', 'message__content message__content--reversed float-left']">
+                    <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text']">{{ message.content }}</div>
+                    <div class="message__images"
+                         v-if="message.files.length">
+                        <img class="rounded img-thumbnail img-fluid mb-3 pointer"
+                             :src="message.isJustCreated ? image : '/images/tickets/' + ticketId + '/' + image.fileId + '.' + image.extension"
+                             v-for="image in message.files"
+                             @click="showImage"></img>
+                    </div>
+                    <small :class="[message.isSupport ? '' : 'text-right', 'message__date d-block']">{{ message.createdAt }}</small>
+                </div>
+            </div>
+        </div>
+        <input class="chat__input"
+               :class="{ 'chat__input--toggled': isMenuOpened }"
+               placeholder="Введите сообщение"
+               v-model="newMessage.text"
+               @keyup.enter.prevent="createMessage('mobile')"> </input>
+    </div>
+    <!-- <div class="container support-chat-container"
          v-if="$mq == 'sm' && ticketId">
         <heading text="История сообщений" />
         <div class="form-group__label mb-1">Тема:
@@ -28,8 +61,7 @@
         <input class="support-textarea-mobile d-none"
                placeholder="Введите сообщение"
                v-model="newMessage.text"
-               @keyup.enter.prevent="createMessage('mobile')"> </input>
-    </div>
+               @keyup.enter.prevent="createMessage('mobile')"> </input> -->
     <div class="container py-3"
          v-else>
         <heading text="Техподдержка" />
