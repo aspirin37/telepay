@@ -12,6 +12,9 @@ export default Vue.extend({
     created() {
         this.getTransactions();
     },
+    computed: {
+        user() { this.$store.state.user }
+    },
     methods: {
         async getTransactions() {
             let transactions = await BalanceApi.getTransactions();
