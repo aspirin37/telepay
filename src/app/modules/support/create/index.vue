@@ -206,7 +206,7 @@ export default Vue.extend({
 }
 
 .support-textarea-mobile {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   z-index: 100;
