@@ -91,7 +91,7 @@ export default Vue.extend({
   },
   methods: {
     addOutOfMenuTapHandler() {
-      document.addEventListener('click', e => {
+      document.addEventListener('touchstart', e => {
         if (!document.querySelector('.header.fixed-top').contains(e.target)) {
           this.closeMenu();
         }

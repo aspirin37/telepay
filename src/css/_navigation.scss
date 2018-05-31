@@ -79,6 +79,7 @@
             padding-left: 17px;
             box-sizing: border-box; // transform: translateX(-196px);
             background-color: #f8f9fa;
+            overflow: hidden;
             @include media-breakpoint-up(lg) {
                 transform: translateX(0);
                 align-items: center;
