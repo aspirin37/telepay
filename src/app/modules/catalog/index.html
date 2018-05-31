@@ -1,12 +1,16 @@
 <div class="container py-3 px-2 px-lg-0">
     <mq-layout mq="sm">
         <div class="form-row mb-3">
-            <div class="col-6">
+            <div class="col-6"
+                 :class="{'col-12': isSearching}">
                 <input class="form-control"
                        v-model="filter.text"
+                       @focus="isSearching = true"
+                       @blur="isSearching = false"
                        type="text"
                        placeholder="Поиск" /> </div>
-            <div class="col-6">
+            <div class="col-6"
+                 :class="{'d-none': isSearching}">
                 <router-link class="btn btn-block"
                              :class="selectedChannels.length?'btn-success':'btn-primary'"
                              :to="{ name: 'posts:create' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>

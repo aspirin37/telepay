@@ -32,7 +32,8 @@
             <div class="app-wrapper"
                  :class="{'app-wrapper--toggled': isMenuOpened}">
                   <navigation></navigation>
-                  <div class="container-wrap">
+                  <div class="container-wrap"
+                       :class="{'py-0': $route.path.includes('/auth/login')}">
                         <!-- :class="{'container-wrap--chat': $route.path == '/support/create'}" -->
                         <router-view></router-view>
                   </div>
