@@ -91,11 +91,11 @@ export default Vue.extend({
   },
   methods: {
     addOutOfMenuTapHandler() {
-      document.addEventListener('touchstart', e => {
-        if (!document.querySelector('.header.fixed-top').contains(e.target)) {
-          this.closeMenu();
-        }
-      });
+      // document.addEventListener('touchstart', e => {
+      //   if (!document.querySelector('.header.fixed-top').contains(e.target)) {
+      //     this.closeMenu();
+      //   }
+      // });
       document.addEventListener('click', e => {
         if (!document.querySelector('.header.fixed-top').contains(e.target)) {
           this.closeMenu();
