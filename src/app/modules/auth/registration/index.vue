@@ -33,6 +33,9 @@ export default Vue.extend({
                 if (this.$route.query.ref) {
                     cloned.refCode = this.$route.query.ref;
                 }
+                if (this.$route.query.tg) {
+                    cloned.telegramId = this.$route.query.tg;
+                }
                 AuthApi.register(cloned)
                     .then(res => {
                         if (res && res.token) {
