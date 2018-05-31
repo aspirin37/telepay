@@ -16,7 +16,7 @@ import pageFooter from '@components/footer';
 Vue.use( VueMq, {
     breakpoints: {
         sm: 768,
-        md: 992,
+        md: Infinity,
     }
 } )
 

@@ -67,10 +67,18 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
+@import '~bootstrap/scss/bootstrap.scss';
 .avatar {
-  min-width: 50px;
-  min-height: 50px;
-  padding: 0;
+  width: 40px;
+  height: 40px;
+
+  @include media-breakpoint-up(md) {
+    width: auto;
+    height: auto;
+    min-width: 50px;
+    min-height: 50px;
+    padding: 0;
+  }
 }
 </style>
