@@ -1,12 +1,12 @@
-const webpack = require('webpack');
-module.exports = function(paths) {
+const webpack = require( 'webpack' );
+module.exports = function ( paths ) {
     return {
         plugins: [
-            new webpack.HotModuleReplacementPlugin({}),
+            new webpack.HotModuleReplacementPlugin( {} ),
         ],
         devServer: {
             historyApiFallback: true,
-            https: false,
+            https: true,
             port: 3348,
             hot: true,
             noInfo: false,
@@ -15,7 +15,7 @@ module.exports = function(paths) {
             compress: true,
             proxy: {
                 '/images/': {
-                    target: 'http://dev.telepay.io',
+                    target: 'https://dev.telepay.io',
                     secure: false,
                     logLevel: 'debug',
                     changeOrigin: true

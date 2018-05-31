@@ -30,7 +30,7 @@
                             <norm-checkbox v-model="ch.selected" v-tooltip="ch.cheapestTimeFrame.postAmount === 0?'Все размещения на выбранную дату на канале уже заняты':''" :disabled="ch.cheapestTimeFrame.postAmount === 0" @change="toggleChannel(ch)" />
                         </div>
                     </div>
-                    <div class="form-row col-12 px-0 mb-3 justify-content-between">
+                    <div class="form-row col-12 px-0 justify-content-between">
                         <div class="w-25 text-center">
                             <span>{{ch.subscriberCount | cutSum(1)}}</span>
                         </div>
@@ -39,6 +39,9 @@
                         <div class="w-25 text-center">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
                     </div>
                 </div>
+            </div>
+            <div class="p-4 text-center" v-if="!innerChannels.length">
+                <h5>{{placeholder}}</h5>
             </div>
         </mq-layout>
         <mq-layout mq="md+">

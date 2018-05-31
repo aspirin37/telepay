@@ -96,6 +96,11 @@ export default Vue.extend({
           this.closeMenu();
         }
       });
+      document.addEventListener('click', e => {
+        if (!document.querySelector('.header.fixed-top').contains(e.target)) {
+          this.closeMenu();
+        }
+      });
     },
     closeMenu() {
       this.$store.commit('TOGGLE_MENU', false);

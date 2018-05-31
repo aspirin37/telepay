@@ -1,125 +1,211 @@
-<div class="container py-3 px-0 mb-5">
-    <h2 class="mb-4">Новый пост
-        <small @click="$router.go(-1)"
-               class="float-right pointer">
-            <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
-    </h2>
+<div class="container py-3 px-2 px-lg-0">
+    <heading text="Новый пост" />
     <channel-list :channels="selectedChannels"
                   :is-chips="selectedChannels.length>3"
                   :user="user"
                   placeholder="Предложения не выбраны" />
-    <div class="row p-4 border-bottom mb-2"
+    <div class="add-channel px-4 py-2 p-md-4 border-bottom mb-4"
          v-show="channelsToAdd.length">
-        <div class="col-12 text-primary h4">
+        <div class="col-12 text-primary h4 mb-0 ">
             <button class="btn btn-link"
                     @click="selectedChannels.length?openCatalogPopup():$router.push({name:'catalog'})">
                 <i class="fa fa-plus"></i> Добавить канал</button>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 text-right">
-            <h2 class="mb-0">
-                <small>Стоимость: </small> {{totalPrice|centToRub}}
-            </h2>
+    <mq-layout mq="sm">
+        <div class="row mb-4">
+            <div class="col-12 text-right">
+                <h2 class="mb-0">
+                    <small>Стоимость: </small> {{totalPrice|centToRub}} </h2>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-5">
-            <post-preview :post="post"
-                          v-if="post && (post.text||post.text==='')" />
-        </div>
-        <div class="col-7">
-            <div class="form-row">
+        <div class="row">
+            <div class="form-row col-12 mb-3">
                 <div class="col-6">
-                    <div class="form-group m-0">
-                        <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
-                        <date-input v-model="post.publishAt"
-                                    placeholder="Выберите дату публикации"
-                                    :config="configs.date" />
-                    </div>
-                </div>
+                    <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
+                    <date-input v-model="post.publishAt"
+                                placeholder="Выберите дату публикации"
+                                :config="configs.date" /> </div>
                 <div class="col-6">
-                    <div class="form-group m-0">
-                        <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
-                        <input type="time"
-                               ref="timeInput"
-                               required
-                               :class="{'is-invalid':errors.time}"
-                               class="form-control p-2"
-                               v-model="postTime">
-                        <div class="help-block">
-                            <small v-show="errors.time"
-                                   class="text-danger">Время публикации не может быть в прошлом</small>
-                            <small v-show="!errors.time">&nbsp;</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12"
-                     v-if="postTemplates&&postTemplates.length">
-                    <div class="form-group">
-                        <p class="text-medium-font font-weight-500 mb-1">Шаблон поста</p>
-                        <select class="form-control"
-                                v-model="post.postTemplateId">
-                            <option value="">Новый пост</option>
-                            <option :value="template.postTemplateId"
-                                    v-for="template in postTemplates">{{template.text | cutLongStr(50)}}</option>
-                        </select>
-                        <span class="btn-link m-0 p-0 pointer"
-                              v-show="post.postTemplateId"
-                              @click="dropTemplate">Сбросить</span>
+                    <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
+                    <input type="time"
+                           ref="timeInput"
+                           required
+                           :class="{'is-invalid':errors.time}"
+                           class="form-control"
+                           v-model="postTime">
+                    <div class="help-block">
+                        <small v-show="errors.time"
+                               class="text-danger">Время публикации не может быть в прошлом</small>
+                        <small v-show="!errors.time">&nbsp;</small>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-group m-0">
                         <p class="text-medium-font font-weight-500 mb-1">Контент</p>
                         <post-input v-model="postData"
-                                    class="mb-2" />
-                        <div class="float-right text-right">
-                            <button class="btn btn-primary"
+                                    class="mb-2 w-100" /> </div>
+                </div>
+                <div class="col-12 mb-4">
+                    <div class="form-group d-flex flex-row m-0">
+                        <div class="col p-0 mr-2">
+                            <button class="btn btn-primary w-100"
                                     v-show="!post.postTemplateId"
-                                    @click.prevent="createPost(true)">
-                                Сохранить пост</button>
-                            <button class="btn btn-success"
-                                    @click.prevent="user.balance.current>totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
-                                    :disabled="!selectedChannels.length">{{user.balance.current>totalPrice?'Разместить пост':'Оплатить размещение'}}</button>
+                                    @click.prevent="createPost(true)"> Сохранить</button>
                         </div>
-                        <collapse collapseHeader="Правила форматирования"
-                                  class="w-75 border-bottom-0">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h4>Результат</h4>
-                                </div>
-                                <div class="col-6">
-                                    <h4>Правило</h4>
-                                </div>
+                        <div class="col p-0">
+                            <button class="btn btn-success w-100"
+                                    @click.prevent="user.balance.current>totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
+                                    :disabled="!selectedChannels.length">{{user.balance.current>totalPrice?'Разместить пост':'Оплатить пост'}}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <post-preview :post="post"
+                                  v-if="post && (post.text||post.text==='')" /> </div>
+                <div class="col-12">
+                    <collapse collapseHeader="Правила форматирования"
+                              class="border-bottom-0 text-center">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Результат</h4>
                             </div>
-                            <div class="row">
-                                <div class="col-6 border-right">
-                                    <a href="https://telepay.io"
-                                       target="_blank">Ссылка</a>
+                            <div class="col-6">
+                                <h4>Правило</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 border-right">
+                                <a href="https://telepay.io"
+                                   target="_blank">Ссылка</a>
+                            </div>
+                            <div class="col-6">[Ссылка](https://telepay.io)</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 border-right">
+                                <b>Жирный</b>
+                            </div>
+                            <div class="col-6">*Жирный*</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 border-right">
+                                <i>Курсив</i>
+                            </div>
+                            <div class="col-6">_Курсив_</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 border-right">
+                                <pre class="m-0 d-inline">Выделение кода</pre> </div>
+                            <div class="col-6">`Выделение кода`</div>
+                        </div>
+                    </collapse>
+                </div>
+            </div>
+        </div>
+    </mq-layout>
+    <mq-layout mq="md+">
+        <div class="row">
+            <div class="col-12 text-right">
+                <h2 class="mb-0">
+                    <small>Стоимость: </small> {{totalPrice|centToRub}} </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <post-preview :post="post"
+                              v-if="post && (post.text||post.text==='')" /> </div>
+            <div class="col-7">
+                <div class="form-row">
+                    <div class="col-6">
+                        <div class="form-group m-0">
+                            <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
+                            <date-input v-model="post.publishAt"
+                                        placeholder="Выберите дату публикации"
+                                        :config="configs.date" /> </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group m-0">
+                            <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
+                            <input type="time"
+                                   ref="timeInput"
+                                   required
+                                   :class="{'is-invalid':errors.time}"
+                                   class="form-control p-2"
+                                   v-model="postTime">
+                            <div class="help-block">
+                                <small v-show="errors.time"
+                                       class="text-danger">Время публикации не может быть в прошлом</small>
+                                <small v-show="!errors.time">&nbsp;</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12"
+                         v-if="postTemplates&&postTemplates.length">
+                        <div class="form-group">
+                            <p class="text-medium-font font-weight-500 mb-1">Шаблон поста</p>
+                            <select class="form-control"
+                                    v-model="post.postTemplateId">
+                                <option value="">Новый пост</option>
+                                <option :value="template.postTemplateId"
+                                        v-for="template in postTemplates">{{template.text | cutLongStr(50)}}</option>
+                            </select>
+                            <span class="btn-link m-0 p-0 pointer"
+                                  v-show="post.postTemplateId"
+                                  @click="dropTemplate">Сбросить</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group m-0">
+                            <p class="text-medium-font font-weight-500 mb-1">Контент</p>
+                            <post-input v-model="postData"
+                                        class="mb-2" />
+                            <div class="float-right text-right">
+                                <button class="btn btn-primary"
+                                        v-show="!post.postTemplateId"
+                                        @click.prevent="createPost(true)"> Сохранить пост</button>
+                                <button class="btn btn-success"
+                                        @click.prevent="user.balance.current>totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
+                                        :disabled="!selectedChannels.length">{{user.balance.current>totalPrice?'Разместить пост':'Оплатить размещение'}}</button>
+                            </div>
+                            <collapse collapseHeader="Правила форматирования"
+                                      class="w-75 border-bottom-0">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Результат</h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4>Правило</h4>
+                                    </div>
                                 </div>
-                                <div class="col-6">[Ссылка](https://telepay.io)</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6 border-right">
-                                    <b>Жирный</b>
+                                <div class="row">
+                                    <div class="col-6 border-right">
+                                        <a href="https://telepay.io"
+                                           target="_blank">Ссылка</a>
+                                    </div>
+                                    <div class="col-6">[Ссылка](https://telepay.io)</div>
                                 </div>
-                                <div class="col-6">*Жирный*</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6 border-right">
-                                    <i>Курсив</i>
+                                <div class="row">
+                                    <div class="col-6 border-right">
+                                        <b>Жирный</b>
+                                    </div>
+                                    <div class="col-6">*Жирный*</div>
                                 </div>
-                                <div class="col-6">_Курсив_</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6 border-right"><pre class="m-0 d-inline">Выделение кода</pre></div>
-                                <div class="col-6">`Выделение кода`</div>
-                            </div>
-                        </collapse>
+                                <div class="row">
+                                    <div class="col-6 border-right">
+                                        <i>Курсив</i>
+                                    </div>
+                                    <div class="col-6">_Курсив_</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 border-right">
+                                        <pre class="m-0 d-inline">Выделение кода</pre> </div>
+                                    <div class="col-6">`Выделение кода`</div>
+                                </div>
+                            </collapse>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </mq-layout>
 </div>

@@ -46,6 +46,14 @@ body {
     user-select: none;
 }
 
+.add-channel {
+    border-top: 1px solid #dee2e6;
+
+    @include media-breakpoint-up(md) {
+        border-top: 0;
+    }
+}
+
 .posts {
     .nav-link {
         background-color: theme-color('light');
@@ -246,9 +254,9 @@ body {
                 opacity: 0.2
             }
         }
-        @include media-breakpoint-up(lg) {
+        @include media-breakpoint-up(md) {
             padding: 20px 10px;
-            border-bottom: 1px solid theme-color('cloudy') !important;
+            border-bottom: 1px solid #dee2e6 !important;
         }
     }
     .support-row {
