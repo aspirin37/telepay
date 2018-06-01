@@ -1,25 +1,25 @@
 <template>
-    <label class="search-input" ref="wrap">
-        <span class="search-input__cleaner" v-if="after" @click="clearInput" @touchstart="clearInput">
-            <span class="search-input__cleaner-icon" v-if="cleanerVisible && !multiple">&times;</span>
-            <i v-if="!cleanerVisible || multiple" class="fa fa-chevron-down" aria-hidden="true"></i>
-        </span>
-        <button class="search-input__value" v-show="!searching" type="button" @toucstart="startSearching" @focus="startSearching">
-            {{ multiple? parsedMultiplePlaceholder :(selected ? selected.name : placeholder) }}
-        </button>
-        <input class="search-input__value" tabindex v-show="searching" type="text" v-model="searchString" @input="search" @keydown.down="scrollDropdown" @keydown.up="scrollDropdown" @keydown.enter="keyBoardSelect" ref="searchInput" />
-        <transition name="fade">
-            <div class="search-input__dropdown" v-show="dropdownVisible" ref="dropdown">
-                <div v-for="(option, i) in innerOptions" :key="i" class="search-input__dropdown-item" @click="select(option, i,$event)" @toucstart="select(option, i,$event)" :class="[getActive(option), getHovered(i)]">
-                    <span class="search-input__option-name">{{ option.name }}</span>
-                    <div class="float-right" v-if="multiple">
-                        <norm-checkbox v-model="option.selected" />
-                    </div>
-                </div>
-                <div v-if="showNoDataOption" class="search-input__dropdown-item">Ничего не найдено</div>
-            </div>
-        </transition>
-    </label>
+  <label class="search-input" ref="wrap">
+    <span class="search-input__cleaner" v-if="after" @click="clearInput">
+      <span class="search-input__cleaner-icon" v-if="cleanerVisible && !multiple">&times;</span>
+      <i v-if="!cleanerVisible || multiple" class="fa fa-chevron-down" aria-hidden="true"></i>
+    </span>
+    <button class="search-input__value" v-show="!searching" type="button" @click="startSearching">
+      {{ multiple? parsedMultiplePlaceholder :(selected ? selected.name : placeholder) }}
+    </button>
+    <input class="search-input__value" tabindex v-show="searching" type="text" v-model="searchString" @input="search" @keydown.down="scrollDropdown" @keydown.up="scrollDropdown" @keydown.enter="keyBoardSelect" ref="searchInput" />
+    <transition name="fade">
+      <div class="search-input__dropdown" v-show="dropdownVisible" ref="dropdown">
+        <div v-for="(option, i) in innerOptions" :key="i" class="search-input__dropdown-item" @click="select(option, i,$event)" @toucstart="select(option, i,$event)" :class="[getActive(option), getHovered(i)]">
+          <span class="search-input__option-name">{{ option.name }}</span>
+          <div class="float-right" v-if="multiple">
+            <norm-checkbox v-model="option.selected" />
+          </div>
+        </div>
+        <div v-if="showNoDataOption" class="search-input__dropdown-item">Ничего не найдено</div>
+      </div>
+    </transition>
+  </label>
 </template>
 <script>
 import normCheckbox from '@components/checkbox';
