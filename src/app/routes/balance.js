@@ -1,6 +1,6 @@
 import Transactions from '@modules/balance/transactions';
 import Withdrawal from '@modules/balance/withdrawal';
-// import Replenishment from '@modules/balance/replenishment';
+import PaymentInfo from '@modules/balance/payment-info';
 import { abstract } from './_utils';
 export default {
     path: '/balance',
@@ -15,11 +15,9 @@ export default {
         path: 'withdrawal',
         name: 'balance:withdrawal',
         component: Withdrawal,
-    },
-        // {
-        //     path: 'replenishment',
-        //     name: 'balance:replenishment',
-        //     component: Replenishment,
-        // }
-    ],
+    }, {
+        path: 'payment-info',
+        name: 'balance:payment-info',
+        component: PaymentInfo,
+    }],
 };
