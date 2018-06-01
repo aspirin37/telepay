@@ -23,7 +23,6 @@ export default {
   },
   data() {
     return {
-      isAvailiableTime: true,
       channels: [],
       postData: {
         text: 'Текст...',
@@ -162,18 +161,33 @@ export default {
         this.watchPostTemplateId(this.post.postTemplateId);
       }
     },
-    checkTime() {
-      console.log('!');
-      PostApi.checkTime().then(() => {});
-    },
     watchPostTime() {
-      this.checkTime();
       let timeArr = this.postTime.split(':');
       let postTime = moment(this.post.publishAt)
         .set('hour', timeArr[0])
         .set('minute', timeArr[1])
         .set('second', 0);
       this.errors.time = moment() > postTime;
+
+      let endDateTime = postTime.add(1, 'hour').format('HH:mm');
+
+      let timeCheckData = {
+        timeFrameId: this.selectedTimeFrameIds[0],
+        startDateTime: this.postTime,
+        endDateTime: endDateTime
+      };
+
+      // console.log(timeCheckData);
+
+      if (this.selectedTimeFrameIds[0]) {
+        PostApi.checkTime(timeCheckData)
+          .then(res => {
+            this.errors.notAvailiableTime = false;
+          })
+          .catch(err => {
+            this.errors.notAvailiableTime = true;
+          });
+      }
     },
     watchPostTemplateId(val) {
       if (val && typeof val === 'string') {

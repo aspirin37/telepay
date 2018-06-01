@@ -237,6 +237,9 @@ body {
             max-height: 48vh;
         }
     }
+    .channel-table-body {
+        height: 68vh;
+    }
     .body-row {
         @extend .row;
         margin: 0;

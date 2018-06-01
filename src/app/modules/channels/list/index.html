@@ -8,23 +8,15 @@
     <div class="flex-table my-4"
          v-if="channels.length">
         <div class="header-row">
-            <div class="col-1">
-                Запросы
-            </div>
-            <div class="col-4">
-                Канал
-            </div>
-            <div class="col">
-                Подписчиков
-            </div>
+            <div class="col-1"> Запросы </div>
+            <div class="col-4"> Канал </div>
+            <div class="col"> Подписчиков </div>
             <div class="col">
                 <span v-tooltip="'% активной аудитории'">ER</span>
             </div>
-            <div class="col">
-                Статус
-            </div>
+            <div class="col"> Статус </div>
         </div>
-        <div class="body">
+        <div class="body channel-table-body">
             <div class="body-row"
                  v-for="ch in channels"
                  :key="ch.channelId">
@@ -39,8 +31,7 @@
                     <div class="form-row">
                         <div class="col-3">
                             <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
-                                    :circle="true" />
-                        </div>
+                                    :circle="true" /> </div>
                         <div class="col-9">
                             <router-link :to="{name:'channels:update',params:{username:ch.username}}">
                                 <b>{{ch.title}}</b>
@@ -56,12 +47,8 @@
                 <div class="col h4 m-0">
                     <span>{{ch.subscriberCount|cutKilo}}</span>
                 </div>
-                <div class="col h4 m-0">
-                    {{ch.engagementRate}}%
-                </div>
-                <div class="col">
-                    {{channelStatuses[ch.status]}}
-                </div>
+                <div class="col h4 m-0"> {{ch.engagementRate}}% </div>
+                <div class="col"> {{channelStatuses[ch.status]}} </div>
                 <div class="col-11 offset-1 my-2"
                      v-if="ch.showOrders && ch.postOrders && ch.postOrders.length">
                     <post-list :posts="ch.postOrders"
@@ -134,14 +121,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
-                </div>
+                    </div> --></div>
             </div>
         </div>
     </div>
     <h4 class="text-center text-secondary"
-        v-else>
-        Вы еще не добавили ни одного канала
+        v-else> Вы еще не добавили ни одного канала
         <br>
         <router-link class="btn btn-primary my-3"
                      :to="{ name: 'channels:create' }">Добавить канал</router-link>

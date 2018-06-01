@@ -31,14 +31,15 @@
                     <input type="time"
                            ref="timeInput"
                            required
-                           :class="{'is-invalid':errors.time}"
+                           :class="{'is-invalid':errors.time || errors.notAvailiableTime}"
                            class="form-control"
-                           @input="checkTime"
                            v-model="postTime">
                     <div class="help-block">
+                        <small v-show="errors.notAvailiableTime"
+                               class="text-danger">Текущее время занято</small>
                         <small v-show="errors.time"
                                class="text-danger">Время публикации не может быть в прошлом</small>
-                        <small v-show="!errors.time">&nbsp;</small>
+                        <small v-show="!errors.time && !errors.notAvailiableTime">&nbsp;</small>
                     </div>
                 </div>
                 <div class="col-12">
