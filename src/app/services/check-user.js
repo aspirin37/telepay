@@ -22,6 +22,7 @@ async function checkUserAvailable(App) {
             if(tg_id) {
                 await UserApi.update({ telegram_id: tg_id });
                 WebStorage.rm('tg_id');
+                App.$router.replace({ name: App.$route.name, query: {} });
             }
             App.$store.commit('SET_USER', user);
             if(isAuth) {
