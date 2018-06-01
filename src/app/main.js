@@ -4,31 +4,31 @@ import './config';
 import router from './routes';
 import store from './store';
 import { mapGetters } from 'vuex';
-import VueMq from 'vue-mq'
+import VueMq from 'vue-mq';
 import '@services/interceptor';
-
+import WebStorage from '@utils/storage';
 // components
 import notifystr from 'notifystr';
 import loader from '@components/loader';
 import navigation from '@components/navigation';
 import pageFooter from '@components/footer';
 
-Vue.use( VueMq, {
+Vue.use(VueMq, {
     breakpoints: {
         sm: 768,
         md: Infinity,
     }
-} )
+});
 
 // services
 import '@filters';
 // directives
 import tooltip from '@components/tooltip';
-Vue.directive( 'tooltip', tooltip );
+Vue.directive('tooltip', tooltip);
 
 import check from '@services/check-user';
 
-export const App = new Vue( {
+export const App = new Vue({
     router,
     store,
     components: {
@@ -38,17 +38,18 @@ export const App = new Vue( {
         notifystr,
     },
     async beforeMount() {
-        await check( this );
+        if(this.$route.query.tg) WebStorage.set('tg_id', this.$route.query.tg);
+        await check(this);
     },
     computed: {
         showSpinner: {
-            get: function () {
+            get: function() {
                 return this.$store.state.loading;
             },
-            set: () => { },
+            set: () => {},
         },
-        ...mapGetters( {
+        ...mapGetters({
             isMenuOpened: 'getMenuState'
-        } ),
+        }),
     },
-} ).$mount( '#app' );
+}).$mount('#app');
