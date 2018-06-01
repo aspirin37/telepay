@@ -169,15 +169,16 @@ export default {
         .set('second', 0);
       this.errors.time = moment() > postTime;
 
-      let endDateTime = postTime.add(1, 'hour').format('HH:mm');
+      let startDateTime = postTime.format('YYYY-MM-DD HH:mm:ss');
+      let endDateTime = postTime.add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
 
       let timeCheckData = {
         timeFrameId: this.selectedTimeFrameIds[0],
-        startDateTime: this.postTime,
-        endDateTime: endDateTime
+        startDateTime,
+        endDateTime
       };
 
-      // console.log(timeCheckData);
+      console.log(timeCheckData);
 
       if (this.selectedTimeFrameIds[0]) {
         PostApi.checkTime(timeCheckData)
