@@ -33,6 +33,7 @@
                            required
                            :class="{'is-invalid':errors.time}"
                            class="form-control"
+                           @input="checkTime"
                            v-model="postTime">
                     <div class="help-block">
                         <small v-show="errors.time"

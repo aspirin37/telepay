@@ -141,6 +141,11 @@ export default Vue.extend({
       await NotificationApi.markAsRead({ notificationId: notification.notificationId });
       this.notifications = this.notifications.filter(n => n.notificationId !== notification.notificationId);
       this.getNotificationList();
+      if (!this.notifications.length) {
+        this.closeDDTimeout = setTimeout(() => {
+          this.showDD = false;
+        }, 200);
+      }
     }
   }
 });

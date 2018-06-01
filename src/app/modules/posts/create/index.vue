@@ -23,6 +23,7 @@ export default {
   },
   data() {
     return {
+      isAvailiableTime: true,
       channels: [],
       postData: {
         text: 'Текст...',
@@ -161,7 +162,12 @@ export default {
         this.watchPostTemplateId(this.post.postTemplateId);
       }
     },
+    checkTime() {
+      console.log('!');
+      PostApi.checkTime().then(() => {});
+    },
     watchPostTime() {
+      this.checkTime();
       let timeArr = this.postTime.split(':');
       let postTime = moment(this.post.publishAt)
         .set('hour', timeArr[0])

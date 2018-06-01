@@ -4,7 +4,7 @@
       <span class="search-input__cleaner-icon" v-if="cleanerVisible && !multiple">&times;</span>
       <i v-if="!cleanerVisible || multiple" class="fa fa-chevron-down" aria-hidden="true"></i>
     </span>
-    <button class="search-input__value" v-show="!searching" type="button" @click="startSearching">
+    <button class="search-input__value" v-show="!searching" type="button" @focus="startSearching">
       {{ multiple? parsedMultiplePlaceholder :(selected ? selected.name : placeholder) }}
     </button>
     <input class="search-input__value" tabindex v-show="searching" type="text" v-model="searchString" @input="search" @keydown.down="scrollDropdown" @keydown.up="scrollDropdown" @keydown.enter="keyBoardSelect" ref="searchInput" />

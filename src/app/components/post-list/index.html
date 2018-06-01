@@ -42,7 +42,7 @@
                            :href="`tg://resolve?domain=${post.timeFrame.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
                         <span v-show="[1,6].includes(post.status) && post.declineReason">Причина: {{post.declineReason}}</span>
                     </div>
-                    <div class="w-25 text-center">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
+                    <div class="w-25 text-center">{{post.price | centToRub}}</div>
                 </div>
             </div>
         </div>
