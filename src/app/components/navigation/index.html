@@ -61,7 +61,7 @@
                 <li class="nav-item nav-item--aside d-lg-none">
                     <div class="nav-item__icon"
                          v-html="Payments"></div>
-                    <router-link :to="{ name: 'balance' }"
+                    <router-link :to="{ name: 'balance:withdrawal' }"
                                  class="nav-link">Платежи</router-link>
                 </li>
                 <li class="nav-item nav-item--aside d-lg-none">
@@ -160,15 +160,19 @@
                             </drop-down-menu-item>
                             <drop-down-menu-item>
                                 <router-link class="user-menu__item"
-                                             :to="{ name: 'balance' }">Транзакции</router-link>
-                            </drop-down-menu-item>
-                            <drop-down-menu-item>
-                                <router-link class="user-menu__item"
                                              :to="{name:'faq'}">F.A.Q.</router-link>
                             </drop-down-menu-item>
                             <drop-down-menu-item>
                                 <router-link class="user-menu__item"
                                              :to="{ name: 'support' }">Техподдержка</router-link>
+                            </drop-down-menu-item>
+                            <drop-down-menu-item>
+                                <router-link class="user-menu__item"
+                                             :to="{ name: 'balance:payment-info' }">Платежные данные</router-link>
+                            </drop-down-menu-item>
+                            <drop-down-menu-item>
+                                <router-link class="user-menu__item"
+                                             :to="{ name: 'balance' }">Транзакции</router-link>
                             </drop-down-menu-item>
                             <drop-down-menu-item>
                                 <router-link class="user-menu__item"
