@@ -257,6 +257,9 @@ body {
                 opacity: 0.2
             }
         }
+        &--mobile {
+            border-bottom: 2px solid #F6F7FB;
+        }
         @include media-breakpoint-up(md) {
             padding: 20px 10px;
             border-bottom: 1px solid #dee2e6 !important;
@@ -287,4 +290,13 @@ body {
         width: 20px;
         fill: #C0C7DA;
     }
+}
+
+.text-gray {
+    color: #c0c7da
+}
+
+.text-18px {
+    font-size: 18px;
+    line-height: 22px;
 }
