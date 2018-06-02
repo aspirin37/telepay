@@ -94,7 +94,9 @@ export default {
     channelsToAdd() {
       if (this.channels.length) {
         if (!this.post.publishAt) {
-          this.post.publishAt = moment();
+          setTimeout(() => {
+            this.post.publishAt = moment();
+          });
         }
         return this.channels.reduce((sum, ch) => {
           if (this.selectedChannels.find(sCh => sCh.channelId === ch.channelId)) {
@@ -177,8 +179,6 @@ export default {
         startDateTime,
         endDateTime
       };
-
-      console.log(timeCheckData);
 
       if (this.selectedTimeFrameIds[0]) {
         PostApi.checkTime(timeCheckData)

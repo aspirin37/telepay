@@ -1,7 +1,7 @@
 <template>
     <div>
         <mq-layout mq="sm">
-            <div class="flex-table" v-if="innerChannels.length && !isChips">
+            <div class="flex-table" v-if="innerChannels.length">
                 <div class="header-row mx-0 px-0 justify-content-between">
                     <div class="w-25 text-center">
                         <i class="fa fa-lg fa-users" aria-hidden="true"></i>

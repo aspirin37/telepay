@@ -4,12 +4,14 @@ import cutSum from './cut-sum';
 import parseDate from './parse-date';
 import parseLinks from './parse-links';
 import cutLongStr from './cut-long-str';
+import parseDateMobile from './parse-date-mobile'
 // import mapByCountry from './map-by-country';
 
-Vue.filter('centToRub', centToRub);
-Vue.filter('cutKilo', cutKilo);
-Vue.filter('cutSum', cutSum);
-Vue.filter('parseDate', parseDate);
-Vue.filter('parseLinks', parseLinks);
-Vue.filter('cutLongStr', cutLongStr);
+Vue.filter( 'centToRub', centToRub );
+Vue.filter( 'cutKilo', cutKilo );
+Vue.filter( 'cutSum', cutSum );
+Vue.filter( 'parseDate', parseDate );
+Vue.filter( 'parseDateMobile', parseDateMobile );
+Vue.filter( 'parseLinks', parseLinks );
+Vue.filter( 'cutLongStr', cutLongStr );
 // Vue.filter('mapByCountry', mapByCountry)

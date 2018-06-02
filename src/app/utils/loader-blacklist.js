@@ -6,4 +6,6 @@ export default [
     'catalog/blacklist/remove',
     'catalog/blacklist/add',
     'user',
+    `post/check/time`,
+    `ticket/message/create`
 ];
