@@ -57,14 +57,15 @@ export default Vue.extend({
             this.withdrawals = items;
         },
         async openPopup() {
-            if (this.user.balance.current < 1e3) {
+            if (this.user.balance.current < 1e5) {
                 this.$notifystr.danger('Ошибка!', 'Сумма на балансе недостаточна для совершения вылаты!');
                 return;
             }
 
             if (this.wallets && !this.wallets.length) {
                 this.$notifystr.danger('Ошибка!', 'У вас нет ни одного платежного счета!');
-
+                this.$router.push({ name: 'balance:payment-info' });
+                return;
             }
 
             let currentPopup = this.popupVue();
@@ -80,11 +81,15 @@ export default Vue.extend({
                 }
             });
 
+            this.getList();
         },
         async createWithdrawal(wd) {
             let copy = clone(wd);
             copy.amount *= 100;
             await WithdrawalsApi.create(copy);
+
+            this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - copy.amount })
+
             swal.close()
         }
     }
