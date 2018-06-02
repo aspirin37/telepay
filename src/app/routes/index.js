@@ -10,19 +10,6 @@ import Posts from './posts';
 import Support from './support';
 import Balance from './balance';
 
-import { BalanceApi } from '@services/api';
-
-const PaymentForm = {
-    template: `<iframe :src="src" height="${window.innerHeight-150}" width="100%" v-if="src"></iframe>`,
-    data() {
-        return {
-            src: null,
-        };
-    },
-    async created() {
-        this.src = decodeURIComponent(await BalanceApi.getForm({ amount: 100 }));
-    }
-};
 
 const routes = [
     Auth,
@@ -50,11 +37,6 @@ const routes = [
         path: '/profile',
         name: 'profile',
         component: Profile,
-    },
-    {
-        path: '/payment-form',
-        name: 'payment-form',
-        component: PaymentForm
     },
     {
         path: '*',
