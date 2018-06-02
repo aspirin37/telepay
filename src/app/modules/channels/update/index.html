@@ -1,149 +1,269 @@
-<div class="container py-3 px-0"
+<div class="container py-3 px-2 px-lg-0"
      v-if="channel && channel.channelId">
-    <h2 class="text-secondary my-4">Редактирование канала
-        <small @click="$router.go(-1)"
-               class="float-right pointer">
-            <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
-    </h2>
-    <div class="row my-4">
-        <div class="col-2 ">
-            <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
-                    style="max-width: 200px; max-height: 200px;"
-                    :circle="true" />
+    <mq-layout mq="sm">
+        <heading text="Редактировать" />
+        <div class="form-row col-12 px-0 mb-4 mt-4">
+            <div class="w-50 d-flex offset-1">
+                <div class="mr-2"
+                     style="width: 40px; height: 40px;">
+                    <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
+                            :circle="true" /> </div>
+                <div>
+                    <a :href="'tg://resolve?domain='+channel.username">
+                        <b>{{channel.title}}</b>
+                    </a>
+                    <br>
+                    <small clas="text-light">{{channel.category || 'Без категории'}}</small>
+                </div>
+            </div>
+            <div class="w-25 offset-2 px-0 d-flex flex-column align-items-center justify-content-center">
+                <small class="mb-1">Автомодерация</small>
+                <on-off v-model="channel.isAutopost"
+                        class="" /> </div>
         </div>
-        <div class="col-6">
-            <h4>
-                <a :href="'tg://resolve?domain='+channel.username"
-                   v-tooltip="'Открыть канал в приложении Telegram'">{{channel.title}}</a>
-                <i class="fa fa-database"
-                   v-tooltip="{template:channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в этом канале'}"
-            
+        <div class="form-row col-12 px-0 mb-4">
+            <div class="col-6 px-0 offset-1 d-flex align-items-baseline">
+                <i class="fa fa-lg fa-database mr-2"
                    :class="channel.isBotApproved?'text-success':'text-danger'"></i>
-                <i class="fa fa-check-circle"
-                   v-tooltip="{template:channel.status===1?'Канал подтвержден модератором':channel.status===0?'Канал ожидает проверки модератором':'Ваш канал отклонен модератором, причина указана ниже'}"
-            
-                   :class="channel.status===1?'text-success':channel.status===0?'text-muted':'text-danger'"></i>
-            </h4>
-            <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
-            <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
-            <h5 v-if="channel.categoryItem && channel.categoryItem[0]">Категория:
-                <router-link :to="{name:'support:create',params:{text:changeCategoryText, topic:3}}"
-                             v-tooltip="'Изменить категорию возможно только с помощью модератора, нажмите чтобы написать обращение'">{{channel.categoryItem[0].category.name}}</router-link>
-            </h5>
-        </div>
-        <div class="col-4">
-            <div class="d-flex align-items-center">
-                <b class="h4 m-0 px-2"
-                   v-tooltip="{template:'После проверки поста нашими модераторами на допустимость контента, пост должен быть одобрен вами, включите эту опцию чтобы разрешить размещение постов без вашей проверки',delayOut:500}">Автомодерация</b>
-                <on-off v-model="channel.isAutopost" />
+                <span class="text-18px">{{ channel.isBotApproved ? 'бот работает' : 'нет бота' }} </span>
             </div>
-            <br>
-            <label>Запрещенные темы</label>
-            <search-input v-model="channel.blackList"
-                          :multiple-placeholder="a=> `Выбрано тем: ${a}`"
-                          :multiple="true"
-                          @select="handleSelect"
-                          :options="categories" />
+            <div class="col-5 px-0 d-flex align-items-baseline">
+                <i class="fa fa-lg fa-check-circle mr-2"
+                   :class="channel.status===1?'text-primary':'text-danger'"></i>
+                <span class="text-18px">{{ channel.status===1 ? 'подтвержден' : 'отказано' }} </span>
+            </div>
         </div>
-    </div>
-    <h2>Рекламные предложения</h2>
-    <div class="form-row">
-        <div class="col-2">
-            <div class="form-group">
-                <label>Кол-во постов в сутки</label>
-                <input type="number"
-                       min="1"
-                       max="24"
-                       step="1"
-                       :readonly="!editingConditions"
-                       @click="editingConditions=true"
-                       @focus="errors.postCount=false"
-                       :class="{'is-invalid':errors.postCount,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
-                       @change="fixPostCount"
-                       placeholder="5"
-                       v-model="timeframesData.postCount">
-                <div class="help-block">
-                    <small v-show="errors.postCount"
-                           class="text-danger">Не указано количество постов!</small>
-                    <small v-show="!errors.postCount">&nbsp;</small>
+        <h1 class="text-center mb-4">Рекламные предложения</h1>
+        <div class="flex-table mb-4">
+            <div class="header-row mx-0 px-0 justify-content-between">
+                <div class="col px-1 text-center">Постов</div>
+                <div class="col px-1 text-center">Условия
+                    <br>
+                    <small>В топе/всего</small>
+                </div>
+                <div class="col px-1 text-center">
+                    <i class="fa fa-lg fa-rub"></i>
+                </div>
+                <div class="col px-1 text-center">
+                    <i class="fa fa-lg fa-hand-o-up"></i>
+                </div>
+            </div>
+            <div class="body-row body-row--mobile align-items-start pb-2">
+                <div class="col px-1 d-flex flex-column">
+                    <input type="number"
+                           min="1"
+                           max="24"
+                           step="1"
+                           :readonly="!editingConditions"
+                           @click="editingConditions=true"
+                           @focus="errors.postCount=false"
+                           class="form-control-plaintext fa-lg text-center"
+                           :class="{'is-invalid':errors.postCount,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
+                           @change="fixPostCount"
+                           placeholder="5"
+                           v-model="timeframesData.postCount">
+                    <div class="help-block">
+                        <small v-show="errors.postCount"
+                               class="text-danger">Не указано количество постов!</small>
+                        <small v-show="!errors.postCount">&nbsp;</small>
+                    </div>
+                </div>
+                <div class="col px-1 d-flex flex-column">
+                    <input type="text"
+                           class="form-control-plaintext text-center fa-lg"
+                           :value="'1/'+(inFeedHours||'∞')"
+                           v-if="!editingConditions"
+                           readonly
+                           @click="editingConditions=true">
+                    <select v-model="timeframesData.conditions"
+                            @focus="errors.conditions=false"
+                            :class="{'is-invalid':errors.conditions}"
+                            v-else
+                            class="form-control">
+                        <option value=""
+                                hidden>Выберите условия</option>
+                        <option value="24">1/24</option>
+                        <option value="48">1/48</option>
+                        <option value="never">1/∞</option>
+                    </select>
+                    <div class="help-block">
+                        <small v-show="errors.conditions"
+                               class="text-danger">Не выбраны условия!</small>
+                        <small v-show="!errors.conditions">&nbsp;</small>
+                    </div>
+                </div>
+                <div class="col px-1 d-flex flex-column">
+                    <input type="number"
+                           :readonly="!editingConditions"
+                           class="text-center"
+                           :class="{'is-invalid':errors.postPrice,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
+                           @click="editingConditions=true"
+                           @focus="errors.postPrice=false"
+                           @change="fixPostPrice"
+                           placeholder="1000"
+                           step="1"
+                           min="1"
+                           max="1000000"
+                           v-model="timeframesData.postPrice">
+                    <div class="help-block">
+                        <small v-show="errors.postPrice"
+                               class="text-danger">Не указана цена за пост!</small>
+                        <small v-show="!errors.postPrice">&nbsp;</small>
+                    </div>
+                </div>
+                <div class="col px-1 text-center"
+                     style="padding-top: 0.65rem">
+                    <i class="fa fa-lg fa-pencil mr-2"
+                       @click="editingConditions = true"></i>
+                    <i class="fa fa-lg fa-trash mr-2"
+                       v-show="channel.timeFrame.length"
+                       @click="deleteTimeFrames(true)"></i>
                 </div>
             </div>
         </div>
-        <div class="col-2">
-            <div class="form-group">
-                <label v-tooltip="{template:'Время, которое пост должен быть в ленте канала на первом месте / Время поста в ленте до удаления ботом',delayOut:500}">Условия размещения
-                </label>
-                <input type="text"
-                       class="form-control-plaintext fa-lg"
-                       :value="'1/'+(inFeedHours||'∞')"
-                       v-if="!editingConditions"
-                       readonly
-                       @click="editingConditions=true">
-                <select v-model="timeframesData.conditions"
-                        @focus="errors.conditions=false"
-                        :class="{'is-invalid':errors.conditions}"
-                        v-else
-                        class="form-control">
-                    <option value=""
-                            hidden>Выберите условия</option>
-                    <option value="24">1/24</option>
-                    <option value="48">1/48</option>
-                    <option value="never">1/∞</option>
-                </select>
-                <div class="help-block">
-                    <small v-show="errors.conditions"
-                           class="text-danger">Не выбраны условия!</small>
-                    <small v-show="!errors.conditions">&nbsp;</small>
-                </div>
+        <button class="btn-success btn mb-3 w-100"
+                v-show="editingConditions"
+                @click="saveGlobalTimeFrames">Сохранить</button>
+    </mq-layout>
+    <mq-layout mq="md+">
+        <h2 class="text-secondary my-4">Редактирование канала
+            <small @click="$router.go(-1)"
+                   class="float-right pointer">
+                <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
+        </h2>
+        <div class="row my-4">
+            <div class="col-2 ">
+                <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
+                        style="max-width: 200px; max-height: 200px;"
+                        :circle="true" /> </div>
+            <div class="col-6">
+                <h4>
+                    <a :href="'tg://resolve?domain='+channel.username"
+                       v-tooltip="'Открыть канал в приложении Telegram'">{{channel.title}}</a>
+                    <i class="fa fa-database"
+                       v-tooltip="{template:channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в этом канале'}"
+                       :class="channel.isBotApproved?'text-success':'text-danger'"></i>
+                    <i class="fa fa-check-circle"
+                       v-tooltip="{template:channel.status===1?'Канал подтвержден модератором':channel.status===0?'Канал ожидает проверки модератором':'Ваш канал отклонен модератором, причина указана ниже'}"
+                       :class="channel.status===1?'text-success':channel.status===0?'text-muted':'text-danger'"></i>
+                </h4>
+                <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
+                <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
+                <h5 v-if="channel.categoryItem && channel.categoryItem[0]">Категория:
+                    <router-link :to="{name:'support:create',params:{text:changeCategoryText, topic:3}}"
+                                 v-tooltip="'Изменить категорию возможно только с помощью модератора, нажмите чтобы написать обращение'">{{channel.categoryItem[0].category.name}}</router-link>
+                </h5>
             </div>
-        </div>
-        <div class="col-2">
-            <div class="form-group">
-                <label>Цена за пост</label>
-                <input type="number"
-                       :readonly="!editingConditions"
-                       :class="{'is-invalid':errors.postPrice,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
-                       @click="editingConditions=true"
-                       @focus="errors.postPrice=false"
-                       @change="fixPostPrice"
-                       placeholder="1000"
-                       step="1"
-                       min="1"
-                       max="1000000"
-                       v-model="timeframesData.postPrice">
-                <div class="help-block">
-                    <small v-show="errors.postPrice"
-                           class="text-danger">Не указана цена за пост!</small>
-                    <small v-show="!errors.postPrice">&nbsp;</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <label>&nbsp;</label>
-            <button class="btn-primary btn btn-block"
-                    v-show="!editingConditions"
-                    @click="editingConditions = true">Изменить</button>
-            <button class="btn-success btn btn-block m-0"
-                    v-show="editingConditions"
-                    @click="saveGlobalTimeFrames">Сохранить</button>
-        </div>
-        <div class="col-2">
-            <label>&nbsp;</label>
-            <button class="btn-danger btn btn-block"
-                    v-show="channel.timeFrame.length"
-                    @click="deleteTimeFrames(true)">Удалить</button>
-        </div>
-        <div class="col-12"
-             v-show="timeframesData&&timeframesData.postCount && timeframesData.postPrice && timeframesData.conditions">
-            <h4 v-if="channel.status!==1">Ваше предложение появится в каталоге после подтверждения канала модератором</h4>
-            <p>
-                <span v-html="dailyPostsStr"></span>
+            <div class="col-4">
+                <div class="d-flex align-items-center">
+                    <b class="h4 m-0 px-2"
+                       v-tooltip="{template:'После проверки поста нашими модераторами на допустимость контента, пост должен быть одобрен вами, включите эту опцию чтобы разрешить размещение постов без вашей проверки',delayOut:500}">Автомодерация</b>
+                    <on-off v-model="channel.isAutopost" /> </div>
                 <br>
-                <span v-html="maxPostsStr"></span>
-            </p>
+                <label>Запрещенные темы</label>
+                <search-input v-model="channel.blackList"
+                              :multiple-placeholder="a=> `Выбрано тем: ${a}`"
+                              :multiple="true"
+                              @select="handleSelect"
+                              :options="categories" /> </div>
         </div>
-    </div>
-    <!-- <h4 @click="showTimeframes=!showTimeframes"
+        <h2>Рекламные предложения</h2>
+        <div class="form-row">
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Кол-во постов в сутки</label>
+                    <input type="number"
+                           min="1"
+                           max="24"
+                           step="1"
+                           :readonly="!editingConditions"
+                           @click="editingConditions=true"
+                           @focus="errors.postCount=false"
+                           :class="{'is-invalid':errors.postCount,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
+                           @change="fixPostCount"
+                           placeholder="5"
+                           v-model="timeframesData.postCount">
+                    <div class="help-block">
+                        <small v-show="errors.postCount"
+                               class="text-danger">Не указано количество постов!</small>
+                        <small v-show="!errors.postCount">&nbsp;</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label v-tooltip="{template:'Время, которое пост должен быть в ленте канала на первом месте / Время поста в ленте до удаления ботом',delayOut:500}">Условия размещения </label>
+                    <input type="text"
+                           class="form-control-plaintext fa-lg"
+                           :value="'1/'+(inFeedHours||'∞')"
+                           v-if="!editingConditions"
+                           readonly
+                           @click="editingConditions=true">
+                    <select v-model="timeframesData.conditions"
+                            @focus="errors.conditions=false"
+                            :class="{'is-invalid':errors.conditions}"
+                            v-else
+                            class="form-control">
+                        <option value=""
+                                hidden>Выберите условия</option>
+                        <option value="24">1/24</option>
+                        <option value="48">1/48</option>
+                        <option value="never">1/∞</option>
+                    </select>
+                    <div class="help-block">
+                        <small v-show="errors.conditions"
+                               class="text-danger">Не выбраны условия!</small>
+                        <small v-show="!errors.conditions">&nbsp;</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Цена за пост</label>
+                    <input type="number"
+                           :readonly="!editingConditions"
+                           :class="{'is-invalid':errors.postPrice,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
+                           @click="editingConditions=true"
+                           @focus="errors.postPrice=false"
+                           @change="fixPostPrice"
+                           placeholder="1000"
+                           step="1"
+                           min="1"
+                           max="1000000"
+                           v-model="timeframesData.postPrice">
+                    <div class="help-block">
+                        <small v-show="errors.postPrice"
+                               class="text-danger">Не указана цена за пост!</small>
+                        <small v-show="!errors.postPrice">&nbsp;</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <label>&nbsp;</label>
+                <button class="btn-primary btn btn-block"
+                        v-show="!editingConditions"
+                        @click="editingConditions = true">Изменить</button>
+                <button class="btn-success btn btn-block m-0"
+                        v-show="editingConditions"
+                        @click="saveGlobalTimeFrames">Сохранить</button>
+            </div>
+            <div class="col-2">
+                <label>&nbsp;</label>
+                <button class="btn-danger btn btn-block"
+                        v-show="channel.timeFrame.length"
+                        @click="deleteTimeFrames(true)">Удалить</button>
+            </div>
+            <div class="col-12"
+                 v-show="timeframesData&&timeframesData.postCount && timeframesData.postPrice && timeframesData.conditions">
+                <h4 v-if="channel.status!==1">Ваше предложение появится в каталоге после подтверждения канала модератором</h4>
+                <p>
+                    <span v-html="dailyPostsStr"></span>
+                    <br>
+                    <span v-html="maxPostsStr"></span>
+                </p>
+            </div>
+        </div>
+        <!-- <h4 @click="showTimeframes=!showTimeframes"
       class="pointer underline-dash "> Расширенные настройки</h4>
   <transition name="fade">
     <timeframes :timeframes="mappedTimeframes"
@@ -151,6 +271,7 @@
                 :max-posts-str="maxPostsStr"
                 :daily-posts-str="dailyPostsStr"></timeframes>
   </transition> -->
-    <!-- <timeFrames-list v-if="channel && channel.channelId"
+        <!-- <timeFrames-list v-if="channel && channel.channelId"
         :channel="channel"></timeFrames-list> -->
+    </mq-layout>
 </div>

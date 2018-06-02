@@ -81,7 +81,6 @@ export default Vue.extend({
                 }
             });
 
-            this.getList();
         },
         async createWithdrawal(wd) {
             let copy = clone(wd);
@@ -91,6 +90,7 @@ export default Vue.extend({
             this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - copy.amount })
 
             swal.close()
+            this.getList();
         }
     }
 });
