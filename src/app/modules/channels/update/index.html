@@ -21,16 +21,16 @@
                 <on-off v-model="channel.isAutopost"
                         class="" /> </div>
         </div>
-        <div class="form-row col-12 px-0 mb-4">
-            <div class="col-6 px-0 offset-1 d-flex align-items-baseline">
+        <div class="d-flex justify-content-around form-row col-12 px-0 mb-4">
+            <div class="col-6 channel-status d-flex align-items-baseline">
                 <i class="fa fa-lg fa-database mr-2"
                    :class="channel.isBotApproved?'text-success':'text-danger'"></i>
                 <span class="text-18px">{{ channel.isBotApproved ? 'бот работает' : 'нет бота' }} </span>
             </div>
-            <div class="col-5 px-0 d-flex align-items-baseline">
+            <div class="col-5 channel-status d-flex align-items-baseline">
                 <i class="fa fa-lg fa-check-circle mr-2"
-                   :class="channel.status===1?'text-primary':'text-danger'"></i>
-                <span class="text-18px">{{ channel.status===1 ? 'подтвержден' : 'отказано' }} </span>
+                   :class="channel.status===1?'text-primary': channel.status===0 || !channel.status ? 'text-warning' : 'text-danger'"></i>
+                <span class="text-18px">{{ channel.status===1 ? 'подтвержден' : channel.status == 0 || !channel.status ? 'Ожидает подтверждения' : 'отказано' }} </span>
             </div>
         </div>
         <h1 class="text-center mb-4">Рекламные предложения</h1>
