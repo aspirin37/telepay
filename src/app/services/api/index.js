@@ -9,9 +9,11 @@ import NotificationApi from './notification';
 import AuthApi from './auth';
 import UserApi from './user';
 import BalanceApi from './balance';
+import PostTemplateApi from './post-templates';
 import ChannelListsApi from './channel-lists';
 import SupportApi from './support';
-import PostTemplateApi from './post-templates';
+import WalletsApi from './wallets';
+import WithdrawalsApi from './withdrawals';
 
 let API_BASE;
 let protocol = (document.location && document.location.protocol) || 'http:';
@@ -43,5 +45,7 @@ export {
     PostTemplateApi,
     BalanceApi,
     PostApi,
-    SupportApi
+    SupportApi,
+    WalletsApi,
+    WithdrawalsApi
 };

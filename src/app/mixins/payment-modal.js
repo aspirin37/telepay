@@ -12,7 +12,7 @@ export default {
                     interval: null,
                 }
             }
-        }
+        };
     },
     methods: {
         messageListener() {
@@ -34,12 +34,12 @@ export default {
                         this.paymentModal.closeTimeout.counter--;
                         if(info) info.innerText =
                             `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.closeTimeout.counter} с`;
-                        if(this.paymentModal.closeTimeout.counter <= 0) clearInterval(this.paymentModal.closeTimeout.interval)
+                        if(this.paymentModal.closeTimeout.counter <= 0) clearInterval(this.paymentModal.closeTimeout.interval);
                     }, 1e3);
 
                     this.paymentModal.closeTimeout.timeout = setTimeout(() => {
                         swal.clickConfirm();
-                        clearInterval(this.paymentModal.closeTimeout.interval)
+                        clearInterval(this.paymentModal.closeTimeout.interval);
                         this.paymentModal.closeTimeout.counter = this.paymentModal.AUTO_DISMISS_SECONDS;
                     }, this.paymentModal.AUTO_DISMISS_SECONDS * 1e3);
 
@@ -56,6 +56,10 @@ export default {
         async openPaymentModal(amount, callback) {
             this.paymentModal.hasSuccess = false;
             this.paymentModal.closeTimeout.counter = this.paymentModal.AUTO_DISMISS_SECONDS;
+            if(this.$store.state.user && this.$store.state.user.balance && this.$store.state.user.balance.current > 0) {
+                amount = amount - this.$store.state.user.balance.current / 100;
+            }
+
             let link = await BalanceApi.getForm({ amount: Math.ceil(amount) });
             this.paymentModal.randomId = (Math.random() * 1e6).toFixed();
             let self = this;
@@ -67,7 +71,7 @@ export default {
                 padding: 30,
                 onOpen() {
                     window.addEventListener('message', self.messageListener, false);
-                    swal.showLoading()
+                    swal.showLoading();
                 },
                 onClose() {
                     window.removeEventListener('message', self.messageListener);
@@ -82,10 +86,10 @@ export default {
                 allowEscapeKey: false,
                 allowEnterKey: false,
             });
-            console.log(swalOut, this.paymentModal.hasSuccess)
+            console.log(swalOut, this.paymentModal.hasSuccess);
             if(swalOut && this.paymentModal.hasSuccess) {
-                callback()
-                this.paymentModal.hasSuccess = false
+                callback();
+                this.paymentModal.hasSuccess = false;
             }
         }
     }

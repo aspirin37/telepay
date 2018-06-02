@@ -15,7 +15,7 @@ Vue.http.interceptors.push((request, next) => {
             }
         } else {
             if(response && response.data && typeof response.data === 'object') {
-                if(response.status === 401 || response.status === 403) {
+                if(response.status === 401) {
                     App.$router.push({ name: 'logout' });
                 } else {
                     for(let err in response.data) {

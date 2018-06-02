@@ -57,7 +57,7 @@
                         </div>
                         <div class="col p-0">
                             <button class="btn btn-success w-100"
-                                    @click.prevent="user.balance.current>totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
+                                    @click.prevent="user.balance.current>=totalPrice ? createPost() : openPaymentModal(totalPrice/100,createPost)"
                                     :disabled="!selectedChannels.length">{{user.balance.current>totalPrice?'Разместить пост':'Оплатить пост'}}</button>
                         </div>
                     </div>
