@@ -10,16 +10,14 @@ export default {
   data() {
     return {
       clr: '#ccc'
-    }
+    };
   },
   computed: {
     classes() {
-      return [
-        { 'dropp__menu-item_header': this.title === '' }
-      ]
+      return [{ 'dropp__menu-item_header': this.title === '' }];
     }
   }
-}
+};
 </script>
 
 <style>
@@ -28,12 +26,11 @@ export default {
 }
 .dropp__menu-item {
   padding: 10px;
-  background-color: rgb(248, 249, 250);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   text-decoration: none;
 }
 .dropp__menu-item:hover {
-  background-color: rgb(218, 224, 229) !important;
+  background-color: rgb(248, 249, 250) !important;
 }
 .dropp__menu-item_header,
 .dropp__menu-item_header:hover {

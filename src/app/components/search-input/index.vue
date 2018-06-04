@@ -9,7 +9,7 @@
     </button>
     <input class="search-input__value" tabindex v-show="searching" type="text" v-model="searchString" @input="search" @keydown.down="scrollDropdown" @keydown.up="scrollDropdown" @keydown.enter="keyBoardSelect" ref="searchInput" />
     <transition name="fade">
-      <div class="search-input__dropdown" v-show="dropdownVisible" ref="dropdown">
+      <div class="search-input__dropdown shadow" v-show="dropdownVisible" ref="dropdown">
         <div v-for="(option, i) in innerOptions" :key="i" class="search-input__dropdown-item" @click="select(option, i,$event)" @toucstart="select(option, i,$event)" :class="[getActive(option), getHovered(i)]">
           <span class="search-input__option-name">{{ option.name }}</span>
           <div class="float-right" v-if="multiple">

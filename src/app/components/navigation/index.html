@@ -5,11 +5,14 @@
              :class="{'header__container--toggled': isMenuOpened}">
             <ul class="nav nav--top"
                 :class="{'is-advert':isAdvert, 'nav--top--toggled': isMenuOpened }">
-                <li class="nav-item nav-item--user-mobile">
+                <li class="nav-item nav-item--user-mobile pointer">
                     <router-link tag="div"
                                  class="user-field text-light"
                                  :to="{ name: 'profile' }">{{ getUsername ? getUsername[0] : "U" }}</router-link>
-                    <span class="nav-link nav-link--user">Профиль</span>
+                    <router-link tag="span"
+                                 :to="{ name: 'profile' }">
+                        <span class="nav-link nav-link--user">Профиль</span>
+                    </router-link>
                 </li>
                 <li class="nav-item d-none d-lg-block order-lg-first">
                     <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"
@@ -112,7 +115,7 @@
                               v-show="notificationsCount > 0">{{ notificationsCount }}</span>
                     </button>
                     <transition name="fade">
-                        <div class="dropdown-menu show"
+                        <div class="dropdown-menu shadow show"
                              v-show="showDD"
                              ref="ddmenu">
                             <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}</h6>
