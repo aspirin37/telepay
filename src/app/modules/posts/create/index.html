@@ -25,21 +25,23 @@
                     <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
                     <date-input v-model="post.publishAt"
                                 placeholder="Выберите дату публикации"
+                                @change="checkPostTime"
                                 :config="configs.date" /> </div>
                 <div class="col-6">
                     <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
                     <input type="time"
                            ref="timeInput"
                            required
-                           :class="{'is-invalid':errors.time || errors.notAvailiableTime}"
+                           :class="{'is-invalid':errors.time || errors.notAvailableTime}"
                            class="form-control"
+                           @change="checkPostTime"
                            v-model="postTime">
                     <div class="help-block">
-                        <small v-show="errors.notAvailiableTime"
-                               class="text-danger">Текущее время занято</small>
+                        <small v-if="errors.notAvailableTime"
+                               class="text-danger">Текущее время занято.</small>
                         <small v-show="errors.time"
-                               class="text-danger">Время публикации не может быть в прошлом</small>
-                        <small v-show="!errors.time && !errors.notAvailiableTime">&nbsp;</small>
+                               class="text-danger">Время публикации не может быть в прошлом.</small>
+                        <small v-show="!errors.time && !errors.notAvaliableTime">&nbsp;</small>
                     </div>
                 </div>
                 <div class="col-12">
@@ -133,15 +135,18 @@
                                    required
                                    :class="{'is-invalid':errors.time}"
                                    class="form-control p-2"
+                                   @change="checkPostTime"
                                    v-model="postTime">
                             <div class="help-block">
+                                <small v-show="errors.notAvailableTime"
+                                       class="text-danger">Текущее время занято</small>
                                 <small v-show="errors.time"
                                        class="text-danger">Время публикации не может быть в прошлом</small>
-                                <small v-show="!errors.time">&nbsp;</small>
+                                <small v-show="!errors.time && !errors.notAvaliableTime">&nbsp;</small>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12"
+                    <!-- <div class="col-12"
                          v-if="postTemplates&&postTemplates.length">
                         <div class="form-group">
                             <p class="text-medium-font font-weight-500 mb-1">Шаблон поста</p>
@@ -155,7 +160,7 @@
                                   v-show="post.postTemplateId"
                                   @click="dropTemplate">Сбросить</span>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-12">
                         <div class="form-group m-0">
                             <p class="text-medium-font font-weight-500 mb-1">Контент</p>

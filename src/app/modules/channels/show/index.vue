@@ -45,6 +45,7 @@ export default {
     this.channel = await ChannelApi.show({
       channelId: this.$route.params.username
     });
+    this.channel.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(this.channel);
     if (this.channel && this.channel.userId === this.$store.state.user.userId) {
       this.$router.replace({ name: 'channels:update', params: { username: this.$route.params.username } });
     }
