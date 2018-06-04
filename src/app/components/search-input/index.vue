@@ -4,7 +4,7 @@
       <span class="search-input__cleaner-icon" v-if="cleanerVisible && !multiple">&times;</span>
       <i v-if="!cleanerVisible || multiple" class="fa fa-chevron-down" aria-hidden="true"></i>
     </span>
-    <button class="search-input__value" v-show="!searching" type="button" @focus="startSearching">
+    <button class="search-input__value" v-show="!searching" type="button" @click="focusButton" @focus="startSearching">
       {{ multiple? parsedMultiplePlaceholder :(selected ? selected.name : placeholder) }}
     </button>
     <input class="search-input__value" tabindex v-show="searching" type="text" v-model="searchString" @input="search" @keydown.down="scrollDropdown" @keydown.up="scrollDropdown" @keydown.enter="keyBoardSelect" ref="searchInput" />
@@ -65,6 +65,7 @@ export default {
   },
   data() {
     return {
+      btnFocused: false,
       searching: false,
       searchString: '',
       selected: this.default ? { name: this.default } : null,
@@ -119,6 +120,12 @@ export default {
     }
   },
   methods: {
+    focusButton() {
+      // Костыль для селекта на IOS
+      this.btnFocused = !this.btnFocused;
+      const btn = document.querySelector('button.search-input__value');
+      this.btnFocused ? btn.blur() : btn.focus();
+    },
     watchValue(val) {
       if (this.multiple) {
         if (val && val.length) {

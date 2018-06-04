@@ -1,5 +1,6 @@
 <div class="container py-3 px-2 px-0">
     <mq-layout mq="sm">
+        <!-- TODO Сделать мобилку и десктоп одной версткой -->
         <heading text="Новый канал"></heading>
         <h4 class="text-danger"
             v-if="wsError">Ошибка подключения к боту Telepay - попробуйте перезагрузить страницу,
@@ -76,7 +77,7 @@
                     <a href="tg://resolve?domain=Telepay_io_bot"
                        target="_blank">нашего бота</a> в канал и дать ему права админа на постинг</span> &nbsp; </p>
         </div>
-        <div class="col-12 d-flex justify-content-start">
+        <div class="col-12 d-flex justify-content-start mb-4">
             <button class="btn btn-success"
                     :disabled="!channel.telegramId "
                     v-show="channel.isBotApproved"
