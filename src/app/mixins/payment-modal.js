@@ -1,5 +1,5 @@
 import { BalanceApi } from '@services/api';
-import plural from '@utils/plural';
+
 export default {
     data() {
         return {
@@ -86,7 +86,7 @@ export default {
                 allowEscapeKey: false,
                 allowEnterKey: false,
             });
-            console.log(swalOut, this.paymentModal.hasSuccess);
+
             if(swalOut && this.paymentModal.hasSuccess) {
                 callback();
                 this.paymentModal.hasSuccess = false;
