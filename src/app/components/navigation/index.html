@@ -5,11 +5,14 @@
              :class="{'header__container--toggled': isMenuOpened}">
             <ul class="nav nav--top"
                 :class="{'is-advert':isAdvert, 'nav--top--toggled': isMenuOpened }">
-                <li class="nav-item nav-item--user-mobile">
+                <li class="nav-item nav-item--user-mobile pointer">
                     <router-link tag="div"
                                  class="user-field text-light"
                                  :to="{ name: 'profile' }">{{ getUsername ? getUsername[0] : "U" }}</router-link>
-                    <span class="nav-link nav-link--user">Профиль</span>
+                    <router-link tag="span"
+                                 :to="{ name: 'profile' }">
+                        <span class="nav-link nav-link--user">Профиль</span>
+                    </router-link>
                 </li>
                 <li class="nav-item d-none d-lg-block order-lg-first">
                     <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"
@@ -61,7 +64,7 @@
                 <li class="nav-item nav-item--aside d-lg-none">
                     <div class="nav-item__icon"
                          v-html="Payments"></div>
-                    <router-link :to="{ name: 'balance:withdrawal' }"
+                    <router-link :to="{ name: 'finances' }"
                                  class="nav-link">Платежи</router-link>
                 </li>
                 <li class="nav-item nav-item--aside d-lg-none">
@@ -112,7 +115,7 @@
                               v-show="notificationsCount > 0">{{ notificationsCount }}</span>
                     </button>
                     <transition name="fade">
-                        <div class="dropdown-menu show"
+                        <div class="dropdown-menu shadow show"
                              v-show="showDD"
                              ref="ddmenu">
                             <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}</h6>
@@ -135,7 +138,7 @@
                     </transition>
                 </li>
                 <li class="nav-item d-flex order-1 order-lg-0 ml-auto ml-lg-0">
-                    <router-link :to="{ name: 'balance' }"
+                    <router-link :to="{ name: 'finances' }"
                                  class="nav-link nav-link--balance d-flex align-self-center">
                         <span class="navbar__sum order-0 mr-2 order-lg-1 mr-lg-0">{{ (balance.current|| 0) | centToRub(2) }} </span>
                         <span class="navbar__wallet pointer order-1 mr-2 order-lg-0 mr-lg-2"
@@ -160,19 +163,15 @@
                             </drop-down-menu-item>
                             <drop-down-menu-item>
                                 <router-link class="user-menu__item"
+                                             :to="{ name: 'finances' }">Финансы</router-link>
+                            </drop-down-menu-item>
+                            <drop-down-menu-item>
+                                <router-link class="user-menu__item"
                                              :to="{name:'faq'}">F.A.Q.</router-link>
                             </drop-down-menu-item>
                             <drop-down-menu-item>
                                 <router-link class="user-menu__item"
                                              :to="{ name: 'support' }">Техподдержка</router-link>
-                            </drop-down-menu-item>
-                            <drop-down-menu-item>
-                                <router-link class="user-menu__item"
-                                             :to="{ name: 'balance:payment-info' }">Платежные данные</router-link>
-                            </drop-down-menu-item>
-                            <drop-down-menu-item>
-                                <router-link class="user-menu__item"
-                                             :to="{ name: 'balance' }">Транзакции</router-link>
                             </drop-down-menu-item>
                             <drop-down-menu-item>
                                 <router-link class="user-menu__item"

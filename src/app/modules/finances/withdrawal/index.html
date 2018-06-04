@@ -1,0 +1,90 @@
+<div>
+    <h3>Заказ выплат</h3>
+    <div class="row mb-3"
+         v-show="withdrawals && withdrawals.length">
+        <div class="col">
+            <label class="float-left">Сумма выплаты</label>
+            <div class="input-group">
+                <input type="number"
+                       min="1"
+                       class="form-control"
+                       placeholder="100"
+                       v-model="newWithdrawal.amount">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <i class="fa fa-rouble"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="help-block text-left">
+                <small v-show="newWithdrawal.amount&&commissionPrice">Комиссия составит {{commissionPrice*100 |centToRub}}, вы получите: {{(newWithdrawal.amount - commissionPrice)*100 |centToRub}}</small>
+            </div>
+        </div>
+        <div class="col">
+            <label class="float-left">Счет</label>
+            <search-input v-model="newWithdrawal.wallet"
+                          placeholder="Выберите счет"
+                          :options="wallets"
+                          :custom-option="true">
+                <template slot-scope="optionScope"
+                          slot="option">
+                    <div class="text-left"> <img :src="`assets/payments/${walletTypes[optionScope.option.type].key}.svg`"
+                             height="21px"
+                             class="mr-2"
+                             :alt="walletTypes[optionScope.option.type].key">{{walletTypes[optionScope.option.type].label}} {{optionScope.option.number}}</div>
+                </template>
+                <template slot-scope="matchScope"
+                          slot="match">
+                    <div class="text-left"
+                         v-if="matchScope.selected">
+                        <img :src="`assets/payments/${walletTypes[matchScope.selected.type].key}.svg`"
+                             height="21px"
+                             class="mr-2"
+                             :alt="walletTypes[matchScope.selected.type].key"> {{walletTypes[matchScope.selected.type].label}}
+                        {{matchScope.selected.number}}
+                    </div>
+                </template>
+            </search-input>
+        </div>
+        <div class="col-3">
+            <label class="d-block">&nbsp;</label>
+            <button class="btn btn-primary"
+                    :disabled="!newWithdrawal.amount || !newWithdrawal.wallet"
+                    @click="createWithdrawal(newWithdrawal)">Заказать выплату</button>
+        </div>
+    </div>
+    <div class="flex-table"
+         v-show="withdrawals && withdrawals.length">
+        <div class="header-row">
+            <div class="col">Сумма</div>
+            <div class="col">Кошелек</div>
+            <div class="col">Статус</div>
+            <div class="col">Запрошено</div>
+        </div>
+        <div class="body-row"
+             v-for="withdrawal in withdrawals">
+            <div class="col h4 m-0">{{withdrawal.amountWithCommission |centToRub}}
+                <span class="text-muted">({{withdrawal.amount |centToRub}})</span>
+            </div>
+            <div class="col"><img :src="`assets/payments/${walletTypes[withdrawal.wallet.type].key}.svg`"
+                     height="21px"
+                     class="mr-2"
+                     :alt="walletTypes[withdrawal.wallet.type].key">{{walletTypes[withdrawal.wallet.type].label}} {{withdrawal.wallet.number}}</div>
+            <div class="col"
+                 :class="{
+              'text-success':withdrawal.status===1,
+              'text-danger':withdrawal.status===2,
+            }">{{withdrawalStatuses[withdrawal.status]}}
+                <br>
+                <small v-if="withdrawal.declineReason && withdrawal.status===2">Причина: {{withdrawal.declineReason}}</small>
+            </div>
+            <div class="col">{{withdrawal.createdAt*1e3 | parseDate}}</div>
+        </div>
+    </div>
+    <div class="text-center m-2"
+         v-if="withdrawals && !withdrawals.length">
+        <h3>Вы еще не создавали запросов на вывод средств</h3>
+        <button class="btn btn-primary"
+                @click="openPopup">Запросить выплату</button>
+    </div>
+</div>

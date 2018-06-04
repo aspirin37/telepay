@@ -8,10 +8,12 @@ import TimeFrameApi from './timeframe';
 import NotificationApi from './notification';
 import AuthApi from './auth';
 import UserApi from './user';
-import BalanceApi from './balance';
+import FinancesApi from './finances';
+import PostTemplateApi from './post-templates';
 import ChannelListsApi from './channel-lists';
 import SupportApi from './support';
-import PostTemplateApi from './post-templates';
+import WalletsApi from './wallets';
+import WithdrawalsApi from './withdrawals';
 
 let API_BASE;
 let protocol = (document.location && document.location.protocol) || 'http:';
@@ -41,7 +43,9 @@ export {
     UserApi,
     ChannelListsApi,
     PostTemplateApi,
-    BalanceApi,
+    FinancesApi,
     PostApi,
-    SupportApi
+    SupportApi,
+    WalletsApi,
+    WithdrawalsApi
 };

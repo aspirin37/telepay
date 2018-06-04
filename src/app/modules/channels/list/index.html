@@ -1,60 +1,104 @@
-<div class="container py-3 px-0 mb-5">
+<div class="container py-3 px-2 px-md-0 mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-secondary mb-0">Мои каналы</h1>
         <router-link v-if="channels.length"
                      class="btn btn-primary"
                      :to="{ name: 'channels:create' }">Добавить канал</router-link>
     </div>
-    <div class="flex-table my-4"
-         v-if="channels.length">
-        <div class="header-row">
-            <div class="col-1"> Запросы </div>
-            <div class="col-4"> Канал </div>
-            <div class="col"> Подписчиков </div>
-            <div class="col">
-                <span v-tooltip="'% активной аудитории'">ER</span>
+    <mq-layout mq="sm">
+        <div class="flex-table mb-4">
+            <div class="header-row mx-0 px-0 justify-content-between">
+                <div class="col text-center">
+                    <i class="fa fa-lg fa-users"></i>
+                </div>
+                <div class="col text-center"> Статус </div>
+                <div class="col text-center">
+                    <i class="fa fa-lg fa-hand-o-up"></i>
+                </div>
             </div>
-            <div class="col"> Статус </div>
-        </div>
-        <div class="body channel-table-body">
-            <div class="body-row"
+            <div class="body-row body-row--mobile align-items-start pb-2"
                  v-for="ch in channels"
                  :key="ch.channelId">
-                <div class="col-1 p-2">
-                    <button class="btn btn-sm"
-                            :class="ch.postOrders&&ch.postOrders.length > 0?'btn-success':'btn-light'"
-                            @click="toggleOrders(ch)">
-                        <b>{{(ch.postOrders&&ch.postOrders.length)||0}}</b>
-                    </button>
-                </div>
-                <div class="col-4">
-                    <div class="form-row">
-                        <div class="col-3">
+                <div class="form-row col-12 px-0 mb-4 mt-4">
+                    <div class="col-5 d-flex offset-1 pl-2">
+                        <div class="mr-3"
+                             style="width: 40px; height: 40px;">
                             <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
                                     :circle="true" /> </div>
-                        <div class="col-9">
-                            <router-link :to="{name:'channels:update',params:{username:ch.username}}">
+                        <div>
+                            <a :href="'tg://resolve?domain='+ch.username">
                                 <b>{{ch.title}}</b>
-                            </router-link>
-                            <br>{{ch.category || 'Без категории'}}
+                            </a>
                             <br>
-                            <router-link v-if="ch.userId === user.userId && (!ch.timeFrame || !ch.timeFrame.length)"
-                                         class="text-danger"
-                                         :to="{name:'channels:update',params:{username:ch.username}}">Добавьте рекламные места</router-link>
+                            <small clas="text-light">{{ch.category || 'Без категории'}}</small>
                         </div>
                     </div>
+                    <div class="col-6 px-0 pr-2 d-flex align-items-center justify-content-end">
+                        <router-link :to="{name:'channels:update',params:{username:ch.username}}"> Редактировать </router-link>
+                    </div>
                 </div>
-                <div class="col h4 m-0">
-                    <span>{{ch.subscriberCount|cutKilo}}</span>
+                <div class="form-row col-12 px-0 justify-content-between mb-4">
+                    <div class="col-4 text-center"> {{ch.subscriberCount|cutKilo}} </div>
+                    <div class="col-8">
+                        <i class="fa fa-lg fa-database mr-2"
+                           :class="ch.isBotApproved?'text-success':'text-danger'"></i>
+                        <span>{{ ch.isBotApproved ? 'бот работает' : 'нет бота' }} </span>
+                    </div>
                 </div>
-                <div class="col h4 m-0"> {{ch.engagementRate}}% </div>
-                <div class="col"> {{channelStatuses[ch.status]}} </div>
-                <div class="col-11 offset-1 my-2"
-                     v-if="ch.showOrders && ch.postOrders && ch.postOrders.length">
-                    <post-list :posts="ch.postOrders"
-                               :placeholder="`Нет входящих постов`"
-                               :is-out="false"></post-list>
-                    <!-- <div class="flex-table"
+            </div>
+        </div>
+    </mq-layout>
+    <mq-layout mq="md+">
+        <div class="flex-table my-4"
+             v-if="channels.length">
+            <div class="header-row">
+                <div class="col-1"> Запросы </div>
+                <div class="col-4"> Канал </div>
+                <div class="col"> Подписчиков </div>
+                <div class="col">
+                    <span v-tooltip="'% активной аудитории'">ER</span>
+                </div>
+                <div class="col"> Статус </div>
+            </div>
+            <div class="body channel-table-body">
+                <div class="body-row"
+                     v-for="ch in channels"
+                     :key="ch.channelId">
+                    <div class="col-1 p-2">
+                        <button class="btn btn-sm"
+                                :class="ch.postOrders&&ch.postOrders.length > 0?'btn-success':'btn-light'"
+                                @click="toggleOrders(ch)">
+                            <b>{{(ch.postOrders&&ch.postOrders.length)||0}}</b>
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-row">
+                            <div class="col-3">
+                                <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
+                                        :circle="true" /> </div>
+                            <div class="col-9">
+                                <router-link :to="{name:'channels:update',params:{username:ch.username}}">
+                                    <b>{{ch.title}}</b>
+                                </router-link>
+                                <br>{{ch.category || 'Без категории'}}
+                                <br>
+                                <router-link v-if="ch.userId === user.userId && (!ch.timeFrame || !ch.timeFrame.length)"
+                                             class="text-danger"
+                                             :to="{name:'channels:update',params:{username:ch.username}}">Добавьте рекламные места</router-link>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col h4 m-0">
+                        <span>{{ch.subscriberCount|cutKilo}}</span>
+                    </div>
+                    <div class="col h4 m-0"> {{ch.engagementRate}}% </div>
+                    <div class="col"> {{channelStatuses[ch.status]}} </div>
+                    <div class="col-11 offset-1 my-2"
+                         v-if="ch.showOrders && ch.postOrders && ch.postOrders.length">
+                        <post-list :posts="ch.postOrders"
+                                   :placeholder="`Нет входящих постов`"
+                                   :is-out="false"></post-list>
+                        <!-- <div class="flex-table"
                          v-if="ch.postOrders && ch.postOrders.length">
                         <div class="header-row">
                             <div class="col-1">Номер</div>
@@ -122,13 +166,14 @@
                             </div>
                         </div>
                     </div> --></div>
+                </div>
             </div>
         </div>
-    </div>
-    <h4 class="text-center text-secondary"
-        v-else> Вы еще не добавили ни одного канала
-        <br>
-        <router-link class="btn btn-primary my-3"
-                     :to="{ name: 'channels:create' }">Добавить канал</router-link>
-    </h4>
+        <h4 class="text-center text-secondary"
+            v-else> Вы еще не добавили ни одного канала
+            <br>
+            <router-link class="btn btn-primary my-3"
+                         :to="{ name: 'channels:create' }">Добавить канал</router-link>
+        </h4>
+    </mq-layout>
 </div>

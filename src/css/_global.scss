@@ -29,11 +29,9 @@ body {
 
 .container-wrap {
     padding-top: 62px;
-
     &--chat {
         padding-top: 0;
     }
-
     @include media-breakpoint-up(md) {
         padding-top: 85px;
     }
@@ -48,7 +46,6 @@ body {
 
 .add-channel {
     border-top: 1px solid #dee2e6;
-
     @include media-breakpoint-up(md) {
         border-top: 0;
     }
@@ -92,6 +89,42 @@ body {
 .fade-in,
 .swal2-container.swal2-shown {
     animation: fadein 0.3s;
+}
+
+.tabs-row {
+    justify-content: space-between;
+    margin-bottom: 11px;
+    @include media-breakpoint-up(md) {
+        justify-content: start;
+    }
+}
+
+.tabs {
+    margin-bottom: 25px;
+    @include media-breakpoint-up(md) {
+        margin-bottom: 50px;
+    }
+}
+
+.tab {
+    width: 113px;
+    padding: 0.5rem 0;
+    background-color: #dee2ee;
+    color: #576077;
+    border-radius: 3px 3px 0 0;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    @include media-breakpoint-up(md) {
+        width: initial;
+        padding: 0.75rem;
+        margin-right: 13px;
+        font-size: 16px;
+    }
+    &--active {
+        background-color: #576076;
+        color: #f2f2f2;
+    }
 }
 
 .user {
@@ -257,6 +290,9 @@ body {
                 opacity: 0.2
             }
         }
+        &--mobile {
+            border-bottom: 2px solid #F6F7FB;
+        }
         @include media-breakpoint-up(md) {
             padding: 20px 10px;
             border-bottom: 1px solid #dee2e6 !important;
@@ -273,6 +309,10 @@ body {
     }
 }
 
+.channel-status {
+    max-width: 45%;
+}
+
 .opacity-50 {
     opacity: 0.5;
 }
@@ -287,4 +327,13 @@ body {
         width: 20px;
         fill: #C0C7DA;
     }
+}
+
+.text-gray {
+    color: #c0c7da
+}
+
+.text-18px {
+    font-size: 18px;
+    line-height: 22px;
 }
