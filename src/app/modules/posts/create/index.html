@@ -166,7 +166,7 @@
                                         v-show="!post.postTemplateId"
                                         @click.prevent="createPost(true)"> Сохранить пост</button>
                                 <button class="btn btn-success"
-                                        @click.prevent="user.balance.current>totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
+                                        @click.prevent="user.balance.current>=totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
                                         :disabled="!selectedChannels.length">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
                             </div>
                             <collapse collapseHeader="Правила форматирования"
