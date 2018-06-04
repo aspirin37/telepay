@@ -122,9 +122,11 @@ export default {
   methods: {
     focusButton(evt) {
       // Костыль для селекта на IOS
-      this.btnFocused = !this.btnFocused;
-      const btn = evt.target;
-      this.btnFocused ? btn.blur() : btn.focus();
+      if (evt) {
+        this.btnFocused = !this.btnFocused;
+        const btn = evt.target;
+        this.btnFocused ? btn.blur() : btn.focus();
+      }
     },
     watchValue(val) {
       if (this.multiple) {
