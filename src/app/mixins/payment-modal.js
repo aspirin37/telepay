@@ -1,4 +1,4 @@
-import { BalanceApi } from '@services/api';
+import { FinancesApi } from '@services/api';
 
 export default {
     data() {
@@ -60,7 +60,7 @@ export default {
                 amount = amount - this.$store.state.user.balance.current / 100;
             }
 
-            let link = await BalanceApi.getForm({ amount: Math.ceil(amount) });
+            let link = await FinancesApi.getForm({ amount: Math.ceil(amount) });
             this.paymentModal.randomId = (Math.random() * 1e6).toFixed();
             let self = this;
             let swalOut = await swal({

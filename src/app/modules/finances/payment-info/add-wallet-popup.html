@@ -1,0 +1,33 @@
+<div>
+    <search-input v-model="newWallet.type"
+                  placeholder="Выберите тип счета"
+                  :options="walletTypes"
+                  :custom-option="true">
+        <template slot-scope="optionScope"
+                  slot="option">
+            <div class="text-left"> <img :src="`assets/payments/${optionScope.option.key}.svg`"
+                     height="21px"
+                     class="mr-2"
+                     :alt="optionScope.option.key">{{optionScope.option.label}}</div>
+        </template>
+        <template slot-scope="matchScope"
+                  slot="match">
+            <div class="text-left"
+                 v-if="matchScope.selected">
+                <img :src="`assets/payments/${matchScope.selected.key}.svg`"
+                     height="21px"
+                     class="mr-2"
+                     :alt="matchScope.selected.key"> {{matchScope.selected.label}}</div>
+        </template>
+    </search-input>
+    <input type="text"
+           class="form-control my-2"
+           placeholder="Введите номер карты/кошелька"
+           v-model="newWallet.number">
+    <p class="text-danger">Внимательно проверьте правильность заполнения данных, изменить или удалить их возможно будет только через службу поддержки</p>
+    <div class="text-center">
+        <button class="btn btn-success"
+                @click="createWallet(newWallet)"
+                :disabled="!newWallet.type || !newWallet.number">Добавить</button>
+    </div>
+</div>

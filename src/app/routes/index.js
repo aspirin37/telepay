@@ -3,12 +3,12 @@ import Auth from './auth';
 import Catalog from '@modules/catalog';
 import Faq from '@modules/faq';
 import Profile from '@modules/profile';
+import Finances from '@modules/finances';
 
 import ChannelLists from './channel-lists';
 import Channels from './channels';
 import Posts from './posts';
 import Support from './support';
-import Balance from './balance';
 
 
 const routes = [
@@ -16,13 +16,17 @@ const routes = [
     Channels,
     Posts,
     Support,
-    Balance,
     ChannelLists,
     //   {
     //       path: '/',
     //       name: 'main',
     //       component: Main,
     // },
+    {
+        path: '/finances',
+        name: 'finances',
+        component: Finances,
+    },
     {
         path: '/catalog',
         name: 'catalog',

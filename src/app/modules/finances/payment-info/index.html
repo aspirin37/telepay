@@ -1,0 +1,34 @@
+<div>
+    <div class="row"
+         v-if="wallets && wallets.length">
+        <div class="col-3"
+             v-for="wallet in wallets">
+            <div class="card pointer text-center m-2 p-1"
+                 @click="editingPopup(wallet)">
+                <i class="fa fa-pencil text-right"></i>
+                <div class="card-body p-2">
+                    <img :src="`assets/payments/${walletTypes[wallet.type].key}.svg`"
+                         class="payment-icon"
+                         alt="walletTypes[wallet.type].label">
+                    <br> {{wallet.number}}
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card border-0 pointer text-center m-2"
+                 @click="addPaymentInfoModal">
+                <div class="card-body p-2 pt-3">
+                    <span v-html="Plus"
+                          class="payment-icon fill-current"></span>
+                    <br> Добавить еще
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center"
+         v-else>
+        <h4>Пока не добавлено платежных данных</h4>
+        <button class="btn btn-primary"
+                @click="addPaymentInfoModal">Добавить</button>
+    </div>
+</div>

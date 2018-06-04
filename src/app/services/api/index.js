@@ -8,7 +8,7 @@ import TimeFrameApi from './timeframe';
 import NotificationApi from './notification';
 import AuthApi from './auth';
 import UserApi from './user';
-import BalanceApi from './balance';
+import FinancesApi from './finances';
 import PostTemplateApi from './post-templates';
 import ChannelListsApi from './channel-lists';
 import SupportApi from './support';
@@ -43,7 +43,7 @@ export {
     UserApi,
     ChannelListsApi,
     PostTemplateApi,
-    BalanceApi,
+    FinancesApi,
     PostApi,
     SupportApi,
     WalletsApi,
