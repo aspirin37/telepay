@@ -1,16 +1,16 @@
 <template>
-    <div class="collapse-item">
-        <div class="collapse-item__header pointer" @click="itemSelected == false ? itemSelected = true : itemSelected = false">
-            <span class="collapse--item__header-text mr-1">{{ collapseHeader }}</span>
-            <span :class="[itemSelected ? 'fa-angle-down' : 'fa-angle-right', 'fa fa-lg']"></span>
-        </div>
-        <transition name="collapse">
-            <div class="collapse-item__wrapper" v-show="itemSelected">
-                <pre class="collapse-item__content" v-if="collapseContent">{{collapseContent}}</pre>
-                <slot v-else></slot>
-            </div>
-        </transition>
+  <div class="collapse-item" :id="collapseHeader == 'У вас есть реферальная программа?' ? 'ref-link' : ''">
+    <div class="collapse-item__header pointer" @click="itemSelected == false ? itemSelected = true : itemSelected = false">
+      <span class="collapse--item__header-text mr-1">{{ collapseHeader }}</span>
+      <span :class="[itemSelected ? 'fa-angle-down' : 'fa-angle-right', 'fa fa-lg']"></span>
     </div>
+    <transition name="collapse">
+      <div class="collapse-item__wrapper" v-show="itemSelected">
+        <pre class="collapse-item__content" v-if="collapseContent">{{collapseContent}}</pre>
+        <slot v-else></slot>
+      </div>
+    </transition>
+  </div>
 </template>
 <script>
 export default {
@@ -18,6 +18,14 @@ export default {
     return {
       itemSelected: false
     };
+  },
+  created() {
+    if (this.$route.params.hash == 'ref-link' && this.collapseHeader == 'У вас есть реферальная программа?') {
+      this.$nextTick(() => {
+        this.itemSelected = true;
+        document.querySelector('#ref-link').scrollIntoView();
+      });
+    }
   },
   props: ['collapseHeader', 'collapseContent'],
   methods: {}
@@ -58,7 +66,7 @@ export default {
 .collapse-enter-active,
 .collapse-leave-active {
   transition: max-height 0.5s ease-in-out;
-  max-height: 200px;
+  max-height: 400px;
 }
 
 .collapse-enter,

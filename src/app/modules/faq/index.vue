@@ -148,4 +148,10 @@ export default Vue.extend({
         text-align: left;
     }
 }
+
+.collapse-item__content {
+    font-size: 16px;
+    padding: 22px 0;
+    line-height: 20px;
+}
 </style>

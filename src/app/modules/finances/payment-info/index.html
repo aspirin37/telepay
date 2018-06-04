@@ -1,34 +1,64 @@
 <div>
-    <div class="row"
-         v-if="wallets && wallets.length">
-        <div class="col-3"
-             v-for="wallet in wallets">
-            <div class="card pointer text-center m-2 p-1"
-                 @click="editingPopup(wallet)">
-                <i class="fa fa-pencil text-right"></i>
-                <div class="card-body p-2">
-                    <img :src="`assets/payments/${walletTypes[wallet.type].key}.svg`"
-                         class="payment-icon"
-                         alt="walletTypes[wallet.type].label">
-                    <br> {{wallet.number}}
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <div class="row"
+                 v-if="wallets && wallets.length">
+                <div class="col-3"
+                     v-for="wallet in wallets">
+                    <div class="card pointer text-center m-2 p-1"
+                         @click="editingPopup(wallet)">
+                        <i class="fa fa-pencil text-right"></i>
+                        <div class="card-body p-2">
+                            <img :src="`assets/payments/${walletTypes[wallet.type].key}.svg`"
+                                 height="45px"
+                                 class="payment-icon"
+                                 alt="walletTypes[wallet.type].label">
+                            <br>
+                            <div class="m-2">{{wallet.number}}</div>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-3">
+                    <div class="card border-0 pointer text-center m-2"
+                         @click="addPaymentInfoModal">
+                        <div class="card-body p-2 pt-3">
+                            <span v-html="Plus"
+                                  class="payment-icon plus-icon"></span>
+                            <br> Добавить еще
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center"
+                 v-else>
+                <h4>Пока не добавлено платежных данных</h4>
+                <button class="btn btn-primary"
+                        @click="addPaymentInfoModal">Добавить</button>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card border-0 pointer text-center m-2"
-                 @click="addPaymentInfoModal">
-                <div class="card-body p-2 pt-3">
-                    <span v-html="Plus"
-                          class="payment-icon fill-current"></span>
-                    <br> Добавить еще
-                </div>
-            </div>
+        <div class="col-12 col-md-4">
+            <h3>Информация по комиссии</h3>
+            <b>Webmoney</b> - без комиссии
+            <br>
+            <br>
+            <b>На карту</b> - Минимальная сумма выплаты – 1 550 RUB (не более 75 000 RUB в день; 600 000 RUB в месяц)
+            <br>
+            <b>Комиссия - 2%</b>
+            <br>
+            <br>
+            <b>Qiwi Кошелёк</b> - Минимальная сумма выплаты – 1 550 RUB (не более 75 000 RUB в день; 100 000 RUB в месяц)
+            <br>
+            <b>Комиссия - 2%</b>
+            <br>
+            <br>
+            <b>Яндекс.Деньги</b> - Минимальная сумма выплаты – 1 550 RUB (не более 75 000 RUB в день; 100 000 RUB в месяц)
+            <br>
+            <b>Комиссия - 2%</b>
         </div>
     </div>
-    <div class="text-center"
-         v-else>
-        <h4>Пока не добавлено платежных данных</h4>
-        <button class="btn btn-primary"
-                @click="addPaymentInfoModal">Добавить</button>
+    <div class="row mt-3 align-items-center justify-content-center">
+        <span v-html="Info"
+              class="info-icon mr-2"></span> Платежные данные можно изменить только через&nbsp;
+        <router-link :to="{name:'support:create',params:{text:'Здравствуйте, я хочу изменить свои платежные данные.',topic:7}}">техподдержку</router-link>
     </div>
 </div>

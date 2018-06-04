@@ -3,12 +3,14 @@
 import { WalletsApi } from '@services/api';
 import walletTypes from '@utils/wallet-types';
 import Plus from '@assets/plus.svg'
+import Info from '@assets/informations-01.svg'
 import searchInput from '@components/search-input'
 import addWalletTemplate from './add-wallet-popup.html'
 export default Vue.extend({
     data() {
         return {
             Plus,
+            Info,
             walletTypes,
             wallets: []
         };
@@ -93,20 +95,19 @@ export default Vue.extend({
 </script>
 <style>
 .payment-icon {
-    max-height: 45px;
-    /* max-width: 45px; */
+    max-width: 100%;
 }
 
-.option-img {
-    max-height: 25px;
+.info-icon svg {
+    height: 30px;
 }
 
-.payment-icon svg {
-    height: 45px;
-    /* width: 45px; */
+.info-icon path.cls-1 {
+    fill: #50BCED !important;
 }
 
-.fill-current path {
+.plus-icon svg {
+    height: 35px;
     fill: currentColor;
 }
 </style>
