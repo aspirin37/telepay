@@ -12,7 +12,7 @@ export default {
     children: _crud_(
         List,
         Create,
-        Update,  
+        Update,
         'channel-lists:'
     ),
-}
+};

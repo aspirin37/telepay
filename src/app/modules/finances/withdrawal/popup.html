@@ -1,0 +1,48 @@
+<div class="form">
+    <div class="form-group">
+        <label class="float-left">Сумма вывода</label>
+        <div class="input-group">
+            <input type="number"
+                   class="form-control"
+                   placeholder="100"
+                   v-model="withdrawal.amount">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <i class="fa fa-rouble"></i>
+                </div>
+            </div>
+        </div>
+        <div class="help-block text-left">
+            <small v-show="withdrawal.amount&&commissionPrice">Комиссия составит {{commissionPrice*100 |centToRub}}, вы получите: {{(withdrawal.amount - commissionPrice)*100 |centToRub}}</small>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="float-left">Счет</label>
+        <search-input v-model="withdrawal.wallet"
+                      placeholder="Выберите счет"
+                      :options="wallets"
+                      :custom-option="true">
+            <template slot-scope="optionScope"
+                      slot="option">
+                <div class="text-left"> <img :src="`assets/payments/${walletTypes[optionScope.option.type].key}.svg`"
+                         height="21px"
+                         class="mr-2"
+                         :alt="walletTypes[optionScope.option.type].key">{{walletTypes[optionScope.option.type].label}} {{optionScope.option.number}}</div>
+            </template>
+            <template slot-scope="matchScope"
+                      slot="match">
+                <div class="text-left"
+                     v-if="matchScope.selected">
+                    <img :src="`assets/payments/${walletTypes[matchScope.selected.type].key}.svg`"
+                         height="21px"
+                         class="mr-2"
+                         :alt="walletTypes[matchScope.selected.type].key"> {{walletTypes[matchScope.selected.type].label}} {{matchScope.selected.number}}</div>
+            </template>
+        </search-input>
+    </div>
+    <div class="text-center mt-3">
+        <button class="btn btn-success"
+                @click="createWithdrawal(withdrawal)"
+                :disabled="!withdrawal.amount|| !withdrawal.wallet">Запросить вывод</button>
+    </div>
+</div>

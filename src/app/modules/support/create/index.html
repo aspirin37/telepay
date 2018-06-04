@@ -87,7 +87,7 @@
                     <support-textarea v-model="newMessage"
                                       :autofocus="true"
                                       :newMessage="newMessage" />
-                    <button class="btn-create btn btn-success btn-md float-right"
+                    <button class="btn btn-success btn-md float-right"
                             type="button"
                             @click="ticketId ? createMessage() : createTicket()"
                             disabled>Отправить</button>
@@ -124,6 +124,7 @@
                              v-if="message.files.length">
                             <img class="rounded img-thumbnail img-fluid mb-3 pointer"
                                  :src="message.isJustCreated ? image : '/images/tickets/' + ticketId + '/' + image.fileId + '.' + image.extension"
+                        
                                  v-for="image in message.files"
                                  @click="showImage"></img>
                         </div>
