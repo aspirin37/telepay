@@ -8,8 +8,7 @@
                required
                tabindex="1"
                class="form-control input-auth"
-               v-model="user.login">
-    </div>
+               v-model="user.login"> </div>
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Пароль</label>
         <input type="password"
@@ -17,8 +16,7 @@
                required
                tabindex="2"
                class="form-control input-auth"
-               v-model="user.password">
-    </div>
+               v-model="user.password"> </div>
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Подтверждение пароля</label>
         <input type="password"
@@ -28,10 +26,16 @@
                class="form-control input-auth"
                v-model="passCheck">
         <div class="help-text text-left text-danger"
-             v-if="validations.passwordMatch">
-            Пароли не совпадают!
-        </div>
+             v-if="validations.passwordMatch"> Пароли не совпадают! </div>
     </div>
+    <div class="form-group">
+        <label class="control-label float-left text-white h5 m-0">Промокод</label>
+        <input type="text"
+               tabindex="3"
+               placeholder="Введите промокод"
+               required
+               class="form-control input-auth"
+               v-model="user.promoCode"> </div>
     <div class="form-group text-white text-left d-flex align-items-center">
         <norm-checkbox v-model="checkedTerms"
                        tabindex="5" />
