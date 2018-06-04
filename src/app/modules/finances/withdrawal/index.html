@@ -63,7 +63,9 @@
         </div>
         <div class="body-row"
              v-for="withdrawal in withdrawals">
-            <div class="col h4 m-0">{{withdrawal.amount |centToRub}}</div>
+            <div class="col h4 m-0">{{withdrawal.amountWithCommission |centToRub}}
+                <span class="text-muted">({{withdrawal.amount |centToRub}})</span>
+            </div>
             <div class="col"><img :src="`assets/payments/${walletTypes[withdrawal.wallet.type].key}.svg`"
                      height="21px"
                      class="mr-2"
