@@ -22,12 +22,29 @@
     </search-input>
     <input type="text"
            class="form-control my-2"
+           :maxlength="numberMaxlength"
            placeholder="Введите номер карты/кошелька"
            v-model="newWallet.number">
+    <!-- <masked-input placeholder="4321 4321 4321 4321"
+                  v-if="newWallet.type.key==='credit-card'"
+                  v-model="creditCardValue"
+                  class="form-control my-2"
+                  mask="1111 1111 1111 1111" />
+    <masked-input placeholder="+7 (987) 654-32-10"
+                  v-if="newWallet.type.key==='qiwi'"
+                  v-model="qiwiValue"
+                  type="tel"
+                  class="form-control my-2"
+                  mask="\+\7 (111) 111-11-11" /> -->
     <p class="text-danger">Внимательно проверьте правильность заполнения данных, изменить или удалить их возможно будет только через службу поддержки</p>
     <div class="text-center">
         <button class="btn btn-success"
                 @click="createWallet(newWallet)"
-                :disabled="!newWallet.type || !newWallet.number">Добавить</button>
+                :disabled="!newWallet.type ||
+                 !newWallet.number ||
+                 (newWallet.type.key==='wmr' && newWallet.number.length < 13) ||
+                 (newWallet.type.key==='credit-card' && newWallet.number.replace(' ','').length < 16) ||
+                 (newWallet.type.key==='qiwi' && newWallet.number.length < 14)
+                 ">Добавить</button>
     </div>
 </div>

@@ -2,10 +2,12 @@
 <script>
 import { WalletsApi } from '@services/api';
 import walletTypes from '@utils/wallet-types';
-import Plus from '@assets/plus.svg'
-import Info from '@assets/informations-01.svg'
-import searchInput from '@components/search-input'
-import addWalletTemplate from './add-wallet-popup.html'
+import Plus from '@assets/plus.svg';
+import Info from '@assets/informations-01.svg';
+import searchInput from '@components/search-input';
+import maskedInput from 'vue-masked-input';
+import addWalletTemplate from './add-wallet-popup.html';
+
 export default Vue.extend({
     data() {
         return {
@@ -15,24 +17,68 @@ export default Vue.extend({
             wallets: []
         };
     },
-    computed: {
-
-    },
     created() {
         this.getWallets()
     },
     methods: {
         getPopupVue() {
             return new Vue({
-                components: { searchInput },
+                components: { searchInput, maskedInput },
                 data: {
                     newWallet: {
                         type: '',
                         number: ''
                     },
+                    qiwiValue: '',
+                    creditCardValue: '',
                     walletTypes
                 },
-                methods: { createWallet: this.createWallet },
+                computed: {
+                    numberMaxlength() {
+                        switch (this.newWallet.type.key) {
+                            case 'wmr':
+                                return 13;
+                            case 'yandex-money':
+                                return 14;
+                            case 'credit-card':
+                                return 16;
+                            default:
+                                return 255
+                        }
+                    }
+                },
+                watch: {
+                    'creditCardValue': function(val) {
+                        if (val && this.newWallet.type && this.newWallet.type.key === 'credit-card') {
+                            this.newWallet.number = val
+                        }
+                    },
+                    'qiwiValue': function(val) {
+                        if (val && this.newWallet.type && this.newWallet.type.key === 'qiwi') {
+                            this.newWallet.number = val
+                        }
+                    },
+                    'newWallet.type': function(w) {
+                        this.newWallet.number = '';
+                    },
+                    newWallet: {
+                        deep: true,
+                        handler(w) {
+                            let walletKey = w && w.type && w.type.key
+                            if (walletKey === 'wmr') {
+                                if (w.number[0] !== 'R') {
+                                    this.newWallet.number = 'R' + w.number.replace(/[^\d]/g, '')
+                                } else if (/[^\d]/.test(w.number.slice(1))) {
+                                    this.newWallet.number = w.number.replace(/[^\d]/g, '')
+                                }
+                            }
+                        }
+                    }
+                },
+                methods: {
+
+                    createWallet: this.createWallet
+                },
                 template: addWalletTemplate
             })
         },
@@ -54,6 +100,7 @@ export default Vue.extend({
                 showConfirmButton: false,
             });
         },
+
         async editingPopup(wallet) {
             let swalOut = await swal({
                 text: 'Изменение платежных данных возможно только через службу поддержки',
