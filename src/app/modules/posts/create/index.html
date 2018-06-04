@@ -58,7 +58,7 @@
                         <div class="col p-0">
                             <button class="btn btn-success w-100"
                                     @click.prevent="user.balance.current>=totalPrice ? createPost() : openPaymentModal(totalPrice/100,createPost)"
-                                    :disabled="!selectedChannels.length">{{user.balance.current>totalPrice?'Разместить пост':'Оплатить пост'}}</button>
+                                    :disabled="!selectedChannels.length">{{user.balance.current>=totalPrice?'Разместить пост':'Оплатить пост'}}</button>
                         </div>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                                         @click.prevent="createPost(true)"> Сохранить пост</button>
                                 <button class="btn btn-success"
                                         @click.prevent="user.balance.current>totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
-                                        :disabled="!selectedChannels.length">{{user.balance.current>totalPrice?'Разместить пост':'Оплатить размещение'}}</button>
+                                        :disabled="!selectedChannels.length">{{user.balance.current>=totalPrice?'Разместить пост':'Оплатить размещение'}}</button>
                             </div>
                             <collapse collapseHeader="Правила форматирования"
                                       class="w-75 border-bottom-0">
