@@ -120,10 +120,10 @@ export default {
     }
   },
   methods: {
-    focusButton() {
+    focusButton(evt) {
       // Костыль для селекта на IOS
       this.btnFocused = !this.btnFocused;
-      const btn = document.querySelector('button.search-input__value');
+      const btn = evt.target;
       this.btnFocused ? btn.blur() : btn.focus();
     },
     watchValue(val) {
