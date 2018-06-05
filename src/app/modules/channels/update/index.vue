@@ -138,6 +138,8 @@ export default {
             }
 
             this.editingConditions = !this.channel.timeFrame.length;
+
+
         },
         async deleteTimeFrames(alert) {
             let swalOut;
@@ -151,6 +153,12 @@ export default {
             if (this.channel.timeFrame.length && ((swalOut && !swalOut.dismiss) || !swalOut)) {
                 await Promise.all(this.channel.timeFrame.map(tf => TimeFrameApi.delete(tf.timeFrameId)));
                 this.channel.timeFrame = [];
+                this.timeframesData = {
+                    postCount: null,
+                    postPrice: null,
+                    conditions: ''
+                }
+                this.getChannelInfo()
             }
         },
         async saveGlobalTimeFrames() {

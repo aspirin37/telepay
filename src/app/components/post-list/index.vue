@@ -116,7 +116,6 @@ export default {
           status: 2,
           timeFrameId: post.timeFrame.timeFrameId
         });
-        this.statusChangedByUser = true;
         this.$root.$emit('posts_list:getPosts');
       }
     },
@@ -131,7 +130,6 @@ export default {
           status: 1,
           timeFrameId: post.timeFrame.timeFrameId
         });
-        this.statusChangedByUser = true;
         this.$root.$emit('posts_list:getPosts');
       }
     }
