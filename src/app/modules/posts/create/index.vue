@@ -23,6 +23,7 @@ export default {
   },
   data() {
     return {
+      isSelectingTime: false,
       channels: [],
       postData: {
         text: 'Текст...',
@@ -171,7 +172,7 @@ export default {
       }
     },
     resetTimeCheck() {
-      // this.notAvailableTimeFrames = [];
+      this.isSelectingTime = true;
       this.errors.notAvailableTime = false;
       this.errors.time = false;
     },
@@ -205,6 +206,9 @@ export default {
             });
         });
       }
+      setTimeout(() => {
+        this.isSelectingTime = false;
+      }, 100);
     },
     watchPostTime() {
       this.minTime = moment()
