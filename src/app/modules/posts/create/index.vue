@@ -33,6 +33,9 @@ export default {
       postTime: moment()
         .add(1, 'hour')
         .format('HH:mm'),
+      minTime: moment()
+        .add(1, 'hour')
+        .format('HH:mm'),
       errors: { time: false, notAvailableTime: false }
     };
   },
@@ -168,7 +171,6 @@ export default {
     },
     // TODO вынести в computed
     checkPostTime() {
-      console.log('sds');
       let timeArr = this.postTime.split(':');
       let postTime = moment(this.post.publishAt)
         .set('hour', timeArr[0])
@@ -195,31 +197,15 @@ export default {
       }
     },
     watchPostTime() {
+      this.minTime = moment()
+        .add(1, 'hour')
+        .format('HH:mm');
       let timeArr = this.postTime.split(':');
       let postTime = moment(this.post.publishAt)
         .set('hour', timeArr[0])
         .set('minute', timeArr[1])
         .set('second', 0);
       this.errors.time = moment() > postTime;
-
-      // let startDateTime = postTime.format('YYYY-MM-DD HH:mm:ss');
-      // let endDateTime = postTime.add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
-
-      // let timeCheckData = {
-      //   timeFrameId: this.selectedTimeFrameIds[0],
-      //   startDateTime,
-      //   endDateTime
-      // };
-
-      // if (this.selectedTimeFrameIds[0]) {
-      //   PostApi.checkTime(timeCheckData)
-      //     .then(res => {
-      //       this.errors.notAvailiableTime = false;
-      //     })
-      //     .catch(err => {
-      //       this.errors.notAvailiableTime = true;
-      //     });
-      // }
     },
     watchPostTemplateId(val) {
       if (val && typeof val === 'string') {

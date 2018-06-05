@@ -35,6 +35,8 @@
                            :class="{'is-invalid':errors.time || errors.notAvailableTime}"
                            class="form-control"
                            @change="checkPostTime"
+                           :min="minTime"
+                           max="23:59"
                            v-model="postTime">
                     <div class="help-block">
                         <small v-if="errors.notAvailableTime"
@@ -136,6 +138,8 @@
                                    :class="{'is-invalid':errors.time}"
                                    class="form-control p-2"
                                    @change="checkPostTime"
+                                   :min="minTime"
+                                   max="23:59"
                                    v-model="postTime">
                             <div class="help-block">
                                 <small v-show="errors.notAvailableTime"
