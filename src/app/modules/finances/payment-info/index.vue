@@ -42,6 +42,8 @@ export default Vue.extend({
                                 return 14;
                             case 'credit-card':
                                 return 16;
+                            case 'qiwi':
+                                return 11;
                             default:
                                 return 255
                         }
