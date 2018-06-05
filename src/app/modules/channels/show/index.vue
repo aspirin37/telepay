@@ -7,49 +7,51 @@ import timeframes from '@components/timeframes';
 import onOff from 'vue-on-off';
 import { clone } from '@utils/clone';
 export default {
-  components: {
-    avatar,
-    onOff,
-    timeframes,
-    heading
-  },
-  data() {
-    return {
-      channel: {}
-    };
-  },
-  methods: {
-    showDescription(description) {
-      swal({
-        text: description || 'Нет описания',
-        showCloseButton: true,
-        showCancelButton: false,
-        showConfirmButton: false,
-        animation: false,
-        padding: 30
-      });
-      document.querySelector('.swal2-close').blur();
+    components: {
+        avatar,
+        onOff,
+        timeframes,
+        heading
+    },
+    data() {
+        return {
+            channel: {}
+        };
+    },
+    methods: {
+        showDescription(description) {
+            swal({
+                text: description || 'Нет описания',
+                showCloseButton: true,
+                showCancelButton: false,
+                showConfirmButton: false,
+                animation: false,
+                padding: 30
+            });
+            document.querySelector('.swal2-close').blur();
+        }
+    },
+    computed: {
+        mappedToSelected() {
+            let copy = clone(this.channel);
+            copy.selected = true;
+            copy.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(copy);
+            copy.cheapestTimeFrame.selected = true;
+            copy.timeFrame = [copy.cheapestTimeFrame];
+            return [copy];
+        }
+    },
+    async created() {
+        this.channel = await ChannelApi.show({
+            channelId: this.$route.params.username
+        });
+
+        this.channel.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(this.channel);
+
+        if (this.channel && this.channel.userId === this.$store.state.user.userId) {
+            this.$router.replace({ name: 'channels:update', params: { username: this.$route.params.username } });
+        }
     }
-  },
-  computed: {
-    mappedToSelected() {
-      let copy = clone(this.channel);
-      copy.selected = true;
-      copy.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(copy);
-      copy.cheapestTimeFrame.selected = true;
-      copy.timeFrame = [copy.cheapestTimeFrame];
-      return [copy];
-    }
-  },
-  async created() {
-    this.channel = await ChannelApi.show({
-      channelId: this.$route.params.username
-    });
-    this.channel.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(this.channel);
-    if (this.channel && this.channel.userId === this.$store.state.user.userId) {
-      this.$router.replace({ name: 'channels:update', params: { username: this.$route.params.username } });
-    }
-  }
 };
 </script>
 <style lang="css">

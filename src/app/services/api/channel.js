@@ -11,7 +11,7 @@ export default {
 
     getCheapestTimeFrame(channel) {
         if(!channel || !channel.timeFrame || !channel.timeFrame.length) return {};
-        return channel.timeFrame[0];
+        return channel.timeFrame.find(tf => tf.weekDay === moment().weekday() + 1);
         // return channel.timeFrame.sort((a, b) => a.price - b.price)[0];
     },
     timeFrameDates({ hour, minute, inTopHours } = {}, short) {
