@@ -171,7 +171,7 @@ export default {
       }
     },
     resetTimeCheck() {
-      this.notAvailableTimeFrames = [];
+      // this.notAvailableTimeFrames = [];
       this.errors.notAvailableTime = false;
       this.errors.time = false;
     },
