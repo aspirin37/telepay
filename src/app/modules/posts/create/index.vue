@@ -208,7 +208,7 @@ export default {
       }
       setTimeout(() => {
         this.isSelectingTime = false;
-      }, 100);
+      }, 150);
     },
     watchPostTime() {
       this.minTime = moment()
