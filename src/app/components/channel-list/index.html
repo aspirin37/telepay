@@ -1,0 +1,76 @@
+<div>
+    <div class="row chips"
+         v-if="innerChannels.length && isChips">
+        <div class="col p-1"
+             :key="ch.channelId"
+             v-for="ch in innerChannels">
+            <div class="chip d-flex align-items-center justify-content-between"
+                 :class="{selected:ch.selected}">
+                <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
+                        class="float-left w-25 h-25"
+                        :circle="true" />
+                <b class="chip-title float-left">
+                    {{ch.title}}
+                    <br> {{ch.cheapestTimeFrame.priceWithCommission | centToRub}}
+                    <br> {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}
+                </b>
+                <i class="fa float-right"
+                   @click="toggleChannel(ch,true)"
+                   :class="ch.selected?'fa-times fa-2x':'fa-repeat fa-lg ml-1'"></i>
+            </div>
+        </div>
+    </div>
+    <div class="flex-table"
+         v-if="innerChannels.length && !isChips">
+        <div class="header-row px-0 px-md-4">
+            <div class="col-3 px-0 d-none d-md-block">Канал</div>
+            <div class="col px-0 d-none d-md-block text-center">Размещения</div>
+            <div class="col px-0 text-center">
+                <i class="fa fa-lg fa-users"
+                   aria-hidden="true"
+                   v-if="isMobile"></i>
+                <span v-else>Подписчиков</span>
+            </div>
+            <div class="col px-0 text-center">
+                <span v-if="isMobile">ER</span>
+                <span v-tooltip="'% активной аудитории'"
+                      v-else>ER</span>
+            </div>
+            <div class="col px-0 text-center">{{ isDesktop ? 'Условия' : '1/24' }}</div>
+            <div class="col px-0 text-center">
+                <i class="fa fa-lg fa-rub"
+                   v-if="isMobile"></i>
+                <span v-else>Цена</span>
+            </div>
+            <div class="col px-0 d-none d-md-block text-center">Выбрать</div>
+        </div>
+        <div class="body-row px-0 px-md-4"
+             :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}"
+             :key="ch.channelId"
+             v-for="ch in innerChannels">
+            <div class="col-6 col-md-3 offset-1 offset-md-0 px-0 d-flex mb-3 mb-md-0">
+                <channel-avatar :channel="ch" :user="user" />
+            </div>
+            <div class="catalog-checkbox col-3 col-md offset-2 offset-md-0 px-0 order-md-last">
+                <norm-checkbox v-model="ch.selected"
+                               v-tooltip="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled?'Все размещения на выбранную дату на канале уже заняты':''"
+                               :disabled="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled"
+                               @change="toggleChannel(ch)" />
+            </div>
+            <div class="col px-0 text-center"
+                 v-if="isDesktop">
+                {{ch.cheapestTimeFrame.postCount-ch.cheapestTimeFrame.postAmount}}/{{ch.cheapestTimeFrame.postCount}}
+            </div>
+            <div class="col px-0 text-center">
+                <span>{{ch.subscriberCount | cutSum(1)}}</span>
+            </div>
+            <div class="col px-0 text-center">{{ ch.engagementRate | cutSum}}%</div>
+            <div class="col px-0 text-center">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
+            <div class="col px-0 text-center">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
+        </div>
+    </div>
+    <div class="p-4 text-center"
+         v-if="!innerChannels.length">
+        <h5>{{placeholder}}</h5>
+    </div>
+</div>

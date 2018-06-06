@@ -12,178 +12,185 @@ import channelList from '@components/channel-list';
 import { clone, cloneWFn } from '@utils/clone';
 
 export default Vue.extend({
-  components: {
-    avatar,
-    searchInput,
-    dateInput,
-    channelList
-  },
-  data() {
-    return {
-      isSearching: false,
-      timeFrom: '08:00',
-      timeTo: '22:00',
-      totalChannels: null,
-      filter: {
-        erFrom: 0,
-        erTo: 1000,
-        weekDay: moment().weekday() + 1,
-        subscribersTo: 1000000,
-        subscribersFrom: 0,
-        priceTo: 100000,
-        priceFrom: 0,
-        text: '',
-        inTopHours: null,
-        inFeedHours: null,
-        timeFrom: moment()
-          .utc(4)
-          .set('hour', 8)
-          .set('minute', 0)
-          .set('second', 0),
-        timeTo: moment()
-          .utc(4)
-          .set('hour', 22)
-          .set('minute', 0)
-          .set('second', 0)
-      },
-      publishDate: moment(),
-      filterConditions: '',
-      // weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
-      categories: [],
-      channels: [],
-      conditions: [{ name: '1/24' }, { name: '1/48' }, { name: '1/∞' }],
-      showFilters: false
-    };
-  },
-  created() {
-    this.getCategories();
-    this.getChannels(this.filter);
-  },
-  watch: {
-    filterConditions(val) {
-      if (!val || !val.name) {
-        this.filter.inTopHours = null;
-        this.filter.inFeedHours = null;
-        // this.getChannels(this.filter);
-        return;
-      }
-      let arr = val.name.split('/');
-      if (arr && arr.length) {
-        this.filter.inTopHours = arr[0];
-        this.filter.inFeedHours = arr[1] === '∞' ? 0 : arr[1];
-        // this.getChannels(this.filter);
-      }
+    components: {
+        avatar,
+        searchInput,
+        dateInput,
+        channelList
     },
-    timeFrom(val) {
-      this.compileDate(val, 'timeFrom');
+    data() {
+        return {
+            isSearching: false,
+            timeFrom: '08:00',
+            timeTo: '22:00',
+            totalChannels: null,
+            filter: {
+                erFrom: 0,
+                erTo: 1000,
+                weekDay: moment().weekday() + 1,
+                subscribersTo: 1000000,
+                subscribersFrom: 0,
+                priceTo: 100000,
+                priceFrom: 0,
+                text: '',
+                inTopHours: null,
+                inFeedHours: null,
+                timeFrom: moment()
+                    .utc(4)
+                    .set('hour', 8)
+                    .set('minute', 0)
+                    .set('second', 0),
+                timeTo: moment()
+                    .utc(4)
+                    .set('hour', 22)
+                    .set('minute', 0)
+                    .set('second', 0)
+            },
+            publishDate: moment(),
+            filterConditions: '',
+            // weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
+            categories: [],
+            channels: [],
+            conditions: [{ name: '1/24' }, { name: '1/48' }, { name: '1/∞' }],
+            showFilters: false
+        };
     },
-    timeTo(val) {
-      this.compileDate(val, 'timeTo');
+    created() {
+        this.getCategories();
+        this.getChannels(this.filter);
+        console.log(this.isMobile)
     },
-    'filter.weekDay': function() {
-      this.compileDate(this.timeFrom, 'timeFrom');
-      this.compileDate(this.timeTo, 'timeTo');
-    },
-    filter: {
-      handler(val, newval) {
-        clearTimeout(this.debounceTimeout);
-        this.debounceTimeout = setTimeout(this.getChannels, 500, val);
-      },
-      deep: true
-    },
-    publishDate(val) {
-      if (!(val instanceof moment)) {
-        val = moment(val);
-        return;
-      }
-      this.filter.weekDay = val.weekday() + 1;
-    }
-  },
-  computed: {
-    ...mapState(['configs', 'user', 'selectedChannels']),
-    totalPrice() {
-      return this.selectedChannels.reduce((sum, el) => {
-        return sum + el.timeFrame.reduce((ofSum, tf) => ofSum + (tf.selected ? tf.priceWithCommission : 0), 0);
-      }, 0);
-    }
-  },
-  methods: {
-    ...mapActions({
-      dropSelectedChannels: 'DROP_SELECTED_CHANNELS'
-    }),
-    async getCategories() {
-      let { items, total } = await CatalogApi.list();
-      this.categories = items;
-    },
-    async getChannels(params = {}) {
-      clearTimeout(this.debounceTimeout);
-      let copy = clone(params);
-      if (!copy.limit) copy.limit = 1000;
-      copy.priceFrom *= 100;
-      copy.priceTo *= 100;
-      if (copy.category) {
-        copy.categoryId = copy.category.categoryId;
-        delete copy.category;
-      }
-      let { items, total } = await CatalogApi.filter(copy);
-      this.totalChannels = total;
-      let isToday = this.publishDate.day() === moment().day(),
-        nowHour = moment().hour(),
-        nowMinute = moment().minute();
-
-      this.channels = items.map(item => {
-        if (item && item.timeFrame) {
-          item.timeFrame = item.timeFrame.filter(timeFrame => {
-            // timeFrame.price * 1.3;
-            // let filterToday = true;
-            // let hour = moment(timeFrame.startPeriodTime*100).hour()
-            // if (isToday) {
-            //   filterToday = timeFrame.hour > nowHour || (timeFrame.hour === nowHour && timeFrame.minute > nowMinute);
-            // }
-            return timeFrame.weekDay === params.weekDay; //&& filterToday;
-          });
-        }
-
-        if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
-        return item;
-      });
-
-      if (this.selectedChannels) {
-        this.selectedChannels.forEach(sch => {
-          this.channels = this.channels.map(ch => {
-            if (ch.channelId === sch.channelId) {
-              ch.timeFrame.forEach(tf => {
-                tf.selected = true;
-              });
-              ch.selected = true;
+    watch: {
+        filterConditions(val) {
+            if (!val || !val.name) {
+                this.filter.inTopHours = null;
+                this.filter.inFeedHours = null;
+                // this.getChannels(this.filter);
+                return;
             }
-            return ch;
-          });
-        });
-      }
+            let arr = val.name.split('/');
+            if (arr && arr.length) {
+                this.filter.inTopHours = arr[0];
+                this.filter.inFeedHours = arr[1] === '∞' ? 0 : arr[1];
+                // this.getChannels(this.filter);
+            }
+        },
+        timeFrom(val) {
+            this.compileDate(val, 'timeFrom');
+        },
+        timeTo(val) {
+            this.compileDate(val, 'timeTo');
+        },
+        'filter.weekDay': function() {
+            this.compileDate(this.timeFrom, 'timeFrom');
+            this.compileDate(this.timeTo, 'timeTo');
+        },
+        filter: {
+            handler(val, newval) {
+                clearTimeout(this.debounceTimeout);
+                this.debounceTimeout = setTimeout(this.getChannels, 500, val);
+            },
+            deep: true
+        },
+        publishDate(val) {
+            if (!(val instanceof moment)) {
+                val = moment(val);
+                return;
+            }
+            this.filter.weekDay = val.weekday() + 1;
+        }
     },
-    compileDate(val, key) {
-      if (val) {
-        let [hour, minute] = val.split(':');
-        this.filter[key] = moment(this.publishDate)
-          .utc(4)
-          .set('hour', hour)
-          .set('minute', minute);
-      }
+    computed: {
+        ...mapState(['configs', 'user', 'selectedChannels']),
+        totalPrice() {
+            return this.selectedChannels.reduce((sum, el) => {
+                return sum + el.timeFrame.reduce((ofSum, tf) => ofSum + (tf.selected ? tf.priceWithCommission : 0), 0);
+            }, 0);
+        },
+        isMobile() {
+            return this.$mq == "sm"
+        },
+        isDesktop() {
+            return this.$mq != "sm"
+        }
     },
-    toggleFilters() {
-      this.showFilters = !this.showFilters;
-    },
-    dropSelected() {
-      this.channels = this.channels.map(ch => {
-        ch.timeFrame.forEach(tf => {
-          tf.selected = false;
-        });
-        ch.selected = false;
-        return ch;
-      });
-      this.dropSelectedChannels();
+    methods: {
+        ...mapActions({
+            dropSelectedChannels: 'DROP_SELECTED_CHANNELS'
+        }),
+        async getCategories() {
+            let { items, total } = await CatalogApi.list();
+            this.categories = items;
+        },
+        async getChannels(params = {}) {
+            clearTimeout(this.debounceTimeout);
+            let copy = clone(params);
+            if (!copy.limit) copy.limit = 1000;
+            copy.priceFrom *= 100;
+            copy.priceTo *= 100;
+            if (copy.category) {
+                copy.categoryId = copy.category.categoryId;
+                delete copy.category;
+            }
+            let { items, total } = await CatalogApi.filter(copy);
+            this.totalChannels = total;
+            let isToday = this.publishDate.day() === moment().day(),
+                nowHour = moment().hour(),
+                nowMinute = moment().minute();
+
+            this.channels = items.map(item => {
+                if (item && item.timeFrame) {
+                    item.timeFrame = item.timeFrame.filter(timeFrame => {
+                        // timeFrame.price * 1.3;
+                        // let filterToday = true;
+                        // let hour = moment(timeFrame.startPeriodTime*100).hour()
+                        // if (isToday) {
+                        //   filterToday = timeFrame.hour > nowHour || (timeFrame.hour === nowHour && timeFrame.minute > nowMinute);
+                        // }
+                        return timeFrame.weekDay === params.weekDay; //&& filterToday;
+                    });
+                }
+
+                if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
+                return item;
+            });
+
+            if (this.selectedChannels) {
+                this.selectedChannels.forEach(sch => {
+                    this.channels = this.channels.map(ch => {
+                        if (ch.channelId === sch.channelId) {
+                            ch.timeFrame.forEach(tf => {
+                                tf.selected = true;
+                            });
+                            ch.selected = true;
+                        }
+                        return ch;
+                    });
+                });
+            }
+        },
+        compileDate(val, key) {
+            if (val) {
+                let [hour, minute] = val.split(':');
+                this.filter[key] = moment(this.publishDate)
+                    .utc(4)
+                    .set('hour', hour)
+                    .set('minute', minute);
+            }
+        },
+        toggleFilters() {
+            this.showFilters = !this.showFilters;
+        },
+        dropSelected() {
+            this.channels = this.channels.map(ch => {
+                ch.timeFrame.forEach(tf => {
+                    tf.selected = false;
+                });
+                ch.selected = false;
+                return ch;
+            });
+            this.dropSelectedChannels();
+        }
     }
-  }
 });
 </script>
