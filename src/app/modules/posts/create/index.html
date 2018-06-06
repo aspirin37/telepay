@@ -3,6 +3,7 @@
     <channel-list :channels="selectedChannels"
                   :is-chips="selectedChannels.length>3"
                   :user="user"
+                  :notAvailableTimeFrames="notAvailableTimeFrames"
                   placeholder="Предложения не выбраны" />
     <div class="add-channel px-4 py-2 p-md-4 border-bottom mb-4"
          v-show="channelsToAdd.length">
@@ -25,7 +26,6 @@
                     <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
                     <date-input v-model="post.publishAt"
                                 placeholder="Выберите дату публикации"
-                                @change="checkPostTime"
                                 :config="configs.date" /> </div>
                 <div class="col-6">
                     <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
@@ -34,14 +34,17 @@
                            required
                            :class="{'is-invalid':errors.time || errors.notAvailableTime}"
                            class="form-control"
-                           @change="checkPostTime"
+                           @focus="resetTimeCheck"
+                           @blur="checkPostTime"
+                           :min="minTime"
+                           max="23:59"
                            v-model="postTime">
                     <div class="help-block">
                         <small v-if="errors.notAvailableTime"
-                               class="text-danger">Текущее время занято.</small>
+                               class="text-danger">Текущее время занято. Выберите другое</small>
                         <small v-show="errors.time"
                                class="text-danger">Время публикации не может быть в прошлом.</small>
-                        <small v-show="!errors.time && !errors.notAvaliableTime">&nbsp;</small>
+                        <small v-show="!errors.time || !errors.notAvailableTime">&nbsp;</small>
                     </div>
                 </div>
                 <div class="col-12">
@@ -60,7 +63,7 @@
                         <div class="col p-0">
                             <button class="btn btn-success w-100"
                                     @click.prevent="user.balance.current>=totalPrice ? createPost() : openPaymentModal(totalPrice/100,createPost)"
-                                    :disabled="!selectedChannels.length">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить пост'}}</button>
+                                    :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length || isSelectingTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить пост'}}</button>
                         </div>
                     </div>
                 </div>
@@ -133,16 +136,19 @@
                             <input type="time"
                                    ref="timeInput"
                                    required
-                                   :class="{'is-invalid':errors.time}"
+                                   :class="{'is-invalid':errors.time || errors.notAvailableTime}"
                                    class="form-control p-2"
-                                   @change="checkPostTime"
+                                   @focus="resetTimeCheck"
+                                   @blur="checkPostTime"
+                                   :min="minTime"
+                                   max="23:59"
                                    v-model="postTime">
                             <div class="help-block">
                                 <small v-show="errors.notAvailableTime"
-                                       class="text-danger">Текущее время занято</small>
+                                       class="text-danger">Текущее время занято. Выберите другое.</small>
                                 <small v-show="errors.time"
                                        class="text-danger">Время публикации не может быть в прошлом</small>
-                                <small v-show="!errors.time && !errors.notAvaliableTime">&nbsp;</small>
+                                <small v-show="!errors.time || !errors.notAvailableTime">&nbsp;</small>
                             </div>
                         </div>
                     </div>
@@ -172,7 +178,7 @@
                                         @click.prevent="createPost(true)"> Сохранить пост</button>
                                 <button class="btn btn-success"
                                         @click.prevent="user.balance.current>=totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
-                                        :disabled="!selectedChannels.length">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
+                                        :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length > 0 || isSelectingTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
                             </div>
                             <collapse collapseHeader="Правила форматирования"
                                       class="w-75 border-bottom-0">

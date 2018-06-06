@@ -23,6 +23,7 @@ export default {
   },
   data() {
     return {
+      isSelectingTime: false,
       channels: [],
       postData: {
         text: 'Текст...',
@@ -33,7 +34,11 @@ export default {
       postTime: moment()
         .add(1, 'hour')
         .format('HH:mm'),
-      errors: { time: false, notAvailableTime: false }
+      minTime: moment()
+        .add(1, 'hour')
+        .format('HH:mm'),
+      errors: { time: false, notAvailableTime: false },
+      notAvailableTimeFrames: []
     };
   },
   mixins: [paymentModal],
@@ -166,9 +171,12 @@ export default {
         this.watchPostTemplateId(this.post.postTemplateId);
       }
     },
-    // TODO вынести в computed
+    resetTimeCheck() {
+      this.isSelectingTime = true;
+      this.errors.notAvailableTime = false;
+      this.errors.time = false;
+    },
     checkPostTime() {
-      console.log('sds');
       let timeArr = this.postTime.split(':');
       let postTime = moment(this.post.publishAt)
         .set('hour', timeArr[0])
@@ -178,48 +186,46 @@ export default {
       let startDateTime = postTime.format('YYYY-MM-DD HH:mm:ss');
       let endDateTime = postTime.add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
 
-      let timeCheckData = {
-        timeFrameId: this.selectedTimeFrameIds[0],
-        startDateTime,
-        endDateTime
-      };
+      if (this.selectedTimeFrameIds.length) {
+        this.notAvailableTimeFrames = [];
+        this.errors.notAvailableTime = false;
+        this.selectedTimeFrameIds.forEach(it => {
+          let timeCheckData = {
+            timeFrameId: it,
+            startDateTime,
+            endDateTime
+          };
 
-      if (this.selectedTimeFrameIds[0]) {
-        PostApi.checkTime(timeCheckData)
-          .then(res => {
-            this.errors.notAvailableTime = false;
-          })
-          .catch(err => {
-            this.errors.notAvailableTime = true;
-          });
+          PostApi.checkTime(timeCheckData)
+            .then(res => {
+              this.errors.notAvailableTime = this.errors.notAvailableTime ? true : false;
+            })
+            .catch(err => {
+              this.errors.notAvailableTime = true;
+              this.notAvailableTimeFrames.push(it);
+            });
+        });
       }
+      setTimeout(() => {
+        this.isSelectingTime = false;
+      }, 150);
     },
     watchPostTime() {
+      this.minTime = moment()
+        .add(1, 'hour')
+        .format('HH:mm');
+
+      if (this.post.publishAt.format('YY-DD-MM') != moment().format('YY-DD-MM')) {
+        this.minTime = '00:00';
+      }
+
       let timeArr = this.postTime.split(':');
       let postTime = moment(this.post.publishAt)
         .set('hour', timeArr[0])
         .set('minute', timeArr[1])
         .set('second', 0);
+
       this.errors.time = moment() > postTime;
-
-      // let startDateTime = postTime.format('YYYY-MM-DD HH:mm:ss');
-      // let endDateTime = postTime.add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
-
-      // let timeCheckData = {
-      //   timeFrameId: this.selectedTimeFrameIds[0],
-      //   startDateTime,
-      //   endDateTime
-      // };
-
-      // if (this.selectedTimeFrameIds[0]) {
-      //   PostApi.checkTime(timeCheckData)
-      //     .then(res => {
-      //       this.errors.notAvailiableTime = false;
-      //     })
-      //     .catch(err => {
-      //       this.errors.notAvailiableTime = true;
-      //     });
-      // }
     },
     watchPostTemplateId(val) {
       if (val && typeof val === 'string') {
@@ -245,7 +251,6 @@ export default {
         this.post.buttons = buttons;
       }
     },
-
     createPost(isTemplate) {
       let timeArr = this.postTime.split(':');
       if (

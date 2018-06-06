@@ -1,0 +1,154 @@
+<div class="container py-3 px-2 px-lg-0">
+    <heading text="Новый пост" />
+    <channel-list :channels="selectedChannels"
+                  :is-chips="selectedChannels.length>3"
+                  :user="user"
+                  :notAvailableTimeFrames="notAvailableTimeFrames"
+                  placeholder="Предложения не выбраны" />
+    <div class="add-channel px-4 py-2 p-md-4 border-bottom mb-4"
+         v-show="channelsToAdd.length">
+        <div class="col-12 text-primary h4 mb-0 ">
+            <button class="btn btn-link"
+                    @click="selectedChannels.length?openCatalogPopup():$router.push({name:'catalog'})">
+                <i class="fa fa-plus"></i> Добавить канал</button>
+        </div>
+    </div>
+    <!-- <div class="row mb-4 mb-md-0">
+        <div class="col-12 text-right">
+            <h2 class="mb-0">
+                <small>Стоимость: </small> {{totalPrice|centToRub}} </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-row col-12 mb-3">
+            <div class="col-6">
+                <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
+                <date-input v-model="post.publishAt"
+                            placeholder="Выберите дату публикации"
+                            :config="configs.date" /> </div>
+            <div class="col-6">
+                <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
+                <input type="time"
+                       ref="timeInput"
+                       required
+                       :class="{'is-invalid':errors.time || errors.notAvailableTime}"
+                       class="form-control"
+                       @focus="resetTimeCheck"
+                       @blur="checkPostTime"
+                       :min="minTime"
+                       max="23:59"
+                       v-model="postTime">
+                <div class="help-block">
+                    <small v-if="errors.notAvailableTime"
+                           class="text-danger">Текущее время занято. Выберите другое</small>
+                    <small v-show="errors.time"
+                           class="text-danger">Время публикации не может быть в прошлом.</small>
+                    <small v-show="!errors.time || !errors.notAvailableTime">&nbsp;</small>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group m-0">
+                    <p class="text-medium-font font-weight-500 mb-1">Контент</p>
+                    <post-input v-model="postData"
+                                class="mb-2 w-100" /> </div>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="form-group d-flex flex-row m-0">
+                    <div class="col p-0 mr-2">
+                        <button class="btn btn-primary w-100"
+                                v-show="!post.postTemplateId"
+                                @click.prevent="createPost(true)"> Сохранить</button>
+                    </div>
+                    <div class="col p-0">
+                        <button class="btn btn-success w-100"
+                                @click.prevent="user.balance.current>=totalPrice ? createPost() : openPaymentModal(totalPrice/100,createPost)"
+                                :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length || isSelectingTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить пост'}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <post-preview :post="post"
+                              v-if="post && (post.text||post.text==='')" /> </div>
+            <div class="col-12">
+                <formatRules />
+            </div>
+        </div>
+    </div> -->
+</div>
+<!-- <mq-layout mq="md+">
+            <div class="row">
+                <div class="col-12 text-right">
+                    <h2 class="mb-0">
+                        <small>Стоимость: </small> {{totalPrice|centToRub}} </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <post-preview :post="post"
+                                  v-if="post && (post.text||post.text==='')" /> </div>
+                <div class="col-7">
+                    <div class="form-row">
+                        <div class="col-6">
+                            <div class="form-group m-0">
+                                <p class="text-medium-font font-weight-500 mb-1">Дата публикации</p>
+                                <date-input v-model="post.publishAt"
+                                            placeholder="Выберите дату публикации"
+                                            :config="configs.date" /> </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group m-0">
+                                <p class="text-medium-font font-weight-500 mb-1">Время публикации</p>
+                                <input type="time"
+                                       ref="timeInput"
+                                       required
+                                       :class="{'is-invalid':errors.time || errors.notAvailableTime}"
+                                       class="form-control p-2"
+                                       @focus="resetTimeCheck"
+                                       @blur="checkPostTime"
+                                       :min="minTime"
+                                       max="23:59"
+                                       v-model="postTime">
+                                <div class="help-block">
+                                    <small v-show="errors.notAvailableTime"
+                                           class="text-danger">Текущее время занято. Выберите другое.</small>
+                                    <small v-show="errors.time"
+                                           class="text-danger">Время публикации не может быть в прошлом</small>
+                                    <small v-show="!errors.time || !errors.notAvailableTime">&nbsp;</small>
+                                </div>
+                            </div>
+                        </div> -->
+<!-- <div class="col-12"
+                             v-if="postTemplates&&postTemplates.length">
+                            <div class="form-group">
+                                <p class="text-medium-font font-weight-500 mb-1">Шаблон поста</p>
+                                <select class="form-control"
+                                        v-model="post.postTemplateId">
+                                    <option value="">Новый пост</option>
+                                    <option :value="template.postTemplateId"
+                                            v-for="template in postTemplates">{{template.text | cutLongStr(50)}}</option>
+                                </select>
+                                <span class="btn-link m-0 p-0 pointer"
+                                      v-show="post.postTemplateId"
+                                      @click="dropTemplate">Сбросить</span>
+                            </div>
+                        </div> -->
+<!-- <div class="col-12">
+                            <div class="form-group m-0">
+                                <p class="text-medium-font font-weight-500 mb-1">Контент</p>
+                                <post-input v-model="postData"
+                                            class="mb-2" />
+                                <div class="float-right text-right">
+                                    <button class="btn btn-primary"
+                                            v-show="!post.postTemplateId"
+                                            @click.prevent="createPost(true)"> Сохранить пост</button>
+                                    <button class="btn btn-success"
+                                            @click.prevent="user.balance.current>=totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
+                                            :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length > 0 || isSelectingTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
+                                </div>
+                                <formatRules />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mq-layout> -->

@@ -27,7 +27,7 @@
             <div class="col-4 text-center">
                 <b class="text-gray mr-2">ER</b>{{ channel.engagementRate | cutSum}}%</div>
         </div>
-        <div v-if="channel && channel.timeFrame && channel.timeFrame[0]">
+        <div v-if="channel && channel.timeFrame && channel.cheapestTimeFrame">
             <h1 class="text-center mb-4">Предложения</h1>
             <div class="flex-table mb-4">
                 <div class="header-row mx-0 px-0 justify-content-between">
@@ -44,13 +44,13 @@
                     <div class="col">
                         <input type="text"
                                class="form-control-plaintext fa-lg text-center"
-                               :value="'1/'+(channel.timeFrame[0].inFeedHours||'∞')"
+                               :value="'1/'+(channel.cheapestTimeFrame.inFeedHours||'∞')"
                                readonly> </div>
                     <div class="col">
                         <input type="number"
                                readonly
                                class="form-control-plaintext fa-lg text-center"
-                               :value="channel.timeFrame[0].priceWithCommission/100"> </div>
+                               :value="channel.cheapestTimeFrame.priceWithCommission/100"> </div>
                     <div class="col text-center pointer">
                         <h2 class="text-primary"
                             @click="$router.push({name:'posts:create',params:{selected:mappedToSelected}})">+</h2>
@@ -76,7 +76,7 @@
                 <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
             </div>
         </div>
-        <div v-if="channel && channel.timeFrame && channel.timeFrame[0]">
+        <div v-if="channel && channel.timeFrame && channel.cheapestTimeFrame">
             <h1>Рекламные предложения</h1>
             <div class="form-row">
                 <div class="col-3">
@@ -87,7 +87,7 @@
                         </label>
                         <input type="text"
                                class="form-control-plaintext fa-lg"
-                               :value="'1/'+(channel.timeFrame[0].inFeedHours||'∞')"
+                               :value="'1/'+(channel.cheapestTimeFrame.inFeedHours||'∞')"
                                readonly> </div>
                 </div>
                 <div class="col-3">
@@ -96,7 +96,7 @@
                         <input type="number"
                                readonly
                                class="form-control-plaintext fa-lg"
-                               :value="channel.timeFrame[0].priceWithCommission/100"> </div>
+                               :value="channel.cheapestTimeFrame.priceWithCommission/100"> </div>
                 </div>
             </div>
             <button class="btn-success btn"

@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="w-25 offset-2 px-0 d-flex align-items-center justify-content-center">
-                            <norm-checkbox v-model="ch.selected" v-tooltip="ch.cheapestTimeFrame.postAmount === 0?'Все размещения на выбранную дату на канале уже заняты':''" :disabled="ch.cheapestTimeFrame.postAmount === 0" @change="toggleChannel(ch)" />
+                            <norm-checkbox v-model="ch.selected" v-tooltip="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled?'Все размещения на выбранную дату на канале уже заняты':''" :disabled="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled" @change="toggleChannel(ch)" />
                         </div>
                     </div>
                     <div class="form-row col-12 px-0 justify-content-between">
@@ -76,7 +76,7 @@
                 </div> -->
                 </div>
                 <div class="body" :class="{'small-body':smallBody}">
-                    <div class="body-row" :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0}" :key="ch.channelId" v-for="ch in innerChannels">
+                    <div class="body-row" :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}" :key="ch.channelId" v-for="ch in innerChannels">
                         <div class="col-3">
                             <div class="form-row">
                                 <div class="col-3">
@@ -100,7 +100,7 @@
                         <div class="col h4 m-0">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
                         <div class="col h4 m-0">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
                         <div class="col h4 m-0">
-                            <norm-checkbox v-model="ch.selected" v-tooltip="ch.cheapestTimeFrame.postAmount === 0?'Все размещения на выбранную дату на канале уже заняты':''" :disabled="ch.cheapestTimeFrame.postAmount === 0" @change="toggleChannel(ch)" />
+                            <norm-checkbox v-model="ch.selected" v-tooltip="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled?'Все размещения на выбранную дату на канале уже заняты':''" :disabled="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled" @change="toggleChannel(ch)" />
                         </div>
                         <!-- <div class="col-5 h4 m-0">
                         <transition-group name="fade-out"
@@ -162,6 +162,12 @@ export default Vue.extend({
         return [];
       }
     },
+    notAvailableTimeFrames: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
     filter: {
       type: Object,
       default() {
@@ -208,6 +214,10 @@ export default Vue.extend({
           ch.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(ch);
           ch.timeFrame.forEach(timeFrame => {
             if (timeFrame.selected === undefined) Vue.set(timeFrame, 'selected', false);
+            this.notAvailableTimeFrames.forEach(it => {
+              ch.disabled = it == timeFrame.timeFrameId ? true : false;
+            });
+            if (!this.notAvailableTimeFrames.length) ch.disabled = false;
           });
           sum.push(ch);
         }
