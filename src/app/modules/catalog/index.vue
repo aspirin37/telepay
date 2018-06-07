@@ -58,7 +58,7 @@ export default Vue.extend({
     created() {
         this.getCategories();
         this.getChannels(this.filter);
-        console.log(this.isMobile)
+        this.addOutOfSearchTapHandler()
     },
     watch: {
         filterConditions(val) {
@@ -202,8 +202,15 @@ export default Vue.extend({
             let control = document.querySelector('.search-control')
             control.classList.remove('is-control-searching')
             control.blur()
-
-        }
+        },
+        addOutOfSearchTapHandler() {
+            document.addEventListener('touchstart', e => {
+                const header = document.querySelector('.header.fixed-top');
+                if (!header.contains(e.target)) {
+                    this.stopSearching();
+                }
+            });
+        },
     }
 });
 </script>
