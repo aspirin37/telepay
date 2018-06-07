@@ -23,7 +23,7 @@
     <div class="flex-table"
          v-if="innerChannels.length && !isChips">
         <div class="header-row px-0 px-md-4">
-            <div class="col-3 px-0 d-none d-md-block">Канал</div>
+            <div class="col-3 px-0 pl-2 d-none d-md-block">Канал</div>
             <div class="col px-0 d-none d-md-block text-center">Размещения</div>
             <div class="col px-0 text-center">
                 <i class="fa fa-lg fa-users"
@@ -48,25 +48,25 @@
              :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}"
              :key="ch.channelId"
              v-for="ch in innerChannels">
-            <div class="col-6 col-md-3 offset-1 offset-md-0 px-0 d-flex mb-3 mb-md-0">
+            <div class="table-cell col-6 col-md-3 offset-1 offset-md-0 d-flex mb-3 mb-md-0">
                 <channel-avatar :channel="ch" :user="user" />
             </div>
-            <div class="catalog-checkbox col-3 col-md offset-2 offset-md-0 px-0 order-md-last">
+            <div class="table-checkbox col-3 col-md offset-2 offset-md-0 order-md-last">
                 <norm-checkbox v-model="ch.selected"
                                v-tooltip="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled?'Все размещения на выбранную дату на канале уже заняты':''"
                                :disabled="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled"
                                @change="toggleChannel(ch)" />
             </div>
-            <div class="col px-0 text-center"
+            <div class="table-cell col"
                  v-if="isDesktop">
                 {{ch.cheapestTimeFrame.postCount-ch.cheapestTimeFrame.postAmount}}/{{ch.cheapestTimeFrame.postCount}}
             </div>
-            <div class="col px-0 text-center">
+            <div class="table-cell col">
                 <span>{{ch.subscriberCount | cutSum(1)}}</span>
             </div>
-            <div class="col px-0 text-center">{{ ch.engagementRate | cutSum}}%</div>
-            <div class="col px-0 text-center">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
-            <div class="col px-0 text-center">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
+            <div class="table-cell col">{{ ch.engagementRate | cutSum}}%</div>
+            <div class="table-cell col">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
+            <div class="table-cell col">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
         </div>
     </div>
     <div class="p-4 text-center"

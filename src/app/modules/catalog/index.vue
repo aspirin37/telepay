@@ -190,6 +190,19 @@ export default Vue.extend({
                 return ch;
             });
             this.dropSelectedChannels();
+        },
+        startSearching() {
+            this.isSearching = true
+            document.querySelector('#app').classList.add('is-app-searching')
+            document.querySelector('.search-control').classList.add('is-control-searching')
+        },
+        stopSearching() {
+            this.isSearching = false
+            document.querySelector('#app').classList.remove('is-app-searching')
+            let control = document.querySelector('.search-control')
+            control.classList.remove('is-control-searching')
+            control.blur()
+
         }
     }
 });

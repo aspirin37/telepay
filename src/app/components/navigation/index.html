@@ -1,7 +1,7 @@
 <div>
     <nav class="header fixed-top"
          :class="{ 'navbar_main': !logoVisible, 'is-advert':isAdvert }">
-        <div class="container header__container"
+        <div class="container header__container py-md-3"
              :class="{'header__container--toggled': isMenuOpened}">
             <ul class="nav nav--top"
                 :class="{'is-advert':isAdvert, 'nav--top--toggled': isMenuOpened }">
@@ -14,23 +14,25 @@
                         <span class="nav-link nav-link--user">Профиль</span>
                     </router-link>
                 </li>
-                <li class="nav-item d-none d-lg-block order-lg-first">
+                <li class="nav-item d-none d-lg-block order-lg-first mr-3">
                     <router-link :to="{ name: isAuthorized ? 'catalog' : 'login' }"
                                  v-if="logoVisible"
                                  class="navbar__logo">
                         <div class="logo"
-                             v-html="LogoDesktop"></div>
+                             v-html="LogoDesktop"
+                             v-once></div>
                     </router-link>
                 </li>
                 <li class="nav-item advert-switch order-last order-lg-first d-lg-flex justify-content-between"
                     v-if="isAuthorized">
                     <span @click.self="isAdvert=!isAdvert"
-                          class="title"> {{ isAdvert? 'Реклама' : 'Владелец' }} </span>
+                          class="title"> {{ isAdvert? 'Реклама' : $mq == 'sm' ? 'Владелец' : 'Владелец канала' }} </span>
                     <on-off v-model="isAdvert"></on-off>
                 </li>
                 <li class="nav-item nav-item--aside">
                     <div class="nav-item__icon d-lg-none"
-                         v-html="Catalog"></div>
+                         v-html="Catalog"
+                         v-once></div>
                     <router-link :to="{name:'catalog'}"
                                  class="nav-link">Каталог</router-link>
                 </li>
@@ -43,40 +45,46 @@
                 <li class="nav-item nav-item--aside"
                     v-if="isAuthorized && !isAdvert">
                     <div class="nav-item__icon d-lg-none"
-                         v-html="Channels"></div>
+                         v-html="Channels"
+                         v-once></div>
                     <router-link :to="{name:'channels'}"
                                  class="nav-link">Каналы</router-link>
                 </li>
                 <li class="nav-item nav-item--aside"
                     v-if="isAuthorized && !isAdvert">
                     <div class="nav-item__icon d-lg-none"
-                         v-html="Posts"></div>
+                         v-html="Posts"
+                         v-once></div>
                     <router-link :to="{name:'posts'}"
                                  class="nav-link">Посты</router-link>
                 </li>
                 <li class="nav-item nav-item--aside"
                     v-if="isAuthorized && isAdvert">
                     <div class="nav-item__icon d-lg-none"
-                         v-html="Posts"></div>
+                         v-html="Posts"
+                         v-once></div>
                     <router-link :to="{name:'posts',tab:'outbound'}"
                                  class="nav-link">Постинг</router-link>
                 </li>
                 <li class="nav-item nav-item--aside d-lg-none">
                     <div class="nav-item__icon"
-                         v-html="Payments"></div>
+                         v-html="Payments"
+                         v-once></div>
                     <router-link :to="{ name: 'finances' }"
                                  class="nav-link">Платежи</router-link>
                 </li>
                 <li class="nav-item nav-item--aside d-lg-none">
                     <div class="nav-item__icon"
-                         v-html="Support"></div>
+                         v-html="Support"
+                         v-once></div>
                     <router-link :to="{ name: 'support' }"
                                  class="nav-link">Поддержка</router-link>
                 </li>
                 <li class="nav-item nav-item--aside nav-item--exit order-last d-lg-none"
                     v-if="isAuthorized">
                     <div class="nav-item__icon nav-item__icon--exit"
-                         v-html="Exit"></div>
+                         v-html="Exit"
+                         v-once></div>
                     <router-link :to="{ name: 'logout' }"
                                  class="nav-link">Выйти</router-link>
                 </li>
@@ -92,7 +100,8 @@
                     <router-link class="align-self-center"
                                  :to="{name:'faq'}">
                         <div class="navbar__question d-flex pointer"
-                             v-html="Question"></div>
+                             v-html="Question"
+                             v-once></div>
                     </router-link>
                 </li>
                 <li class="nav-item nav-item--logo d-lg-none">
@@ -110,7 +119,8 @@
                             @blur="blurHandler">
                         <!-- <i class="fa fa-lg fa-bell"></i> -->
                         <div class="navbar__bell d-flex align-items-center pointer"
-                             v-html="Bell"></div>
+                             v-html="Bell"
+                             v-once></div>
                         <span class="notifications__badge badge badge-pill badge-success"
                               v-show="notificationsCount > 0">{{ notificationsCount }}</span>
                     </button>
@@ -126,7 +136,8 @@
                                 <div class="form-row"
                                      :class="{'text-muted':notify.loading}">
                                     <div class="col-10"
-                                         v-html="notify.text"></div>
+                                         v-html="notify.text"
+                                         v-once></div>
                                     <div class="col-2">
                                         <i class="fa fa-lg pointer text-right text-black-50"
                                            :class="notify.loading?'fa-spin fa-refresh':'fa-times'"
@@ -142,7 +153,8 @@
                                  class="nav-link nav-link--balance d-flex align-self-center">
                         <span class="navbar__sum order-0 mr-2 order-lg-1 mr-lg-0">{{ (balance.current|| 0) | centToRub(2) }} </span>
                         <span class="navbar__wallet pointer order-1 mr-2 order-lg-0 mr-lg-2"
-                              v-html="Wallet"></span>
+                              v-html="Wallet"
+                              v-once></span>
                     </router-link>
                 </li>
                 <li class="nav-item mr-4 d-none d-lg-block">
