@@ -25,8 +25,12 @@
                 </li>
                 <li class="nav-item advert-switch order-last order-lg-first d-lg-flex justify-content-between"
                     v-if="isAuthorized">
-                    <span @click.self="isAdvert=!isAdvert"
-                          class="title"> {{ isAdvert? 'Реклама' : $mq == 'sm' ? 'Владелец' : 'Владелец канала' }} </span>
+                    <span class="title"
+                          @click.self="isAdvert=!isAdvert"
+                          v-if="$mq == 'sm'"> {{ isAdvert? 'Реклама' : 'Владелец' }} </span>
+                    <span class="title"
+                          @click.self="isAdvert=!isAdvert"
+                          v-else> {{ isAdvert? 'Рекламодатель' : 'Владелец канала' }} </span>
                     <on-off v-model="isAdvert"></on-off>
                 </li>
                 <li class="nav-item nav-item--aside">
