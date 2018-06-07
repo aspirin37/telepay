@@ -33,7 +33,7 @@ body {
         padding-top: 0;
     }
     @include media-breakpoint-up(md) {
-        padding-top: 85px;
+        padding-top: 92px;
     }
 }
 
@@ -75,6 +75,67 @@ body {
     .preview {
         min-height: inherit;
     }
+}
+
+.catalog-filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: -20px;
+    margin-bottom: 25px;
+    @include media-breakpoint-up(md) {
+        margin-top: -90px;
+        margin-bottom: 30px;
+    }
+}
+
+.table-cell {
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 16px;
+    line-height: 20px;
+    color: #576077;
+    text-align: center;
+    @include media-breakpoint-up(md) {
+        font-weight: bold;
+    }
+}
+
+.table-checkbox {
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -14px;
+    @include media-breakpoint-up(md) {
+        margin-top: 0;
+        align-self: center;
+    }
+}
+
+.catalog-avatar {
+    width: 40px;
+    height: 40px;
+    @include media-breakpoint-up(md) {
+        width: 55px;
+        height: 55px;
+    }
+}
+
+.channel-title {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 400;
+    @include media-breakpoint-up(md) {
+        font-weight: 600;
+    }
+}
+
+.channel-category {
+    font-size: 12px;
+    line-height: 15px;
+    color: #C0C7DA;
 }
 
 @keyframes fadein {
@@ -204,6 +265,17 @@ body {
     opacity: 0;
 }
 
+.fade-3-enter-active,
+.fade-3-leave-active {
+    // opacity: 0.3;
+    transition: .2s ease-in-out;
+}
+
+.fade-3-enter,
+.fade-3-leave-to {
+    opacity: 0;
+}
+
 .underline-dash {
     display: inline-block;
     border-bottom: 1px dotted #aaa;
@@ -255,8 +327,9 @@ body {
 
 .flex-table {
     .header-row {
-        @extend .row;
-        padding: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 15px;
         color: theme-color('cloudy');
         font-weight: bold;
         border-radius: 5px;
@@ -274,7 +347,8 @@ body {
         height: 68vh;
     }
     .body-row {
-        @extend .row;
+        display: flex;
+        flex-wrap: wrap;
         margin: 0;
         align-items: center;
         padding: 20px 0;
@@ -336,4 +410,27 @@ body {
 .text-18px {
     font-size: 18px;
     line-height: 22px;
+}
+
+.search-overlay {
+    height: 100%;
+    width: 100%;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.search-control {
+    position: relative;
+}
+
+.is-app-searching {
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.is-control-searching {
+    z-index: 2100;
 }

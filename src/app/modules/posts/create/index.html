@@ -71,41 +71,7 @@
                     <post-preview :post="post"
                                   v-if="post && (post.text||post.text==='')" /> </div>
                 <div class="col-12">
-                    <collapse collapseHeader="Правила форматирования"
-                              class="border-bottom-0 text-center">
-                        <div class="row">
-                            <div class="col-6">
-                                <h4>Результат</h4>
-                            </div>
-                            <div class="col-6">
-                                <h4>Правило</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 border-right">
-                                <a href="https://telepay.io"
-                                   target="_blank">Ссылка</a>
-                            </div>
-                            <div class="col-6">[Ссылка](https://telepay.io)</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 border-right">
-                                <b>Жирный</b>
-                            </div>
-                            <div class="col-6">*Жирный*</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 border-right">
-                                <i>Курсив</i>
-                            </div>
-                            <div class="col-6">_Курсив_</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 border-right">
-                                <pre class="m-0 d-inline">Выделение кода</pre> </div>
-                            <div class="col-6">`Выделение кода`</div>
-                        </div>
-                    </collapse>
+                    <format-rules/>
                 </div>
             </div>
         </div>
@@ -180,41 +146,7 @@
                                         @click.prevent="user.balance.current>=totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
                                         :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length > 0 || isSelectingTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
                             </div>
-                            <collapse collapseHeader="Правила форматирования"
-                                      class="w-75 border-bottom-0">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h4>Результат</h4>
-                                    </div>
-                                    <div class="col-6">
-                                        <h4>Правило</h4>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border-right">
-                                        <a href="https://telepay.io"
-                                           target="_blank">Ссылка</a>
-                                    </div>
-                                    <div class="col-6">[Ссылка](https://telepay.io)</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border-right">
-                                        <b>Жирный</b>
-                                    </div>
-                                    <div class="col-6">*Жирный*</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border-right">
-                                        <i>Курсив</i>
-                                    </div>
-                                    <div class="col-6">_Курсив_</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border-right">
-                                        <pre class="m-0 d-inline">Выделение кода</pre> </div>
-                                    <div class="col-6">`Выделение кода`</div>
-                                </div>
-                            </collapse>
+                            <format-rules />
                         </div>
                     </div>
                 </div>
