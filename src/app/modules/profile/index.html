@@ -33,6 +33,7 @@
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Telegram аккаунт</p>
                 <a :href="'tg://resolve?domain=Telepay_io_bot&start='+(user.telegramId?'unlinkAccountxxxdividerxxx':'linkAccountxxxdividerxxx')+user.telegramAuthCode"
+            
                    class="btn btn-block"
                    :class="user.telegramId?'btn-light text-primary':'btn-tg'"
                    @click="startFetchingUser">{{user.telegramId?'Отвязать':'Привязать'}} аккаунт Telegram</a>
@@ -72,7 +73,7 @@
                 </p>
                 <input type="text"
                        readonly
-                       :value="`https://dev.telepay.io/auth/registration?ref=${user.referral.code}`"
+                       :value="`https://telepay.io/auth/registration?ref=${user.referral.code}`"
                        class="form-control"> </div>
         </div>
     </div>

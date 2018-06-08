@@ -1,270 +1,137 @@
-<div class="container py-3 px-2 px-lg-0">
-    <mq-layout mq="sm">
-        <div class="form-row mb-3">
-            <div class="col-6"
-                 :class="{'col-12': isSearching}">
-                <input class="form-control"
-                       v-model="filter.text"
-                       @focus="isSearching = true"
-                       @blur="isSearching = false"
-                       type="text"
-                       placeholder="Поиск" /> </div>
-            <div class="col-6"
-                 :class="{'d-none': isSearching}">
+<div class="container py-3 pt-4 pt-md-3 px-2 px-md-0">
+    <!-- <transition name="fade-3">
+        <div class="search-overlay"
+             v-show="isSearching"></div>
+    </transition> -->
+    <div class="d-md-flex flex-row row">
+        <h1 class="d-none d-md-block col-2 order-first">Каталог</h1>
+        <div class="d-flex col-md-6 mb-4 pl-md-1">
+            <div class="col-6 col-md-8 px-1"
+                 :class="{'col-12': isSearching && isMobile}">
+                <search-input-ok :text="filter.text"
+								 @input="filter.text = $event"
+                                 placeholderMobile="Поиск"
+                                 placeholder="Поиск по каталогу" />
+            </div>
+            <div class="col-6 col-md-4 px-1"
+                 :class="{'d-none': isSearching && isMobile}">
                 <router-link class="btn btn-block"
                              :class="selectedChannels.length?'btn-success':'btn-primary'"
                              :to="{ name: 'posts:create' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
             </div>
         </div>
-        <div class="form-row mb-3">
-            <div class="col-12">
+        <div class="col-md-4 mb-4 pl-md-4 pr-md-1"
+             :class="{'order-first': isDesktop, 'px-1': isMobile}">
+            <div class="col-12"
+                 :class="{'px-0': isDesktop}">
                 <search-input v-model="filter.category"
                               placeholder="Выберите категорию"
                               :options="categories" /> </div>
         </div>
-        <div class="form-row mb-2">
-            <b class="col-6"> Активных каналов в сервисе: {{totalChannels}} </b>
-            <div class="col-6">
-                <button class="btn btn-link text-dark float-right"
-                        @click="toggleFilters">
-                    <i class="fa"
-                       :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </button>
-            </div>
+    </div>
+    <div class="d-flex flex-row mb-4"
+         :class="{'row': isDesktop}">
+        <h5 class="col-6 col-md-2"
+            :class="{'px-1': isMobile}">
+            Активных каналов
+            <br> в сервисе: {{totalChannels}}
+        </h5>
+        <div class="col-6 col-md-2 offset-md-8 pl-md-0 text-left"
+             :class="{'px-1': isMobile}">
+            <span class="btn btn-link px-0 text-dark"
+                  :class="{'float-right': isMobile}"
+                  @click="toggleFilters">
+                <i class="fa mr-2"
+                   :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </span>
         </div>
-        <transition name="fade">
-            <div v-show="showFilters">
-                <div class="form-row mb-2">
-                    <div class="col-12">
-                        <label class="col-form-label search__label">Участников</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">от</span>
-                            </div>
-                            <input v-model="filter.subscribersFrom"
-                                   type="number"
-                                   min="0"
-                                   class="form-control form-control-prepend">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">до</span>
-                            </div>
-                            <input v-model="filter.subscribersTo"
-                                   type="number"
-                                   min="0"
-                                   class="form-control"> </div>
-                    </div>
-                </div>
-                <div class="form-row mb-2">
-                    <div class="col-12">
-                        <label class="col-form-label search__label">Цена (руб)</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">от</span>
-                            </div>
-                            <input v-model="filter.priceFrom"
-                                   type="number"
-                                   min="0"
-                                   class="form-control form-control-prepend">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">до</span>
-                            </div>
-                            <input v-model="filter.priceTo"
-                                   type="number"
-                                   min="0"
-                                   class="form-control"> </div>
-                    </div>
-                </div>
-                <div class="form-row mb-2">
-                    <div class="col-12">
-                        <label class="col-form-label search__label">Дата размещения</label>
-                        <input type="text"
-                               :value="publishDate.format('DD.MM.YYYY HH:mm')"
-                               disabled
-                               class="form-control"
-                               v-if="selectedChannels.length">
-                        <date-input v-model="publishDate"
-                                    v-else
-                                    placeholder="Выберите дату публикации"
-                                    :config="configs.date" /> </div>
-                </div>
-                <div class="form-row mb-2">
-                    <div class="col-12">
-                        <label class="col-form-label search__label">
-                            <span>Активной аудитории</span>
-                        </label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">от</span>
-                            </div>
-                            <input v-model="filter.erFrom"
-                                   type="number"
-                                   min="0"
-                                   class="form-control form-control-prepend">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">до</span>
-                            </div>
-                            <input v-model="filter.erTo"
-                                   type="number"
-                                   min="0"
-                                   class="form-control"> </div>
-                    </div>
-                </div>
-                <div class="form-row mb-3">
-                    <div class="col-12">
-                        <label class="col-form-label search__label">Условия</label>
-                        <search-input v-model="filterConditions"
-                                      placeholder="Выберите условия"
-                                      :options="conditions" /> </div>
-                </div>
-            </div>
-        </transition>
-    </mq-layout>
-    <mq-layout mq="md+">
-        <div class="form-row mb-3">
-            <div class="col-2">
-                <h1 class="text-medium-font">Каталог </h1>
-                <br>
-                <h5>Активных каналов в сервисе: {{totalChannels}}</h5>
-            </div>
-            <div class="col-4">
-                <div class="form-group mb-1">
-                    <search-input v-model="filter.category"
-                                  placeholder="Выберите категорию"
-                                  :options="categories" /> </div>
-                <transition name="fade">
-                    <div class="form-group mb-1"
-                         v-show="showFilters">
-                        <label class="col-form-label search__label">Участников</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">от</span>
-                            </div>
-                            <input v-model="filter.subscribersFrom"
-                                   type="number"
-                                   min="0"
-                                   class="form-control form-control-prepend">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">до</span>
-                            </div>
-                            <input v-model="filter.subscribersTo"
-                                   type="number"
-                                   min="0"
-                                   class="form-control"> </div>
-                    </div>
-                </transition>
-                <transition name="fade">
-                    <div class="form-group mb-1"
-                         v-show="showFilters">
-                        <label class="col-form-label search__label">Дата размещения</label>
-                        <input type="text"
-                               :value="publishDate.format('DD.MM.YYYY HH:mm')"
-                               disabled
-                               class="form-control"
-                               v-if="selectedChannels.length">
-                        <date-input v-model="publishDate"
-                                    v-else
-                                    placeholder="Выберите дату публикации"
-                                    :config="configs.date" /> </div>
-                </transition>
-                <transition name="fade">
-                    <div class="form-group mb-1"
-                         v-show="showFilters">
-                        <label class="col-form-label search__label">
-                            <span v-tooltip="'% активной аудитории'">ER</span>
-                        </label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">от</span>
-                            </div>
-                            <input v-model="filter.erFrom"
-                                   type="number"
-                                   min="0"
-                                   class="form-control form-control-prepend">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">до</span>
-                            </div>
-                            <input v-model="filter.erTo"
-                                   type="number"
-                                   min="0"
-                                   class="form-control"> </div>
-                    </div>
-                </transition>
-            </div>
-            <div class="col-4">
-                <div class="form-group mb-1">
-                    <input class="form-control"
-                           v-model="filter.text"
-                           type="text"
-                           placeholder="Поиск по каталогу" /> </div>
-                <transition name="fade"
-                            mode="out-in">
-                    <div class="form-group mb-1"
-                         v-show="showFilters">
-                        <label class="col-form-label search__label">Цена (руб)</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">от</span>
-                            </div>
-                            <input v-model="filter.priceFrom"
-                                   type="number"
-                                   min="0"
-                                   class="form-control form-control-prepend">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">до</span>
-                            </div>
-                            <input v-model="filter.priceTo"
-                                   type="number"
-                                   min="0"
-                                   class="form-control"> </div>
-                    </div>
-                </transition>
-                <transition name="fade">
-                    <div class="form-group mb-1"
-                         v-show="showFilters">
-                        <label class="col-form-label search__label">Условия</label>
-                        <search-input v-model="filterConditions"
-                                      placeholder="Выберите условия"
-                                      :options="conditions" /> </div>
-                </transition>
-                <!-- <transition name="fade">
-                <div class="form-group mb-1"
-                     v-show="showFilters">
-                    <label class="col-form-label search__label">Время размещения</label>
+    </div>
+    <transition name="fade">
+        <div v-show="showFilters">
+            <div class="catalog-filters col-12 col-md-8 offset-md-2 px-0 mb-4"
+                 :class="{'px-1': isMobile}">
+                <div class="col-12 col-md-6 pr-md-1 mb-1"
+                     :class="{'px-0': isMobile}">
+                    <label class="col-form-label search__label">Участников</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">от</span>
                         </div>
-                        <input type="time"
-                               class="form-control form-control-prepend p-2"
-                               v-model="timeFrom">
+                        <input v-model="filter.subscribersFrom"
+                               type="number"
+                               min="0"
+                               class="form-control form-control-prepend">
                         <div class="input-group-prepend">
                             <span class="input-group-text">до</span>
                         </div>
-                        <input type="time"
-                               class="form-control p-2"
-                               v-model="timeTo">
-                    </div>
+                        <input v-model="filter.subscribersTo"
+                               type="number"
+                               min="0"
+                               class="form-control"> </div>
                 </div>
-            </transition> -->
-            </div>
-            <div class="col-2">
-                <router-link class="btn btn-block"
-                             :class="selectedChannels.length?'btn-success':'btn-primary'"
-                             :to="{ name: 'posts:create' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
-                <small class="m-0 p-0 btn-link pointer"
-                       v-show="selectedChannels.length"
-                       @click="dropSelected">Сбросить выбор</small>
-                <button class="btn btn-link text-dark"
-                        @click="toggleFilters">
-                    <i class="fa"
-                       :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </button>
-                <div v-show="selectedChannels.length">
-                    <label class="col-form-label search__label p-0">Стоимость</label>
-                    <h2>{{totalPrice | centToRub}}</h2>
+                <div class="col-12 col-md-6 px-md-1 mb-1"
+                     :class="{'px-0': isMobile}">
+                    <label class="col-form-label search__label">Цена (руб)</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">от</span>
+                        </div>
+                        <input v-model="filter.priceFrom"
+                               type="number"
+                               min="0"
+                               class="form-control form-control-prepend">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">до</span>
+                        </div>
+                        <input v-model="filter.priceTo"
+                               type="number"
+                               min="0"
+                               class="form-control"> </div>
+                </div>
+                <div class="col-12 col-md-6 pr-md-1 mb-1"
+                     :class="{'px-0': isMobile}">
+                    <label class="col-form-label search__label">Дата размещения</label>
+                    <!-- <input type="text"
+                           :value="publishDate.format('DD.MM.YYYY HH:mm')"
+                           disabled
+                           class="form-control"
+                           v-if="selectedChannels.length"> -->
+                    <date-input v-model="publishDate"
+                                placeholder="Выберите дату публикации"
+                                :config="configs.date" />
+                </div>
+                <div class="col-12 col-md-6 px-md-1 mb-1"
+                     :class="{'px-0': isMobile}">
+                    <label class="col-form-label search__label">
+                        <span>Активной аудитории</span>
+                    </label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">от</span>
+                        </div>
+                        <input v-model="filter.erFrom"
+                               type="number"
+                               min="0"
+                               class="form-control form-control-prepend">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">до</span>
+                        </div>
+                        <input v-model="filter.erTo"
+                               type="number"
+                               min="0"
+                               class="form-control"> </div>
+                </div>
+                <div class="col-12 col-md-6 pr-md-1 mb-1"
+                     :class="{'px-0': isMobile}">
+                    <label class="col-form-label search__label">Условия</label>
+                    <search-input v-model="filterConditions"
+                                  placeholder="Выберите условия"
+                                  :options="conditions" />
                 </div>
             </div>
         </div>
-    </mq-layout>
+    </transition>
     <channel-list :filter="filter"
                   :small-body="showFilters"
                   :user="user"
-                  :channels="channels" /> </div>
+                  :channels="channels" />
+</div>

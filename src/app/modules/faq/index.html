@@ -1,15 +1,17 @@
-<div class="container faq-container py-4 p-md-0">
+<div class="container py-3 pt-4 pt-md-3 px-2 px-md-0">
     <div class="faq d-flex flex-column">
         <h1 class="main-title mb-3">F.A.Q.</h1>
         <div class="col-12 p-0 p-md-2 col-md-8 offset-md-2">
             <div class="search form-group">
                 <span class="search__icon fa fa-search"></span>
-                <input class="search__input form-control"
+                <search-input-ok :text="searchInputValue"
+                                 @input="searchInputValue = $event"
+                                 placeholder="Введите Ваш вопрос" />
+                <!-- <input class="search__input form-control"
                        type="text"
                        v-model="searchInputValue"
-                       placeholder="Введите Ваш вопрос" /> </div>
-            <span :class="[searchInputValue ? 'text-danger' : '', 'search__cancel-btn fa fa-md fa-close pointer']"
-                  @click="searchInputValue = ''"></span>
+                       placeholder="Введите Ваш вопрос" /> -->
+            </div>
             <div class="tabs">
                 <div class="tabs-row d-flex">
                     <div class="pointer"
@@ -33,10 +35,14 @@
                                   :key="i">
                             <div class="collapse-item__content"
                                  v-if="it.question == 'У вас есть реферальная программа?'">
-                                <p class="p-0 m-0 mb-3">Мы предлагаем выгодную реферальную программу. Вы можете приглашать друзей и знакомых, и зарабатывать вместе с Telepay.io!</p>
+                                <p class="p-0 m-0 mb-3">Мы предлагаем выгодную реферальную программу. Вы можете приглашать друзей и знакомых, и зарабатывать вместе с
+                                    Telepay.io!
+                                </p>
                                 <p class="p-0 m-0 mb-3">Просто скопируйте реферальную ссылку в своём
                                     <router-link :to="{ name: 'profile' }">профиле Telepay</router-link> и разместите ее там, где вам удобно.</p>
-                                <p class="p-0 m-0 mb-3">C каждой продажи рекламы на канале приведённого вами пользователя, вы получаете 7% от прибыли сервиса прямо на баланс.</p>
+                                <p class="p-0 m-0 mb-3">C каждой продажи рекламы на канале приведённого вами пользователя, вы получаете 7% от прибыли сервиса прямо на
+                                    баланс.
+                                </p>
                                 <p class="p-0 m-0">
                                     <small class="text-secondary">*доход с каждого реферала начисляется в течение 1 года</small>
                                 </p>

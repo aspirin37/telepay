@@ -51,6 +51,7 @@ export default Vue.extend({
                             this.$router.push({
                                 name: "catalog"
                             });
+                            yaCounter48703889.reachGoal('tp_reg')
                         }
                     })
                     .catch(err => console.error(err));
