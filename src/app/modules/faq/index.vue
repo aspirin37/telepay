@@ -1,12 +1,15 @@
 <template src="./index.html"></template>
 <script>
 import collapse from '@components/collapse';
+import searchInputOk from '@components/search-input-ok'
+
 import faq from '@utils/faq-questions';
 import { clone } from '@utils/clone';
 
 export default Vue.extend({
     components: {
-        collapse
+        collapse,
+        searchInputOk
     },
     data() {
         return {
@@ -85,7 +88,7 @@ export default Vue.extend({
     margin-bottom: 23px;
 
     @include media-breakpoint-up(md) {
-        margin-bottom: 50px;
+        margin-bottom: 35px;
     }
 
     &__icon {

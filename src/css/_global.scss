@@ -169,7 +169,7 @@ body {
 
 .tab {
     width: 113px;
-    padding: 0.5rem 0;
+    padding: 10px 0;
     background-color: #dee2ee;
     color: #576077;
     border-radius: 3px 3px 0 0;
@@ -257,22 +257,11 @@ body {
 
 .fade-2-enter-active,
 .fade-2-leave-active {
-    transition: .2s ease-in-out;
+    transition: .3s ease-in-out;
 }
 
 .fade-2-enter,
 .fade-2-leave-to {
-    opacity: 0;
-}
-
-.fade-3-enter-active,
-.fade-3-leave-active {
-    // opacity: 0.3;
-    transition: .2s ease-in-out;
-}
-
-.fade-3-enter,
-.fade-3-leave-to {
     opacity: 0;
 }
 
@@ -410,28 +399,4 @@ body {
 .text-18px {
     font-size: 18px;
     line-height: 22px;
-}
-
-.search-overlay {
-    height: 100%;
-    width: 100%;
-    z-index: 2000;
-    background: rgba(0, 0, 0, 0.3);
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
-
-.search-control {
-    padding-left: 46px;
-    position: relative;
-}
-
-.is-app-searching {
-    max-height: 100vh;
-    overflow: hidden;
-}
-
-.is-control-searching {
-    z-index: 2100;
 }

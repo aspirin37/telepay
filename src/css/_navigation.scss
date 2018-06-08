@@ -373,8 +373,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     margin: 0;
     margin-right: 15px;
     background-color: #50BCED;
@@ -385,6 +385,8 @@
     text-align: center;
     font-weight: 600;
     @include media-breakpoint-up(lg) {
+        width: 40px;
+        height: 40px;
         margin: 0;
     }
 }

@@ -8,6 +8,9 @@ import avatar from '@components/avatar';
 import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
+import searchInputOk from '@components/search-input-ok'
+
+import CancelBtn from '@assets/crest-01.svg';
 
 import { clone, cloneWFn } from '@utils/clone';
 
@@ -16,10 +19,12 @@ export default Vue.extend({
         avatar,
         searchInput,
         dateInput,
-        channelList
+        channelList,
+        searchInputOk
     },
     data() {
         return {
+            CancelBtn,
             isSearching: false,
             timeFrom: '08:00',
             timeTo: '22:00',
@@ -58,7 +63,11 @@ export default Vue.extend({
     created() {
         this.getCategories();
         this.getChannels(this.filter);
-        this.addOutOfSearchTapHandler()
+    },
+    mounted() {
+        this.$on('isSearching', (data) => {
+            this.isSearching = data
+        })
     },
     watch: {
         filterConditions(val) {
@@ -190,26 +199,6 @@ export default Vue.extend({
                 return ch;
             });
             this.dropSelectedChannels();
-        },
-        startSearching() {
-            this.isSearching = true
-            document.querySelector('#app').classList.add('is-app-searching')
-            document.querySelector('.search-control').classList.add('is-control-searching')
-        },
-        stopSearching() {
-            this.isSearching = false
-            document.querySelector('#app').classList.remove('is-app-searching')
-            let control = document.querySelector('.search-control')
-            control.classList.remove('is-control-searching')
-            control.blur()
-        },
-        addOutOfSearchTapHandler() {
-            document.addEventListener('touchstart', e => {
-                const header = document.querySelector('.header.fixed-top');
-                if (!header.contains(e.target)) {
-                    this.stopSearching();
-                }
-            });
         },
     }
 });
