@@ -6,9 +6,6 @@
         </transition>
         <div class="search-control-wrapper"
              :class="{'is-control-wrapper-searching': isSearching}">
-            <!-- <div class="search-glass"
-                 v-html="SearchGlass">
-            </div> -->
             <input class="form-control search-control"
                    @focus="startSearching"
                    @keyup.enter="stopSearching"
@@ -17,9 +14,9 @@
                    type="text"
                    :placeholder="placeholderComputed" />
             <div class="search-cancel"
-                 @click="resetSearch"
+                 @click="searchText = ''"
                  v-html="CancelBtn"
-                 v-if="searchText"></div>
+                 v-if="searchText && isSearching"></div>
         </div>
     </div>
 </template>
@@ -69,17 +66,10 @@ export default {
             this.$parent.$emit('isSearching', false)
             this.removeOutsideClickHandlers()
         },
-        resetSearch() {
-            this.searchText = ''
-
-            if (this.isSearching) {
-                document.querySelector('.search-control').focus()
-
-            }
-        },
         onOutsideClickHandler(e) {
             let cancelBtn = document.querySelector('.search-cancel');
             let control = document.querySelector('.search-control-wrapper');
+
             if (cancelBtn) {
                 if (!control.contains(e.target) && !cancelBtn.contains(e.target)) {
                     this.stopSearching();
