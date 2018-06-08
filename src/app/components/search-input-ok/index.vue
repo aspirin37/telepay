@@ -71,7 +71,11 @@ export default {
         },
         resetSearch() {
             this.searchText = ''
-            document.querySelector('.search-control').focus()
+
+            if (this.isSearching) {
+                document.querySelector('.search-control').focus()
+
+            }
         },
         onOutsideClickHandler(e) {
             let cancelBtn = document.querySelector('.search-cancel');
@@ -127,17 +131,6 @@ export default {
     }
 }
 
-// .search-glass {
-//     position: absolute; // top: 14px;
-//     left: 15px;
-//     z-index: 2100;
-//     width: 20px;
-//     height: 20px;
-//     & svg {
-//         width: 40px;
-//         height: 40px;
-//     }
-// }
 .search-cancel {
     position: absolute;
     top: 14px;
