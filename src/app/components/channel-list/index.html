@@ -44,29 +44,33 @@
             </div>
             <div class="col px-0 d-none d-md-block text-center">Выбрать</div>
         </div>
-        <div class="body-row px-0 px-md-4"
-             :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}"
-             :key="ch.channelId"
-             v-for="ch in innerChannels">
-            <div class="table-cell col-6 col-md-3 offset-1 offset-md-0 d-flex mb-3 mb-md-0">
-                <channel-avatar :channel="ch" :user="user" />
+        <div class="body">
+            <div class="body-row px-0 px-md-4"
+                 :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}"
+                 :key="ch.channelId"
+                 v-for="ch in innerChannels">
+                <div class="table-cell col-6 col-md-3 offset-1 offset-md-0 d-flex mb-3 mb-md-0">
+                    <channel-avatar :channel="ch"
+                                    :user="user" />
+                </div>
+                <div class="table-checkbox col-3 col-md offset-2 offset-md-0 order-md-last">
+                    <norm-checkbox v-model="ch.selected"
+                                   v-tooltip="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled?'Все размещения на выбранную дату на канале уже заняты':''"
+                
+                                   :disabled="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled"
+                                   @change="toggleChannel(ch)" />
+                </div>
+                <div class="table-cell col"
+                     v-if="isDesktop">
+                    {{ch.cheapestTimeFrame.postCount-ch.cheapestTimeFrame.postAmount}}/{{ch.cheapestTimeFrame.postCount}}
+                </div>
+                <div class="table-cell col">
+                    <span>{{ch.subscriberCount | cutSum(1)}}</span>
+                </div>
+                <div class="table-cell col">{{ ch.engagementRate | cutSum}}%</div>
+                <div class="table-cell col">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
+                <div class="table-cell col">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
             </div>
-            <div class="table-checkbox col-3 col-md offset-2 offset-md-0 order-md-last">
-                <norm-checkbox v-model="ch.selected"
-                               v-tooltip="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled?'Все размещения на выбранную дату на канале уже заняты':''"
-                               :disabled="ch.cheapestTimeFrame.postAmount === 0 || ch.disabled"
-                               @change="toggleChannel(ch)" />
-            </div>
-            <div class="table-cell col"
-                 v-if="isDesktop">
-                {{ch.cheapestTimeFrame.postCount-ch.cheapestTimeFrame.postAmount}}/{{ch.cheapestTimeFrame.postCount}}
-            </div>
-            <div class="table-cell col">
-                <span>{{ch.subscriberCount | cutSum(1)}}</span>
-            </div>
-            <div class="table-cell col">{{ ch.engagementRate | cutSum}}%</div>
-            <div class="table-cell col">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
-            <div class="table-cell col">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
         </div>
     </div>
     <div class="p-4 text-center"

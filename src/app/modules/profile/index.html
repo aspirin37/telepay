@@ -66,9 +66,10 @@
              v-if="user&&user.referral">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">
-                    <span class="mr-1">Реферральная ссылка</span>
+                    <span class="mr-1">Реферральная ссылка:</span>
+                    <br>
                     <router-link :to="{ name: 'faq', params:{hash: 'ref-link'}}">
-                        <i class="fa f-lg fa-question-circle text-primary"></i>
+                        Подробнее о реферальной программе
                     </router-link>
                 </p>
                 <input type="text"
