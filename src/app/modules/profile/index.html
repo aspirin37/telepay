@@ -68,9 +68,10 @@
                 <p class="text-medium-font font-weight-500 mb-1">
                     <span class="mr-1">Реферральная ссылка:</span>
                     <br>
-                    <router-link :to="{ name: 'faq', params:{hash: 'ref-link'}}">
+                    <span class="text-primary"
+                          @click.prevent="showRef">
                         Подробнее о реферальной программе
-                    </router-link>
+                    </span>
                 </p>
                 <input type="text"
                        readonly

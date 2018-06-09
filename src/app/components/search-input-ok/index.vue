@@ -123,13 +123,17 @@ export default {
 
 .search-cancel {
     position: absolute;
-    top: 14px;
-    right: 22px;
+    top: 7px;
+    right: 8px;
     z-index: 2100;
-    width: 12px;
-    height: 12px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
     & svg {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
         fill: #EB5757;
         width: 12px;
         height: 12px;
