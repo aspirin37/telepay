@@ -1,12 +1,12 @@
 <div class="container py-3 px-2 px-md-0 mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-secondary mb-0">Мои каналы</h1>
-        <router-link v-if="channels.length"
-                     class="btn btn-primary"
+        <router-link class="btn btn-primary"
                      :to="{ name: 'channels:create' }">Добавить канал</router-link>
     </div>
     <mq-layout mq="sm">
-        <div class="flex-table mb-4">
+        <div class="flex-table mb-4"
+             v-if="channels.length">
             <div class="header-row mx-0 px-0 justify-content-between">
                 <div class="col text-center">
                     <i class="fa fa-lg fa-users"></i>
@@ -47,6 +47,9 @@
                 </div>
             </div>
         </div>
+        <h4 class="text-center text-secondary pt-4"
+            v-else> Вы еще не добавили ни одного канала
+        </h4>
     </mq-layout>
     <mq-layout mq="md+">
         <div class="flex-table my-4"

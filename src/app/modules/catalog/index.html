@@ -9,7 +9,7 @@
             <div class="col-6 col-md-8 px-1"
                  :class="{'col-12': isSearching && isMobile}">
                 <search-input-ok :text="filter.text"
-								 @input="filter.text = $event"
+                                 @input="filter.text = $event"
                                  placeholderMobile="Поиск"
                                  placeholder="Поиск по каталогу" />
             </div>
@@ -38,11 +38,13 @@
         </h5>
         <div class="col-6 col-md-2 offset-md-8 pl-md-0 text-left"
              :class="{'px-1': isMobile}">
-            <span class="btn btn-link px-0 text-dark"
-                  :class="{'float-right': isMobile}"
-                  @click="toggleFilters">
+            <div class="btn btn-link px-0 mb-3 text-dark"
+                 :class="{'float-right': isMobile}"
+                 @click="toggleFilters">
                 <i class="fa mr-2"
-                   :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </span>
+                   :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </div>
+            <h3 class="mb-0">
+                <small>Стоимость: </small> {{totalPrice|centToRub}} </h3>
         </div>
     </div>
     <transition name="fade">
@@ -90,11 +92,6 @@
                 <div class="col-12 col-md-6 pr-md-1 mb-1"
                      :class="{'px-0': isMobile}">
                     <label class="col-form-label search__label">Дата размещения</label>
-                    <!-- <input type="text"
-                           :value="publishDate.format('DD.MM.YYYY HH:mm')"
-                           disabled
-                           class="form-control"
-                           v-if="selectedChannels.length"> -->
                     <date-input v-model="publishDate"
                                 placeholder="Выберите дату публикации"
                                 :config="configs.date" />

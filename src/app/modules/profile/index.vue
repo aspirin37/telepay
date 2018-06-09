@@ -71,7 +71,17 @@ export default {
                     Vue.set(this, 'passData', { old_password: '', new_password: '' })
                     console.log(this.passData)
                 });
-        }
+        },
+        showRef() {
+            swal({
+                width: this.$mq == 'sm' ? '90&' : '60%',
+                showCloseButton: true,
+                showCancelButton: false,
+                padding: 15,
+                html: require('./ref-popup.html'),
+                confirmButtonText: "Закрыть",
+            });
+        },
     }
 };
 </script>
