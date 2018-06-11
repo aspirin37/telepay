@@ -138,6 +138,8 @@ export default Vue.extend({
             notification.loading = true;
             await NotificationApi.markAsRead({ notificationId: notification.notificationId });
             this.notifications = this.notifications.filter(n => n.notificationId !== notification.notificationId);
+            this.notificationsCount -= 1;
+
         }
     }
 });

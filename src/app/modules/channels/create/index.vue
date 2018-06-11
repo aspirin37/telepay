@@ -28,6 +28,7 @@ export default {
                 isBotApproved: false,
                 blackList: []
             },
+            cachedChannel: null,
             usernameQuery: '',
             categories: [],
             // ws: null,
@@ -48,6 +49,7 @@ export default {
     // },
     computed: {
         parsedUsernameQuery() {
+            if (!this.usernameQuery || !this.usernameQuery.length) return false;
             if (/^https?.+\/(.+)/.test(this.usernameQuery) || /.*t\.me\/(.+)/.test(this.usernameQuery)) {
                 let match = this.usernameQuery.match(/(.+)\/(.+)$/);
                 if (match && match[2]) {
@@ -70,30 +72,39 @@ export default {
             this.channel.blackList = this.channel.blackList.concat(items.filter(c => c.name === '18+' || c.name === 'Азартные игры'));
         },
         async getChannelInfo() {
-            let channel = await BotApi.getChannelInfo();
-            if (channel && !channel.error) {
-                this.searchError = false;
-                this.channel.title = channel.title;
-                this.channel.description = channel.description;
-                this.channel.telegramId = channel.telegramId;
-                this.channel.photoId = channel.photoId;
-                this.channel.isBotApproved = channel.isBotApproved;
-                this.channel.subscriberCount = channel.subscriberCount;
-            } else {
-                this.searchError = true;
-                this.channel = {
-                    title: 'Заголовок вашего канала',
-                    description: `Здесь будет отображено описание вашего канала.
+            if (this.parsedUsernameQuery) {
+                let usernameQuery = this.parsedUsernameQuery;
+                clearTimeout(this.searchTimeout);
+                let self = this;
+                this.searchTimeout = setTimeout(async () => {
+                    self.isLoading = true;
+                    let channel = await BotApi.getChannelInfo(usernameQuery);
+                    if (channel && !channel.error) {
+                        self.searchError = false;
+                        self.channel.title = channel.title;
+                        self.channel.description = channel.description;
+                        self.channel.telegramId = channel.telegramId;
+                        self.channel.photoId = channel.photoId;
+                        self.channel.isBotApproved = channel.isBotApproved;
+                        self.channel.subscriberCount = channel.subscriberCount;
+                    } else {
+                        self.searchError = true;
+                        self.channel = {
+                            title: 'Заголовок вашего канала',
+                            description: `Здесь будет отображено описание вашего канала.
           Введите ссылку или юзернейм канала в поле ниже и мы автоматически получим информацию о канале.
           После добавления канала в сервисе наш бот будет автоматически обновлять данные вашего канала`,
-                    telegramId: 'default',
-                    photoId: 'default',
-                    isBotApproved: false,
-                    isAutopost: this.channel.isAutopost,
-                    blackList: this.channel.blackList
-                };
+                            telegramId: 'default',
+                            photoId: 'default',
+                            isBotApproved: false,
+                            isAutopost: self.channel.isAutopost,
+                            blackList: self.channel.blackList
+                        };
+                    }
+                    self.isLoading = false;
+                }, 500);
+
             }
-            this.isLoading = false;
         },
         // connectWebsocket() {
         // TODO вынести сокет в миксин

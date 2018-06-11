@@ -59,6 +59,7 @@
                            @focus="errors.postCount=false"
                            class="form-control-plaintext fa-lg text-center"
                            :class="{'is-invalid':errors.postCount,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
+                
                            @change="fixPostCount"
                            placeholder="5"
                            v-model="timeframesData.postCount">
@@ -97,6 +98,7 @@
                            :readonly="!editingConditions"
                            class="text-center"
                            :class="{'is-invalid':errors.postPrice,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
+                
                            @click="editingConditions=true"
                            @focus="errors.postPrice=false"
                            @change="fixPostPrice"
@@ -142,16 +144,23 @@
                        v-tooltip="'Открыть канал в приложении Telegram'">{{channel.title}}</a>
                     <i class="fa fa-database"
                        v-tooltip="{template:channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в этом канале'}"
+                
                        :class="channel.isBotApproved?'text-success':'text-danger'"></i>
                     <i class="fa fa-check-circle"
                        v-tooltip="{template:channel.status===1?'Канал подтвержден модератором':channel.status===0?'Канал ожидает проверки модератором':'Ваш канал отклонен модератором, причина указана ниже'}"
+                
                        :class="channel.status===1?'text-success':channel.status===0?'text-muted':'text-danger'"></i>
                 </h4>
                 <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
                 <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
-                <h5 v-if="channel.categoryItem && channel.categoryItem[0]">Категория:
+                <h5>Категория:
                     <router-link :to="{name:'support:create',params:{text:changeCategoryText, topic:3}}"
-                                 v-tooltip="'Изменить категорию возможно только с помощью модератора, нажмите чтобы написать обращение'">{{channel.categoryItem[0].category.name}}</router-link>
+                                 v-tooltip="'Изменить категорию возможно только с помощью модератора, нажмите чтобы написать обращение'">
+                        <span v-if="channel.categoryItem && channel.categoryItem[0]">
+                            {{channel.categoryItem[0].category.name}}
+                        </span>
+                        <span v-else>Без категории</span>
+                    </router-link>
                 </h5>
             </div>
             <div class="col-4">
@@ -180,6 +189,7 @@
                            @click="editingConditions=true"
                            @focus="errors.postCount=false"
                            :class="{'is-invalid':errors.postCount,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
+                
                            @change="fixPostCount"
                            placeholder="5"
                            v-model="timeframesData.postCount">
@@ -223,6 +233,7 @@
                     <input type="number"
                            :readonly="!editingConditions"
                            :class="{'is-invalid':errors.postPrice,'form-control-plaintext fa-lg':!editingConditions,'form-control':editingConditions}"
+                
                            @click="editingConditions=true"
                            @focus="errors.postPrice=false"
                            @change="fixPostPrice"
