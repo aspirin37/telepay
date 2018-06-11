@@ -3,6 +3,7 @@ Vue.use(VueResource);
 
 import ChannelApi from './channel';
 import PostApi from './post';
+import BotApi from './bot';
 import CatalogApi from './catalog';
 import TimeFrameApi from './timeframe';
 import NotificationApi from './notification';
@@ -36,6 +37,7 @@ Vue.http.options = {
 
 export {
     AuthApi,
+    BotApi,
     TimeFrameApi,
     ChannelApi,
     CatalogApi,

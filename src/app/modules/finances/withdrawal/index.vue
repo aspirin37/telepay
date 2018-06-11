@@ -43,7 +43,7 @@ export default Vue.extend({
                 components: { searchInput },
                 data: {
                     withdrawal: {
-                        amount: self.user.balance.current / 100,
+                        amount: 1,
                         walletId: self.wallets.length === 1 ? self.wallets[0].walletId : ''
                     },
                     walletTypes,
@@ -81,7 +81,7 @@ export default Vue.extend({
 
             if (this.wallets && !this.wallets.length) {
                 this.$notifystr.danger('Ошибка!', 'У вас нет ни одного платежного счета!');
-                this.$router.push({ name: 'balance:payment-info' });
+                this.$router.push({ name: 'finances' });
                 return;
             }
 
