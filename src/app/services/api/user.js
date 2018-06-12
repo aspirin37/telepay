@@ -14,4 +14,6 @@ export default {
     resetPassByMail: (data) => userRes('reset-password').post(data).then(_r).catch(_e),
     resetPassByPhone: (data) => userRes('reset-password-by-phone').post(data).then(_r).catch(_e),
     requestResetPass: (data) => userRes('request_password_reset').post(data).then(_r).catch(_e),
+
+    saveSettings: (data) => userRes('save-settings').patch(data).then(_r).catch(_e),
 };

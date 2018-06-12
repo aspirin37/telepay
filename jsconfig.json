@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@components/*": ["src/app/components/*"],
+      "@services/*": ["src/app/services/*"],
+      "@store/*": ["src/app/store/*"],
+      "@routes/*": ["src/app/routes/*"],
+      "@utils/*": ["src/app/utils/*"],
+      "@mixins/*": ["src/app/mixins/*"],
+      "@filters/*": ["src/app/filters/*"],
+      "@mappings/*": ["src/app/mappings/*"]
+    }
+  },
+  "exclude": ["node_modules", "build"]
+}
