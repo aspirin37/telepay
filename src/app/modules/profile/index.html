@@ -41,17 +41,20 @@
             </div>
         </div>
     </div>
-    <h2 class="text-medium-font mb-4">Настройки уведомлений</h2>
+    <h2 class="text-medium-font mb-4"
+        v-if="user.telegramId || (user.email && user.email.address)">Настройки уведомлений</h2>
     <div class="row">
-        <div class="col-12 col-md-2 d-flex justify-content-around align-items-center mb-4">
+        <div class="col-12 col-md-2 d-flex justify-content-around align-items-center mb-4"
+             v-if="user.email && user.email.address">
             <label class="m-0">E-mail</label>
-            <on-off v-model="+emailSettings.settingValue"
-                    @change="changeNotifySettings(emailSettings)"></on-off>
+            <on-off v-model="notifications.email"
+                    @change="changeNotifySettings(emailSettings.settingId,notifications.email)"></on-off>
         </div>
-        <div class="col-12 col-md-2 d-flex justify-content-around align-items-center mb-4">
+        <div class="col-12 col-md-2 d-flex justify-content-around align-items-center mb-4"
+             v-if="user.telegramId">
             <label class="m-0">Telegram</label>
-            <on-off v-model="+telegramSettings.settingValue"
-                    @change="changeNotifySettings()"></on-off>
+            <on-off v-model="notifications.telegram"
+                    @change="changeNotifySettings(telegramSettings.settingId,notifications.telegram)"></on-off>
         </div>
     </div>
     <h2 class="text-medium-font mb-4">Изменение пароля</h2>

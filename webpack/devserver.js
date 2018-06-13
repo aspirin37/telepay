@@ -1,8 +1,8 @@
-const webpack = require( 'webpack' );
-module.exports = function ( paths ) {
+const webpack = require('webpack');
+module.exports = function (paths) {
     return {
         plugins: [
-            new webpack.HotModuleReplacementPlugin( {} ),
+            new webpack.HotModuleReplacementPlugin({}),
         ],
         devServer: {
             historyApiFallback: true,
