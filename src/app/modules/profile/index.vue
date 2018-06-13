@@ -74,7 +74,7 @@ export default {
         },
         showRef() {
             swal({
-                width: this.$mq == 'sm' ? '90&' : '60%',
+                width: this.$mq == 'sm' ? '90%' : '600px',
                 showCloseButton: true,
                 showCancelButton: false,
                 padding: 15,

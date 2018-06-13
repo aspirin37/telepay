@@ -64,6 +64,9 @@ export default Vue.extend({
         if (this.$route.params.topic) {
             this.selectedTopic = this.topics[this.$route.params.topic];
         }
+        if (this.ticketId) {
+            setInterval(this.getMessages, 15000)
+        }
     },
     methods: {
         setRating(rating) {
