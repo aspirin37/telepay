@@ -48,6 +48,12 @@ export default {
     // }
     // },
     computed: {
+        isMobile() {
+            return this.$mq == 'sm'
+        },
+        isDesktop() {
+            return this.$mq != 'sm'
+        },
         parsedUsernameQuery() {
             if (!this.usernameQuery || !this.usernameQuery.length) return false;
             if (/^https?.+\/(.+)/.test(this.usernameQuery) || /.*t\.me\/(.+)/.test(this.usernameQuery)) {
