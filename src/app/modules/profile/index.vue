@@ -5,10 +5,12 @@ import passwordInput from '@components/password-input';
 import { UserApi } from '@services/api';
 import { clone } from '@utils/clone';
 import WebStorage from '@utils/storage';
+import onOff from 'vue-on-off';
 
 export default {
     components: {
-        passwordInput
+        passwordInput,
+        onOff
     },
     data() {
         return {
@@ -25,6 +27,14 @@ export default {
             set(val) {
                 this.$store.commit('SET_USER', user);
             }
+        },
+        emailSettings() {
+            if (!this.user || !this.user.settings || !this.user.settings.length) return null;
+            return this.user.settings.find(s => s.settingType === '0')
+        },
+        telegramSettings() {
+            if (!this.user || !this.user.settings || !this.user.settings.length) return null;
+            return this.user.settings.find(s => s.settingType === '1')
         }
     },
     created() {
@@ -72,9 +82,12 @@ export default {
                     console.log(this.passData)
                 });
         },
+        changeNotifySettings({ settingId, settingValue }) {
+            UserApi.saveSettings({ settingId, settingValue: +settingValue })
+        },
         showRef() {
             swal({
-                width: this.$mq == 'sm' ? '90%' : '600px',
+                width: this.$mq == 'sm' ? '90%' : '60%',
                 showCloseButton: true,
                 showCancelButton: false,
                 padding: 15,

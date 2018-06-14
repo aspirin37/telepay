@@ -7,6 +7,7 @@ export default [
     'catalog/blacklist/add',
     'ticket/list',
     'user',
-    `post/check/time`,
-    `ticket/message/create`,
+    'post/check/time',
+    'ticket/message/create',
+    'bot/channel-info',
 ];

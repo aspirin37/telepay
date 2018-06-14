@@ -7122,6 +7122,10 @@ vue-on-off@^1.0.4:
   dependencies:
     vue "^2.5.16"
 
+vue-pagination-btns@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/vue-pagination-btns/-/vue-pagination-btns-1.0.5.tgz#dccda7e860788996a278c993eef07f3f3ba900a7"
+
 vue-resource@^1.5.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/vue-resource/-/vue-resource-1.5.1.tgz#0f3d685e3254d21800bebd966edcf56c34b3b6e4"

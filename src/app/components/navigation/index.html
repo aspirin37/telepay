@@ -132,7 +132,10 @@
                         <div class="dropdown-menu shadow show"
                              v-show="showDD"
                              ref="ddmenu">
-                            <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}</h6>
+                            <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}
+                                <router-link class="float-right"
+                                             :to="{name:'profile'}">настройки</router-link>
+                            </h6>
                             <span class="dropdown-item"
                                   @click="stopBlur"
                                   v-for="notify in notifications"
@@ -161,7 +164,7 @@
                               v-once></span>
                     </router-link>
                 </li>
-                <li class="nav-item mr-4 d-none d-lg-block">
+                <li class="nav-item d-none d-lg-block m-0">
                     <drop-down>
                         <div slot="trigger"
                              class=" d-flex align-items-center justify-content-center">

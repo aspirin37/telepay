@@ -5,7 +5,9 @@
                      v-show="is_advert"
                      :to="{ name: 'posts:create' }">Новый пост</router-link>
     </div>
-    <post-list :posts="posts[is_advert?'out':'in']"
+    <post-list :posts="posts"
                :placeholder="`Нет ${is_advert?'исходящих':'входящих'} постов`"
                :is-out="is_advert"></post-list>
+    <pgn-btns :pgn-sets="pgnSets"
+              :action="getPosts"></pgn-btns>
 </div>

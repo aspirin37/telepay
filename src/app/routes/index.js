@@ -4,6 +4,7 @@ import Catalog from '@modules/catalog';
 import Faq from '@modules/faq';
 import Profile from '@modules/profile';
 import Finances from '@modules/finances';
+// import NotificationSettings from '@modules/notification-settings';
 
 import ChannelLists from './channel-lists';
 import Channels from './channels';
@@ -42,6 +43,11 @@ const routes = [
         name: 'profile',
         component: Profile,
     },
+    // {
+    //     path: '/notification-settings',
+    //     name: 'notification-settings',
+    //     component: NotificationSettings,
+    // },
     {
         path: '*',
         redirect: '/catalog',

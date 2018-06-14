@@ -1,41 +1,35 @@
 <template src="./index.html"></template>
 <script>
 import { mapState } from 'vuex';
-import postList from '@components/post-list';
 import { PostApi } from '@services/api';
+import postList from '@components/post-list';
 import WebStorage from '@utils/storage';
+import pgn from 'vue-pagination-btns';
 export default {
     components: {
         postList
     },
     data() {
         return {
-            posts: { in: [],
-                out: []
-            },
+            posts: [],
             selected: this.$route.params.tab || 'inbound'
         };
     },
-    computed: { ...mapState(['user', 'is_advert'])
+    mixins: [pgn],
+    computed: {
+        ...mapState(['user', 'is_advert'])
     },
     created() {
         this.$root.$on('posts_list:getPosts', this.getPosts);
-        this.getPosts();
+        this.getPosts(this.pgnSets);
     },
     methods: {
-        async getPosts() {
-            this.posts.in = [];
-            this.posts.out = [];
-            let { items, total } = await PostApi.list({ limit: 1000 });
-            items.forEach(postOrder => {
-                if (
-                    postOrder &&
-                    postOrder.timeFrame &&
-                    postOrder.timeFrame.channel
-                ) this.posts[postOrder.timeFrame.channel.userId === this.user.userId ? 'in' : 'out'].push(postOrder);
-            });
-            this.posts.in.sort(this._sorter);
-            this.posts.out.sort(this._sorter);
+        async getPosts(params) {
+            params.for = +this.is_advert;
+            let { items, total } = await PostApi.list(params);
+
+            this.posts = items.sort(this._sorter);
+            this.pgnSets.total = total;
         },
         _sorter(a, b) {
             let now = Math.round(Date.now() / 1e3);

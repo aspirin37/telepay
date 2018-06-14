@@ -108,7 +108,7 @@ export default {
             return text.replace(/\n?(@.+?)\b\n?/g, (str, match) => `<span class="preview__link">${match}</span>`);
         },
         replaceLinks(text) {
-            return text.replace(/\[(.+?)\]\((https?:\/\/.+)\)/g, (str, text, link) =>
+            return text.replace(/\[(.+?)\]\((https?:\/\/.+?)\)/g, (str, text, link) =>
                 `<a class="preview__link" href="${link}" target="_blank" rel="noopener noreferrer nofollow">${text}</a>`);
         },
     }

@@ -1,4 +1,5 @@
-<div class="container py-3 px-2 px-md-0">
+<div class="container py-3 px-2 px-md-0"
+     v-if="user && user.userId">
     <h1 class="text-medium-font mb-4">Профиль</h1>
     <div class="row d-flex flex-column flex-md-row mb-1">
         <div class="col-12 col-md-4">
@@ -40,6 +41,19 @@
             </div>
         </div>
     </div>
+    <h2 class="text-medium-font mb-4">Настройки уведомлений</h2>
+    <div class="row">
+        <div class="col-12 col-md-2 d-flex justify-content-around align-items-center mb-4">
+            <label class="m-0">E-mail</label>
+            <on-off v-model="+emailSettings.settingValue"
+                    @change="changeNotifySettings(emailSettings)"></on-off>
+        </div>
+        <div class="col-12 col-md-2 d-flex justify-content-around align-items-center mb-4">
+            <label class="m-0">Telegram</label>
+            <on-off v-model="+telegramSettings.settingValue"
+                    @change="changeNotifySettings()"></on-off>
+        </div>
+    </div>
     <h2 class="text-medium-font mb-4">Изменение пароля</h2>
     <div class="row d-flex flex-column flex-md-row">
         <div class="col-12 col-md-4">
@@ -47,14 +61,16 @@
                 <p class="text-medium-font font-weight-500 mb-1">Старый пароль</p>
                 <password-input classes="form-control"
                                 v-model="passData.old_password"
-                                placeholder="Старый пароль" /> </div>
+                                placeholder="Старый пароль" />
+            </div>
         </div>
         <div class="col-12 col-md-4">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Новый пароль</p>
                 <password-input classes="form-control"
                                 v-model="passData.new_password"
-                                placeholder="Новый пароль" /> </div>
+                                placeholder="Новый пароль" />
+            </div>
         </div>
     </div>
     <button class="btn btn-success mb-4"
@@ -63,7 +79,7 @@
             @click="changePassword">Изменить пароль</button>
     <div class="row">
         <div class="col-12 col-md-6"
-             v-if="user&&user.referral">
+             v-if="user && user.referral">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-2">
                     <span class="mr-1">Реферральная ссылка:</span>

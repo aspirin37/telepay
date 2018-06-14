@@ -2,9 +2,6 @@
     <mq-layout mq="sm">
         <!-- TODO Сделать мобилку и десктоп одной версткой -->
         <heading text="Новый канал"></heading>
-        <h4 class="text-danger"
-            v-if="wsError">Ошибка подключения к боту Telepay - попробуйте перезагрузить страницу,
-            <br>если это не помогло, не волнуйтесь, мы уже работаем над этим!</h4>
         <div class="form-row col-12 px-0 mb-4 mt-4">
             <div class="w-50 d-flex offset-1">
                 <div class="mr-2"
@@ -94,9 +91,6 @@
                    class="float-right pointer">
                 <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
         </h2>
-        <h4 class="text-danger"
-            v-if="wsError">Ошибка подключения к боту Telepay - попробуйте перезагрузить страницу,
-            <br>если это не помогло, не волнуйтесь, мы уже работаем над этим!</h4>
         <div class="row mt-4"
              v-if="channel">
             <div class="col-2 ">
@@ -110,6 +104,7 @@
                     <span v-else>{{channel.title}}</span>
                     <i class="fa fa-database"
                        v-tooltip="channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в вашем канале'"
+                
                        v-show="channel.telegramId!=='default' && !isLoading && !searchError"
                        :class="channel.isBotApproved?'text-success':'text-danger'"></i>
                 </h4>

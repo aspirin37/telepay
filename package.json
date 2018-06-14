@@ -64,6 +64,7 @@
         "vue-masked-input": "^0.5.2",
         "vue-mq": "^0.2.1",
         "vue-on-off": "^1.0.4",
+        "vue-pagination-btns": "^1.0.5",
         "vue-resource": "^1.5.0",
         "vue-router": "^3.0.1",
         "vue-star-rating": "^1.6.0",
