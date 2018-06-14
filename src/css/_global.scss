@@ -77,6 +77,12 @@ body {
     }
 }
 
+.drop-selected-btn {
+    position: absolute;
+    bottom: -26px;
+    cursor: pointer;
+}
+
 .catalog-filters {
     display: flex;
     flex-direction: row;
