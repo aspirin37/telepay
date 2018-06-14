@@ -16,7 +16,8 @@ export default {
         return {
             fetchedUser: null,
             fetchTimeout: null,
-            passData: { old_password: '', new_password: '' }
+            passData: { old_password: '', new_password: '' },
+            notifications: {}
         };
     },
     computed: {
@@ -30,11 +31,11 @@ export default {
         },
         emailSettings() {
             if (!this.user || !this.user.settings || !this.user.settings.length) return null;
-            return this.user.settings.find(s => s.settingType === '0')
+            return this.user.settings.find(s => s.settingType + '' === '0')
         },
         telegramSettings() {
             if (!this.user || !this.user.settings || !this.user.settings.length) return null;
-            return this.user.settings.find(s => s.settingType === '1')
+            return this.user.settings.find(s => s.settingType + '' === '1')
         }
     },
     created() {
@@ -55,6 +56,10 @@ export default {
         async getUser() {
             this.fetchedUser = await UserApi.getUser();
             this.$store.commit('SET_USER', this.fetchedUser);
+            this.notifications = {
+                email: !!+(this.emailSettings && this.emailSettings.settingValue),
+                telegram: !!+(this.telegramSettings && this.telegramSettings.settingValue),
+            }
         },
         async editUser(needPassword) {
             let swalOut;
@@ -82,8 +87,8 @@ export default {
                     console.log(this.passData)
                 });
         },
-        changeNotifySettings({ settingId, settingValue }) {
-            UserApi.saveSettings({ settingId, settingValue: +settingValue })
+        changeNotifySettings(settingId, settingValue) {
+            UserApi.saveSettings({ settingId, settingValue })
         },
         showRef() {
             swal({
