@@ -141,6 +141,7 @@ export default Vue.extend({
                 copy.categoryId = copy.category.categoryId;
                 delete copy.category;
             }
+
             let { items, total } = await CatalogApi.filter(copy);
             this.totalChannels = total;
             let isToday = this.publishDate.day() === moment().day(),
@@ -159,6 +160,8 @@ export default Vue.extend({
                         return timeFrame.weekDay === params.weekDay; //&& filterToday;
                     });
                 }
+                item.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(item);
+                console.log(item.cheapestTimeFrame, item.timeFrame)
 
                 if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
                 return item;

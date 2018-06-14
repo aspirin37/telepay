@@ -25,7 +25,7 @@ export default {
             get() {
                 return this.$store.state.user;
             },
-            set(val) {
+            set(user) {
                 this.$store.commit('SET_USER', user);
             }
         },
@@ -36,10 +36,22 @@ export default {
         telegramSettings() {
             if (!this.user || !this.user.settings || !this.user.settings.length) return null;
             return this.user.settings.find(s => s.settingType + '' === '1')
+        },
+        botName() {
+            switch (process.env.url) {
+                case 'loc':
+                    return 'telepayDevBot';
+                    break;
+                case 'dev':
+                    return 'telepayDevBot';
+                    break;
+                default:
+                    return 'Telepay_io_bot';
+                    break;
+            }
         }
     },
     created() {
-        this.cache = clone(this.user);
         this.getUser();
     },
     destroyed() {
@@ -49,13 +61,15 @@ export default {
         startFetchingUser() {
             clearTimeout(this.fetchTimeout);
             if (!this.fetchedUser || this.user.telegramId === this.fetchedUser.telegramId) {
+                this.fetchedUser = clone(this.user)
                 this.getUser();
                 this.fetchTimeout = setTimeout(this.startFetchingUser, 1500);
+            } else {
+                this.fetchedUser = null;
             }
         },
         async getUser() {
-            this.fetchedUser = await UserApi.getUser();
-            this.$store.commit('SET_USER', this.fetchedUser);
+            this.user = await UserApi.getUser();
             this.notifications = {
                 email: !!+(this.emailSettings && this.emailSettings.settingValue),
                 telegram: !!+(this.telegramSettings && this.telegramSettings.settingValue),

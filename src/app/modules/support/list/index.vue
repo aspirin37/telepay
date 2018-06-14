@@ -2,7 +2,7 @@
 <script>
 import { SupportApi } from '@services/api';
 import topics from '@utils/support-topics';
-
+import pgn from 'vue-pagination-btns';
 import Calendar from '@assets/calendar.svg';
 import Status from '@assets/status.svg';
 
@@ -16,9 +16,10 @@ export default Vue.extend({
             Status
         };
     },
+    mixins: [pgn],
     created() {
         // this.getStatusList();
-        this.getTickets();
+        this.getData();
     },
     watch: {
         isDateReversed() {
@@ -26,9 +27,15 @@ export default Vue.extend({
         }
     },
     methods: {
-        async getTickets() {
+        async getData() {
+            await this.getStatusList();
+            await this.getTickets(this.pgnSets)
+        },
+        async getStatusList() {
             this.statusList = await SupportApi.getStatusList();
-            let { items } = await SupportApi.getList();
+        },
+        async getTickets(params) {
+            let { items, total } = await SupportApi.getList(params);
             items.sort((a, b) => b.createdAt - a.createdAt).forEach((it, i) => {
                 it.date = moment.unix(it.createdAt).format('DD.MM.YYYY');
                 it.topic = topics[it.topic].name;
@@ -47,16 +54,12 @@ export default Vue.extend({
             });
 
             this.ticketsList = items;
+            this.pgnSets.total = total;
 
             if (!this.ticketsList.length) {
-                this.$router.push({
-                    name: 'support:create'
-                });
+                this.$router.push({ name: 'support:chat' });
             }
         },
-        // async getStatusList() {
-        //   this.statusList = await SupportApi.getStatusList();
-        // }
     }
 });
 </script>

@@ -4,21 +4,22 @@
     <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Логин</label>
         <input type="email"
-            placeholder="example@email.com"
-            required
-            class="form-control input-auth"
-            v-model="login">
+               placeholder="example@email.com"
+               required
+               class="form-control input-auth"
+               v-model="login">
     </div>
     <div class="form-group">
         <button class="btn-auth btn btn-block btn-lg"
-            type="submit">Восстановить</button>
+                :disabled="isLoading"
+                type="submit">Восстановить</button>
     </div>
     <router-link :to="{name:'login',params:{login:login}}"
-        class="float-left text-light">
+                 class="float-left text-light">
         <u>Войти</u>
     </router-link>
     <router-link :to="{name:'registration',params:{login:login}}"
-        class="float-right text-light">
+                 class="float-right text-light">
         <u>Регистрация</u>
     </router-link>
 </form>

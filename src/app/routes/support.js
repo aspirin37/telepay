@@ -1,18 +1,22 @@
 import List from '@modules/support/list';
-import Create from '@modules/support/create';
-import Update from '@modules/support/update';
+import Chat from '@modules/support/chat';
 
-import { _crud_, abstract } from './_utils';
+import { abstract } from './_utils';
 
 export default {
     path: '/support',
     name: 'support',
     component: abstract,
     redirect: { name: 'support:list' },
-    children: _crud_(
-        List,
-        Create,
-        Update,
-        'support:'
-    ),
+    children: [{
+            path: 'chat/:ticketId?',
+            name: 'support:chat',
+            component: Chat,
+        },
+        {
+            path: 'list',
+            name: 'support:list',
+            component: List,
+        }
+    ],
 };

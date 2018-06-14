@@ -3,15 +3,16 @@
         <h1 class="d-block d-md-none">Поддержка</h1>
         <h1 class="d-none d-md-block">Теходдержка</h1>
         <router-link class="btn btn-primary ml-auto"
-                     :to="{ name: 'support:create'}">Новый вопрос</router-link>
+                     :to="{ name: 'support:chat'}">Новый вопрос</router-link>
     </div>
     <div class="flex-table d-none d-md-block my-4">
         <div class="header-row">
             <div class="col"> Номер </div>
-            <div class="col pointer"
+            <!-- <div class="col pointer"
                  @click="isDateReversed = !isDateReversed"> Дата
                 <i :class="[isDateReversed ? 'fa-angle-up' : 'fa-angle-down', 'fa fa-lg']"></i>
-            </div>
+            </div> -->
+            <div class="col"> Дата </div>
             <div class="col"> Тема </div>
             <div class="col">
                 <span>Статус</span>
@@ -29,11 +30,13 @@
                    :class="ticket.statusClass"></i> {{ ticket.statusName }} </div>
             <div class="col text-center">
                 <router-link class="text-primary"
-                             :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: ticket.status, rating: ticket.rating}}">
+                             :to="{name:'support:chat', params:{ticketId: ticket.ticketId}}">
                     <u>{{ ticket.messages.length }}</u>
                 </router-link>
             </div>
         </div>
+        <pgn-btns :pgn-sets="pgnSets"
+                  :action="getTickets"></pgn-btns>
     </div>
     <div class="support-icons d-flex d-md-none justify-content-between">
         <div class="support-icons__item"
@@ -54,7 +57,7 @@
                 </div>
                 <div class="col-4">
                     <router-link class="text-primary text-right"
-                                 :to="{name:'support:create', query:{ticketId: ticket.ticketId}, params:{status: ticket.status, rating: ticket.rating}}">
+                                 :to="{name:'support:chat', query:{ticketId: ticket.ticketId}, params:{status: ticket.status, rating: ticket.rating}}">
                         <span class="fa fa-lg fa-angle-right d-block d-md-none"></span>
                     </router-link>
                 </div>

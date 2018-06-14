@@ -48,6 +48,7 @@
             <div class="body-row px-0 px-md-4"
                  :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}"
                  :key="ch.channelId"
+                 v-if="ch.cheapestTimeFrame"
                  v-for="ch in innerChannels">
                 <div class="table-cell col-6 col-md-3 offset-1 offset-md-0 d-flex mb-3 mb-md-0">
                     <channel-avatar :channel="ch"

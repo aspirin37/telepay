@@ -113,7 +113,7 @@ export default Vue.extend({
 
             if (swalOut && !swalOut.dismiss) {
                 this.$router.push({
-                    name: 'support:create',
+                    name: 'support:chat',
                     params: {
                         text: `Здравствуйте, я хочу изменить свои платежные данные. Счет: ${walletTypes[wallet.type].label} ${wallet.number}`,
                         topic: 7
