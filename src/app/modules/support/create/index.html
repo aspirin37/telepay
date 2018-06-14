@@ -113,13 +113,12 @@
             </div>
             <div class="col-12 col-lg-6 offset-lg-3 p-0"
                  v-if="ticketId">
-                <h4 class="mb-3">Чат с оператором</h4>
                 <div :class="[message.isSupport ? 'float-right' : 'float-left', 'message col-10 mb-3']"
                      v-for="(message, i) in messages">
                     <h6 :class="[message.isSupport ? 'text-right' : '', 'message__author']"
                         v-if="isAuthorNeeded(message, i, messages)">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>
                     <div :class="[message.isSupport ? 'message__content--support float-right' : '', 'message__content float-left']">
-                        <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text mb-1']">{{ message.content }}</div>
+                        <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text mb-1', {'text-right': message.content.length < 13 && message.isSupport}]">{{ message.content }}</div>
                         <div class="message__images"
                              v-if="message.files.length">
                             <img class="rounded img-thumbnail img-fluid mb-3 pointer"

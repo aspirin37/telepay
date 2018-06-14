@@ -5,6 +5,7 @@ export default [
     'catalog/filter',
     'catalog/blacklist/remove',
     'catalog/blacklist/add',
+    'ticket/list',
     'user',
     'post/check/time',
     'ticket/message/create',

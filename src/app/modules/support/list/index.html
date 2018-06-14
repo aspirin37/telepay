@@ -25,7 +25,8 @@
             <div class="col"> {{ ticket.date }} </div>
             <div class="col"> {{ ticket.topic }} </div>
             <div class="col">
-                <i :class="ticket.statusClass"></i> {{ ticket.statusName }} </div>
+                <i class="mr-2"
+                   :class="ticket.statusClass"></i> {{ ticket.statusName }} </div>
             <div class="col text-center">
                 <router-link class="text-primary"
                              :to="{name:'support:create', query:{ticketId: ticket.ticketId, status: ticket.status, rating: ticket.rating}}">

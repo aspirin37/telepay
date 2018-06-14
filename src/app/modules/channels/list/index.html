@@ -1,8 +1,6 @@
 <div class="container py-3 px-2 px-md-0 mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-secondary mb-0">Мои каналы</h1>
-        <router-link class="btn btn-primary"
-                     :to="{ name: 'channels:create' }">Добавить канал</router-link>
     </div>
     <mq-layout mq="sm">
         <div class="flex-table mb-4"
@@ -47,9 +45,9 @@
                 </div>
             </div>
         </div>
-        <h4 class="text-center text-secondary pt-4"
+        <!-- <h4 class="text-center text-secondary pt-4"
             v-else> Вы еще не добавили ни одного канала
-        </h4>
+        </h4> -->
     </mq-layout>
     <mq-layout mq="md+">
         <div class="flex-table my-4"
@@ -101,82 +99,18 @@
                         <post-list :posts="ch.postOrders"
                                    :placeholder="`Нет входящих постов`"
                                    :is-out="false"></post-list>
-                        <!-- <div class="flex-table"
-                         v-if="ch.postOrders && ch.postOrders.length">
-                        <div class="header-row">
-                            <div class="col-1">Номер</div>
-                            <div class="col">Время</div>
-                            <div class="col">Статус</div>
-                            <div class="col">Условия</div>
-                            <div class="col">Цена</div>
-                            <div class="col">Действия</div>
-                        </div>
-                        <div class="body-row border-0"
-                             :key="post.postOrderId"
-                             v-for="post in ch.postOrders"
-                             :class="{'text-muted':post.publishAt <= now}">
-                            <div class="col-1">{{post.humanReadableNumber}}</div>
-                            <div class="col h5">{{post.publishAt*1000 | parseDate}}</div>
-                            <div class="col-3">
-                                <div class="form-row">
-                                    <div class="col-3">
-                                        <avatar :src="'/images/channels/'+post.timeFrame.channel.telegramId+'/'+post.timeFrame.channel.photoId+'.jpg'"
-                                                :circle="true" />
-                                    </div>
-                                    <div class="col-9 pl-4">
-                                        <router-link :to="{
-                                          name:post.timeFrame.channel.userId === user.userId?'channels:update':'channels:show',
-                                          params:{username:post.timeFrame.channel.username}
-                                      }">
-                                            <b>{{post.timeFrame.channel.title}}</b>
-                                        </router-link>
-                                        <br>{{post.timeFrame.channel.categories || 'Без категории'}}</div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <span v-if="post.status !== 3 && !post.isPosted">{{postStatuses[post.status]}}</span>
-                                <a v-else
-                                   target="_blank"
-                                   :href="`https://t.me/${post.timeFrame.channel.username}/${post.messageId}`">{{postStatuses[post.status]}}</a>
-                                <span v-show="post.status === 1"
-                                      class="text-danger">{{post.declineReason}}</span>
-                            </div>
-                            <div class="col h5">{{post.price | centToRub}}</div>
-                            <div class="col">
-                                <button v-if="post.status === 2"
-                                        class="btn btn-link m-0 p-0 text-success"
-                                        @click="approvePost(post)">
-                                    <i class="fa fa-check fa-2x"></i>
-                                </button>
-                                <button v-if="post.status === 2"
-                                        class="btn btn-link m-0 p-0 text-danger"
-                                        @click="declinePost(post)">
-                                    <i class="fa fa-times fa-2x"></i>
-                                </button>
-                                <button class="btn btn-link p-0 m-0 text-dark"
-                                        @click="togglePreview(ch,post)"
-                                        @blur="togglePreview(ch,post,false)">
-                                    <i class="fa fa-2x"
-                                       :class="post.showPreview?'fa-eye-slash':'fa-eye'"></i>
-                                </button>
-                                <div class="popover fade show bs-popover-bottom post-preview"
-                                     v-show="post.showPreview">
-                                    <div class="arrow"></div>
-                                    <div class="popover-body">
-                                        <post-preview :post="mapToPreview(post)"></post-preview>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --></div>
+                    </div>
                 </div>
             </div>
         </div>
-        <h4 class="text-center text-secondary"
-            v-else> Вы еще не добавили ни одного канала
-            <br>
-            <router-link class="btn btn-primary my-3"
-                         :to="{ name: 'channels:create' }">Добавить канал</router-link>
-        </h4>
     </mq-layout>
+    <div class="no-channels"
+         v-if="!channels.length">
+        <div class="no-channels__dog"
+             v-html="Dog"
+             v-once></div>
+        <div class="no-channels__text"> Вы еще не добавили ни одного канала</div>
+        <router-link class="btn btn-primary align-self-center"
+                     :to="{ name: 'channels:create' }">Добавить канал</router-link>
+    </div>
 </div>

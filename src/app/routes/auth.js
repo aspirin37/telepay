@@ -5,6 +5,7 @@ import AuthLayout from '@modules/auth/layout';
 import TelegramLogin from '@modules/auth/telegram-login';
 import Logout from '@modules/auth/logout';
 import NewPass from '@modules/auth/new-pass';
+import Admin from '@modules/auth/admin';
 
 export default {
     path: '/auth',
@@ -35,5 +36,9 @@ export default {
         path: 'new-pass',
         name: 'new-pass',
         component: NewPass,
+    }, {
+        path: 'admin',
+        name: 'admin',
+        component: Admin,
     }],
 };

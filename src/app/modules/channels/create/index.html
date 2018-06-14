@@ -15,7 +15,7 @@
                     <br>
                     <small clas="d-block mb-1 text-light">{{channel.category || 'Без категории'}}</small>
                     <small clas="text-light"
-                           v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</small>
+                           v-if="channel.subscriberCount && channel.telegramId !== 'default'">(Подписчиков: {{channel.subscriberCount | cutKilo}})</small>
                 </div>
             </div>
             <div class="w-25 offset-2 px-0 d-flex flex-column align-items-center justify-content-center">
@@ -35,7 +35,41 @@
                 <span class="text-18px">{{ channel.status===1 ? 'подтвержден' : channel.status == 0 || !channel.status ? 'Ожидает подтверждения' : 'отказано' }} </span>
             </div>
         </div>
-        <div class="col-12">
+    </mq-layout>
+    <mq-layout mq="md+">
+        <h2 class="text-secondary my-4">Новый канал
+            <small @click="$router.go(-1)"
+                   class="float-right pointer">
+                <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
+        </h2>
+        <div class="row pt-4"
+             v-if="channel">
+            <div class="col-2 ">
+                <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
+                        style="max-width: 200px; max-height: 200px;"
+                        :circle="true" /> </div>
+            <div class="col-6">
+                <h4>
+                    <a v-if="channel.telegramId!=='default'"
+                       :href="'tg://resolve?domain='+parsedUsernameQuery.slice(1)">{{channel.title}}</a>
+                    <span v-else>{{channel.title}}</span>
+                    <i class="fa fa-database"
+                       v-tooltip="channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в вашем канале'"
+                
+                       v-show="channel.telegramId!=='default' && !isLoading && !searchError"
+                       :class="channel.isBotApproved?'text-success':'text-danger'"></i>
+                </h4>
+                <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
+                <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
+            </div>
+            <div class="col-4 d-flex align-items-center">
+                <b class="h4 m-0 px-2"
+                   v-tooltip="{template:'После проверки поста нашими модераторами на допустимость контента, пост должен быть одобрен вами. Включите эту опцию чтобы разрешить размещение постов без вашей проверки',delayOut:500}">Автомодерация</b>
+                <on-off v-model="channel.isAutopost" /> </div>
+        </div>
+    </mq-layout>
+    <div :class="{'row mt-4': isDesktop}">
+        <div class="col-12 col-md-4">
             <div class="form-group">
                 <p class="text-secondary font-weight-500 mb-1">Ссылка на канал
                     <i class="fa fa-question-circle pointer"
@@ -47,14 +81,14 @@
                        @input="getChannelInfo"
                        v-model="usernameQuery"> </div>
         </div>
-        <div class="col-12">
+        <div class="col-12 col-md-4">
             <div class="form-group">
                 <p class="text-secondary font-weight-500 mb-1">Категория канала</p>
                 <search-input v-model="channel.category"
                               placeholder="Выберите категорию"
                               :options="categories" /> </div>
         </div>
-        <div class="col-12"
+        <div class="col-12 col-md-4"
              v-if="categories.length">
             <div class="form-group">
                 <p class="text-secondary font-weight-500 mb-1 float-left">Запрещенные темы</p>
@@ -84,91 +118,5 @@
                     @click="getChannelInfo">
                 <i class="fa fa-refresh"></i> Обновить</button>
         </div>
-    </mq-layout>
-    <mq-layout mq="md+">
-        <h2 class="text-secondary my-4">Новый канал
-            <small @click="$router.go(-1)"
-                   class="float-right pointer">
-                <i class="fa fa-lg fa-chevron-left"></i> Назад</small>
-        </h2>
-        <div class="row mt-4"
-             v-if="channel">
-            <div class="col-2 ">
-                <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
-                        style="max-width: 200px; max-height: 200px;"
-                        :circle="true" /> </div>
-            <div class="col-6">
-                <h4>
-                    <a v-if="channel.telegramId!=='default'"
-                       :href="'tg://resolve?domain='+parsedUsernameQuery.slice(1)">{{channel.title}}</a>
-                    <span v-else>{{channel.title}}</span>
-                    <i class="fa fa-database"
-                       v-tooltip="channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в вашем канале'"
-                
-                       v-show="channel.telegramId!=='default' && !isLoading && !searchError"
-                       :class="channel.isBotApproved?'text-success':'text-danger'"></i>
-                </h4>
-                <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
-                <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
-            </div>
-            <div class="col-4 d-flex align-items-center">
-                <b class="h4 m-0 px-2"
-                   v-tooltip="{template:'После проверки поста нашими модераторами на допустимость контента, пост должен быть одобрен вами. Включите эту опцию чтобы разрешить размещение постов без вашей проверки',delayOut:500}">Автомодерация</b>
-                <on-off v-model="channel.isAutopost" /> </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-4">
-                <div class="form-group">
-                    <p class="text-secondary font-weight-500 mb-1">Ссылка на канал
-                        <i class="fa fa-question-circle pointer"
-                           @click="addChannelHelp"></i>
-                    </p>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="username или t.me/username"
-                           @input="getChannelInfo"
-                           v-model="usernameQuery"> </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <p class="text-secondary font-weight-500 mb-1">Категория канала</p>
-                    <search-input v-model="channel.category"
-                                  placeholder="Выберите категорию"
-                                  :options="categories" /> </div>
-            </div>
-            <div class="col-4"
-                 v-if="categories.length">
-                <div class="form-group">
-                    <p class="text-secondary font-weight-500 mb-1 float-left"
-                       v-tooltip="'Тематики запрещенные для постинга на вашем канале'">Запрещенные темы</p>
-                    <search-input v-model="channel.blackList"
-                                  :multiple-placeholder="a=> `Выбрано тем: ${a}`"
-                                  :multiple="true"
-                                  :options="categories" /> </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-8">
-                <p class="form-text">
-                    <span v-show="!isLoading && searchError"
-                          class="text-danger">Такого канала нет :(</span>
-                    <span class="text-muted"
-                          v-show="isLoading">Ищем канал...</span>
-                    <span class="text-muted"
-                          v-show="channel.telegramId!=='default' && !isLoading && !searchError && !channel.isBotApproved">Чтобы привязать канал к сервису вам необходимо добавить
-                        <a href="tg://resolve?domain=Telepay_io_bot"
-                           target="_blank">нашего бота</a> в канал и дать ему права админа на постинг</span> &nbsp; </p>
-            </div>
-        </div>
-        <div class="d-flex justify-content-start">
-            <button class="btn btn-success"
-                    :disabled="!channel.telegramId "
-                    v-show="channel.isBotApproved"
-                    @click="add">{{channel.isBotApproved?'Добавить канал':'Добавить бота в канал'}}</button>
-            <button class="btn btn-link"
-                    v-show="channel.telegramId!=='default' && !isLoading && !searchError"
-                    @click="getChannelInfo">
-                <i class="fa fa-refresh"></i> Обновить</button>
-        </div>
-    </mq-layout>
+    </div>
 </div>
