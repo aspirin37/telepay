@@ -28,7 +28,8 @@ export default {
             postData: {
                 text: 'Текст...',
                 buttons: [],
-                images: []
+                images: [],
+                time: ''
             },
             postTemplates: [],
             postTime: moment()
@@ -183,6 +184,8 @@ export default {
                 .set('minute', timeArr[1])
                 .set('second', 0);
 
+            // this.postData.time = 
+
             let startDateTime = postTime.format('YYYY-MM-DD HH:mm:ss');
             let endDateTime = postTime.add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
 
@@ -252,18 +255,17 @@ export default {
             }
         },
         createPost(isTemplate) {
+            console.log()
+
+            let { buttons, images, publishAt, text, postTemplateId } = this.post;
+
             let timeArr = this.postTime.split(':');
-            if (
-                moment() >
-                moment()
-                .set('hour', timeArr[0])
-                .set('minute', timeArr[1])
-                .set('second', 0)
-            ) {
+            if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') !=
+                moment(publishAt).format('DD:MM:YY')) {
                 this.$refs.timeInput.focus();
+                this.errors.time = true;
                 return;
             }
-            let { buttons, images, publishAt, text, postTemplateId } = this.post;
 
             let data = {
                 timeFrameId: this.selectedTimeFrameIds,

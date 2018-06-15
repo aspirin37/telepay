@@ -63,8 +63,9 @@ export default Vue.extend({
     },
     created() {
         this.getCategories();
-        this.getChannels(this.filter);
         this.getFilterValues();
+        this.getChannels(this.filter);
+
     },
     mounted() {
         this.$on('isSearching', (data) => {
@@ -126,6 +127,13 @@ export default Vue.extend({
         }
     },
     methods: {
+        ...mapActions({
+            dropSelectedChannels: 'DROP_SELECTED_CHANNELS'
+        }),
+        async getCategories() {
+            let { items, total } = await CatalogApi.list();
+            this.categories = items.sort((a, b) => b.count - a.count).map(it => it.item);
+        },
         async getFilterValues() {
             let stats = await CatalogApi.getStats();
             this.filter.subscribersFrom = stats.subscriberCountMin
@@ -134,13 +142,6 @@ export default Vue.extend({
             this.filter.erTo = cutSum(stats.engagementRateMax);
             this.filter.priceFrom = stats.priceWithCommissionMin / 100;
             this.filter.priceTo = stats.priceWithCommissionMax / 100;
-        },
-        ...mapActions({
-            dropSelectedChannels: 'DROP_SELECTED_CHANNELS'
-        }),
-        async getCategories() {
-            let { items, total } = await CatalogApi.list();
-            this.categories = items.sort((a, b) => b.count - a.count).map(it => it.item);
         },
         async getChannels(params = {}) {
             clearTimeout(this.debounceTimeout);
