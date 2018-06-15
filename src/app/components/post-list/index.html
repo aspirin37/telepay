@@ -12,6 +12,7 @@
             <div class="body-row"
                  :key="post.postOrderId"
                  v-for="post in posts"
+                 v-if="post.timeFrame"
                  :class="{'text-muted':post.publishAt <= now}">
                 <div class="col-7 d-flex offset-1 px-0">
                     <div class="mr-2"
@@ -99,6 +100,7 @@
             <div class="body-row px-0"
                  :key="post.postOrderId"
                  v-for="post in posts"
+                 v-if="post.timeFrame"
                  :class="{'text-muted':post.publishAt <= now}">
                 <div class="col px-2">{{post.humanReadableNumber}}</div>
                 <div class="col px-2 h5">{{post.publishAt*1000 | parseDate }}</div>
