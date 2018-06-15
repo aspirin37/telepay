@@ -101,7 +101,7 @@ export default Vue.extend({
                 this.isRatingDisabled = true;
             }
 
-            this.scrollChatDown();
+            // this.scrollChatDown();
 
             this.messages.sort((a, b) => b.createdAt - a.createdAt).forEach(it => {
                 it.createdAt = moment.unix(it.createdAt).format('DD.MM.YYYY - HH:mm');
