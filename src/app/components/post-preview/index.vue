@@ -1,5 +1,6 @@
 <template>
     <div class="preview">
+        {{post.time}}
         <small class="preview__date">{{ formattedDate }}</small>
         <div class="preview__workarea">
             <p class="preview__body">
@@ -25,8 +26,7 @@
                    v-for="(btn,i) in post.buttons"
                    :key="i"
                    class="preview__button"
-                   :href="`${btn[0].url}`"
-                   v-show="btn[0].text">
+                   :href="`${btn[0].url}`">
                     <span class="link-arrow">
                         <svg viewBox="0 0 283.178 283.178">
                             <g>
@@ -41,7 +41,7 @@
                             </g>
                         </svg>
                     </span>
-                    {{ btn[0].text }}
+                    {{ btn[0].text || "Текст кнопки" }}
                 </a>
             </div>
         </div>
@@ -55,7 +55,7 @@ export default {
             default () {
                 return {};
             }
-        }
+        },
     },
     computed: {
         formattedDate() {
@@ -74,7 +74,7 @@ export default {
             return src && src.decoded;
         },
         replaceMarkdown(text) {
-            if (!text) return
+            if (!text) return 'Текст поста...'
             text = this.replaceBold(text);
             text = this.replaceItalic(text);
             text = this.replacePre(text);

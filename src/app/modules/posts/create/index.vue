@@ -28,7 +28,8 @@ export default {
             postData: {
                 text: 'Текст поста...',
                 buttons: [],
-                images: []
+                images: [],
+                time: ''
             },
             postTemplates: [],
             postTime: moment()
@@ -177,11 +178,19 @@ export default {
             this.errors.time = false;
         },
         checkPostTime() {
+            console.log('11')
             let timeArr = this.postTime.split(':');
             let postTime = moment(this.post.publishAt)
                 .set('hour', timeArr[0])
                 .set('minute', timeArr[1])
                 .set('second', 0);
+
+            // if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') !=
+            //     moment(this.post.publishAt).format('DD:MM:YY')) {
+            //     this.$refs.timeInput.focus();
+            //     this.errors.time = true;
+            // }
+            // this.postData.time = 
 
             let startDateTime = postTime.format('YYYY-MM-DD HH:mm:ss');
             let endDateTime = postTime.add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
@@ -251,19 +260,28 @@ export default {
                 this.post.buttons = buttons;
             }
         },
-        createPost(isTemplate) {
+        checkTime() {
+            let { buttons, images, publishAt, text, postTemplateId } = this.post;
+
             let timeArr = this.postTime.split(':');
-            if (
-                moment() >
-                moment()
-                .set('hour', timeArr[0])
-                .set('minute', timeArr[1])
-                .set('second', 0)
-            ) {
+            if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') ==
+                moment(publishAt).format('DD:MM:YY')) {
                 this.$refs.timeInput.focus();
+                this.errors.time = true;
                 return;
             }
+        },
+        createPost(isTemplate) {
+            this.checkTime()
             let { buttons, images, publishAt, text, postTemplateId } = this.post;
+
+            let timeArr = this.postTime.split(':');
+            // if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') ==
+            //     moment(publishAt).format('DD:MM:YY')) {
+            //     this.$refs.timeInput.focus();
+            //     this.errors.time = true;
+            //     return;
+            // }
 
             let data = {
                 timeFrameId: this.selectedTimeFrameIds,
