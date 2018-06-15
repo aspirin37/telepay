@@ -41,7 +41,8 @@
                      @touchstart="select(option, i,$event)"
                      :class="[getActive(option), getHovered(i)]">
                     <div v-if="!customOption">
-                        <span class="search-input__option-name">{{ option.name }}</span>
+                        <span class="search-input__option-name"
+                              v-if="option">{{ option.name }}</span>
                         <div class="float-right"
                              v-if="multiple">
                             <norm-checkbox v-model="option.selected" />
@@ -60,6 +61,7 @@
 </template>
 <script>
 import normCheckbox from '@components/checkbox';
+import { clone } from '@utils/clone'
 export default {
     components: { normCheckbox },
     props: {
@@ -145,7 +147,8 @@ export default {
     },
     computed: {
         innerOptions() {
-            return this.searchString ? this.filteredOptions : this.options;
+            let options = this.searchString ? clone(this.filteredOptions) : clone(this.options)
+            return options.sort((a, b) => b.count - a.count).map(it => it.item)
         },
         showNoDataOption() {
             return !this.filteredOptions.length && this.searchString.length > 0;
@@ -184,12 +187,13 @@ export default {
                 this.filteredOptions = res && res.items ? res.items : [];
             });
         },
-        inputBlur(e) {
-            if (!this.$refs.wrap.contains(e.target)) {
-                this.stopSearching();
-                this.hideDropdown();
-            }
-        },
+        // inputBlur(e) {
+        //     let wrap = document.querySelector('.search-input')
+        //     if (!wrap.contains(e.target)) {
+        //         this.stopSearching();
+        //         this.hideDropdown();
+        //     }
+        // },
         select(item, index, event) {
             if (event.target.id && event.target.id.startsWith('checkbox')) return;
             if (!this.multiple) {
