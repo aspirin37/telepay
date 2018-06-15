@@ -129,7 +129,7 @@ export default Vue.extend({
         }),
         async getCategories() {
             let { items, total } = await CatalogApi.list();
-            this.categories = items;
+            this.categories = items.sort((a, b) => b.count - a.count).map(it => it.item);
         },
         async getChannels(params = {}) {
             clearTimeout(this.debounceTimeout);
@@ -161,7 +161,7 @@ export default Vue.extend({
                     });
                 }
                 item.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(item);
-                console.log(item.cheapestTimeFrame, item.timeFrame)
+                // console.log(item.cheapestTimeFrame, item.timeFrame)
 
                 if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
                 return item;

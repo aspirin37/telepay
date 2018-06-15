@@ -113,7 +113,7 @@ export default {
             });
 
             if (swalOut && !swalOut.dismiss && swalOut.value) {
-                console.log(post.timeFrame);
+                // console.log(post.timeFrame);
                 await PostApi.updateStatus(post.postOrderId, {
                     status: 0,
                     timeFrameId: post.timeFrame.timeFrameId

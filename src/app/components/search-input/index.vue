@@ -147,8 +147,9 @@ export default {
     },
     computed: {
         innerOptions() {
-            let options = this.searchString ? clone(this.filteredOptions) : clone(this.options)
-            return options.sort((a, b) => b.count - a.count).map(it => it.item)
+            // let options = this.searchString ? clone(this.filteredOptions) : clone(this.options)
+            // return options.sort((a, b) => b.count - a.count).map(it => it.item)
+            return this.searchString ? this.filteredOptions : this.options
         },
         showNoDataOption() {
             return !this.filteredOptions.length && this.searchString.length > 0;
@@ -187,13 +188,13 @@ export default {
                 this.filteredOptions = res && res.items ? res.items : [];
             });
         },
-        // inputBlur(e) {
-        //     let wrap = document.querySelector('.search-input')
-        //     if (!wrap.contains(e.target)) {
-        //         this.stopSearching();
-        //         this.hideDropdown();
-        //     }
-        // },
+        inputBlur(e) {
+            let wrap = document.querySelector('.search-input')
+            if (!wrap.contains(e.target)) {
+                this.stopSearching();
+                this.hideDropdown();
+            }
+        },
         select(item, index, event) {
             if (event.target.id && event.target.id.startsWith('checkbox')) return;
             if (!this.multiple) {
