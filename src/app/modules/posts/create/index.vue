@@ -26,7 +26,7 @@ export default {
             isSelectingTime: false,
             channels: [],
             postData: {
-                text: 'Текст...',
+                text: 'Текст поста...',
                 buttons: [],
                 images: [],
                 time: ''
@@ -342,10 +342,10 @@ export default {
         // },
         dropTemplate() {
             this.post.postTemplateId = '';
-            this.post.text = 'Текст...';
+            this.post.text = 'Текст поста...';
             this.post.buttons = [];
             this.post.images = [];
-            this.postData.text = 'Текст...';
+            this.postData.text = 'Текст поста...';
             this.postData.buttons = [];
             this.postData.images = [];
         },
