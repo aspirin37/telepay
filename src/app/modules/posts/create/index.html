@@ -144,7 +144,7 @@
                                         @click.prevent="createPost(true)"> Сохранить пост</button> -->
                                 <button class="btn btn-success"
                                         @click.prevent="user.balance.current>=totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
-                                        :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length > 0 || isSelectingTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
+                                        :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length > 0 || isSelectingTime || errors.time || errors.notAvailableTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
                             </div>
                             <format-rules />
                         </div>
