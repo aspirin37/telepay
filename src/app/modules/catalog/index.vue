@@ -9,6 +9,7 @@ import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
 import searchInputOk from '@components/search-input-ok'
+import cutSum from '@filters/cut-sum'
 
 import CancelBtn from '@assets/crest-01.svg';
 
@@ -151,21 +152,27 @@ export default Vue.extend({
             this.channels = items.map(item => {
                 if (item && item.timeFrame) {
                     item.timeFrame = item.timeFrame.filter(timeFrame => {
-                        // timeFrame.price * 1.3;
-                        // let filterToday = true;
-                        // let hour = moment(timeFrame.startPeriodTime*100).hour()
-                        // if (isToday) {
-                        //   filterToday = timeFrame.hour > nowHour || (timeFrame.hour === nowHour && timeFrame.minute > nowMinute);
-                        // }
-                        return timeFrame.weekDay === params.weekDay; //&& filterToday;
+                        return timeFrame.weekDay === params.weekDay;
                     });
                 }
                 item.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(item);
-                // console.log(item.cheapestTimeFrame, item.timeFrame)
 
                 if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
                 return item;
             });
+
+            let prices = []
+            let ER = []
+            let subscribers = []
+            this.channels.forEach((it) => {
+                prices.push(it.cheapestTimeFrame.priceWithCommission)
+                ER.push(it.engagementRate)
+                subscribers.push(it.subscriberCount)
+            })
+
+            this.filter.priceTo = Math.max.apply(null, prices) / 100
+            this.filter.erTo = cutSum(Math.max.apply(null, ER))
+            this.filter.subscribersTo = Math.max.apply(null, subscribers)
 
             if (this.selectedChannels) {
                 this.selectedChannels.forEach(sch => {

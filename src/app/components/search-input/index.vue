@@ -147,8 +147,6 @@ export default {
     },
     computed: {
         innerOptions() {
-            // let options = this.searchString ? clone(this.filteredOptions) : clone(this.options)
-            // return options.sort((a, b) => b.count - a.count).map(it => it.item)
             return this.searchString ? this.filteredOptions : this.options
         },
         showNoDataOption() {
