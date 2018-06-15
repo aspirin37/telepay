@@ -27,6 +27,17 @@ body {
     }
 }
 
+.handle-long-lines {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
 .container-wrap {
     padding-top: 62px;
     &--chat {
@@ -77,6 +88,12 @@ body {
     }
 }
 
+.drop-selected-btn {
+    position: absolute;
+    bottom: -26px;
+    cursor: pointer;
+}
+
 .catalog-filters {
     display: flex;
     flex-direction: row;
@@ -84,7 +101,7 @@ body {
     margin-top: -20px;
     margin-bottom: 25px;
     @include media-breakpoint-up(md) {
-        margin-top: -125px;
+        margin-top: -150px;
         margin-bottom: 30px;
     }
 }

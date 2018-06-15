@@ -33,7 +33,7 @@
         <div class="col-12 col-md-4">
             <div class="form-group">
                 <p class="text-medium-font font-weight-500 mb-1">Telegram аккаунт</p>
-                <a :href="'tg://resolve?domain=Telepay_io_bot&start='+(user.telegramId?'unlinkAccountxxxdividerxxx':'linkAccountxxxdividerxxx')+user.telegramAuthCode"
+                <a :href="'tg://resolve?domain='+botName+'&start='+(user.telegramId?'unlinkAccountxxxdividerxxx':'linkAccountxxxdividerxxx')+user.telegramAuthCode"
             
                    class="btn btn-block"
                    :class="user.telegramId?'btn-light text-primary':'btn-tg'"

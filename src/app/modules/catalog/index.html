@@ -18,6 +18,9 @@
                 <router-link class="btn btn-block"
                              :class="selectedChannels.length?'btn-success':'btn-primary'"
                              :to="{ name: 'posts:create' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
+                <span class="drop-selected-btn btn-link"
+                      @click="dropSelected"
+                      v-if="selectedChannels.length">Сбросить выбор</span>
             </div>
         </div>
         <div class="col-md-4 mb-4 pl-md-4 pr-md-1"
@@ -44,7 +47,8 @@
                 <i class="fa mr-2"
                    :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </div>
             <h3 class="mb-0">
-                <small>Стоимость: </small> {{totalPrice|centToRub}} </h3>
+                <small>Стоимость: </small>
+                <br> {{totalPrice|centToRub}} </h3>
         </div>
     </div>
     <transition name="fade">
@@ -68,7 +72,8 @@
                         <input v-model="filter.subscribersTo"
                                type="number"
                                min="0"
-                               class="form-control"> </div>
+                               class="form-control">
+                    </div>
                 </div>
                 <div class="col-12 col-md-6 px-md-1 mb-1"
                      :class="{'px-0': isMobile}">
@@ -99,7 +104,7 @@
                 <div class="col-12 col-md-6 px-md-1 mb-1"
                      :class="{'px-0': isMobile}">
                     <label class="col-form-label search__label">
-                        <span>Активной аудитории</span>
+                        <span v-tooltip="'Соотношение среднего количества просмотров на пост к количеству подписчиков канала'">Активной аудитории в %</span>
                     </label>
                     <div class="input-group">
                         <div class="input-group-prepend">

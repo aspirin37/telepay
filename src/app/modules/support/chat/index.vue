@@ -28,12 +28,13 @@ export default Vue.extend({
         return {
             topics,
             ticketStatus: this.$route.params.status,
-            ticketId: this.$route.query.ticketId || null,
+            ticketId: this.$route.params.ticketId || null,
             rating: 0,
             isRated: false,
             isRatingDisabled: false,
             messages: [],
             topic: null,
+            interval: null,
             selectedTopic: '',
             newMessage: {
                 text: '',
@@ -51,13 +52,10 @@ export default Vue.extend({
         })
     },
     created() {
-        if (this.$route.query.ticketId) {
+        if (this.$route.params.ticketId) {
             this.getMessages();
         }
-        if (this.$route.params.rating) {
-            this.rating = Number(this.$route.params.rating);
-            this.isRatingDisabled = true;
-        }
+
         if (this.$route.params.text) {
             this.newMessage = { text: this.$route.params.text, images: [] };
         }
@@ -65,8 +63,11 @@ export default Vue.extend({
             this.selectedTopic = this.topics[this.$route.params.topic];
         }
         if (this.ticketId) {
-            setInterval(this.getMessages, 15000)
+            this.interval = setInterval(this.getMessages, 15000)
         }
+    },
+    destroyed() {
+        clearInterval(this.interval)
     },
     methods: {
         setRating(rating) {
@@ -92,10 +93,13 @@ export default Vue.extend({
             }
         },
         async getMessages() {
-            let { items } = await SupportApi.getList();
-            let ticket = items.filter(it => it.ticketId == this.ticketId)[0];
+            let ticket = await SupportApi.getById(this.ticketId);
             this.messages = ticket.messages;
             this.topic = this.topics[ticket.topic].name;
+            if (ticket.rating) {
+                this.rating = Number(this.$route.params.rating);
+                this.isRatingDisabled = true;
+            }
 
             this.scrollChatDown();
 
@@ -186,7 +190,7 @@ export default Vue.extend({
                 showCancelButton: false,
                 showConfirmButton: false,
                 animation: false,
-                imageUrl: evt.target.src
+                html: `<img src=${evt.target.src} alt="user_content"/>`
             });
             document.querySelector('.swal2-close').blur();
         }
@@ -364,6 +368,7 @@ export default Vue.extend({
         padding: 10px;
         padding-bottom: 3px;
         border-radius: 0 0.5rem 0.5rem 0.5rem;
+        max-width: 100%;
 
         &--support {
             border-radius: 0.5rem 0 0.5rem 0.5rem;

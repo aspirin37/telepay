@@ -9,6 +9,7 @@ import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
 import searchInputOk from '@components/search-input-ok'
+import cutSum from '@filters/cut-sum'
 
 import CancelBtn from '@assets/crest-01.svg';
 
@@ -63,6 +64,7 @@ export default Vue.extend({
     created() {
         this.getCategories();
         this.getChannels(this.filter);
+        this.getFilterValues();
     },
     mounted() {
         this.$on('isSearching', (data) => {
@@ -124,12 +126,21 @@ export default Vue.extend({
         }
     },
     methods: {
+        async getFilterValues() {
+            let stats = await CatalogApi.getStats();
+            this.filter.subscribersFrom = stats.subscriberCountMin
+            this.filter.subscribersTo = stats.subscriberCountMax;
+            this.filter.erFrom = cutSum(stats.engagementRateMin);
+            this.filter.erTo = cutSum(stats.engagementRateMax);
+            this.filter.priceFrom = stats.priceWithCommissionMin / 100;
+            this.filter.priceTo = stats.priceWithCommissionMax / 100;
+        },
         ...mapActions({
             dropSelectedChannels: 'DROP_SELECTED_CHANNELS'
         }),
         async getCategories() {
             let { items, total } = await CatalogApi.list();
-            this.categories = items;
+            this.categories = items.sort((a, b) => b.count - a.count).map(it => it.item);
         },
         async getChannels(params = {}) {
             clearTimeout(this.debounceTimeout);
@@ -141,6 +152,7 @@ export default Vue.extend({
                 copy.categoryId = copy.category.categoryId;
                 delete copy.category;
             }
+
             let { items, total } = await CatalogApi.filter(copy);
             this.totalChannels = total;
             let isToday = this.publishDate.day() === moment().day(),
@@ -150,15 +162,10 @@ export default Vue.extend({
             this.channels = items.map(item => {
                 if (item && item.timeFrame) {
                     item.timeFrame = item.timeFrame.filter(timeFrame => {
-                        // timeFrame.price * 1.3;
-                        // let filterToday = true;
-                        // let hour = moment(timeFrame.startPeriodTime*100).hour()
-                        // if (isToday) {
-                        //   filterToday = timeFrame.hour > nowHour || (timeFrame.hour === nowHour && timeFrame.minute > nowMinute);
-                        // }
-                        return timeFrame.weekDay === params.weekDay; //&& filterToday;
+                        return timeFrame.weekDay === params.weekDay;
                     });
                 }
+                item.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(item);
 
                 if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
                 return item;

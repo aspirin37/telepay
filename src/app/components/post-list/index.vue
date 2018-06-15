@@ -75,7 +75,7 @@ export default {
                 parsedImgs = [post.postTemplate.images];
             }
             return {
-                channel: post.timeFrame.channel.title,
+                channel: post.channel.title,
                 text: post.postTemplate.text,
                 images: parsedImgs,
                 buttons: parsedBtns,

@@ -22,7 +22,7 @@
                          @click="tabSelected = 1">Рекламодателю</div>
                     <div class="pointer"
                          :class="[tabSelected == 2 ? 'tab--active' : '' , 'tab']"
-                         @click="tabSelected = 2">Администратору</div>
+                         @click="tabSelected = 2">Владельцу канала</div>
                 </div>
                 <transition name="fade-2"
                             mode="out-in">
@@ -67,14 +67,15 @@
                     </div>
                 </transition>
             </div>
-            <div class="faq__redirect row">
+            <div class="faq__redirect row"
+                 v-if="isAuthorized">
                 <div class="col-md-1 mb-3 mb-md-0 mr-md-5">
                     <span class="fa fa-info-circle fa-5x text-danger text-center"></span>
                 </div>
                 <div class="col-10">
                     <h6>Не нашли нужный вопрос?</h6>
                     <span>Мы всегда открыты для конструктивной критики и предложений. Все пожелания и претензии направляйте
-                        <router-link :to="{name:'support:create'}">сюда.</router-link>
+                        <router-link :to="{name:'support:chat'}">сюда.</router-link>
                     </span>
                 </div>
             </div>

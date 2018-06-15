@@ -92,6 +92,19 @@
                     <router-link :to="{ name: 'logout' }"
                                  class="nav-link">Выйти</router-link>
                 </li>
+                <li class="mt-auto pb-4 text-left order-last d-lg-none">
+                    <a class="nav-link nav-link--small"
+                       href="https://landing.telepay.io/privacy-policy.html"
+                       target="_blank">Политика конфиденциальности</a>
+                    <a class="nav-link nav-link--small"
+                       href="https://landing.telepay.io/terms-and-conditions.html"
+                       target="_blank">Условия использования</a>
+                    <a class="nav-link nav-link--small"
+                       href="https://landing.telepay.io/contacts.html"
+                       target="_blank">Контакты</a>
+                    <span class="nav-link nav-link--small order-last order-lg-first">©Telepay.io, 2017-{{year}}
+                        <br class="d-lg-none"> Все права защищены</span>
+                </li>
             </ul>
             <ul class="nav nav--bottom list-unstyled d-flex mb-0"
                 v-if="isAuthorized">
@@ -169,7 +182,7 @@
                         <div slot="trigger"
                              class=" d-flex align-items-center justify-content-center">
                             <div class="user-field text-light font-weight-bold d-flex align-items-center justify-content-center">
-                                <span>{{ getUsername[0] || "?" }}</span>
+                                <span>{{ getUsername[0] }}</span>
                             </div>
                             <div v-html="Angle"
                                  class="v-dropdown__angle mx-2 mt-2"

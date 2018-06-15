@@ -8,6 +8,7 @@
     <post-list :posts="posts"
                :placeholder="`Нет ${is_advert?'исходящих':'входящих'} постов`"
                :is-out="is_advert"></post-list>
+    <br>
     <pgn-btns :pgn-sets="pgnSets"
               :action="getPosts"></pgn-btns>
 </div>

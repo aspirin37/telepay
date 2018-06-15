@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-light footer-nav"
          :class="{'is-advert':isAdvert}"
-         v-if="!isMobileSupportChat">
+         v-if="isDesktop">
         <div class="footer-wrapper container py-2">
             <span class="order-last order-lg-first">©Telepay.io, 2017-{{year}}
                 <br class="d-lg-none"> Все права защищены</span>
@@ -20,8 +20,11 @@
 <script type="text/javascript">
 export default {
     computed: {
-        isMobileSupportChat() {
-            return this.$mq == 'sm' && this.$route.path == '/support/create' && this.$route.query.ticketId;
+        // isMobileSupportChat() {
+        //     return this.$mq == 'sm' && this.$route.path == '/support/create' && this.$route.query.ticketId;
+        // },
+        isDesktop() {
+            return this.$mq != 'sm'
         },
         isAdvert: {
             get() {

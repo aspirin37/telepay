@@ -3,21 +3,21 @@ export default {
     user: { balance: {}, email: {} },
     isMenuOpened: false,
     loading: false,
-    is_advert: WebStorage.get( 'is_advert' ),
-    savedPost: ( WebStorage.get( 'savedPost', true ) || {
-        text: 'Текст...',
+    is_advert: WebStorage.get('is_advert'),
+    savedPost: (WebStorage.get('savedPost', true) || {
+        text: 'Текст поста...',
         buttons: [],
         images: [],
         timeFrameId: [],
         postTemplateId: '',
         channel: 'Название канала',
         publishAt: null
-    } ),
-    selectedChannels: WebStorage.get( 'selectedChannels', true ) || [],
+    }),
+    selectedChannels: WebStorage.get('selectedChannels', true) || [],
     configs: {
         date: {
             dateFormat: 'd.m.Y',
-            defaultDate: moment().format( 'DD.MM.YYYY' ),
+            defaultDate: moment().format('DD.MM.YYYY'),
             minDate: 'today'
         },
         time: {

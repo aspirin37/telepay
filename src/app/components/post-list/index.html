@@ -12,19 +12,20 @@
             <div class="body-row"
                  :key="post.postOrderId"
                  v-for="post in posts"
+                 v-if="post"
                  :class="{'text-muted':post.publishAt <= now}">
                 <div class="col-7 d-flex offset-1 px-0">
                     <div class="mr-2"
                          style="width: 40px; height: 40px;">
-                        <avatar :src="'/images/channels/'+post.timeFrame.channel.telegramId+'/'+post.timeFrame.channel.photoId+'.jpg'"
+                        <avatar :src="'/images/channels/'+post.channel.telegramId+'/'+post.channel.photoId+'.jpg'"
                                 :circle="true" /> </div>
                     <div>
-                        <router-link :to="{name:post.timeFrame.channel.userId === user.userId?'channels:update':'channels:show',
-                                params:{username:post.timeFrame.channel.username}}">
-                            <b>{{post.timeFrame.channel.title}}</b>
+                        <router-link :to="{name:post.channel.userId === user.userId?'channels:update':'channels:show',
+                                params:{username:post.channel.username}}">
+                            <b>{{post.channel.title}}</b>
                         </router-link>
                         <br>
-                        <small clas="text-light">{{post.timeFrame.channel.category || 'Без категории'}}</small>
+                        <small clas="text-light">{{post.channel.category || 'Без категории'}}</small>
                     </div>
                 </div>
                 <div class="col-4 d-flex align-items-center justify-content-center">
@@ -38,11 +39,11 @@
                             @click="declinePost(post)">
                         <i class="fa fa-times fa-lg"></i>
                     </button>
-                    <button class="btn btn-link m-0 mr-1 p-0"
+                    <!-- <button class="btn btn-link m-0 mr-1 p-0"
                             v-if="[0,1,3,5,6].includes(post.status)"
                             @click="removePost(post)">
                         <i class="fa fa-trash fa-lg text-warning"></i>
-                    </button>
+                    </button> -->
                     <button class="btn btn-link m-0 mr-1 p-0"
                             v-if="isOut"
                             @click="repeatPost(post)">
@@ -73,7 +74,7 @@
                         <span v-if="post.status !== 3 && !post.isPosted || !post.messageId">{{postStatuses[post.status]}}</span>
                         <a v-else
                            v-tooltip="'Открыть пост в приложении Telegram'"
-                           :href="`tg://resolve?domain=${post.timeFrame.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
+                           :href="`tg://resolve?domain=${post.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
                         <span v-show="[1,6].includes(post.status) && post.declineReason">Причина: {{post.declineReason}}</span>
                     </div>
                     <div class="col text-center">{{post.price | centToRub}}</div>
@@ -99,20 +100,21 @@
             <div class="body-row px-0"
                  :key="post.postOrderId"
                  v-for="post in posts"
+                 v-if="post"
                  :class="{'text-muted':post.publishAt <= now}">
                 <div class="col px-2">{{post.humanReadableNumber}}</div>
                 <div class="col px-2 h5">{{post.publishAt*1000 | parseDate }}</div>
                 <div class="col-3 px-2">
                     <div class="form-row">
                         <div class="col-3">
-                            <avatar :src="'/images/channels/'+post.timeFrame.channel.telegramId+'/'+post.timeFrame.channel.photoId+'.jpg'"
+                            <avatar :src="'/images/channels/'+post.channel.telegramId+'/'+post.channel.photoId+'.jpg'"
                                     :circle="true" /> </div>
                         <div class="col-9 pl-4 d-flex align-items-center">
                             <router-link :to="{
-                            name:post.timeFrame.channel.userId === user.userId?'channels:update':'channels:show',
-                            params:{username:post.timeFrame.channel.username}
+                            name:post.channel.userId === user.userId?'channels:update':'channels:show',
+                            params:{username:post.channel.username}
                         }">
-                                <b>{{post.timeFrame.channel.title}}</b>
+                                <b>{{post.channel.title}}</b>
                             </router-link>
                         </div>
                     </div>
@@ -122,7 +124,7 @@
                     <span v-if="post.status !== 3 && !post.isPosted || !post.messageId">{{postStatuses[post.status]}}</span>
                     <a v-else
                        v-tooltip="'Открыть пост в приложении Telegram'"
-                       :href="`tg://resolve?domain=${post.timeFrame.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
+                       :href="`tg://resolve?domain=${post.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
                     <span v-show="[1,6].includes(post.status) && post.declineReason">Причина: {{post.declineReason}}</span>
                 </div>
                 <div class="col px-2 h5">{{post.price | centToRub}}</div>
@@ -139,12 +141,12 @@
                             @click="declinePost(post)">
                         <i class="fa fa-times fa-lg"></i>
                     </button>
-                    <button class="btn btn-link m-0 mr-1 p-0"
+                    <!-- <button class="btn btn-link m-0 mr-1 p-0"
                             v-tooltip="'Удалить пост'"
                             v-if="[0,1,3,5,6].includes(post.status)"
                             @click="removePost(post)">
                         <i class="fa fa-trash fa-lg text-warning"></i>
-                    </button>
+                    </button> -->
                     <button class="btn btn-link m-0 mr-1 p-0"
                             v-if="isOut"
                             v-tooltip="'Повторить размещение поста'"
