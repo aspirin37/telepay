@@ -14,11 +14,11 @@ export default {
         return channel.timeFrame[0];
         // return channel.timeFrame.find( tf => tf.weekDay === moment().weekday() + 1 );
     },
-    timeFrameDates({ hour, minute, inTopHours } = {}, short) {
-        let hoursAfterTop = hour + inTopHours;
-        if(typeof hour === 'undefined' || typeof minute === 'undefined') return '-';
-        if(hour < 10) hour = '0' + hour;
-        if(minute < 10) minute = '0' + minute;
-        return short ? `${hour}:${minute}` : `${hour}:${minute} - ${hoursAfterTop}:${minute}`;
+    timeFrameDates(tf = {}, short) {
+        if(!tf || typeof tf.hour === 'undefined' || typeof tf.minute === 'undefined') return '-';
+        let hoursAfterTop = tf.hour + tf.inTopHours;
+        if(tf.hour < 10) tf.hour = '0' + tf.hour;
+        if(tf.minute < 10) tf.minute = '0' + tf.minute;
+        return short ? `${tf.hour}:${tf.minute}` : `${tf.hour}:${tf.minute} - ${hoursAfterTop}:${tf.minute}`;
     },
 };
