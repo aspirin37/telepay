@@ -64,6 +64,7 @@ export default Vue.extend({
     created() {
         this.getCategories();
         this.getChannels(this.filter);
+        this.getFilterValues();
     },
     mounted() {
         this.$on('isSearching', (data) => {
@@ -125,6 +126,15 @@ export default Vue.extend({
         }
     },
     methods: {
+        async getFilterValues() {
+            let stats = await CatalogApi.getStats();
+            this.filter.subscribersFrom = stats.subscriberCountMin
+            this.filter.subscribersTo = stats.subscriberCountMax;
+            this.filter.erFrom = cutSum(stats.engagementRateMin);
+            this.filter.erTo = cutSum(stats.engagementRateMax);
+            this.filter.priceFrom = stats.priceWithCommissionMin / 100;
+            this.filter.priceTo = stats.priceWithCommissionMax / 100;
+        },
         ...mapActions({
             dropSelectedChannels: 'DROP_SELECTED_CHANNELS'
         }),
@@ -160,19 +170,6 @@ export default Vue.extend({
                 if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
                 return item;
             });
-
-            let prices = []
-            let ER = []
-            let subscribers = []
-            this.channels.forEach((it) => {
-                prices.push(it.cheapestTimeFrame.priceWithCommission)
-                ER.push(it.engagementRate)
-                subscribers.push(it.subscriberCount)
-            })
-
-            this.filter.priceTo = Math.max.apply(null, prices) / 100
-            this.filter.erTo = cutSum(Math.max.apply(null, ER))
-            this.filter.subscribersTo = Math.max.apply(null, subscribers)
 
             if (this.selectedChannels) {
                 this.selectedChannels.forEach(sch => {
