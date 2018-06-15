@@ -264,7 +264,7 @@ export default {
             let { buttons, images, publishAt, text, postTemplateId } = this.post;
 
             let timeArr = this.postTime.split(':');
-            if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') !=
+            if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') ==
                 moment(publishAt).format('DD:MM:YY')) {
                 this.$refs.timeInput.focus();
                 this.errors.time = true;
@@ -272,16 +272,16 @@ export default {
             }
         },
         createPost(isTemplate) {
-            // this.checkTime()
+            this.checkTime()
             let { buttons, images, publishAt, text, postTemplateId } = this.post;
 
             let timeArr = this.postTime.split(':');
-            if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') !=
-                moment(publishAt).format('DD:MM:YY')) {
-                this.$refs.timeInput.focus();
-                this.errors.time = true;
-                return;
-            }
+            // if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') ==
+            //     moment(publishAt).format('DD:MM:YY')) {
+            //     this.$refs.timeInput.focus();
+            //     this.errors.time = true;
+            //     return;
+            // }
 
             let data = {
                 timeFrameId: this.selectedTimeFrameIds,
