@@ -1,15 +1,15 @@
 import WebStorage from '@utils/storage';
 export default {
-    'SAVE_POST': function({ commit }, payload) {
+    'SAVE_POST': function ({ commit }, payload) {
         WebStorage.set('savedPost', payload, true);
         commit('CHANGE_STATE', { key: 'savedPost', value: payload });
     },
-    'DROP_SAVED_POST': function({ commit }) {
+    'DROP_SAVED_POST': function ({ commit }) {
         WebStorage.rm('savedPost', true);
         commit('CHANGE_STATE', {
             key: 'savedPost',
             value: {
-                text: 'Текст...',
+                text: 'Текст поста...',
                 buttons: [],
                 images: [],
                 timeFrameId: [],
@@ -19,11 +19,11 @@ export default {
             }
         });
     },
-    'SAVE_SELECTED_CHANNELS': function({ commit }, payload) {
+    'SAVE_SELECTED_CHANNELS': function ({ commit }, payload) {
         WebStorage.set('selectedChannels', payload, true);
         commit('CHANGE_STATE', { key: 'selectedChannels', value: payload });
     },
-    'DROP_SELECTED_CHANNELS': function({ commit }) {
+    'DROP_SELECTED_CHANNELS': function ({ commit }) {
         WebStorage.rm('selectedChannels', true);
         commit('CHANGE_STATE', { key: 'selectedChannels', value: [] });
     },
