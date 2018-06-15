@@ -2,9 +2,9 @@
 <script>
 import collapse from '@components/collapse';
 import searchInputOk from '@components/search-input-ok'
-
 import faq from '@utils/faq-questions';
 import { clone } from '@utils/clone';
+import { mapGetters } from 'vuex';
 
 export default Vue.extend({
     components: {
@@ -18,6 +18,9 @@ export default Vue.extend({
             filteredFaq: {},
             faq
         };
+    },
+    computed: {
+        ...mapGetters(['isAuthorized']),
     },
     watch: {
         searchInputValue: function() {

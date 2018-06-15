@@ -11,12 +11,15 @@ export default Vue.extend({
     data() {
         return {
             user: {
-                login: this.$route.params.login || ''
-            }
+                login: this.$route.params.login || '',
+            },
+
+            isLoading: false
         };
     },
     methods: {
         login(ev) {
+            this.isLoading = true
             ev.preventDefault();
 
             let cloned = clone(this.user);
@@ -41,7 +44,10 @@ export default Vue.extend({
                         }
                     }
                 })
-                .catch(err => console.error(err));
+                .catch(err => console.error(err))
+                .finally(() => {
+                    this.isLoading = false
+                })
         }
     },
     template

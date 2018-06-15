@@ -18,17 +18,29 @@ export default Vue.extend({
             },
             passCheck: null,
             checkedTerms: false,
-            validations: {
+            isLoading: false,
+            errors: {
                 checkedTerms: false,
                 passwordMatch: false
             }
         };
     },
+    computed: {
+        passValidity() {
+            return (this.user.password && this.passCheck) ? this.user.password === this.passCheck : true;
+        }
+    },
+    watch: {
+        passCheck() {
+            return this.passValid
+        }
+    },
     created() {},
     methods: {
         register(ev) {
+            this.isLoading = true
             ev.preventDefault();
-            if (this.user.password === this.passCheck && this.checkedTerms) {
+            if ((this.user.password && this.passCheck) && this.passValidity && this.checkedTerms) {
                 let cloned = clone(this.user);
                 if (this.$route.query.ref) {
                     cloned.refCode = this.$route.query.ref;
@@ -48,20 +60,19 @@ export default Vue.extend({
                     .then(res => {
                         if (res) {
                             this.$store.commit("SET_USER", res);
-                            this.$router.push({
-                                name: "catalog"
-                            });
-                            yaCounter48703889.reachGoal('tp_reg')
+                            this.$router.push({ name: "catalog" });
+                            if (window.yaCounter48703889) window.yaCounter48703889.reachGoal('tp_reg')
+                        } else {
+                            WebStorage.clear();
+                            delete Vue.http.headers.common["X-API-TOKEN"];
                         }
                     })
-                    .catch(err => console.error(err));
-            } else {
-                if (!this.checkedTerms) {
-                    this.validations.checkedTerms = true;
-                }
-                if (this.user.password !== this.passCheck) {
-                    this.validations.passwordMatch = true;
-                }
+                    .catch(err => console.error(err))
+                    .finally(() => {
+                        this.isLoading = false
+                    })
+            } else if (!this.checkedTerms) {
+                this.errors.checkedTerms = true;
             }
         }
     },

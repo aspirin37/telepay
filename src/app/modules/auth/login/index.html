@@ -20,6 +20,7 @@
     <div class="form-group">
         <button class="btn-auth btn btn-block btn-lg"
                 tabindex="4"
+                :disabled="isLoading"
                 type="submit">Войти</button>
     </div>
     <router-link :to="{name:'recovery',params:{login:user.login}}"

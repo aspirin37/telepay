@@ -26,7 +26,7 @@ export default {
     methods: {
         async getPosts(params) {
             params.for = +this.is_advert;
-            let { items, total } = await PostApi.list(params);
+            let { items, total } = await PostApi.list(params, this.is_advert);
 
             this.posts = items.sort(this._sorter);
             this.pgnSets.total = total;

@@ -139,9 +139,9 @@
                             <post-input v-model="postData"
                                         class="mb-2" />
                             <div class="float-right text-right">
-                                <button class="btn btn-primary"
+                                <!-- <button class="btn btn-primary"
                                         v-show="!post.postTemplateId"
-                                        @click.prevent="createPost(true)"> Сохранить пост</button>
+                                        @click.prevent="createPost(true)"> Сохранить пост</button> -->
                                 <button class="btn btn-success"
                                         @click.prevent="user.balance.current>=totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
                                         :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length > 0 || isSelectingTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>

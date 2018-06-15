@@ -26,7 +26,7 @@
                class="form-control input-auth"
                v-model="passCheck">
         <div class="help-text text-left text-danger"
-             v-if="validations.passwordMatch"> Пароли не совпадают! </div>
+             v-if="!passValidity"> Пароли не совпадают! </div>
     </div>
     <!-- <div class="form-group">
         <label class="control-label float-left text-white h5 m-0">Промокод</label>
@@ -39,8 +39,8 @@
         <norm-checkbox v-model="checkedTerms"
                        tabindex="5" />
         <span class="ml-2 pointer"
-              :class="{'text-danger':!checkedTerms && validations.checkedTerms}"
-              @click="checkedTerms = !checkedTerms">{{!checkedTerms && validations.checkedTerms?'Вам необходимо согласиться с ':'Я согласен с '}}
+              :class="{'text-danger':!checkedTerms && errors.checkedTerms}"
+              @click="checkedTerms = !checkedTerms">{{!checkedTerms && errors.checkedTerms?'Вам необходимо согласиться с ':'Я согласен с '}}
             <a href="https://landing.telepay.io/terms-and-conditions.html"
                target="_blank">условиями использования</a>
         </span>
@@ -48,6 +48,7 @@
     <div class="form-group">
         <button class="btn-auth btn btn-block btn-lg"
                 tabindex="6"
+                :disabled="!((user.password && passCheck) && passValidity && checkedTerms) || isLoading"
                 type="submit">Зарегистрироваться</button>
     </div>
     <router-link :to="{name:'recovery',params:{login:user.login}}"
