@@ -6,7 +6,7 @@ module.exports = function() {
                 loader: 'file-loader',
             }, {
                 test: /\.svg$/,
-                exclude: [/fonts\//],
+                exclude: [/fonts/],
                 loader: 'svg-inline-loader',
                 options: {
                     prefix: 'inl-svg',
