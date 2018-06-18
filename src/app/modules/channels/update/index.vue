@@ -68,18 +68,12 @@ export default {
         maxPostsStr() {
             let { postCount, postPrice } = this.timeframesData;
             let totalPostsCount = postCount * 7;
-            return `Максимум за неделю: <span class="h5">${totalPostsCount}</span> ${this.pluralizePost(
-        totalPostsCount
-      )} - доход: <span class="h5">${this.cutKiloCentToRub(totalPostsCount * postPrice)}</span>`;
+            return `Максимум за неделю: <span class="h5">${totalPostsCount}</span> ${this.pluralizePost(totalPostsCount)} - доход: <span class="h5">${this.cutKiloCentToRub(totalPostsCount * postPrice)}</span>`;
         },
         dailyPostsStr() {
             let { postCount, postPrice, conditions } = this.timeframesData;
-            return `<span class="h5">${postCount}</span> ${this.pluralizePost(
-        postCount
-      )} в сутки, каждый по <span class="h5">${this.cutKiloCentToRub(postPrice)}</span><br>
-            <span class="h5">1</span> час в топе, присутствие в канале - <span class="h5">${
-              conditions === 'never' ? '∞' : conditions + 'ч'
-            }</span>`;
+            return `<span class="h5">${postCount}</span> ${this.pluralizePost(postCount)} в сутки, каждый по <span class="h5">${this.cutKiloCentToRub(postPrice)}</span><br>
+            <span class="h5">1</span> час в топе, присутствие в канале - <span class="h5">${conditions === 'never' ? '∞' : conditions + 'ч'}</span>`;
         }
     },
     methods: {
@@ -141,7 +135,7 @@ export default {
 
 
         },
-        async deleteTimeFrames(alert) {
+        async deleteTimeFrames(alert, isFromUpdate) {
             let swalOut;
             if (alert) {
                 swalOut = await swal({
@@ -153,10 +147,12 @@ export default {
             if (this.channel.timeFrame.length && ((swalOut && !swalOut.dismiss) || !swalOut)) {
                 await Promise.all(this.channel.timeFrame.map(tf => TimeFrameApi.delete(tf.timeFrameId)));
                 this.channel.timeFrame = [];
-                this.timeframesData = {
-                    postCount: null,
-                    postPrice: null,
-                    conditions: ''
+                if (!isFromUpdate) {
+                    this.timeframesData = {
+                        postCount: null,
+                        postPrice: null,
+                        conditions: ''
+                    }
                 }
                 this.getChannelInfo()
             }
@@ -178,7 +174,7 @@ export default {
                 this.editingConditions = false;
                 return;
             }
-            await this.deleteTimeFrames(false);
+            await this.deleteTimeFrames(false, true);
 
             await TimeFrameApi.create({
                 channelId: this.channel.channelId,

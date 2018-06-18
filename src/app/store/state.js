@@ -18,7 +18,8 @@ export default {
         date: {
             dateFormat: 'd.m.Y',
             defaultDate: moment().format('DD.MM.YYYY'),
-            minDate: 'today'
+            minDate: 'today',
+            disableMobile: true,
         },
         time: {
             enableTime: true,

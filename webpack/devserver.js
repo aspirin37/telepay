@@ -15,7 +15,7 @@ module.exports = function (paths) {
             compress: true,
             proxy: {
                 '/images/': {
-                    target: 'https://dev.telepay.io',
+                    target: process.env.url === 'dev' ? 'https://dev.telepay.io' : 'https://telepay.io',
                     secure: false,
                     logLevel: 'debug',
                     changeOrigin: true

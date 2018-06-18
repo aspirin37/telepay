@@ -22,15 +22,15 @@ const PATHS = {
     root: path.resolve(__dirname),
 };
 
-const common = function(env) {
+const common = function (env) {
     return merge([{
         entry: {
-            'bundle': PATHS.source + '/app/main.js',
+            'bundle': path.resolve(__dirname, PATHS.source + '/app/main.js'),
         },
         mode: env.NODE_ENV,
         output: {
             path: PATHS.build,
-            publicPath: process.env.ASSET_PATH || '/',
+            publicPath: path.resolve(__dirname, '/'),
             filename: '[name].[hash].js',
         },
         resolve: {
@@ -54,14 +54,14 @@ const common = function(env) {
             // new webpack.optimize.ModuleConcatenationPlugin(),
             new HtmlWebpackPlugin({
                 inject: 'body',
-                template: PATHS.source + '/app/index.html',
+                template: path.resolve(__dirname, PATHS.source + '/app/index.html'),
                 minify: {
                     caseSensitive: true,
                     collapseWhitespace: true,
                 },
             }),
             new webpack.optimize.SplitChunksPlugin(),
-            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ru)$/), // load only en/ru locale
+            new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /^\.\/(en|ru)$/), // load only en/ru locale
             new webpack.DefinePlugin({
                 'process.env': {
                     url: '\'' + env.url + '\'',
@@ -84,7 +84,7 @@ const common = function(env) {
     ]);
 };
 
-module.exports = function(env) {
+module.exports = function (env) {
     if(env.NODE_ENV === 'production') {
         return merge([
             common(env),

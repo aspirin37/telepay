@@ -10,7 +10,6 @@ Vue.http.interceptors.push((request, next) => {
         App.$store.commit('TOGGLE_LOADING', true);
     }
     next(response => {
-        if(App && !loaderBlacklist.find(el => new RegExp(el).test(request.url))) App.$store.commit('TOGGLE_LOADING', false);
         if(response.ok) {
             if(request.method !== 'GET' && !notifystrBlacklist.find(el => new RegExp(el).test(response.url))) {
                 App.$notifystr.success('Успешно!', response.data.message || '');
@@ -33,5 +32,6 @@ Vue.http.interceptors.push((request, next) => {
                 App.$notifystr.danger('Критическая ошибка сервера!', 'Обратитесь в службу поддержки!');
             }
         }
+        if(App && !loaderBlacklist.find(el => new RegExp(el).test(request.url))) App.$store.commit('TOGGLE_LOADING', false);
     });
 });
