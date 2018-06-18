@@ -132,8 +132,8 @@ export default Vue.extend({
             this.$store.commit('TOGGLE_LOADING', true);
             let { items, total } = await CatalogApi.list();
             this.categories = items.sort((a, b) => b.count - a.count).map(it => {
-                if (it.count !== '0') it.item.name += ` (${it.count})`
-                return it.item
+                if (it.count !== null) it.name += ` (${it.count})`;
+                return it
             });
         },
         async getFilterValues() {
