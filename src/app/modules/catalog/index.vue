@@ -9,7 +9,6 @@ import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
 import searchInputOk from '@components/search-input-ok';
-import cutSum from '@filters/cut-sum';
 
 import CancelBtn from '@assets/crest-01.svg';
 
@@ -142,8 +141,8 @@ export default Vue.extend({
             let stats = await CatalogApi.getStats();
             this.filter.subscribersFrom = stats.subscriberCountMin;
             this.filter.subscribersTo = stats.subscriberCountMax;
-            this.filter.erFrom = cutSum(stats.engagementRateMin);
-            this.filter.erTo = cutSum(stats.engagementRateMax);
+            this.filter.erFrom = stats.engagementRateMin;
+            this.filter.erTo = stats.engagementRateMax;
             this.filter.priceFrom = stats.priceWithCommissionMin / 100;
             this.filter.priceTo = stats.priceWithCommissionMax / 100;
         },
