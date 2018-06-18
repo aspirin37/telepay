@@ -86,7 +86,9 @@
         <div class="row">
             <div class="col-5">
                 <post-preview :post="post"
-                              v-if="post && (post.text||post.text==='')" /> </div>
+                              :selected-channel-names="selectedChannelNames"
+                              v-if="post && (post.text||post.text==='')" /> {{selectedChannelNames}}
+            </div>
             <div class="col-7">
                 <div class="form-row">
                     <div class="col-6">

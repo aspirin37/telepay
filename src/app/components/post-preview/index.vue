@@ -4,7 +4,12 @@
         <small class="preview__date">{{ formattedDate }}</small>
         <div class="preview__workarea">
             <p class="preview__body">
-                <span class="preview__channel text-primary">{{ post.channel }}</span>
+                <span class="preview__channel text-primary">
+                    <transition name="fade-out"
+                                mode="out-in">
+                        <span>{{ shownChannelName }}</span>
+                    </transition>
+                </span>{{ shownChannelName }}
                 <span class="preview__message">
                     <div class="preview__images"
                          v-if="post && post.images && post.images.length">
@@ -49,6 +54,11 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            channelNameIndex: 0,
+        }
+    },
     props: {
         post: {
             type: Object,
@@ -56,6 +66,13 @@ export default {
                 return {};
             }
         },
+        selectedChannelNames: {
+            type: Array,
+            default () { return [] },
+            validate(arr) {
+                return arr.every(e => typeof e === 'string')
+            }
+        }
     },
     computed: {
         formattedDate() {
@@ -65,10 +82,41 @@ export default {
             }
             let ftd = moment(date).format('MMMM DD');
             return ftd[0].toUpperCase() + ftd.slice(1);
+        },
+        shownChannelName() {
+
+            return this.selectedChannelNames[this.channelNameIndex] || this.post.channel || 'Название канала';
         }
     },
-
+    created() {
+        this.startReplacingNames()
+    },
+    watch: {
+        selectedChannelNames() {
+            console.log('changed selectedChannelNames')
+            this.startReplacingNames()
+        }
+    },
+    destroyed() {
+        clearInterval(this.interval);
+    },
     methods: {
+        startReplacingNames() {
+            clearInterval(this.interval);
+            this.channelNameIndex = 0;
+            if (this.selectedChannelNames && this.selectedChannelNames.length) {
+                console.log('started interval')
+                this.interval = setInterval(this.nextName, 5000)
+            }
+        },
+        nextName() {
+            if (this.channelNameIndex >= this.selectedChannelNames.length - 1) {
+                this.channelNameIndex = 0;
+            } else {
+                this.channelNameIndex++;
+            }
+            console.log(this.selectedChannelNames[this.channelNameIndex])
+        },
         getImageSrc(src) {
             if (typeof src === 'string') return '/images/posts/' + src;
             return src && src.decoded;
@@ -105,7 +153,9 @@ export default {
             return text.replace(/\n?(#.+?)\b\n?/g, (str, match) => `<span class="preview__link">${match}</span>`);
         },
         replaceMentions(text) {
-            return text.replace(/\n?(@.+?)\b\n?/g, (str, match) => `<span class="preview__link">${match}</span>`);
+            return text.replace(/\n?(@.+?)\b\n?/g, (str, match) =>
+                `<a href="tg://resolve?domain=${match.slice(1)}" rel="noopener nofollow noreferrer" class="preview__link">${match}</a>`
+            );
         },
         replaceLinks(text) {
             return text.replace(/\[(.+?)\]\((https?:\/\/.+?)\)/g, (str, text, link) =>

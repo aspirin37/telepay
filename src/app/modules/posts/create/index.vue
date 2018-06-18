@@ -102,6 +102,9 @@ export default {
                 return sum;
             }, []);
         },
+        selectedChannelNames() {
+            return this.selectedChannels.map(ch => ch.title)
+        },
         channelsToAdd() {
             if (this.channels.length) {
                 if (!this.post.publishAt) {
@@ -178,7 +181,6 @@ export default {
             this.errors.time = false;
         },
         checkPostTime() {
-            console.log('11')
             let timeArr = this.postTime.split(':');
             let postTime = moment(this.post.publishAt)
                 .set('hour', timeArr[0])
