@@ -5,11 +5,11 @@
         <div class="preview__workarea">
             <p class="preview__body">
                 <span class="preview__channel text-primary">
-                    <transition name="fade-out"
-                                mode="out-in">
-                        <span>{{ shownChannelName }}</span>
-                    </transition>
-                </span>{{ shownChannelName }}
+                    <!-- <transition name="fade-out"
+                                mode="out-in"> -->
+                    <span>{{ shownChannelName }}</span>
+                    <!-- </transition> -->
+                </span>
                 <span class="preview__message">
                     <div class="preview__images"
                          v-if="post && post.images && post.images.length">
