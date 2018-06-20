@@ -205,6 +205,37 @@ body {
     }
 }
 
+.form-select.v-select {
+    .dropdown-toggle {
+        border: 2px solid #dee2ee !important;
+        height: 44px !important;
+        font-size: 15px;
+        line-height: 20px;
+        .selected-tag {
+            color: #576077;
+            padding: 3px 8px;
+        }
+        input::placeholder {
+            color: #576077;
+            padding: 3px 5px;
+        }
+        .form-control {
+            height: 38px
+        }
+        .clear {
+            bottom: 12px;
+            right: 34px;
+        }
+    }
+    .open-indicator {
+        bottom: 10px;
+        right: 14px;
+    }
+    &.open .open-indicator {
+        bottom: 5px;
+    }
+}
+
 .user {
     &-menu {
         position: relative; // box-shadow: 0px 0px 50px rgba(0,0,0,.1);

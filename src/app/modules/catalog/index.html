@@ -27,9 +27,12 @@
              :class="{'order-first': isDesktop, 'px-1': isMobile}">
             <div class="col-12"
                  :class="{'px-0': isDesktop}">
-                <search-input v-model="filter.category"
-                              placeholder="Выберите категорию"
-                              :options="categories" /> </div>
+                <v-select label="name"
+                          class="form-select"
+                          v-model="filter.category"
+                          placeholder="Выберите категорию"
+                          :options="categories"></v-select>
+            </div>
         </div>
     </div>
     <div class="d-flex flex-row mb-4"

@@ -142,10 +142,12 @@
                 <h4>
                     <a :href="'tg://resolve?domain='+channel.username"
                        v-tooltip="'Открыть канал в приложении Telegram'">{{channel.title}}</a>
-                    <i class="fa fa-database"
-                       v-tooltip="{template:channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в этом канале'}"
+                    <span v-html="Bot"
+                          class="icon"
+                          v-tooltip="{template:channel.isBotApproved?'Бот Telepay является админом в вашем канале':'У бота Telepay нет доступа к постингу в этом канале'}"
                 
-                       :class="channel.isBotApproved?'text-success':'text-danger'"></i>
+                          :class="channel.isBotApproved?'text-success':'text-danger'"></span>
+                    <!-- <i class="fa fa-database"></i> -->
                     <i class="fa fa-check-circle"
                        v-tooltip="{template:channel.status===1?'Канал подтвержден модератором':channel.status===0?'Канал ожидает проверки модератором':'Ваш канал отклонен модератором, причина указана ниже'}"
                 

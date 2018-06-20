@@ -6,16 +6,18 @@ import heading from '@components/heading';
 import searchInput from '@components/search-input';
 import plural from '@utils/plural';
 import { ChannelApi, CatalogApi, TimeFrameApi } from '@services/api';
+import Bot from '@assets/bot.svg';
 
 export default {
     components: {
         avatar,
         onOff,
         searchInput,
-        heading
+        heading,
     },
     data() {
         return {
+            Bot,
             channel: {
                 isAutopost: undefined
             },

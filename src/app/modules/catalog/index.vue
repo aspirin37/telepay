@@ -9,6 +9,7 @@ import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
 import searchInputOk from '@components/search-input-ok';
+import vSelect from 'vue-select';
 
 import CancelBtn from '@assets/crest-01.svg';
 
@@ -20,7 +21,8 @@ export default Vue.extend({
         searchInput,
         dateInput,
         channelList,
-        searchInputOk
+        searchInputOk,
+        vSelect
     },
     data() {
         return {
