@@ -47,7 +47,7 @@ export default Vue.extend({
                     .set('second', 0)
             },
             publishDate: moment(),
-            filterConditions: '',
+            filterConditions: null,
             // weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
             categories: [],
             channels: [],
