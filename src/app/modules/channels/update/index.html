@@ -172,7 +172,7 @@
                 <label>Запрещенные темы - {{channel.blacklist.length}}</label>
                 <v-select label="name"
                           key="1"
-                          v-show="channel.blacklist && channel.blacklist[0] && channel.blacklist[0].name"
+                          v-show="channel.blacklist && ((channel.blacklist[0] && channel.blacklist[0].name) || !channel.blacklist[0])"
                           class="form-select"
                           :searchable="false"
                           placeholder="Выберите темы"
