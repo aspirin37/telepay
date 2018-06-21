@@ -215,7 +215,7 @@ body {
     &.single {
         .dropdown-toggle {
             border: 2px solid theme-color('text-white') !important;
-            transition: border-bottom 0.2s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
             height: 44px !important;
             font-size: 15px;
             line-height: 20px;
@@ -273,8 +273,11 @@ body {
             bottom: 5px;
         }
         .dropdown-toggle {
+            border-color: #c4e8f9 !important;
             border-bottom: 2px solid #fff !important;
-            transition: border-bottom 0.2s ease-in-out;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(80, 188, 237, 0.25);
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
     }
 }
