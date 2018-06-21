@@ -69,9 +69,13 @@
                  v-if="!ticketId">
                 <div class="form-group mb-2">
                     <label class="form-group__label mb-1">Тема </label>
-                    <search-input placeholder="Выберите тему"
-                                  :options="topics"
-                                  v-model="selectedTopic" /> </div>
+                    <v-select label="name"
+                              class="form-select"
+                              :searchable="false"
+                              placeholder="Выберите тему"
+                              v-model="selectedTopic"
+                              :options="topics"></v-select>
+                </div>
             </div>
             <div class="col-12 col-md-6 offset-md-3 mb-4 p-0">
                 <!-- <div class="chat__header pt-4 pb-2"

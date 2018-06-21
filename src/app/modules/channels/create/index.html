@@ -84,18 +84,27 @@
         <div class="col-12 col-md-4">
             <div class="form-group">
                 <p class="text-secondary font-weight-500 mb-1">Категория канала</p>
-                <search-input v-model="channel.category"
-                              placeholder="Выберите категорию"
-                              :options="categories" /> </div>
+                <v-select label="name"
+                          class="form-select"
+                          :searchable="false"
+                          placeholder="Выберите категорию"
+                          v-model="channel.category"
+                          :options="categories"></v-select>
+            </div>
         </div>
         <div class="col-12 col-md-4"
              v-if="categories.length">
             <div class="form-group">
-                <p class="text-secondary font-weight-500 mb-1 float-left">Запрещенные темы</p>
-                <search-input v-model="channel.blackList"
-                              :multiple-placeholder="a=> `Выбрано тем: ${a}`"
-                              :multiple="true"
-                              :options="categories" /> </div>
+                <p class="text-secondary font-weight-500 mb-1">Запрещенные темы</p>
+                <v-select label="name"
+                          class="form-select"
+                          :searchable="false"
+                          placeholder="Выберите темы"
+                          v-model="channel.blackList"
+                          :multiple="true"
+                          :close-on-select="false"
+                          :options="categories"></v-select>
+            </div>
         </div>
         <div class="col-12">
             <p class="form-text">

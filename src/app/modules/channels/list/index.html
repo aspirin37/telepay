@@ -72,7 +72,7 @@
                         <button class="btn btn-sm"
                                 :class="ch.postOrders&&ch.postOrders.length > 0?'btn-success':'btn-light'"
                                 @click="toggleOrders(ch)">
-                            <b>{{(ch.postOrders&&ch.postOrders.length)||0}}</b>
+                            <b>{{(ch.postOrders && ch.postOrders.length)||0}}</b>
                         </button>
                     </div>
                     <div class="col-4">
@@ -101,7 +101,8 @@
                          v-if="ch.showOrders && ch.postOrders && ch.postOrders.length">
                         <post-list :posts="ch.postOrders"
                                    :placeholder="`Нет входящих постов`"
-                                   :is-out="false"></post-list>
+                                   :is-out="false"
+                                   :is-from-channels="true"></post-list>
                     </div>
                 </div>
             </div>

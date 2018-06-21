@@ -4,11 +4,11 @@
         <small class="preview__date">{{ formattedDate }}</small>
         <div class="preview__workarea">
             <p class="preview__body">
-                <span class="preview__channel text-primary">
-                    <!-- <transition name="fade-out"
-                                mode="out-in"> -->
-                    <span>{{ shownChannelName }}</span>
-                    <!-- </transition> -->
+                <span class="preview__channel text-primary overflow-ellipsis">
+                    <transition name="static-fade"
+                                mode="out-in">
+                        <span :key="shownChannelName">{{ shownChannelName }}</span>
+                    </transition>
                 </span>
                 <span class="preview__message">
                     <div class="preview__images"
@@ -93,7 +93,6 @@ export default {
     },
     watch: {
         selectedChannelNames() {
-            console.log('changed selectedChannelNames')
             this.startReplacingNames()
         }
     },
@@ -105,7 +104,6 @@ export default {
             clearInterval(this.interval);
             this.channelNameIndex = 0;
             if (this.selectedChannelNames && this.selectedChannelNames.length) {
-                console.log('started interval')
                 this.interval = setInterval(this.nextName, 5000)
             }
         },
@@ -115,7 +113,6 @@ export default {
             } else {
                 this.channelNameIndex++;
             }
-            console.log(this.selectedChannelNames[this.channelNameIndex])
         },
         getImageSrc(src) {
             if (typeof src === 'string') return '/images/posts/' + src;
@@ -188,10 +185,10 @@ export default {
         width: 80%;
     }
     &__channel {
-        display: inline-block;
         font-weight: 600;
         color: #1895d3 !important;
     }
+
     &__body {
         position: relative;
         background-color: #fff;

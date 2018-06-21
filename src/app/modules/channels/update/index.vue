@@ -6,7 +6,8 @@ import heading from '@components/heading';
 import searchInput from '@components/search-input';
 import plural from '@utils/plural';
 import { ChannelApi, CatalogApi, TimeFrameApi } from '@services/api';
-import Bot from '@assets/bot.svg';
+// import Bot from '@assets/bot.svg';
+import vSelect from 'vue-select';
 
 export default {
     components: {
@@ -14,10 +15,11 @@ export default {
         onOff,
         searchInput,
         heading,
+        vSelect
     },
     data() {
         return {
-            Bot,
+            // Bot,
             channel: {
                 isAutopost: undefined
             },
@@ -88,20 +90,20 @@ export default {
             items.sort((a, b) => (a.name === '18+' || a.name === 'Азартные игры' ? -1 : 1));
             this.categories = items;
             if (this.channel.blacklist && this.channel.blacklist.length) {
-                this.categories.forEach(cat => {
-                    if (this.channel.blacklist.find(c => cat.categoryId === c.categoryId)) {
-                        cat.selected = true;
-                    }
-                });
+                this.channel.blacklist = this.categories.reduce((sum, cat) => {
+                    let blacklisted = this.channel.blacklist.find(c => cat.categoryId === c.categoryId)
+                    if (blacklisted) sum.push(blacklisted.category);
+                    return sum
+                }, []);
             }
         },
         pluralizePost: plural('пост', ['ов', '', 'а']),
         async handleSelect(item) {
-            if (item.selected) {
-                await CatalogApi.blacklistAdd({ channelId: this.channel.channelId, categoryIds: [item.categoryId] });
-            } else {
-                await CatalogApi.blacklistRemove({ channelId: this.channel.channelId, categoryIds: [item.categoryId] });
-            }
+            // if (item.selected) {
+            //     await CatalogApi.blacklistAdd({ channelId: this.channel.channelId, categoryIds: [item.categoryId] });
+            // } else {
+            //     await CatalogApi.blacklistRemove({ channelId: this.channel.channelId, categoryIds: [item.categoryId] });
+            // }
         },
         fixPostCount() {
             if (!this.timeframesData.postCount) return;

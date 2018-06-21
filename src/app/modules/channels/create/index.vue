@@ -1,18 +1,18 @@
 <template src="./index.html"></template>
 <script>
 import { ChannelApi, CatalogApi, BotApi } from '@services/api';
-import searchInput from '@components/search-input';
 import avatar from '@components/avatar';
 import heading from '@components/heading';
 import WebStorage from '@utils/storage';
 import { clone } from '@utils/clone';
 import onOff from 'vue-on-off';
+import vSelect from 'vue-select';
 export default {
     components: {
-        searchInput,
         avatar,
         onOff,
-        heading
+        heading,
+        vSelect
     },
     data() {
         return {

@@ -4,7 +4,7 @@ import { SupportApi } from '@services/api';
 import { clone } from '@utils/clone';
 import { mapGetters } from 'vuex';
 import StarRating from 'vue-star-rating';
-import searchInput from '@components/search-input';
+import vSelect from 'vue-select';
 import heading from '@components/heading';
 import supportTextarea from '@components/support-textarea';
 import topics from '@utils/support-topics';
@@ -12,7 +12,7 @@ import topics from '@utils/support-topics';
 export default Vue.extend({
     components: {
         heading,
-        searchInput,
+        vSelect,
         supportTextarea,
         StarRating
     },
@@ -35,7 +35,7 @@ export default Vue.extend({
             messages: [],
             topic: null,
             interval: null,
-            selectedTopic: '',
+            selectedTopic: null,
             newMessage: {
                 text: '',
                 images: []

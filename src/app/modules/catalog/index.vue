@@ -5,7 +5,6 @@ import { mapState, mapActions } from 'vuex';
 import { CatalogApi, ChannelApi } from '@services/api';
 
 import avatar from '@components/avatar';
-import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
 import searchInputOk from '@components/search-input-ok';
@@ -18,7 +17,6 @@ import { clone, cloneWFn } from '@utils/clone';
 export default Vue.extend({
     components: {
         avatar,
-        searchInput,
         dateInput,
         channelList,
         searchInputOk,
@@ -33,7 +31,7 @@ export default Vue.extend({
             totalChannels: null,
             filter: {
                 weekDay: moment().weekday() + 1,
-                category: '',
+                category: null,
                 text: '',
                 inTopHours: null,
                 inFeedHours: null,

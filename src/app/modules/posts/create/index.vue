@@ -92,13 +92,17 @@ export default {
         }),
         selectedTimeFrameIds() {
             return this.selectedChannels.reduce((sum, ch) => {
-                let selectedTimeFrameIds = ch.timeFrame.reduce((sumTimeFrames, timeFrame) => {
-                    if (timeFrame.selected) sumTimeFrames.push(timeFrame.timeFrameId);
-                    return sumTimeFrames;
-                }, []);
-                if (selectedTimeFrameIds.length) {
-                    return sum.concat(selectedTimeFrameIds);
-                }
+                // let selectedTimeFrameIds = ch.timeFrame.reduce((sumTimeFrames, timeFrame) => {
+                //     if (timeFrame.selected) sumTimeFrames.push(timeFrame.timeFrameId);
+                //     return sumTimeFrames;
+                // }, []);
+
+                let ctf = ChannelApi.getCheapestTimeFrame(ch);
+                if (ctf && ctf.timeFrameId) sum.push(ctf.timeFrameId);
+
+                // if (selectedTimeFrameIds.length) {
+                //     return sum.concat(selectedTimeFrameIds);
+                // }
                 return sum;
             }, []);
         },
@@ -196,13 +200,13 @@ export default {
 
             let startDateTime = postTime.format('YYYY-MM-DD HH:mm:ss');
             let endDateTime = postTime.add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
-
+            console.log(this.selectedTimeFrameIds)
             if (this.selectedTimeFrameIds.length) {
                 this.notAvailableTimeFrames = [];
                 this.errors.notAvailableTime = false;
-                this.selectedTimeFrameIds.forEach(it => {
+                this.selectedTimeFrameIds.forEach(timeFrameId => {
                     let timeCheckData = {
-                        timeFrameId: it,
+                        timeFrameId,
                         startDateTime,
                         endDateTime
                     };
@@ -213,7 +217,7 @@ export default {
                         })
                         .catch(err => {
                             this.errors.notAvailableTime = true;
-                            this.notAvailableTimeFrames.push(it);
+                            this.notAvailableTimeFrames.push(timeFrameId);
                         });
                 });
             }

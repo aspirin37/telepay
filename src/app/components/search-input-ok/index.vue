@@ -1,6 +1,6 @@
 <template>
     <div>
-        <transition name="fade-2">
+        <transition name="static-fade">
             <div class="search-overlay"
                  v-show="isSearching"></div>
         </transition>

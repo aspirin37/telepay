@@ -146,8 +146,14 @@
                              v-show="showDD"
                              ref="ddmenu">
                             <h6 class="dropdown-header">{{notificationsCount?'Уведомления':'Уведомлений нет'}}
-                                <router-link class="float-right"
-                                             :to="{name:'profile'}">настройки</router-link>
+                                <router-link class="fa fa-lg mx-1 fa-cog float-right pointer btn-link"
+                                             v-tooltip="'Настройки'"
+                                             tag="i"
+                                             :to="{name:'profile'}"></router-link>
+                                <i class="fa fa-eye-slash fa-lg mx-1 float-right pointer btn-link"
+                                   @click="setAllIsRead"
+                                   v-tooltip="'Скрыть все'"
+                                   v-show="notificationsCount>0"></i>
                             </h6>
                             <span class="dropdown-item"
                                   @click="stopBlur"

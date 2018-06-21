@@ -104,7 +104,7 @@ export default Vue.extend({
         toggleTimeFrame(ch, timeFrame) {
             if (timeFrame.selected) {
                 ch.selected = true;
-            } else if (!ch.timeFrame.some( of => of .selected)) {
+            } else if (!ch.timeFrame.some(tf => tf.selected)) {
                 ch.selected = false;
             }
         }
