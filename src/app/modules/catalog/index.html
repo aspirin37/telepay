@@ -17,7 +17,7 @@
                  :class="{'d-none': isSearching && isMobile}">
                 <router-link class="btn btn-block"
                              :class="selectedChannels.length?'btn-success':'btn-primary'"
-                             :to="{ name: 'posts:create' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
+                             :to="isAuthorized ? { name: 'posts:create' } : { name: 'registration' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
                 <span class="drop-selected-btn btn-link"
                       @click="dropSelected"
                       v-if="selectedChannels.length">Сбросить выбор</span>

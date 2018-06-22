@@ -1,6 +1,6 @@
 <template src="./index.html"></template>
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 import { CatalogApi, ChannelApi } from '@services/api';
 
@@ -105,6 +105,9 @@ export default Vue.extend({
     },
     computed: {
         ...mapState(['configs', 'user', 'selectedChannels']),
+        ...mapGetters({
+            isAuthorized: 'isAuthorized',
+        }),
         totalPrice() {
             return this.selectedChannels.reduce((sum, el) => {
                 return sum + el.timeFrame.reduce((ofSum, tf) => ofSum + (tf.selected ? tf.priceWithCommission : 0), 0);

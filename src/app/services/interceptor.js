@@ -1,5 +1,5 @@
 import { App } from '../main';
-// import WebStorage from '@utils/storage';
+import WebStorage from '@utils/storage';
 import loaderBlacklist from '@utils/loader-blacklist';
 import notifystrBlacklist from '@utils/notifystr-blacklist';
 import notifystrErrorsBlacklist from '@utils/notifystr-errors-blacklist';
@@ -16,7 +16,7 @@ Vue.http.interceptors.push((request, next) => {
             }
         } else {
             if(response && response.data && typeof response.data === 'object') {
-                if(response.status === 401 || response.status === 403) {
+                if(response.status === 401 || response.status === 403 ) {
                     App.$router.push({ name: 'logout' });
                 } else {
                     for(let err in response.data) {

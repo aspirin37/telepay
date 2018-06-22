@@ -1,7 +1,7 @@
 <template src="./index.html"></template>
 <script>
 import { mapState, mapActions } from 'vuex';
-import { ChannelApi, PostApi, CatalogApi, PostTemplateApi } from '@services/api';
+import { ChannelApi, PostApi, CatalogApi, PostTemplateApi, UserApi } from '@services/api';
 import channelList from '@components/channel-list';
 import postPreview from '@components/post-preview';
 import postInput from '@components/post-input';
@@ -278,6 +278,7 @@ export default {
             }
         },
         createPost(isTemplate) {
+            // console.log(this.user.balance.current)
             this.checkTime()
             let { buttons, images, publishAt, text, postTemplateId } = this.post;
 
@@ -316,6 +317,9 @@ export default {
                     this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - this.totalPrice });
                 }
                 this.$router.push({ name: 'posts:list' });
+                UserApi.getUser().then((res) => {
+                    this.$store.commit('SET_USER', res)
+                })
             });
         },
         getFormData(formData, data, previousKey) {
