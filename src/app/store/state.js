@@ -5,7 +5,7 @@ export default {
     loading: false,
     is_advert: WebStorage.get('is_advert'),
     savedPost: (WebStorage.get('savedPost', true) || {
-        text: 'Текст поста...',
+        text: '',
         buttons: [],
         images: [],
         timeFrameId: [],

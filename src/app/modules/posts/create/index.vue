@@ -353,10 +353,10 @@ export default {
         // },
         dropTemplate() {
             this.post.postTemplateId = '';
-            this.post.text = 'Текст поста...';
+            this.post.text = '';
             this.post.buttons = [];
             this.post.images = [];
-            this.postData.text = 'Текст поста...';
+            this.postData.text = '';
             this.postData.buttons = [];
             this.postData.images = [];
         },

@@ -4,6 +4,7 @@
             <textarea class="form-control"
                       rows="4"
                       v-model="text"
+                      placeholder="Текст поста..." 
                       ref="text"></textarea>
             <div class="textarea-input__icons">
                 <label @click="addButton"
@@ -96,7 +97,7 @@ export default {
     },
     data() {
         return {
-            text: 'Текст поста...',
+            text: '',
             images: [],
             buttons: [],
             i18n: {
