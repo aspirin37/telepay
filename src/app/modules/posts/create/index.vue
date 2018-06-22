@@ -29,7 +29,6 @@ export default {
                 text: 'Текст поста...',
                 buttons: [],
                 images: [],
-                time: ''
             },
             postTemplates: [],
             postTime: moment()
@@ -241,6 +240,8 @@ export default {
                 .set('second', 0);
 
             this.errors.time = moment() > postTime;
+
+            this.post.time = postTime.format('HH:mm')
         },
         watchPostTemplateId(val) {
             if (val && typeof val === 'string') {

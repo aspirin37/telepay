@@ -1,6 +1,5 @@
 <template>
     <div class="preview">
-        {{post.time}}
         <small class="preview__date">{{ formattedDate }}</small>
         <div class="preview__workarea">
             <p class="preview__body">

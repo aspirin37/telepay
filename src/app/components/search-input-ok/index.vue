@@ -159,6 +159,7 @@ export default {
 
 .is-app-searching {
     max-height: 100vh;
+    overflow: hidden;
 }
 
 .is-control-wrapper-searching {
