@@ -22,7 +22,7 @@
                 </label>
                 <dropdown :style="{ 'margin-right': '3px' }"
                           class="textarea-input__icon"
-                          v-if="$mq == 'md+'">
+                          v-if="$mq != 'sm'">
                     <i slot="trigger"
                        v-tooltip="'Добавить эмоджи'"
                        class="fa fa-smile-o text-medium-font"
