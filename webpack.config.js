@@ -30,7 +30,7 @@ const common = function (env) {
         mode: env.NODE_ENV,
         output: {
             path: PATHS.build,
-            publicPath: path.resolve(__dirname, '/'),
+            publicPath: '/',
             filename: '[name].[hash].js',
         },
         resolve: {

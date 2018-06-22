@@ -185,6 +185,9 @@ body {
 }
 
 .tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 113px;
     padding: 10px 0;
     background-color: theme-color('text-white');
