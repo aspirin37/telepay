@@ -2,7 +2,7 @@
      v-if="channel && channel.channelId">
     <heading :text="isMobile ? 'Просмотр канала' : channel.title" />
     <div class="row mb-md-4">
-        <div class="d-flex flex-wrap col-12 col-md-8 px-0 my-4 pt-md-4">
+        <div class="d-flex flex-wrap col-12 col-md-8 mr-md-auto px-0 my-4 pt-md-4">
             <div class="d-flex offset-1 offset-md-0"
                  :class="{'col-6 px-0': isMobile}">
                 <div class="channel-avatar">
@@ -29,7 +29,7 @@
                    @click="showDescription(channel.description)"></i>
             </div>
         </div>
-        <div class="d-flex flex-md-column col-12 col-md-4 px-0 justify-content-between mb-4 my-md-4 pt-md-4">
+        <div class="d-flex flex-md-column col-12 col-md-3 px-0 justify-content-between mb-4 my-md-4 pt-md-4">
             <div :class="{'col-7 offset-1 px-1 text-18px': isMobile}">
                 <i class="fa fa-users mr-2 text-gray"
                    v-if="isMobile"></i>
