@@ -274,7 +274,7 @@ export default {
         // },
         createPost(isTemplate) {
             // console.log(this.user.balance.current)
-            this.checkTime()
+            // this.checkTime()
             let { buttons, images, publishAt, text, postTemplateId } = this.post;
 
             let timeArr = this.postTime.split(':');

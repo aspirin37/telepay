@@ -48,9 +48,9 @@
         <div class="body">
             <div class="body-row px-0 px-md-4"
                  :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}"
-                 :key="ch.channelId"
+                 :key="i"
                  v-if="ch.cheapestTimeFrame"
-                 v-for="ch in innerChannels">
+                 v-for="(ch, i) in innerChannels">
                 <div class="table-cell col-6 col-md-3 offset-1 offset-md-0 d-flex mb-3 mb-md-0">
                     <channel-avatar :channel="ch"
                                     :user="user" />
@@ -73,6 +73,7 @@
                 <div class="table-cell col">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
                 <div class="table-cell col">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
             </div>
+            <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
         </div>
     </div>
     <div class="p-4 text-center"

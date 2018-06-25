@@ -5,12 +5,15 @@ import { ChannelApi } from '@services/api';
 import avatar from '@components/avatar';
 import normCheckbox from '@components/checkbox';
 import channelAvatar from '@components/channel-avatar'
+import InfiniteLoading from 'vue-infinite-loading';
+
 import { clone } from '@utils/clone';
 export default Vue.extend({
     components: {
         avatar,
         channelAvatar,
-        normCheckbox
+        normCheckbox,
+        InfiniteLoading
     },
     props: {
         channels: {
@@ -89,6 +92,14 @@ export default Vue.extend({
         }
     },
     methods: {
+        infiniteHandler($state) {
+            // this.$parent.$emit('scrolled', $state)
+            // setTimeout(() => {
+
+            //     this.innerChannels = this.innerChannels.concat(this.innerChannels);
+            //     $state.loaded();
+            // }, 1000);
+        },
         timeFrameDates: ChannelApi.timeFrameDates,
         toggleChannel(ch, changeModel) {
             if (changeModel) ch.selected = !ch.selected;

@@ -62,6 +62,10 @@ export default Vue.extend({
         this.$on('isSearching', data => {
             this.isSearching = data;
         });
+        this.$on('scrolled', ($state) => {
+            this.channels = this.channels.concat(this.channels)
+            $state.loaded()
+        })
     },
     watch: {
         filterConditions(val) {
@@ -178,6 +182,8 @@ export default Vue.extend({
                 if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
                 return item;
             });
+
+            // this.channels = this.channels.concat(this.channels).concat(this.channels).concat(this.channels).concat(this.channels)
 
             if (this.selectedChannels) {
                 this.selectedChannels.forEach(sch => {
