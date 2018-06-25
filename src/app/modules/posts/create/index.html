@@ -55,15 +55,15 @@
                 </div>
                 <div class="col-12 mb-4">
                     <div class="form-group d-flex flex-row m-0">
-                        <div class="col p-0 mr-2">
+<!--                         <div class="col p-0 mr-2">
                             <button class="btn btn-primary w-100"
                                     v-show="!post.postTemplateId"
                                     @click.prevent="createPost(true)"> Сохранить</button>
-                        </div>
+                        </div> -->
                         <div class="col p-0">
                             <button class="btn btn-success w-100"
                                     @click.prevent="user.balance.current>=totalPrice ? createPost() : openPaymentModal(totalPrice/100,createPost)"
-                                    :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length || isSelectingTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить пост'}}</button>
+                                    :disabled="!selectedChannels.length || notAvailableTimeFrames.length || isSelectingTime || !postData.text">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить пост'}}</button>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,9 @@
         <div class="row">
             <div class="col-5">
                 <post-preview :post="post"
-                              v-if="post && (post.text||post.text==='')" /> </div>
+                              :selected-channel-names="selectedChannelNames"
+                              v-if="post && (post.text||post.text==='')" />
+            </div>
             <div class="col-7">
                 <div class="form-row">
                     <div class="col-6">
@@ -144,7 +146,7 @@
                                         @click.prevent="createPost(true)"> Сохранить пост</button> -->
                                 <button class="btn btn-success"
                                         @click.prevent="user.balance.current>=totalPrice?createPost():openPaymentModal(totalPrice/100,createPost)"
-                                        :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length > 0 || isSelectingTime || errors.time || errors.notAvailableTime">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
+                                        :disabled="!selectedChannels.length || this.notAvailableTimeFrames.length > 0 || isSelectingTime || errors.time || errors.notAvailableTime || !postData.text">{{user.balance.current >= totalPrice ? 'Разместить пост' : 'Оплатить размещение'}}</button>
                             </div>
                             <format-rules />
                         </div>

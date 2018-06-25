@@ -151,7 +151,7 @@
                 
                        :class="channel.status===1?'text-success':channel.status===0?'text-muted':'text-danger'"></i>
                 </h4>
-                <p v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</p>
+                <h4 v-if="channel.subscriberCount && channel.telegramId !== 'default'">Подписчиков: {{channel.subscriberCount | cutKilo}}</h4>
                 <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
                 <h5>Категория:
                     <router-link :to="{name:'support:chat',params:{text:changeCategoryText, topic:3}}"
@@ -169,12 +169,19 @@
                        v-tooltip="{template:'После проверки поста нашими модераторами на допустимость контента, пост должен быть одобрен вами, включите эту опцию чтобы разрешить размещение постов без вашей проверки',delayOut:500}">Автомодерация</b>
                     <on-off v-model="channel.isAutopost" /> </div>
                 <br>
-                <label>Запрещенные темы</label>
-                <search-input v-model="channel.blackList"
-                              :multiple-placeholder="a=> `Выбрано тем: ${a}`"
-                              :multiple="true"
-                              @select="handleSelect"
-                              :options="categories" /> </div>
+                <label>Запрещенные темы - {{channel.blacklist.length}}</label>
+                <v-select label="name"
+                          key="1"
+                          v-show="channel.blacklist && ((channel.blacklist[0] && channel.blacklist[0].name) || !channel.blacklist[0])"
+                          class="form-select"
+                          :searchable="false"
+                          placeholder="Выберите темы"
+                          v-model="channel.blacklist"
+                          @input="handleSelect"
+                          :multiple="true"
+                          :close-on-select="false"
+                          :options="categories"></v-select>
+            </div>
         </div>
         <h2>Рекламные предложения</h2>
         <div class="form-row">

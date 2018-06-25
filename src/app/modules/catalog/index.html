@@ -17,7 +17,7 @@
                  :class="{'d-none': isSearching && isMobile}">
                 <router-link class="btn btn-block"
                              :class="selectedChannels.length?'btn-success':'btn-primary'"
-                             :to="{ name: 'posts:create' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
+                             :to="isAuthorized ? { name: 'posts:create' } : { name: 'registration' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
                 <span class="drop-selected-btn btn-link"
                       @click="dropSelected"
                       v-if="selectedChannels.length">Сбросить выбор</span>
@@ -27,9 +27,13 @@
              :class="{'order-first': isDesktop, 'px-1': isMobile}">
             <div class="col-12"
                  :class="{'px-0': isDesktop}">
-                <search-input v-model="filter.category"
-                              placeholder="Выберите категорию"
-                              :options="categories" /> </div>
+                <v-select label="name"
+                          class="form-select"
+                          :searchable="false"
+                          placeholder="Выберите категорию"
+                          v-model="filter.category"
+                          :options="categories"></v-select>
+            </div>
         </div>
     </div>
     <div class="d-flex flex-row mb-4"
@@ -46,7 +50,7 @@
                  @click="toggleFilters">
                 <i class="fa mr-2"
                    :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </div>
-            <h3 class="mb-0">
+            <h3 class="mb-0 float-right float-md-none">
                 <small>Стоимость: </small>
                 <br> {{totalPrice|centToRub}} </h3>
         </div>
@@ -125,9 +129,12 @@
                 <div class="col-12 col-md-6 pr-md-1 mb-1"
                      :class="{'px-0': isMobile}">
                     <label class="col-form-label search__label">Условия</label>
-                    <search-input v-model="filterConditions"
-                                  placeholder="Выберите условия"
-                                  :options="conditions" />
+                    <v-select label="name"
+                              class="form-select"
+                              :searchable="false"
+                              placeholder="Выберите условия"
+                              v-model="filterConditions"
+                              :options="conditions"></v-select>
                 </div>
             </div>
         </div>

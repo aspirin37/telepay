@@ -139,7 +139,11 @@ export default Vue.extend({
             await NotificationApi.markAsRead({ notificationId: notification.notificationId });
             this.notifications = this.notifications.filter(n => n.notificationId !== notification.notificationId);
             this.notificationsCount -= 1;
-
+        },
+        async setAllIsRead() {
+            await NotificationApi.markAllAsRead();
+            this.notifications = []
+            this.notificationsCount = 0
         }
     }
 });

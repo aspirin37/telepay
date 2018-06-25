@@ -9,7 +9,7 @@ export default {
         commit('CHANGE_STATE', {
             key: 'savedPost',
             value: {
-                text: 'Текст поста...',
+                text: '',
                 buttons: [],
                 images: [],
                 timeFrameId: [],

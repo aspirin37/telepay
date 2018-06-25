@@ -1,15 +1,14 @@
 <template src="./index.html"></template>
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 import { CatalogApi, ChannelApi } from '@services/api';
 
 import avatar from '@components/avatar';
-import searchInput from '@components/search-input';
 import dateInput from '@components/date-input';
 import channelList from '@components/channel-list';
-import searchInputOk from '@components/search-input-ok'
-import cutSum from '@filters/cut-sum'
+import searchInputOk from '@components/search-input-ok';
+import vSelect from 'vue-select';
 
 import CancelBtn from '@assets/crest-01.svg';
 
@@ -18,10 +17,10 @@ import { clone, cloneWFn } from '@utils/clone';
 export default Vue.extend({
     components: {
         avatar,
-        searchInput,
         dateInput,
         channelList,
-        searchInputOk
+        searchInputOk,
+        vSelect
     },
     data() {
         return {
@@ -31,13 +30,8 @@ export default Vue.extend({
             timeTo: '22:00',
             totalChannels: null,
             filter: {
-                erFrom: 0,
-                erTo: 1000,
                 weekDay: moment().weekday() + 1,
-                subscribersTo: 1000000,
-                subscribersFrom: 0,
-                priceTo: 100000,
-                priceFrom: 0,
+                category: null,
                 text: '',
                 inTopHours: null,
                 inFeedHours: null,
@@ -53,7 +47,7 @@ export default Vue.extend({
                     .set('second', 0)
             },
             publishDate: moment(),
-            filterConditions: '',
+            filterConditions: null,
             // weekDays: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
             categories: [],
             channels: [],
@@ -62,15 +56,12 @@ export default Vue.extend({
         };
     },
     created() {
-        this.getCategories();
-        this.getFilterValues();
-        this.getChannels(this.filter);
-
+        this.getData();
     },
     mounted() {
-        this.$on('isSearching', (data) => {
-            this.isSearching = data
-        })
+        this.$on('isSearching', data => {
+            this.isSearching = data;
+        });
     },
     watch: {
         filterConditions(val) {
@@ -114,36 +105,52 @@ export default Vue.extend({
     },
     computed: {
         ...mapState(['configs', 'user', 'selectedChannels']),
+        ...mapGetters({
+            isAuthorized: 'isAuthorized',
+        }),
         totalPrice() {
             return this.selectedChannels.reduce((sum, el) => {
                 return sum + el.timeFrame.reduce((ofSum, tf) => ofSum + (tf.selected ? tf.priceWithCommission : 0), 0);
             }, 0);
         },
         isMobile() {
-            return this.$mq == "sm"
+            return this.$mq === 'sm';
         },
         isDesktop() {
-            return this.$mq != "sm"
+            return this.$mq !== 'sm';
         }
     },
     methods: {
         ...mapActions({
             dropSelectedChannels: 'DROP_SELECTED_CHANNELS'
         }),
+        async getData() {
+            await Promise.all([
+                this.getCategories(),
+                this.getFilterValues()
+            ]);
+            await this.getChannels(this.filter);
+        },
         async getCategories() {
+            this.$store.commit('TOGGLE_LOADING', true);
             let { items, total } = await CatalogApi.list();
-            this.categories = items.sort((a, b) => b.count - a.count).map(it => it.item);
+            this.categories = items.sort((a, b) => b.count - a.count).map(it => {
+                if (it.count !== null) it.name += ` (${it.count})`;
+                return it
+            });
         },
         async getFilterValues() {
+            this.$store.commit('TOGGLE_LOADING', true);
             let stats = await CatalogApi.getStats();
-            this.filter.subscribersFrom = stats.subscriberCountMin
+            this.filter.subscribersFrom = stats.subscriberCountMin;
             this.filter.subscribersTo = stats.subscriberCountMax;
-            this.filter.erFrom = cutSum(stats.engagementRateMin);
-            this.filter.erTo = cutSum(stats.engagementRateMax);
+            this.filter.erFrom = stats.engagementRateMin;
+            this.filter.erTo = stats.engagementRateMax;
             this.filter.priceFrom = stats.priceWithCommissionMin / 100;
             this.filter.priceTo = stats.priceWithCommissionMax / 100;
         },
         async getChannels(params = {}) {
+            this.$store.commit('TOGGLE_LOADING', true);
             clearTimeout(this.debounceTimeout);
             let copy = clone(params);
             if (!copy.limit) copy.limit = 1000;
@@ -161,11 +168,11 @@ export default Vue.extend({
                 nowMinute = moment().minute();
 
             this.channels = items.map(item => {
-                if (item && item.timeFrame) {
-                    item.timeFrame = item.timeFrame.filter(timeFrame => {
-                        return timeFrame.weekDay === params.weekDay;
-                    });
-                }
+                // if (item && item.timeFrame) {
+                //     item.timeFrame = item.timeFrame.filter(timeFrame => {
+                //         return timeFrame.weekDay === params.weekDay;
+                //     });
+                // }
                 item.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(item);
 
                 if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
@@ -185,6 +192,7 @@ export default Vue.extend({
                     });
                 });
             }
+            this.$store.commit('TOGGLE_LOADING', false);
         },
         compileDate(val, key) {
             if (val) {
@@ -207,7 +215,7 @@ export default Vue.extend({
                 return ch;
             });
             this.dropSelectedChannels();
-        },
+        }
     }
 });
 </script>

@@ -32,6 +32,12 @@ export default {
         }
     },
     computed: {
+        isMobile() {
+            return this.$mq == 'sm'
+        },
+        isDesktop() {
+            return this.$mq != 'sm'
+        },
         mappedToSelected() {
             let copy = clone(this.channel);
             copy.selected = true;

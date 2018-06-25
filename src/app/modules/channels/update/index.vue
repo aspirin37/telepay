@@ -6,20 +6,26 @@ import heading from '@components/heading';
 import searchInput from '@components/search-input';
 import plural from '@utils/plural';
 import { ChannelApi, CatalogApi, TimeFrameApi } from '@services/api';
+// import Bot from '@assets/bot.svg';
+import vSelect from 'vue-select';
+import { clone } from '@utils/clone';
 
 export default {
     components: {
         avatar,
         onOff,
         searchInput,
-        heading
+        heading,
+        vSelect
     },
     data() {
         return {
+            // Bot,
             channel: {
                 isAutopost: undefined
             },
             cache: {},
+            cachedBlacklist: null,
             categories: [],
             showTimeframes: false,
             editingConditions: false,
@@ -40,6 +46,9 @@ export default {
             if (this.channel.channelId && typeof oldval !== 'undefined' && typeof isAutopost !== 'undefined') {
                 ChannelApi.edit(this.channel.channelId, { isAutopost });
             }
+        },
+        'channel.blacklist': function(v) {
+            this.handleSelect(v, this.cachedBlacklist)
         }
     },
     created() {
@@ -68,18 +77,12 @@ export default {
         maxPostsStr() {
             let { postCount, postPrice } = this.timeframesData;
             let totalPostsCount = postCount * 7;
-            return `Максимум за неделю: <span class="h5">${totalPostsCount}</span> ${this.pluralizePost(
-        totalPostsCount
-      )} - доход: <span class="h5">${this.cutKiloCentToRub(totalPostsCount * postPrice)}</span>`;
+            return `Максимум за неделю: <span class="h5">${totalPostsCount}</span> ${this.pluralizePost(totalPostsCount)} - доход: <span class="h5">${this.cutKiloCentToRub(totalPostsCount * postPrice)}</span>`;
         },
         dailyPostsStr() {
             let { postCount, postPrice, conditions } = this.timeframesData;
-            return `<span class="h5">${postCount}</span> ${this.pluralizePost(
-        postCount
-      )} в сутки, каждый по <span class="h5">${this.cutKiloCentToRub(postPrice)}</span><br>
-            <span class="h5">1</span> час в топе, присутствие в канале - <span class="h5">${
-              conditions === 'never' ? '∞' : conditions + 'ч'
-            }</span>`;
+            return `<span class="h5">${postCount}</span> ${this.pluralizePost(postCount)} в сутки, каждый по <span class="h5">${this.cutKiloCentToRub(postPrice)}</span><br>
+            <span class="h5">1</span> час в топе, присутствие в канале - <span class="h5">${conditions === 'never' ? '∞' : conditions + 'ч'}</span>`;
         }
     },
     methods: {
@@ -92,19 +95,28 @@ export default {
             items.sort((a, b) => (a.name === '18+' || a.name === 'Азартные игры' ? -1 : 1));
             this.categories = items;
             if (this.channel.blacklist && this.channel.blacklist.length) {
-                this.categories.forEach(cat => {
-                    if (this.channel.blacklist.find(c => cat.categoryId === c.categoryId)) {
-                        cat.selected = true;
-                    }
-                });
+                this.channel.blacklist = this.categories.reduce((sum, cat) => {
+                    let blacklisted = this.channel.blacklist.find(c => cat.categoryId === c.categoryId)
+                    if (blacklisted) sum.push(blacklisted.category);
+                    return sum
+                }, []);
+                this.cachedBlacklist = clone(this.channel.blacklist)
             }
         },
         pluralizePost: plural('пост', ['ов', '', 'а']),
-        async handleSelect(item) {
-            if (item.selected) {
-                await CatalogApi.blacklistAdd({ channelId: this.channel.channelId, categoryIds: [item.categoryId] });
-            } else {
-                await CatalogApi.blacklistRemove({ channelId: this.channel.channelId, categoryIds: [item.categoryId] });
+        async handleSelect(arr, oldArr) {
+            if (!arr || !oldArr) return;
+            let arrIds = arr.map(c => c.categoryId);
+            let oldArrIds = oldArr.map(c => c.categoryId);
+            if (arrIds.length === oldArrIds.length) return;
+
+            let added = arrIds.find(id => !oldArrIds.includes(id));
+            let removed = oldArrIds.find(id => !arrIds.includes(id));
+            this.cachedBlacklist = clone(this.channel.blacklist)
+            if (added && !removed) {
+                await CatalogApi.blacklistAdd({ channelId: this.channel.channelId, categoryIds: [added] });
+            } else if (removed && !added) {
+                await CatalogApi.blacklistRemove({ channelId: this.channel.channelId, categoryIds: [removed] });
             }
         },
         fixPostCount() {
@@ -141,7 +153,7 @@ export default {
 
 
         },
-        async deleteTimeFrames(alert) {
+        async deleteTimeFrames(alert, isFromUpdate) {
             let swalOut;
             if (alert) {
                 swalOut = await swal({
@@ -153,10 +165,12 @@ export default {
             if (this.channel.timeFrame.length && ((swalOut && !swalOut.dismiss) || !swalOut)) {
                 await Promise.all(this.channel.timeFrame.map(tf => TimeFrameApi.delete(tf.timeFrameId)));
                 this.channel.timeFrame = [];
-                this.timeframesData = {
-                    postCount: null,
-                    postPrice: null,
-                    conditions: ''
+                if (!isFromUpdate) {
+                    this.timeframesData = {
+                        postCount: null,
+                        postPrice: null,
+                        conditions: ''
+                    }
                 }
                 this.getChannelInfo()
             }
@@ -178,7 +192,7 @@ export default {
                 this.editingConditions = false;
                 return;
             }
-            await this.deleteTimeFrames(false);
+            await this.deleteTimeFrames(false, true);
 
             await TimeFrameApi.create({
                 channelId: this.channel.channelId,

@@ -4,6 +4,7 @@
             <textarea class="form-control"
                       rows="4"
                       v-model="text"
+                      placeholder="Текст поста..." 
                       ref="text"></textarea>
             <div class="textarea-input__icons">
                 <label @click="addButton"
@@ -22,7 +23,7 @@
                 </label>
                 <dropdown :style="{ 'margin-right': '3px' }"
                           class="textarea-input__icon"
-                          v-if="$mq == 'md+'">
+                          v-if="$mq != 'sm'">
                     <i slot="trigger"
                        v-tooltip="'Добавить эмоджи'"
                        class="fa fa-smile-o text-medium-font"
@@ -96,7 +97,7 @@ export default {
     },
     data() {
         return {
-            text: 'Текст поста...',
+            text: '',
             images: [],
             buttons: [],
             i18n: {

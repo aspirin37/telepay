@@ -26,6 +26,10 @@ export default {
             type: Boolean,
             default: false
         },
+        isFromChannels: {
+            type: Boolean,
+            default: false
+        },
         placeholder: {
             type: String,
             default: 'Нет постов'

@@ -1,22 +1,23 @@
 <div>
-    <div class="row chips"
+    <div class="form-row chips"
          v-if="innerChannels.length && isChips">
-        <div class="col p-1"
+        <div class="col-6 col-md-4 col-lg-3 mb-2"
              :key="ch.channelId"
              v-for="ch in innerChannels">
             <div class="chip d-flex align-items-center justify-content-between"
-                 :class="{selected:ch.selected}">
+                 @click="$router.push({name:'channels:show',params:{username:ch.username}})">
                 <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
-                        class="float-left w-25 h-25"
+                        class="float-left"
                         :circle="true" />
-                <b class="chip-title float-left">
-                    {{ch.title}}
-                    <br> {{ch.cheapestTimeFrame.priceWithCommission | centToRub}}
-                    <br> {{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}
-                </b>
-                <i class="fa float-right"
-                   @click="toggleChannel(ch,true)"
-                   :class="ch.selected?'fa-times fa-2x':'fa-repeat fa-lg ml-1'"></i>
+                <div class="title-block">
+                    <b class="chip-title overflow-ellipsis">
+                        <div>{{ch.title}}</div>
+                    </b>
+                    <div class="float-left">{{ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
+                    <div class="float-right">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
+                </div>
+                <span class="close-icon"
+                      @click="toggleChannel(ch,true)">&times;</span>
             </div>
         </div>
     </div>

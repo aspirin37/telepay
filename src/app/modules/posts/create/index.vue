@@ -1,7 +1,7 @@
 <template src="./index.html"></template>
 <script>
 import { mapState, mapActions } from 'vuex';
-import { ChannelApi, PostApi, CatalogApi, PostTemplateApi } from '@services/api';
+import { ChannelApi, PostApi, CatalogApi, PostTemplateApi, UserApi } from '@services/api';
 import channelList from '@components/channel-list';
 import postPreview from '@components/post-preview';
 import postInput from '@components/post-input';
@@ -29,7 +29,6 @@ export default {
                 text: 'Текст поста...',
                 buttons: [],
                 images: [],
-                time: ''
             },
             postTemplates: [],
             postTime: moment()
@@ -92,15 +91,22 @@ export default {
         }),
         selectedTimeFrameIds() {
             return this.selectedChannels.reduce((sum, ch) => {
-                let selectedTimeFrameIds = ch.timeFrame.reduce((sumTimeFrames, timeFrame) => {
-                    if (timeFrame.selected) sumTimeFrames.push(timeFrame.timeFrameId);
-                    return sumTimeFrames;
-                }, []);
-                if (selectedTimeFrameIds.length) {
-                    return sum.concat(selectedTimeFrameIds);
-                }
+                // let selectedTimeFrameIds = ch.timeFrame.reduce((sumTimeFrames, timeFrame) => {
+                //     if (timeFrame.selected) sumTimeFrames.push(timeFrame.timeFrameId);
+                //     return sumTimeFrames;
+                // }, []);
+
+                let ctf = ChannelApi.getCheapestTimeFrame(ch);
+                if (ctf && ctf.timeFrameId) sum.push(ctf.timeFrameId);
+
+                // if (selectedTimeFrameIds.length) {
+                //     return sum.concat(selectedTimeFrameIds);
+                // }
                 return sum;
             }, []);
+        },
+        selectedChannelNames() {
+            return this.selectedChannels.map(ch => ch.title)
         },
         channelsToAdd() {
             if (this.channels.length) {
@@ -188,13 +194,12 @@ export default {
 
             let startDateTime = postTime.format('YYYY-MM-DD HH:mm:ss');
             let endDateTime = postTime.add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
-
             if (this.selectedTimeFrameIds.length) {
                 this.notAvailableTimeFrames = [];
                 this.errors.notAvailableTime = false;
-                this.selectedTimeFrameIds.forEach(it => {
+                this.selectedTimeFrameIds.forEach(timeFrameId => {
                     let timeCheckData = {
-                        timeFrameId: it,
+                        timeFrameId,
                         startDateTime,
                         endDateTime
                     };
@@ -205,7 +210,7 @@ export default {
                         })
                         .catch(err => {
                             this.errors.notAvailableTime = true;
-                            this.notAvailableTimeFrames.push(it);
+                            this.notAvailableTimeFrames.push(timeFrameId);
                         });
                 });
             }
@@ -229,6 +234,8 @@ export default {
                 .set('second', 0);
 
             this.errors.time = moment() > postTime;
+
+            this.post.time = postTime.format('HH:mm')
         },
         watchPostTemplateId(val) {
             if (val && typeof val === 'string') {
@@ -266,7 +273,8 @@ export default {
         //     }
         // },
         createPost(isTemplate) {
-            // this.checkTime()
+            // console.log(this.user.balance.current)
+            this.checkTime()
             let { buttons, images, publishAt, text, postTemplateId } = this.post;
 
             let timeArr = this.postTime.split(':');
@@ -304,6 +312,9 @@ export default {
                     this.$store.commit('CHANGE_STATE', { key: 'user.balance.current', value: this.user.balance.current - this.totalPrice });
                 }
                 this.$router.push({ name: 'posts:list' });
+                UserApi.getUser().then((res) => {
+                    this.$store.commit('SET_USER', res)
+                })
             });
         },
         getFormData(formData, data, previousKey) {
@@ -336,10 +347,10 @@ export default {
         // },
         dropTemplate() {
             this.post.postTemplateId = '';
-            this.post.text = 'Текст поста...';
+            this.post.text = '';
             this.post.buttons = [];
             this.post.images = [];
-            this.postData.text = 'Текст поста...';
+            this.postData.text = '';
             this.postData.buttons = [];
             this.postData.images = [];
         },
