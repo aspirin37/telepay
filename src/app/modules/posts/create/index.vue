@@ -295,13 +295,13 @@ export default {
                 isTemplate
             };
 
-            if (postTemplateId) {
-                data.postTemplateId = postTemplateId;
-            } else {
-                data.buttons = JSON.stringify(buttons);
-                data.images = images && images.map(im => im.file);
-                data.text = text.replace(/↵/g, '\n');
-            }
+            // if (postTemplateId) {
+            //     data.postTemplateId = postTemplateId;
+            // } else {
+            data.buttons = JSON.stringify(buttons);
+            data.images = images && images.map(im => im.file);
+            data.text = text.replace(/↵/g, '\n');
+            // }
 
             let formData = this.getFormData(new FormData(), data);
 

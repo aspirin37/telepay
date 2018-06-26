@@ -119,6 +119,7 @@ export default {
         },
         replaceMarkdown(text) {
             if (!text) return 'Текст поста...'
+            text = text.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
             text = this.replaceBold(text);
             text = this.replaceItalic(text);
             text = this.replacePre(text);
