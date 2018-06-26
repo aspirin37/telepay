@@ -52,7 +52,10 @@ export default Vue.extend({
             categories: [],
             channels: [],
             conditions: [{ name: '1/24' }, { name: '1/48' }, { name: '1/∞' }],
-            showFilters: false
+            showFilters: false,
+            limit: 6,
+            noMoreItems: false,
+            isLoading: false
         };
     },
     created() {
@@ -62,9 +65,12 @@ export default Vue.extend({
         this.$on('isSearching', data => {
             this.isSearching = data;
         });
-        this.$on('scrolled', ($state) => {
-            this.channels = this.channels.concat(this.channels)
-            $state.loaded()
+        this.$on('loadMore', (i) => {
+            this.isLoading = true;
+            if (this.channels.length >= this.limit && !this.noMoreItems) {
+                let offset = i * this.limit
+                this.getChannels(this.filter, true, offset)
+            }
         })
     },
     watch: {
@@ -136,7 +142,7 @@ export default Vue.extend({
             await this.getChannels(this.filter);
         },
         async getCategories() {
-            this.$store.commit('TOGGLE_LOADING', true);
+            // this.$store.commit('TOGGLE_LOADING', true);
             let { items, total } = await CatalogApi.list();
             this.categories = items.sort((a, b) => b.count - a.count).map(it => {
                 if (it.count !== null) it.name += ` (${it.count})`;
@@ -144,7 +150,7 @@ export default Vue.extend({
             });
         },
         async getFilterValues() {
-            this.$store.commit('TOGGLE_LOADING', true);
+            // this.$store.commit('TOGGLE_LOADING', true);
             let stats = await CatalogApi.getStats();
             this.filter.subscribersFrom = stats.subscriberCountMin;
             this.filter.subscribersTo = stats.subscriberCountMax;
@@ -153,11 +159,13 @@ export default Vue.extend({
             this.filter.priceFrom = stats.priceWithCommissionMin / 100;
             this.filter.priceTo = stats.priceWithCommissionMax / 100;
         },
-        async getChannels(params = {}) {
-            this.$store.commit('TOGGLE_LOADING', true);
+        async getChannels(params = {}, isScrolled = false, offset) {
+            this.isLoading = true;
+            // this.$store.commit('TOGGLE_LOADING', true);
             clearTimeout(this.debounceTimeout);
             let copy = clone(params);
-            if (!copy.limit) copy.limit = 1000;
+            if (!copy.limit) copy.limit = this.limit;
+            if (!copy.offset) copy.offset = offset;
             copy.priceFrom *= 100;
             copy.priceTo *= 100;
             if (copy.category) {
@@ -171,19 +179,22 @@ export default Vue.extend({
                 nowHour = moment().hour(),
                 nowMinute = moment().minute();
 
-            this.channels = items.map(item => {
-                // if (item && item.timeFrame) {
-                //     item.timeFrame = item.timeFrame.filter(timeFrame => {
-                //         return timeFrame.weekDay === params.weekDay;
-                //     });
-                // }
+            let temp = items.map(item => {
                 item.cheapestTimeFrame = ChannelApi.getCheapestTimeFrame(item);
 
                 if (item.categoryItem && item.categoryItem[0]) item.category = item.categoryItem[0].category.name;
                 return item;
             });
 
-            // this.channels = this.channels.concat(this.channels).concat(this.channels).concat(this.channels).concat(this.channels)
+            this.channels = isScrolled ? this.channels.concat(temp) : temp;
+
+            // console.log(items.length)
+
+            if (!items.length) {
+                this.noMoreItems = true
+            }
+
+            // this.channels = this.channels.concat(this.channels)
 
             if (this.selectedChannels) {
                 this.selectedChannels.forEach(sch => {
@@ -198,7 +209,9 @@ export default Vue.extend({
                     });
                 });
             }
-            this.$store.commit('TOGGLE_LOADING', false);
+
+            this.isLoading = false;
+            // this.$store.commit('TOGGLE_LOADING', false);
         },
         compileDate(val, key) {
             if (val) {

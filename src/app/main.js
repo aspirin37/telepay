@@ -23,9 +23,6 @@ Vue.use(VueMq, {
     }
 });
 
-
-
-
 // services
 import '@filters';
 // directives

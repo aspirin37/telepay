@@ -4,8 +4,11 @@
 import { ChannelApi } from '@services/api';
 import avatar from '@components/avatar';
 import normCheckbox from '@components/checkbox';
+import loader from '@components/loader';
 import channelAvatar from '@components/channel-avatar'
-import InfiniteLoading from 'vue-infinite-loading';
+
+import infiniteScroll from 'vue-infinite-scroll'
+import infiniteLoading from 'vue-infinite-loading'
 
 import { clone } from '@utils/clone';
 export default Vue.extend({
@@ -13,7 +16,11 @@ export default Vue.extend({
         avatar,
         channelAvatar,
         normCheckbox,
-        InfiniteLoading
+        infiniteLoading,
+        loader
+    },
+    directives: {
+        infiniteScroll
     },
     props: {
         channels: {
@@ -51,6 +58,20 @@ export default Vue.extend({
         isChips: {
             type: Boolean,
             default: false
+        },
+        noMoreItems: {
+            type: Boolean,
+            default: false
+        },
+        isLoading: {
+            type: Boolean,
+            default: false,
+        }
+    },
+    data() {
+        return {
+            state: null,
+            offsetIndex: 1
         }
     },
     computed: {
@@ -91,14 +112,35 @@ export default Vue.extend({
             }, []);
         }
     },
+    watch: {
+        isLoading() {
+            if (!this.isLoading && this.state) {
+                this.state.loaded();
+            }
+        },
+        noMoreItems() {
+            if (this.noMoreItems && this.state) {
+                this.state.complete()
+            }
+        }
+    },
     methods: {
-        infiniteHandler($state) {
-            // this.$parent.$emit('scrolled', $state)
-            // setTimeout(() => {
-
-            //     this.innerChannels = this.innerChannels.concat(this.innerChannels);
-            //     $state.loaded();
-            // }, 1000);
+        infiniteHandler($state, arrLength) {
+            this.state = $state
+            // console.log($state)
+            // console.log(arrLength)
+            // if (arrLength < 6) {
+            //     this.state.loaded();
+            // }
+            // if (this.noMoreItems) {
+            //     this.state.complete();
+            //     return
+            // }
+            this.$parent.$emit('loadMore', this.offsetIndex)
+            this.offsetIndex++
+                // setTimeout(() => {
+                //     this.state.loaded();
+                // }, 2000);
         },
         timeFrameDates: ChannelApi.timeFrameDates,
         toggleChannel(ch, changeModel) {
