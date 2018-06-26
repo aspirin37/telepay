@@ -94,6 +94,7 @@ export default Vue.extend({
         },
         filter: {
             handler(val, newval) {
+                console.log(val, newVal);
                 clearTimeout(this.debounceTimeout);
                 this.debounceTimeout = setTimeout(this.getChannels, 500, val);
             },

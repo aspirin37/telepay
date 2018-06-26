@@ -96,7 +96,7 @@ module.exports = function (env) {
     if(env.NODE_ENV === 'development') {
         return merge([
             common(env),
-            devserver(PATHS),
+            devserver(PATHS, env),
             sass(),
             css(),
         ]);

@@ -147,7 +147,7 @@
                 
                        :class="channel.isBotApproved?'text-success':'text-danger'"></i>
                     <i class="fa fa-check-circle"
-                       v-tooltip="{template:channel.status===1?'Канал подтвержден модератором':channel.status===0?'Канал ожидает проверки модератором':'Ваш канал отклонен модератором, причина указана ниже'}"
+                       v-tooltip="{template:channel.status===1?'Канал подтвержден модератором':channel.status===0?'Канал ожидает проверки модератором':`Ваш канал отклонен модератором, причина: ${channel.decline_reason}`}"
                 
                        :class="channel.status===1?'text-success':channel.status===0?'text-muted':'text-danger'"></i>
                 </h4>

@@ -1,5 +1,18 @@
 const webpack = require('webpack');
-module.exports = function (paths) {
+module.exports = function (paths, env) {
+    let OFFICE_URL;
+    switch(env.url) {
+    case 'loc':
+        OFFICE_URL = 'http://0.0.0.0:8080';
+        break;
+    case 'dev':
+        OFFICE_URL = 'https://dev.telepay.io';
+        break;
+    default:
+        OFFICE_URL = 'https://telepay.io';
+        break;
+    }
+
     return {
         plugins: [
             new webpack.HotModuleReplacementPlugin({}),
@@ -15,7 +28,7 @@ module.exports = function (paths) {
             compress: true,
             proxy: {
                 '/images/': {
-                    target: (process.env.url === 'dev' || process.env.url === 'loc') ? 'https://dev.telepay.io' : 'https://telepay.io',
+                    target: OFFICE_URL,
                     secure: false,
                     logLevel: 'debug',
                     changeOrigin: true
