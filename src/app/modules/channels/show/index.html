@@ -1,6 +1,7 @@
 <div class="container py-3 px-2 px-md-0"
      v-if="channel && channel.channelId">
-    <heading :text="isMobile ? 'Просмотр канала' : channel.title" />
+    <heading :text="isMobile ? 'Просмотр канала' : channel.title"
+             :link="channel.username" />
     <div class="row mb-md-4">
         <div class="d-flex flex-wrap col-12 col-md-8 mr-md-auto px-0 my-4 pt-md-4">
             <div class="d-flex offset-1 offset-md-0"
@@ -17,7 +18,8 @@
                 </div>
                 <div class="d-flex flex-column justify-content-between"
                      v-else>
-                    <div class="channel-text mb-4">{{ channel.description }}</div>
+                    <div class="channel-text mb-4"
+                         v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></div>
                     <div class="channel-category--show-channel">Категория:
                         <span class="text-primary">{{ channel.category || 'Без категории' }}</span>
                     </div>
