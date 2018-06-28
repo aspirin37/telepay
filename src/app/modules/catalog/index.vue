@@ -93,7 +93,7 @@ export default Vue.extend({
             this.compileDate(this.timeTo, 'timeTo');
         },
         filter: {
-            handler(val, newval) {
+            handler(val) {
                 clearTimeout(this.debounceTimeout);
                 this.debounceTimeout = setTimeout(this.getChannels, 500, val);
             },
