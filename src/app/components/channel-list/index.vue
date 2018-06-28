@@ -66,6 +66,10 @@ export default Vue.extend({
         isLoading: {
             type: Boolean,
             default: false,
+        },
+        limit: {
+            type: Number,
+            default: 10,
         }
     },
     data() {
@@ -127,20 +131,14 @@ export default Vue.extend({
     methods: {
         infiniteHandler($state, arrLength) {
             this.state = $state
-            // console.log($state)
-            // console.log(arrLength)
-            // if (arrLength < 6) {
-            //     this.state.loaded();
-            // }
-            // if (this.noMoreItems) {
-            //     this.state.complete();
-            //     return
-            // }
+
+            if (arrLength < this.limit) {
+                this.state.complete();
+                return
+            }
+
             this.$parent.$emit('loadMore', this.offsetIndex)
             this.offsetIndex++
-                // setTimeout(() => {
-                //     this.state.loaded();
-                // }, 2000);
         },
         timeFrameDates: ChannelApi.timeFrameDates,
         toggleChannel(ch, changeModel) {

@@ -78,8 +78,10 @@
                 <div class="catalog-spinner">
                 </div>
             </div> -->
-            <infinite-loading @infinite="infiniteHandler($event, innerChannels.length)">
+            <infinite-loading @infinite="infiniteHandler($event, innerChannels.length)"
+                              :distance=600>
                 <span slot="no-more">
+                    Больше ничего нет.
                 </span>
                 <!-- <span slot="no-results">
                 </span> -->

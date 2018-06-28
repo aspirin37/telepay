@@ -53,7 +53,7 @@ export default Vue.extend({
             channels: [],
             conditions: [{ name: '1/24' }, { name: '1/48' }, { name: '1/∞' }],
             showFilters: false,
-            limit: 6,
+            limit: 10,
             noMoreItems: false,
             isLoading: false
         };
@@ -66,8 +66,8 @@ export default Vue.extend({
             this.isSearching = data;
         });
         this.$on('loadMore', (i) => {
-            this.isLoading = true;
             if (this.channels.length >= this.limit && !this.noMoreItems) {
+                this.isLoading = true;
                 let offset = i * this.limit
                 this.getChannels(this.filter, true, offset)
             }
