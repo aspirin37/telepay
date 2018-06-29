@@ -25,3 +25,12 @@ dev_deploy:
   only:
     - dev
   # when: manual
+
+dev_deploy:
+  stage: deploy
+  script:
+    - ansible-playbook -i inventories/dev/hosts playbooks/frontend.yml -t short
+    - ansible-playbook -i inventories/dev/hosts playbooks/deploy/telepay-frontend.yml -e envurl=dev -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
+  only:
+    - deploy-build
+  # when: manual
