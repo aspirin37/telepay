@@ -12,7 +12,7 @@
         "dpsh": "webpack  --progress --env.NODE_ENV production --env.url dev && git add . && git commit -m",
         "ppsh": "webpack --progress --env.NODE_ENV production && git add . && git commit -m",
         "bdev": "webpack --progress --env.NODE_ENV production --env.url dev",
-        "bprd": "webpack --progress --env.NODE_ENV production"
+        "bprd": "webpack --progress --env.NODE_ENV production",
         "build": "webpack --progress --env.NODE_ENV production"
     },
     "babel": {

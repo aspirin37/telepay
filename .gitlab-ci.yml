@@ -27,7 +27,7 @@ dev_deploy:
     - dev
   # when: manual
 
-dev_deploy:
+test_deploy:
   stage: deploy
   script:
     - ansible-playbook -i inventories/dev/hosts playbooks/frontend.yml -t short
