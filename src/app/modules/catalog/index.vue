@@ -30,6 +30,12 @@ export default Vue.extend({
             timeTo: '22:00',
             totalChannels: null,
             filter: {
+                subscribersFrom: 0,
+                subscribersTo: 10000,
+                erFrom: 0,
+                erTo: 100,
+                priceFrom: 0,
+                priceTo: 10000,
                 weekDay: moment().weekday() + 1,
                 category: null,
                 text: '',
@@ -93,8 +99,7 @@ export default Vue.extend({
             this.compileDate(this.timeTo, 'timeTo');
         },
         filter: {
-            handler(val, newval) {
-                console.log(val, newVal);
+            handler(val) {
                 clearTimeout(this.debounceTimeout);
                 this.debounceTimeout = setTimeout(this.getChannels, 500, val);
             },
@@ -129,6 +134,9 @@ export default Vue.extend({
         ...mapActions({
             dropSelectedChannels: 'DROP_SELECTED_CHANNELS'
         }),
+        // setFilter() {
+
+        // },
         async getData() {
             await Promise.all([
                 this.getCategories(),
