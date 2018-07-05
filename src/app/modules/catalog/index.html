@@ -1,8 +1,4 @@
 <div class="container py-3 pt-2 pt-md-4 pt-md-3 px-2 px-md-0">
-    <!-- <transition name="fade-3">
-        <div class="search-overlay"
-             v-show="isSearching"></div>
-    </transition> -->
     <div class="d-md-flex flex-row row">
         <h1 class="d-none d-md-block col-2 order-first">Каталог</h1>
         <div class="d-flex col-md-6 mb-2 mb-md-4 pl-md-1">
@@ -45,14 +41,15 @@
         </h5>
         <div class="col-6 col-md-2 offset-md-8 pl-md-0 text-left"
              :class="{'px-1': isMobile}">
-            <div class="btn btn-link px-0 mb-1 mb-md-3 text-dark"
+            <div class="btn btn-link px-0 text-dark"
                  :class="{'float-right': isMobile}"
                  @click="toggleFilters">
                 <i class="fa mr-2"
                    :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </div>
-            <h3 class="d-none mb-0 float-right float-md-none">
-                <small>Стоимость: </small>
-                <br> {{totalPrice|centToRub}} </h3>
+            <h5 class="d-none d-md-block mb-2 float-right float-md-none">
+                <span class="font-weight-normal">Стоимость:</span>
+                <b> {{totalPrice|centToRub}} </b>
+            </h5>
         </div>
     </div>
     <transition name="fade">
