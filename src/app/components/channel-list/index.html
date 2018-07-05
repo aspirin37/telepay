@@ -47,6 +47,7 @@
         </div>
         <v-infinite-scroll class="body"
                            :loading="loading"
+                           :onTopScrollsToBottom="false"
                            @bottom="nextPage">
             <div class="body-row px-0 px-md-4"
                  :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}"

@@ -59,6 +59,7 @@ export default Vue.extend({
             channels: [],
             conditions: [{ name: '1/24' }, { name: '1/48' }, { name: '1/∞' }],
             showFilters: false,
+            page: 1,
             limit: 25,
             loading: false,
         };
@@ -70,11 +71,11 @@ export default Vue.extend({
         this.$on('isSearching', data => {
             this.isSearching = data;
         });
-        this.$on('scrolledBottom', (i) => {
-            this.loading = true
+        this.$on('scrolledBottom', () => {
             if (this.channels.length >= this.limit) {
-                let offset = i * this.limit
+                let offset = this.page * this.limit
                 this.getChannels(this.filter, true, offset)
+                this.page++
             }
         })
     },
@@ -106,6 +107,9 @@ export default Vue.extend({
         filter: {
             handler(val) {
                 clearTimeout(this.debounceTimeout);
+                this.page = 1
+                let container = document.querySelector('.body')
+                if (container) container.scrollTop = 0
                 this.debounceTimeout = setTimeout(this.getChannels, 500, val);
             },
             deep: true
@@ -168,7 +172,7 @@ export default Vue.extend({
             this.filter.priceTo = stats.priceWithCommissionMax / 100;
         },
         async getChannels(params = {}, isScrolled = false, offset) {
-            this.isLoading = true;
+            this.loading = true;
             // this.$store.commit('TOGGLE_LOADING', true);
             clearTimeout(this.debounceTimeout);
             let copy = clone(params);
@@ -181,7 +185,7 @@ export default Vue.extend({
                 delete copy.category;
             }
 
-            let { items, total } = await CatalogApi.filter(copy);
+            let { items, total } = await CatalogApi.filter(copy)
             this.totalChannels = total;
             let isToday = this.publishDate.day() === moment().day(),
                 nowHour = moment().hour(),

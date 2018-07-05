@@ -69,7 +69,6 @@ export default Vue.extend({
     data() {
         return {
             state: null,
-            offsetIndex: 1,
         }
     },
     computed: {
@@ -119,8 +118,7 @@ export default Vue.extend({
     },
     methods: {
         nextPage() {
-            this.$parent.$emit('scrolledBottom', this.offsetIndex)
-            this.offsetIndex++
+            this.$parent.$emit('scrolledBottom')
         },
         timeFrameDates: ChannelApi.timeFrameDates,
         toggleChannel(ch, changeModel) {
