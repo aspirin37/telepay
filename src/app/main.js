@@ -5,6 +5,8 @@ import router from './routes';
 import store from './store';
 import { mapGetters } from 'vuex';
 import VueMq from 'vue-mq';
+import InfiniteScroll from 'v-infinite-scroll'
+import 'v-infinite-scroll/dist/v-infinite-scroll.css'
 
 import '@services/interceptor';
 import WebStorage from '@utils/storage';
@@ -22,6 +24,8 @@ Vue.use(VueMq, {
         md: Infinity,
     }
 });
+
+Vue.use(InfiniteScroll)
 
 // services
 import '@filters';

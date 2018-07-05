@@ -60,12 +60,16 @@ export default Vue.extend({
         limit: {
             type: Number,
             default: 10,
+        },
+        loading: {
+            type: Boolean,
+            default: false,
         }
     },
     data() {
         return {
             state: null,
-            offsetIndex: 1
+            offsetIndex: 1,
         }
     },
     computed: {
@@ -114,6 +118,10 @@ export default Vue.extend({
         }
     },
     methods: {
+        nextPage() {
+            this.$parent.$emit('scrolledBottom', this.offsetIndex)
+            this.offsetIndex++
+        },
         timeFrameDates: ChannelApi.timeFrameDates,
         toggleChannel(ch, changeModel) {
             if (changeModel) ch.selected = !ch.selected;
