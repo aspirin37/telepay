@@ -41,14 +41,16 @@
         </h5>
         <div class="col-6 col-md-2 offset-md-8 pl-md-0 text-left"
              :class="{'px-1': isMobile}">
-            <div class="btn btn-link px-0 mb-1 mb-md-3 text-dark"
+            <div class="btn btn-link px-0 pb-1 text-dark"
                  :class="{'float-right': isMobile}"
                  @click="toggleFilters">
                 <i class="fa mr-2"
                    :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </div>
-            <h3 class="d-none mb-0 float-right float-md-none">
-                <small>Стоимость: </small>
-                <br> {{totalPrice|centToRub}} </h3>
+            <span class="d-none d-md-block mb-0 float-right float-md-none"
+                  v-if="totalPrice">
+                Стоимость:
+                <b> {{totalPrice|centToRub}} </b>
+            </span>
         </div>
     </div>
     <transition name="fade">
