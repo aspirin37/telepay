@@ -59,7 +59,7 @@ export default Vue.extend({
             channels: [],
             conditions: [{ name: '1/24' }, { name: '1/48' }, { name: '1/∞' }],
             showFilters: false,
-            limit: 40,
+            limit: 25,
             loading: false,
         };
     },
