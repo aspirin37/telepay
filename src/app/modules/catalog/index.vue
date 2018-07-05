@@ -54,8 +54,6 @@ export default Vue.extend({
             conditions: [{ name: '1/24' }, { name: '1/48' }, { name: '1/∞' }],
             showFilters: false,
             limit: 10,
-            noMoreItems: false,
-            isLoading: false
         };
     },
     created() {
@@ -65,13 +63,14 @@ export default Vue.extend({
         this.$on('isSearching', data => {
             this.isSearching = data;
         });
-        this.$on('loadMore', (i) => {
-            if (this.channels.length >= this.limit && !this.noMoreItems) {
-                this.isLoading = true;
-                let offset = i * this.limit
-                this.getChannels(this.filter, true, offset)
-            }
-        })
+        // this.$on('loadMore', (i) => {
+        //     if (this.channels.length >= this.limit && !this.noMoreItems) {
+        //         this.isLoading = true;
+        //         container.scrollTop = container.scrollHeight
+        //         let offset = i * this.limit
+        //         this.getChannels(this.filter, true, offset)
+        //     }
+        // })
     },
     watch: {
         filterConditions(val) {

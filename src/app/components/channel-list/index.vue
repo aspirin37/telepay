@@ -7,8 +7,6 @@ import normCheckbox from '@components/checkbox';
 import loader from '@components/loader';
 import channelAvatar from '@components/channel-avatar'
 
-import infiniteScroll from 'vue-infinite-scroll'
-import infiniteLoading from 'vue-infinite-loading'
 
 import { clone } from '@utils/clone';
 export default Vue.extend({
@@ -16,11 +14,7 @@ export default Vue.extend({
         avatar,
         channelAvatar,
         normCheckbox,
-        infiniteLoading,
         loader
-    },
-    directives: {
-        infiniteScroll
     },
     props: {
         channels: {
@@ -62,10 +56,6 @@ export default Vue.extend({
         noMoreItems: {
             type: Boolean,
             default: false
-        },
-        isLoading: {
-            type: Boolean,
-            default: false,
         },
         limit: {
             type: Number,
@@ -117,11 +107,6 @@ export default Vue.extend({
         }
     },
     watch: {
-        isLoading() {
-            if (!this.isLoading && this.state) {
-                this.state.loaded();
-            }
-        },
         noMoreItems() {
             if (this.noMoreItems && this.state) {
                 this.state.complete()
@@ -129,17 +114,6 @@ export default Vue.extend({
         }
     },
     methods: {
-        infiniteHandler($state, arrLength) {
-            this.state = $state
-
-            if (arrLength < this.limit) {
-                this.state.complete();
-                return
-            }
-
-            this.$parent.$emit('loadMore', this.offsetIndex)
-            this.offsetIndex++
-        },
         timeFrameDates: ChannelApi.timeFrameDates,
         toggleChannel(ch, changeModel) {
             if (changeModel) ch.selected = !ch.selected;
