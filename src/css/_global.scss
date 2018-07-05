@@ -477,7 +477,8 @@ body {
         background: theme-color('light');
     }
     .body {
-        max-height: 50vh;
+        -webkit-overflow-scrolling: touch;
+        max-height: 80vh;
         transition: max-height 0.3s ease;
         overflow: auto;
         &.small-body {
