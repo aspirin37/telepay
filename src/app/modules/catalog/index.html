@@ -1,11 +1,11 @@
-<div class="container py-3 pt-4 pt-md-3 px-2 px-md-0">
+<div class="container py-3 pt-2 pt-md-4 pt-md-3 px-2 px-md-0">
     <!-- <transition name="fade-3">
         <div class="search-overlay"
              v-show="isSearching"></div>
     </transition> -->
     <div class="d-md-flex flex-row row">
         <h1 class="d-none d-md-block col-2 order-first">Каталог</h1>
-        <div class="d-flex col-md-6 mb-4 pl-md-1">
+        <div class="d-flex col-md-6 mb-2 mb-md-4 pl-md-1">
             <div class="col-6 col-md-8 px-1"
                  :class="{'col-12': isSearching && isMobile}">
                 <search-input-ok :text="filter.text"
@@ -23,7 +23,7 @@
                       v-if="selectedChannels.length && isDesktop">Сбросить выбор</span>
             </div>
         </div>
-        <div class="col-md-4 mb-4 pl-md-4 pr-md-1"
+        <div class="col-md-4 mb-3 mb-md-4 pl-md-4 pr-md-1"
              :class="{'order-first': isDesktop, 'px-1': isMobile}">
             <div class="col-12"
                  :class="{'px-0': isDesktop}">
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="d-flex flex-row mb-4"
+    <div class="d-flex flex-row mb-3 mb-md-2"
          :class="{'row': isDesktop}">
         <h5 class="col-6 col-md-2"
             :class="{'px-1': isMobile}">
@@ -45,12 +45,12 @@
         </h5>
         <div class="col-6 col-md-2 offset-md-8 pl-md-0 text-left"
              :class="{'px-1': isMobile}">
-            <div class="btn btn-link px-0 mb-3 text-dark"
+            <div class="btn btn-link px-0 mb-1 mb-md-3 text-dark"
                  :class="{'float-right': isMobile}"
                  @click="toggleFilters">
                 <i class="fa mr-2"
                    :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </div>
-            <h3 class="mb-0 float-right float-md-none">
+            <h3 class="d-none mb-0 float-right float-md-none">
                 <small>Стоимость: </small>
                 <br> {{totalPrice|centToRub}} </h3>
         </div>
@@ -134,6 +134,7 @@
                               :searchable="false"
                               placeholder="Выберите условия"
                               v-model="filterConditions"
+                              :limit="limit"
                               :options="conditions"></v-select>
                 </div>
             </div>
@@ -142,5 +143,10 @@
     <channel-list :filter="filter"
                   :small-body="showFilters"
                   :user="user"
-                  :channels="channels" />
+                  :channels="channels"
+                  :loading="loading" />
+    <!-- <div class="d-flex justify-content-center"
+         v-if="isLoading">
+        <div class="catalog-spinner"></div>
+    </div> -->
 </div>
