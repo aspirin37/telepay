@@ -5,7 +5,7 @@
              :key="ch.channelId"
              v-for="ch in innerChannels">
             <div class="chip d-flex align-items-center justify-content-between"
-                 @click="$router.push({name:'channels:show',params:{username:ch.username}})">
+                 @click="chipsClickHandler($event, ch.username)">
                 <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
                         class="float-left"
                         :circle="true" />

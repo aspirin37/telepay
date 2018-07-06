@@ -120,6 +120,12 @@ export default Vue.extend({
         nextPage() {
             this.$parent.$emit('scrolledBottom')
         },
+        chipsClickHandler(evt, username) {
+            let cancelBtn = '.close-icon';
+            if (!evt.target.matches(cancelBtn)) {
+                this.$router.push({ name: 'channels:show', params: { username } })
+            }
+        },
         timeFrameDates: ChannelApi.timeFrameDates,
         toggleChannel(ch, changeModel) {
             if (changeModel) ch.selected = !ch.selected;
