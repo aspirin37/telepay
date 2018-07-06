@@ -478,7 +478,7 @@ body {
     }
     .body {
         -webkit-overflow-scrolling: touch;
-        max-height: 78vh;
+        max-height: calc(100vh - 145px);
         transition: max-height 0.3s ease;
         overflow: auto;
         &.small-body {
