@@ -33,7 +33,7 @@ build telepay:
     ENV_URL: dev
   script:
     - npm install
-    - npm run build -- --env.url ${ENV_URL}
+    - npm run ci_build -- --env.url ${ENV_URL}
 
 # Деплой приложения
 dep prod:

@@ -12,7 +12,7 @@
         "dpsh": "webpack  --progress --env.NODE_ENV production --env.url dev && git add . && git commit -m",
         "ppsh": "webpack --progress --env.NODE_ENV production && git add . && git commit -m",
         "bdev": "webpack --progress --env.NODE_ENV production --env.url dev",
-        "build": "webpack --progress --env.NODE_ENV production"
+        "ci_build": "webpack --env.NODE_ENV production"
     },
     "babel": {
         "presets": [
