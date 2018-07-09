@@ -13,8 +13,6 @@ stages:
   stage: deploy
   before_script:
    - git clone git@lab.postradar.ru:ansible/telepay-deploy.git /tmp/ansible-$CI_COMMIT_SHA
-   - git checkout deploy-build
-   - git pull
    - cd /tmp/ansible-$CI_COMMIT_SHA
    - ansible-galaxy install -r requirements.yml -p roles
 
@@ -26,7 +24,7 @@ stages:
     - ansible-playbook -i inventories/dev/hosts playbooks/deploy/telepay-frontend.yml -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
 
 # сборка приложения
-build telepay:
+build bundle:
   <<: *docker_tags
   stage: build
   image: node:8.11.3
@@ -42,7 +40,7 @@ dep prod:
   variables:
     ENV_URL: prod
   dependencies:
-    - build telepay
+    - build bundle
   only: 
     - master
   when: manual
@@ -52,8 +50,7 @@ dep dev:
   variables:
     ENV_URL: dev
   dependencies:
-    - build telepay
+    - build bundle
   only: 
     - dev
-    - deploy-build
 
