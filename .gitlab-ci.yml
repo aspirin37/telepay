@@ -29,6 +29,8 @@ build telepay:
   <<: *docker_tags
   stage: build
   image: node
+  variables:
+    ENV_URL: dev
   script:
     - npm install
     - npm run build --env.url ${ENV_URL}
