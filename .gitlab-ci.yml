@@ -14,6 +14,7 @@ stages:
   before_script:
    - git clone git@lab.postradar.ru:ansible/telepay-deploy.git /tmp/ansible-$CI_COMMIT_SHA
    - git checkout deploy-build
+   - git pull
    - cd /tmp/ansible-$CI_COMMIT_SHA
    - ansible-galaxy install -r requirements.yml -p roles
 
