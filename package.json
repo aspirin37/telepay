@@ -9,9 +9,8 @@
         "ds": "sh dev_utils/ds.sh",
         "start_ds": "webpack-dev-server --progress --env.NODE_ENV development",
         "start": "webpack-dev-server --progress --env.NODE_ENV development --env.url dev --open",
-        "dpsh": "webpack  --progress --env.NODE_ENV production --env.url dev && git add . && git commit -m",
-        "ppsh": "webpack --progress --env.NODE_ENV production && git add . && git commit -m",
-        "bdev": "webpack --progress --env.NODE_ENV production --env.url dev",
+        "build": "webpack --progress --env.NODE_ENV production",
+        "build_dev": "webpack --progress --env.NODE_ENV production --env.url dev",
         "ci_build": "webpack --config webpack.config.js --env.NODE_ENV production"
     },
     "babel": {
