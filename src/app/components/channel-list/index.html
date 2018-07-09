@@ -5,7 +5,7 @@
              :key="ch.channelId"
              v-for="ch in innerChannels">
             <div class="chip d-flex align-items-center justify-content-between"
-                 @click="$router.push({name:'channels:show',params:{username:ch.username}})">
+                 @click="chipsClickHandler($event, ch.username)">
                 <avatar :src="'/images/channels/'+ch.telegramId+'/'+ch.photoId+'.jpg'"
                         class="float-left"
                         :circle="true" />
@@ -45,7 +45,10 @@
             </div>
             <div class="col px-0 d-none d-md-block text-center">Выбрать</div>
         </div>
-        <div class="body">
+        <v-infinite-scroll class="body"
+                           :loading="loading"
+                           :onTopScrollsToBottom="false"
+                           @bottom="nextPage">
             <div class="body-row px-0 px-md-4"
                  :class="{'opacity-50':ch.cheapestTimeFrame.postAmount === 0 || ch.disabled}"
                  :key="i"
@@ -73,8 +76,12 @@
                 <div class="table-cell col">{{ch.cheapestTimeFrame.inTopHours}}/{{ch.cheapestTimeFrame.inFeedHours||'∞'}}</div>
                 <div class="table-cell col">{{ ch.cheapestTimeFrame.priceWithCommission | centToRub}}</div>
             </div>
-            <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
-        </div>
+            <div class="d-flex justify-content-center py-4"
+                 v-if="loading">
+                <div class="catalog-spinner">
+                </div>
+            </div>
+        </v-infinite-scroll>
     </div>
     <div class="p-4 text-center"
          v-if="!innerChannels.length">

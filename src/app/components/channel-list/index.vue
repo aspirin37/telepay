@@ -4,8 +4,9 @@
 import { ChannelApi } from '@services/api';
 import avatar from '@components/avatar';
 import normCheckbox from '@components/checkbox';
+import loader from '@components/loader';
 import channelAvatar from '@components/channel-avatar'
-import InfiniteLoading from 'vue-infinite-loading';
+
 
 import { clone } from '@utils/clone';
 export default Vue.extend({
@@ -13,7 +14,7 @@ export default Vue.extend({
         avatar,
         channelAvatar,
         normCheckbox,
-        InfiniteLoading
+        loader
     },
     props: {
         channels: {
@@ -51,6 +52,23 @@ export default Vue.extend({
         isChips: {
             type: Boolean,
             default: false
+        },
+        noMoreItems: {
+            type: Boolean,
+            default: false
+        },
+        limit: {
+            type: Number,
+            default: 10,
+        },
+        loading: {
+            type: Boolean,
+            default: false,
+        }
+    },
+    data() {
+        return {
+            state: null,
         }
     },
     computed: {
@@ -91,14 +109,22 @@ export default Vue.extend({
             }, []);
         }
     },
+    watch: {
+        noMoreItems() {
+            if (this.noMoreItems && this.state) {
+                this.state.complete()
+            }
+        }
+    },
     methods: {
-        infiniteHandler($state) {
-            // this.$parent.$emit('scrolled', $state)
-            // setTimeout(() => {
-
-            //     this.innerChannels = this.innerChannels.concat(this.innerChannels);
-            //     $state.loaded();
-            // }, 1000);
+        nextPage() {
+            this.$parent.$emit('scrolledBottom')
+        },
+        chipsClickHandler(evt, username) {
+            let cancelBtn = '.close-icon';
+            if (!evt.target.matches(cancelBtn)) {
+                this.$router.push({ name: 'channels:show', params: { username } })
+            }
         },
         timeFrameDates: ChannelApi.timeFrameDates,
         toggleChannel(ch, changeModel) {

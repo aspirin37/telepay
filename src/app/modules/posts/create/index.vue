@@ -91,17 +91,10 @@ export default {
         }),
         selectedTimeFrameIds() {
             return this.selectedChannels.reduce((sum, ch) => {
-                // let selectedTimeFrameIds = ch.timeFrame.reduce((sumTimeFrames, timeFrame) => {
-                //     if (timeFrame.selected) sumTimeFrames.push(timeFrame.timeFrameId);
-                //     return sumTimeFrames;
-                // }, []);
 
                 let ctf = ChannelApi.getCheapestTimeFrame(ch);
                 if (ctf && ctf.timeFrameId) sum.push(ctf.timeFrameId);
 
-                // if (selectedTimeFrameIds.length) {
-                //     return sum.concat(selectedTimeFrameIds);
-                // }
                 return sum;
             }, []);
         },
@@ -261,29 +254,10 @@ export default {
                 this.post.buttons = buttons;
             }
         },
-        // checkTime() {
-        //     let { buttons, images, publishAt, text, postTemplateId } = this.post;
-
-        //     let timeArr = this.postTime.split(':');
-        //     if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') ==
-        //         moment(publishAt).format('DD:MM:YY')) {
-        //         this.$refs.timeInput.focus();
-        //         this.errors.time = true;
-        //         return;
-        //     }
-        // },
         createPost(isTemplate) {
-            // console.log(this.user.balance.current)
-            // this.checkTime()
             let { buttons, images, publishAt, text, postTemplateId } = this.post;
 
             let timeArr = this.postTime.split(':');
-            // if (moment() > moment().set('hour', timeArr[0]).set('minute', timeArr[1]).set('second', 0) && moment().format('DD:MM:YY') ==
-            //     moment(publishAt).format('DD:MM:YY')) {
-            //     this.$refs.timeInput.focus();
-            //     this.errors.time = true;
-            //     return;
-            // }
 
             let data = {
                 timeFrameId: this.selectedTimeFrameIds,
