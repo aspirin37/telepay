@@ -30,6 +30,11 @@ export default Vue.extend({
             timeTo: '22:00',
             totalChannels: null,
             filter: {
+                nameSort: null,
+                inTopUntilSort: null,
+                subscribersSort: null,
+                priceSort: null,
+                erSort: null,
                 subscribersFrom: 0,
                 subscribersTo: 10000,
                 erFrom: 0,
@@ -60,8 +65,11 @@ export default Vue.extend({
             conditions: [{ name: '1/24' }, { name: '1/48' }, { name: '1/∞' }],
             showFilters: false,
             page: 1,
-            limit: 25,
+            limit: 10,
             loading: false,
+            sorting: {
+
+            }
         };
     },
     created() {
@@ -77,7 +85,15 @@ export default Vue.extend({
                 this.getChannels(this.filter, true, offset)
                 this.page++
             }
-        })
+        });
+        this.$on('sorted', (sortingName, sortingType) => {
+            this.filter.nameSort = null
+            this.filter.inTopUntilSort = null
+            this.filter.subscribersSort = null
+            this.filter.priceSort = null
+            this.filter.erSort = null
+            this.filter[sortingName] = sortingType
+        });
     },
     watch: {
         filterConditions(val) {

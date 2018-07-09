@@ -69,6 +69,14 @@ export default Vue.extend({
     data() {
         return {
             state: null,
+            sorting: {
+                nameSort: 'ASC',
+                inTopUntilSort: 'ASC',
+                subscribersSort: 'ASC',
+                priceSort: 'ASC',
+                erSort: 'ASC'
+            },
+            sortingSelected: 'nameSort'
         }
     },
     computed: {
@@ -114,11 +122,30 @@ export default Vue.extend({
             if (this.noMoreItems && this.state) {
                 this.state.complete()
             }
-        }
+        },
+        // sorting() {
+        //         let scope = {
+        //             MyProp: "Hello"
+        //         };
+        //         var name = "MyProp";
+        //         console.log(scope[name])
+        //     this.$parent.$emit('sorted', this.sorting)
+        // }
     },
     methods: {
         nextPage() {
             this.$parent.$emit('scrolledBottom')
+        },
+        changeSorting(sortName) {
+            if (this.sortingSelected == sortName) {
+                this.sorting[sortName] = this.sorting[sortName] == 'ASC' ? 'DESC' : 'ASC'
+            } else {
+                this.sorting[this.sortingSelected] = 'ASC'
+                this.sortingSelected = sortName
+                this.sorting[sortName] = this.sorting[sortName] == 'ASC' ? 'DESC' : 'ASC'
+            }
+
+            this.$parent.$emit('sorted', this.sortingSelected, this.sorting[this.sortingSelected])
         },
         chipsClickHandler(evt, username) {
             let cancelBtn = '.close-icon';
