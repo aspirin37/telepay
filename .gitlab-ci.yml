@@ -33,6 +33,9 @@ build bundle:
   script:
     - npm install
     - npm run ci_build -- --env.url ${ENV_URL}
+  artifacts:
+    paths:
+      - build
 
 # Деплой приложения
 dep prod:
