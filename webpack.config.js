@@ -23,6 +23,8 @@ const PATHS = {
 };
 
 const common = function (env) {
+    console.log(env);
+    console.log(process.version);
     return merge([{
         entry: {
             'bundle': path.resolve(__dirname, PATHS.source + '/app/main.js'),

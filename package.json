@@ -9,10 +9,9 @@
         "ds": "sh dev_utils/ds.sh",
         "start_ds": "webpack-dev-server --progress --env.NODE_ENV development",
         "start": "webpack-dev-server --progress --env.NODE_ENV development --env.url dev --open",
-        "dpsh": "webpack  --progress --env.NODE_ENV production --env.url dev && git add . && git commit -m",
-        "ppsh": "webpack --progress --env.NODE_ENV production && git add . && git commit -m",
-        "bdev": "webpack --progress --env.NODE_ENV production --env.url dev",
-        "bprd": "webpack --progress --env.NODE_ENV production"
+        "build": "webpack --progress --env.NODE_ENV production",
+        "build_dev": "webpack --progress --env.NODE_ENV production --env.url dev",
+        "ci_build": "webpack --config webpack.config.js --env.NODE_ENV production"
     },
     "babel": {
         "presets": [
@@ -34,10 +33,10 @@
         "clean-webpack-plugin": "^0.1.19",
         "copy-webpack-plugin": "^4.5.1",
         "css-loader": "^0.28.11",
-        "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "file-loader": "^1.1.11",
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
+        "mini-css-extract-plugin": "^0.4.1",
         "node-sass": "^4.8.3",
         "sass-loader": "^7.0.1",
         "style-loader": "^0.21.0",
