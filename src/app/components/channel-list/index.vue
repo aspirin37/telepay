@@ -123,14 +123,6 @@ export default Vue.extend({
                 this.state.complete()
             }
         },
-        // sorting() {
-        //         let scope = {
-        //             MyProp: "Hello"
-        //         };
-        //         var name = "MyProp";
-        //         console.log(scope[name])
-        //     this.$parent.$emit('sorted', this.sorting)
-        // }
     },
     methods: {
         nextPage() {
