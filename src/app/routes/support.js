@@ -9,7 +9,7 @@ export default {
     component: abstract,
     redirect: { name: 'support:list' },
     children: [{
-            path: 'chat/:ticketId?',
+            path: 'show/:ticketId?',
             name: 'support:chat',
             component: Chat,
         },
