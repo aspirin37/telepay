@@ -76,7 +76,7 @@
                         <div v-if="post.status === 3 && post.viewsCount">
                             <span>Просмотров: {{post.viewsCount}}</span>
                             <br>
-                            <span>CPM: {{(post.price/post.viewsCount) | centToRub}}</span>
+                            <span v-tooltip="'CPM - аббрев. от англ. Cost-Per-Thousand (M - римская цифра) — цена за тысячу показов'">CPM: {{(post.price*1000/post.viewsCount) | centToRub}}</span>
                         </div>
                         <a v-else
                            v-tooltip="'Открыть пост в приложении Telegram'"
@@ -136,7 +136,7 @@
                     <div v-if="post.status === 3 && post.viewsCount">
                         <span>Просмотров: {{post.viewsCount}}</span>
                         <br>
-                        <span>CPM: {{(post.price/post.viewsCount) | centToRub}}</span>
+                        <span v-tooltip="'CPM - аббрев. от англ. Cost-Per-Thousand (M - римская цифра) — цена за тысячу показов'">CPM: {{(post.price*1000/post.viewsCount) | centToRub(1)}}</span>
                     </div>
                     <span v-show="[1,6].includes(post.status) && post.declineReason">Причина: {{post.declineReason}}</span>
                 </div>
