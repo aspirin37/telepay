@@ -61,7 +61,7 @@ export default {
             return this.$parent.$options.name === 'checkbox-group';
         },
         randomId() {
-            return 'checkbox-' + (Math.random() * 1e8).toFixed();
+            return 'checkbox-' + Math.round(Math.random() * 1e8);
         }
     },
     methods: {

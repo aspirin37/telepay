@@ -11,7 +11,7 @@ class Tooltip {
         }
 
         this.t = this._classedEl('tooltip bs-tooltip-top fade');
-        this.t.id = `tooltip-${( Math.random() * 1e8 ).toFixed()}`;
+        this.t.id = `tooltip-${ Math.round( Math.random() * 1e8 )}`;
         el.tooltipId = this.t.id;
 
         let arrow = this._classedEl('arrow');

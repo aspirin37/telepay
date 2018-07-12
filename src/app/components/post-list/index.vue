@@ -83,7 +83,7 @@ export default {
                 text: post.postTemplate.text,
                 images: parsedImgs,
                 buttons: parsedBtns,
-                time: this.timeFrameDates(post.timeFrame, true),
+                time: moment(post.publishAt * 1000).format('HH:mm'),
                 publishAt: post.publishAt * 1000
             };
         },

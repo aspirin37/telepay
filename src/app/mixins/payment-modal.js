@@ -28,12 +28,12 @@ export default {
                     swal.hideLoading();
                     this.paymentModal.hasSuccess = true;
                     if(info) info.innerText =
-                        `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.AUTO_DISMISS_SECONDS} с`;
+                    `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.AUTO_DISMISS_SECONDS} с`;
 
                     this.paymentModal.closeTimeout.interval = setInterval(() => {
                         this.paymentModal.closeTimeout.counter--;
                         if(info) info.innerText =
-                            `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.closeTimeout.counter} с`;
+                        `Транзакция прошла успешно!\n Это окно закроется автоматически через ${this.paymentModal.closeTimeout.counter} с`;
                         if(this.paymentModal.closeTimeout.counter <= 0) clearInterval(this.paymentModal.closeTimeout.interval);
                     }, 1e3);
 
@@ -61,7 +61,7 @@ export default {
             }
 
             let link = await FinancesApi.getForm({ amount: Math.ceil(amount) });
-            this.paymentModal.randomId = (Math.random() * 1e6).toFixed();
+            this.paymentModal.randomId = Math.round(Math.random() * 1e6);
             let self = this;
             let swalOut = await swal({
                 html: `<iframe 
