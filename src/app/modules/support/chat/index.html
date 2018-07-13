@@ -59,7 +59,9 @@
                     <h6 :class="[message.isSupport ? 'text-right' : '', 'message__author']"
                         v-if="isAuthorNeeded(message, i, messages)">{{ message.isSupport ? 'Техподдержка' : 'Вы' }}</h6>
                     <div :class="[message.isSupport ? 'message__content--support float-right' : '', 'message__content float-left']">
-                        <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text mb-1', {'text-right': message.content.length < 13 && message.isSupport}]">{{ message.content }}</div>
+                        <div :class="[message.files.length ? 'mb-3' : 'mb-1', 'message__text mb-1', {'text-right': message.content.length < 13 && message.isSupport}]"
+                    
+                             v-html="message.content"></div>
                         <div class="message__images"
                              v-if="message.files.length">
                             <img class="rounded img-thumbnail img-fluid mb-3 pointer"
