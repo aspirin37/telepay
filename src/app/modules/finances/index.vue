@@ -15,7 +15,7 @@
                      :class="tabSelected === 2 ? 'tab--active' : ''"
                      @click="tabSelected = 2">История выплат</div>
             </div>
-            <transition name="fade-2"
+            <transition name="static-fade"
                         mode="out-in">
                 <div class="tab-content py-3"
                      key="0"

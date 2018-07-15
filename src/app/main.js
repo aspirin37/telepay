@@ -5,6 +5,9 @@ import router from './routes';
 import store from './store';
 import { mapGetters } from 'vuex';
 import VueMq from 'vue-mq';
+import InfiniteScroll from 'v-infinite-scroll'
+import 'v-infinite-scroll/dist/v-infinite-scroll.css'
+
 import '@services/interceptor';
 import WebStorage from '@utils/storage';
 // components
@@ -22,6 +25,8 @@ Vue.use(VueMq, {
     }
 });
 
+Vue.use(InfiniteScroll)
+
 // services
 import '@filters';
 // directives
@@ -37,7 +42,7 @@ export const App = new Vue({
         navigation,
         pageFooter,
         loader,
-        notifystr,
+        notifystr
     },
     async beforeMount() {
         this.applyMetrika();
@@ -46,7 +51,7 @@ export const App = new Vue({
     },
     computed: {
         showSpinner: {
-            get: function () {
+            get: function() {
                 return this.$store.state.loading;
             },
             set: () => {},
@@ -59,8 +64,8 @@ export const App = new Vue({
         applyMetrika() {
             // launch metrika only on production
             if(process.env.NODE_ENV === 'production' && process.env.url !== 'dev') {
-                (function (d, w, c) {
-                    (w[c] = w[c] || []).push(function () {
+                (function(d, w, c) {
+                    (w[c] = w[c] || []).push(function() {
                         try {
                             w.yaCounter48703889 = new window.Ya.Metrika({
                                 id: 48703889,
@@ -77,7 +82,7 @@ export const App = new Vue({
 
                     var n = d.getElementsByTagName('script')[0],
                         s = d.createElement('script'),
-                        f = function () { n.parentNode.insertBefore(s, n); };
+                        f = function() { n.parentNode.insertBefore(s, n); };
                     s.type = 'text/javascript';
                     s.async = true;
                     s.src = 'https://mc.yandex.ru/metrika/watch.js';

@@ -4,6 +4,9 @@
         "es6": true,
         "node": true
     },
+    "plugins": [
+        "vue"
+    ],
     "extends": "eslint:recommended",
     "globals": {
         "Vue": true,

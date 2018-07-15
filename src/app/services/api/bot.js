@@ -5,7 +5,7 @@ let protocol = (document.location && document.location.protocol) || 'http:';
 
 switch(process.env.url) {
     case 'loc':
-        OFFICE_URL = 'http://0.0.0.0:8080';
+        OFFICE_URL = 'http://localhost:5544';
         break;
     case 'dev':
         OFFICE_URL = `${protocol}//dev.telepay.io`;

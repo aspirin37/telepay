@@ -14,7 +14,8 @@
                  v-for="post in posts"
                  v-if="post"
                  :class="{'text-muted':post.publishAt <= now}">
-                <div class="col-7 d-flex offset-1 px-0">
+                <div class="col-7 d-flex offset-1 px-0"
+                     v-if="!isFromChannels">
                     <div class="mr-2"
                          style="width: 40px; height: 40px;">
                         <avatar :src="'/images/channels/'+post.channel.telegramId+'/'+post.channel.photoId+'.jpg'"
@@ -72,6 +73,11 @@
                     <div class="col text-center"
                          :class="{'text-danger':[1,6].includes(post.status)}">
                         <span v-if="post.status !== 3 && !post.isPosted || !post.messageId">{{postStatuses[post.status]}}</span>
+                        <div v-if="post.status === 3 && post.viewsCount">
+                            <span>Просмотров: {{post.viewsCount}}</span>
+                            <br>
+                            <span v-tooltip="'CPM - аббрев. от англ. Cost-Per-Thousand (M - римская цифра) — цена за тысячу показов'">CPM: {{(post.price*1000/post.viewsCount) | centToRub}}</span>
+                        </div>
                         <a v-else
                            v-tooltip="'Открыть пост в приложении Telegram'"
                            :href="`tg://resolve?domain=${post.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
@@ -92,7 +98,8 @@
             <div class="header-row">
                 <div class="col px-2">Номер</div>
                 <div class="col px-2">Время</div>
-                <div class="col-3 px-2">Канал</div>
+                <div class="col-3 px-2"
+                     v-if="!isFromChannels">Канал</div>
                 <div class="col px-2">Статус</div>
                 <div class="col px-2">Цена</div>
                 <div class="col px-2">Действия</div>
@@ -104,7 +111,8 @@
                  :class="{'text-muted':post.publishAt <= now}">
                 <div class="col px-2">{{post.humanReadableNumber}}</div>
                 <div class="col px-2 h5">{{post.publishAt*1000 | parseDate }}</div>
-                <div class="col-3 px-2">
+                <div class="col-3 px-2"
+                     v-if="!isFromChannels">
                     <div class="form-row">
                         <div class="col-3">
                             <avatar :src="'/images/channels/'+post.channel.telegramId+'/'+post.channel.photoId+'.jpg'"
@@ -125,6 +133,11 @@
                     <a v-else
                        v-tooltip="'Открыть пост в приложении Telegram'"
                        :href="`tg://resolve?domain=${post.channel.username}&post=${post.messageId}`">{{postStatuses[post.status]}}</a>
+                    <div v-if="post.status === 3 && post.viewsCount">
+                        <span>Просмотров: {{post.viewsCount}}</span>
+                        <br>
+                        <span v-tooltip="'CPM - аббрев. от англ. Cost-Per-Thousand (M - римская цифра) — цена за тысячу показов'">CPM: {{(post.price*1000/post.viewsCount) | centToRub(1)}}</span>
+                    </div>
                     <span v-show="[1,6].includes(post.status) && post.declineReason">Причина: {{post.declineReason}}</span>
                 </div>
                 <div class="col px-2 h5">{{post.price | centToRub}}</div>

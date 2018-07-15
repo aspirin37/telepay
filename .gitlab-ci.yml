@@ -1,27 +1,70 @@
 stages:
+   - build
    - deploy
-before_script:
+
+# шорткат для запуска на докер-раннерах
+.docker_tags: &docker_tags
+  tags:
+    - linux
+    - docker
+
+# Шаблон деплоя
+.deploy: &deploy
+  stage: deploy
+  before_script:
    - git clone git@lab.postradar.ru:ansible/telepay-deploy.git /tmp/ansible-$CI_COMMIT_SHA
    - cd /tmp/ansible-$CI_COMMIT_SHA
    - ansible-galaxy install -r requirements.yml -p roles
-
-after_script:
+  after_script:
    - rm -rf /tmp/ansible-$CI_COMMIT_SHA
-
-prod_deploy:
-  stage: deploy
   script:
-    - ansible-playbook -i inventories/prod/hosts playbooks/frontend.yml -t short
-    - ansible-playbook -i inventories/prod/hosts playbooks/deploy/telepay-frontend.yml -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
-  only:
-    - master
-  # when: manual
+    - ansible-playbook -i inventories/${ENV}/hosts playbooks/frontend.yml -t short
+    - ansible-playbook -i inventories/${ENV}/hosts playbooks/deploy/telepay-frontend.yml -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
 
-dev_deploy:
-  stage: deploy
+# сборка приложения
+.build_bundle: &build_bundle
+  <<: *docker_tags
+  stage: build
+  image: node:8.11.3
   script:
-    - ansible-playbook -i inventories/dev/hosts playbooks/frontend.yml -t short
-    - ansible-playbook -i inventories/dev/hosts playbooks/deploy/telepay-frontend.yml -e buildn=$CI_COMMIT_SHA -e CI_PROJECT_DIR=$CI_PROJECT_DIR
-  only:
+    - echo "Building for $ENV"
+    - npm install
+    - npm run ci_build -- --env.url $ENV
+    - cd build && tar -czvf ../telepay.tar.gz .
+  artifacts:
+    paths:
+      - telepay.tar.gz
+
+build-dev-bundle:
+  <<: *build_bundle
+  variables:
+    ENV: dev
+  only: 
     - dev
-  # when: manual
+
+build-prod-bundle:
+  <<: *build_bundle
+  variables:
+    ENV: prod
+  only: 
+    - master
+
+# Деплой приложения
+deploy_prod:
+  <<: *deploy
+  variables:
+    ENV: prod
+  dependencies:
+    - build-prod-bundle
+  only: 
+    - master
+
+deploy_dev:
+  <<: *deploy
+  variables:
+    ENV: dev
+  dependencies:
+    - build-dev-bundle
+  only: 
+    - dev
+

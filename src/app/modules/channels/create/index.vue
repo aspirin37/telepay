@@ -1,18 +1,18 @@
 <template src="./index.html"></template>
 <script>
 import { ChannelApi, CatalogApi, BotApi } from '@services/api';
-import searchInput from '@components/search-input';
 import avatar from '@components/avatar';
 import heading from '@components/heading';
 import WebStorage from '@utils/storage';
 import { clone } from '@utils/clone';
 import onOff from 'vue-on-off';
+import vSelect from 'vue-select';
 export default {
     components: {
-        searchInput,
         avatar,
         onOff,
-        heading
+        heading,
+        vSelect
     },
     data() {
         return {
@@ -112,121 +112,6 @@ export default {
 
             }
         },
-        // connectWebsocket() {
-        // TODO вынести сокет в миксин
-        //   let botUrl;
-
-        //   let self = this;
-        //   let protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-        //   switch (process.env.url) {
-        //     case 'loc':
-        //       botUrl = `${protocol}://localhost:6633`;
-        //       break;
-        //     case 'dev':
-        //       botUrl = `${protocol}://dev.telepay.io/ws`;
-        //       break;
-        //     default:
-        //       botUrl = `${protocol}://telepay.io/ws`;
-        //       break;
-        //   }
-        //   this.ws = new WebSocket(botUrl, WebStorage.get('auth_key'));
-        //   this.ws.keepAlive = function() {
-        //     if (self.ws && self.ws.readyState === self.ws.OPEN) {
-        //       self.ws.send(0x9);
-        //       setTimeout(self.ws.keepAlive, 10000);
-        //     }
-        //   };
-        //   this.ws.onopen = () => {
-        //     console.log('WebSocket opened');
-        //     setTimeout(self.ws.keepAlive, 10000);
-        //   };
-        //   this.ws.onclose = ev => {
-        //     switch (ev.code) {
-        //       case 1005:
-        //         console.log('WebSocket closed normally with code', ev.code);
-        //         break;
-
-        //       default:
-        //         console.error('WebSocket closed unexpectedly with code', ev.code);
-        //         this.wsError = true;
-        //         break;
-        //     }
-        //   };
-        //   this.ws.onmessage = function(msg) {
-        //     let res;
-        //     try {
-        //       res = JSON.parse(msg.data);
-        //     } catch (error) {
-        //       res = {
-        //         content: error
-        //       };
-        //       console.error(error);
-        //     }
-        //     if (res.content && !res.content.error) {
-        //       self.searchError = false;
-        //       self.channel.title = res.content.title;
-        //       self.channel.description = res.content.description;
-        //       self.channel.telegramId = res.content.telegramId;
-        //       self.channel.photoId = res.content.photoId;
-        //       self.channel.isBotApproved = res.content.isBotApproved;
-        //       self.channel.subscriberCount = res.content.subscriberCount;
-        //     } else {
-        //       self.searchError = true;
-        //       self.channel = {
-        //         title: 'Заголовок вашего канала',
-        //         description: `Здесь будет отображено описание вашего канала.
-        //       Введите ссылку или юзернейм канала в поле ниже и мы автоматически получим информацию о канале.
-        //       После добавления канала в сервисе наш бот будет автоматически обновлять данные вашего канала`,
-        //         telegramId: 'default',
-        //         photoId: 'default',
-        //         isBotApproved: false,
-        //         isAutopost: self.channel.isAutopost,
-        //         blackList: self.channel.blackList
-        //       };
-        //     }
-        //     self.isLoading = false;
-        //   };
-        // },
-
-        // getChannelInfo() {
-        // if (this.ws && this.ws.readyState === this.ws.OPEN) {
-        //   if (this.parsedUsernameQuery) {
-        //     let usernameQuery = this.parsedUsernameQuery;
-        //     clearTimeout(this.searchTimeout);
-        //     this.searchTimeout = setTimeout(() => {
-        //       this.isLoading = true;
-        //       this.ws.send(
-        //         JSON.stringify({
-        //           type: 'get::channelInfo',
-        //           content: usernameQuery
-        //         })
-        //       );
-        //     }, 500);
-        //   }
-        // }
-        // },
-
-        // imageErrorHandler(channel) {
-        // if (channel.photoId !== 'default' && channel.telegramId !== 'default') {
-        //     let {
-        //         photoId,
-        //         id
-        //     } = channel;
-        //     this.savedImageData = {
-        //         photoId,
-        //         id
-        //     };
-        //     channel.photoId = 'loader';
-        //     channel.telegramId = 'loader';
-        //     let int = setInterval(() => {
-        //         channel.photoId = this.savedImageData.photoId;
-        //         channel.telegramId = this.savedImageData.id;
-        //     }, 1000);
-        //     setTimeout(() => {
-        //         clearInterval(int)
-        //     }, 5000)
-        // }
-        // },
         addChannelHelp() {
             swal({
                 width: this.$mq == 'sm' ? '90' : '60%',

@@ -6,6 +6,7 @@ import heading from '@components/heading';
 import timeframes from '@components/timeframes';
 import onOff from 'vue-on-off';
 import { clone } from '@utils/clone';
+import parseLinks from '@filters/parse-links'
 export default {
     components: {
         avatar,
@@ -21,17 +22,24 @@ export default {
     methods: {
         showDescription(description) {
             swal({
-                text: description || 'Нет описания',
+                // text: description || 'Нет описания',
                 showCloseButton: true,
                 showCancelButton: false,
                 showConfirmButton: false,
                 animation: false,
-                padding: 30
+                padding: 30,
+                html: parseLinks(this.channel.description, 'Нет описания')
             });
             document.querySelector('.swal2-close').blur();
         }
     },
     computed: {
+        isMobile() {
+            return this.$mq == 'sm'
+        },
+        isDesktop() {
+            return this.$mq != 'sm'
+        },
         mappedToSelected() {
             let copy = clone(this.channel);
             copy.selected = true;

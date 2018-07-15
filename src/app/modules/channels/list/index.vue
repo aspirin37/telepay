@@ -91,6 +91,7 @@ export default {
                             timeFrameCopy.channel = channelCopy;
                             timeFrame.postOrder.forEach(post => {
                                 post.timeFrame = timeFrameCopy;
+                                post.channel = channelCopy;
                                 post.showPreview = false;
                             });
                             sum.push(...timeFrame.postOrder);

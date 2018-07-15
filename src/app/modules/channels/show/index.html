@@ -1,107 +1,86 @@
 <div class="container py-3 px-2 px-md-0"
      v-if="channel && channel.channelId">
-    <heading text="Просмотр канала" />
-    <mq-layout mq="sm">
-        <div class="form-row col-12 px-0 mb-4 mt-4">
-            <div class="w-50 d-flex offset-1">
-                <div class="mr-2"
-                     style="width: 40px; height: 40px;">
+    <heading :text="isMobile ? 'Просмотр канала' : channel.title"
+             :link="channel.username" />
+    <div class="row mb-md-4">
+        <div class="d-flex flex-wrap col-12 col-md-8 mr-md-auto px-0 my-4 pt-md-4">
+            <div class="d-flex offset-1 offset-md-0"
+                 :class="{'col-6 px-0': isMobile}">
+                <div class="channel-avatar">
                     <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
                             :circle="true" /> </div>
-                <div>
-                    <a :href="'tg://resolve?domain='+channel.username">
-                        <b>{{channel.title}}</b>
+                <div v-if="isMobile">
+                    <a class="channel-title"
+                       :href="'tg://resolve?domain='+channel.username">{{channel.title}}
                     </a>
                     <br>
-                    <small clas="text-light">{{channel.category || 'Без категории'}}</small>
+                    <span class="channel-category">{{channel.category || 'Без категории'}}</span>
+                </div>
+                <div class="d-flex flex-column justify-content-between"
+                     v-else>
+                    <div class="channel-text mb-4"
+                         v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></div>
+                    <div class="channel-category--show-channel">Категория:
+                        <span class="text-primary">{{ channel.category || 'Без категории' }}</span>
+                    </div>
                 </div>
             </div>
-            <div class="w-25 offset-2 px-0 d-flex align-items-center justify-content-center">
+            <div class="col-3 offset-2 px-0 d-flex align-items-center justify-content-center"
+                 v-if="isMobile">
                 <i class="fa fa-2x fa-info-circle text-primary pointer"
                    @click="showDescription(channel.description)"></i>
             </div>
         </div>
-        <div class="form-row col-12 px-0 justify-content-between mb-4">
-            <div class="col-7 offset-1">
-                <i class="fa fa-lg fa-users mr-2 text-gray"></i>{{channel.subscriberCount | cutSum(1)}} </div>
-            <div class="col-4 text-center">
-                <b class="text-gray mr-2">ER</b>{{ channel.engagementRate | cutSum}}%</div>
+        <div class="d-flex flex-md-column col-12 col-md-3 px-0 justify-content-between mb-4 my-md-4 pt-md-4">
+            <div :class="{'col-7 offset-1 px-1 text-18px': isMobile}">
+                <i class="fa fa-users mr-2 text-gray"
+                   v-if="isMobile"></i>
+                <span class="channel-text--solid"
+                      v-else>Подписчиков: </span>
+                <span class="channel-text--solid"
+                      :class="{'font-weight-bold': isDesktop}">{{ channel.subscriberCount | cutSum(1) }}</span>
+            </div>
+            <div :class="{'col-4 text-center text-18px': isMobile}">
+                <b class="text-gray mr-2"
+                   v-if="isMobile">ER</b>
+                <span class="channel-text--solid"
+                      v-else>ER (Вовлечённость): </span>
+                <span class="channel-text--solid"
+                      :class="{'font-weight-bold': isDesktop}">{{ channel.engagementRate | cutSum }}%</span>
+            </div>
         </div>
-        <div v-if="channel && channel.timeFrame && channel.cheapestTimeFrame">
-            <h1 class="text-center mb-4">Предложения</h1>
-            <div class="flex-table mb-4">
-                <div class="header-row mx-0 px-0 justify-content-between">
-                    <div class="col text-center">Условия
-                        <br>
-                        <small>(Часов в топе/всего)</small>
-                    </div>
-                    <div class="col text-center">
-                        <i class="fa fa-lg fa-rub"></i>
-                    </div>
-                    <div class="col text-center"> Добавить пост </div>
+    </div>
+    <div v-if="channel && channel.timeFrame && channel.cheapestTimeFrame">
+        <h2 class="text-center text-md-left mb-4 pt-md-4">{{isMobile ? 'Предложения' : 'Рекламные предложения'}}</h2>
+        <div class="flex-table mb-4 pt-md-4">
+            <div class="header-row mx-0 px-0 justify-content-between">
+                <div class="col channel-th text-center">Условия
+                    <br v-if="isMobile">
+                    <small v-if="isMobile">(Часов в топе/всего)</small>
                 </div>
-                <div class="body-row body-row--mobile">
-                    <div class="col">
-                        <input type="text"
-                               class="form-control-plaintext fa-lg text-center"
-                               :value="'1/'+(channel.cheapestTimeFrame.inFeedHours||'∞')"
-                               readonly> </div>
-                    <div class="col">
-                        <input type="number"
-                               readonly
-                               class="form-control-plaintext fa-lg text-center"
-                               :value="channel.cheapestTimeFrame.priceWithCommission/100"> </div>
-                    <div class="col text-center pointer">
-                        <h2 class="text-primary"
-                            @click="$router.push({name:'posts:create',params:{selected:mappedToSelected}})">+</h2>
-                    </div>
+                <div class="col channel-th text-center">
+                    <i class="fa fa-lg fa-rub"
+                       v-if="isMobile"></i>
+                    <span v-else>Цена</span>
+                </div>
+                <div class="col channel-th text-center"> Добавить пост </div>
+            </div>
+            <div class="body-row body-row--mobile">
+                <div class="col channel-td">
+                    <input type="text"
+                           class="form-control-plaintext fa-lg text-center"
+                           :value="'1/'+(channel.cheapestTimeFrame.inFeedHours||'∞')"
+                           readonly> </div>
+                <div class="col channel-td">
+                    <input type="number"
+                           readonly
+                           class="form-control-plaintext fa-lg text-center"
+                           :value="channel.cheapestTimeFrame.priceWithCommission/100"> </div>
+                <div class="col channel-td text-center pointer">
+                    <h2 class="text-primary"
+                        @click="$router.push({name:'posts:create',params:{selected:mappedToSelected}})">+</h2>
                 </div>
             </div>
         </div>
-    </mq-layout>
-    <mq-layout mq="md+">
-        <div class="row my-4">
-            <div class="col-2 ">
-                <avatar :src="'/images/channels/'+channel.telegramId+'/'+channel.photoId+'.jpg'"
-                        style="max-width: 200px; max-height: 200px;"
-                        :circle="true" /> </div>
-            <div class="col-6">
-                <h4>
-                    <a :href="'tg://resolve?domain='+channel.username"
-                       v-tooltip="'Открыть канал в приложении Telegram'">{{channel.title}}</a>
-                </h4>
-                <b v-if="channel.subscriberCount">Подписчиков: {{channel.subscriberCount | cutKilo}}</b>
-                <br>
-                <b v-if="channel.engagementRate">Коэффициент вовлечения(ER): {{channel.engagementRate | cutKilo}}</b>
-                <p v-html="$options.filters.parseLinks(channel.description,'Нет описания')"></p>
-            </div>
-        </div>
-        <div v-if="channel && channel.timeFrame && channel.cheapestTimeFrame">
-            <h1>Рекламные предложения</h1>
-            <div class="form-row">
-                <div class="col-3">
-                    <div class="form-group">
-                        <label v-tooltip="{template:'Время, которое пост должен быть в ленте канала на первом месте / Время существования поста в ленте до удаления ботом',delayOut:500}">Условия размещения
-                        </label>
-                        <input type="text"
-                               class="form-control-plaintext fa-lg"
-                               :value="'1/'+(channel.cheapestTimeFrame.inFeedHours||'∞')"
-                               readonly> </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Цена за пост (руб)</label>
-                        <input type="number"
-                               readonly
-                               class="form-control-plaintext fa-lg"
-                               :value="channel.cheapestTimeFrame.priceWithCommission/100"> </div>
-                </div>
-            </div>
-            <button class="btn-success btn"
-                    @click="$router.push({name:'posts:create',params:{selected:mappedToSelected}})">Создать пост</button>
-            <!-- <h2 class="text-center">Рекламные предложения</h2> -->
-            <!-- <timeframes v-if="channel && channel.channelId"
-     :channel="channel"></timeframes> -->
-        </div>
-    </mq-layout>
+    </div>
 </div>

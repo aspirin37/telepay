@@ -4,7 +4,7 @@ import { SupportApi } from '@services/api';
 import { clone } from '@utils/clone';
 import { mapGetters } from 'vuex';
 import StarRating from 'vue-star-rating';
-import searchInput from '@components/search-input';
+import vSelect from 'vue-select';
 import heading from '@components/heading';
 import supportTextarea from '@components/support-textarea';
 import topics from '@utils/support-topics';
@@ -12,7 +12,7 @@ import topics from '@utils/support-topics';
 export default Vue.extend({
     components: {
         heading,
-        searchInput,
+        vSelect,
         supportTextarea,
         StarRating
     },
@@ -35,7 +35,7 @@ export default Vue.extend({
             messages: [],
             topic: null,
             interval: null,
-            selectedTopic: '',
+            selectedTopic: null,
             newMessage: {
                 text: '',
                 images: []
@@ -70,6 +70,22 @@ export default Vue.extend({
         clearInterval(this.interval)
     },
     methods: {
+        escapeTags(string) {
+            let htmlEscapes = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#x27;',
+                '/': '&#x2F;'
+            };
+
+            let htmlEscaper = /[&<>"'\/]/g;
+
+            return ('' + string).replace(htmlEscaper, (match) => {
+                return htmlEscapes[match];
+            })
+        },
         setRating(rating) {
             let data = { rating };
             SupportApi.setRating(this.ticketId, data).then(() => {
@@ -101,10 +117,11 @@ export default Vue.extend({
                 this.isRatingDisabled = true;
             }
 
-            this.scrollChatDown();
+            // this.scrollChatDown();
 
             this.messages.sort((a, b) => b.createdAt - a.createdAt).forEach(it => {
                 it.createdAt = moment.unix(it.createdAt).format('DD.MM.YYYY - HH:mm');
+                it.content = this.escapeTags(it.content).replace(/\r\n/g, "<br />")
             });
         },
         validateMessage() {
@@ -137,7 +154,7 @@ export default Vue.extend({
                 });
                 SupportApi.createMessage(messageData).then(() => {
                     let message = {
-                        content: this.newMessage.text,
+                        content: this.escapeTags(this.newMessage.text).replace(/\n/g, "<br />"),
                         files: this.newMessage.images.map(it => it.decoded),
                         createdAt: moment().format('DD.MM.YYYY - HH:mm'),
                         isSupport: false,
@@ -145,8 +162,10 @@ export default Vue.extend({
                     };
 
                     this.messages.unshift(message);
-                    this.newMessage.text = '';
-                    this.newMessage.images = [];
+                    this.newMessage = {
+                        text: '',
+                        images: [],
+                    };
 
                     this.scrollChatDown();
                 });

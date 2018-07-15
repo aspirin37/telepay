@@ -4,6 +4,7 @@
             <textarea class="form-control"
                       rows="4"
                       v-model="text"
+                      placeholder="Текст поста..."
                       ref="text"></textarea>
             <div class="textarea-input__icons">
                 <label @click="addButton"
@@ -22,7 +23,7 @@
                 </label>
                 <dropdown :style="{ 'margin-right': '3px' }"
                           class="textarea-input__icon"
-                          v-if="$mq == 'md+'">
+                          v-if="$mq != 'sm'">
                     <i slot="trigger"
                        v-tooltip="'Добавить эмоджи'"
                        class="fa fa-smile-o text-medium-font"
@@ -42,8 +43,8 @@
         </div>
         <div v-if="images && images.length"
              class="file-previews">
-            <div v-for="(src, i) in images"
-                 :key="i"
+            <div v-for="src in images"
+                 :key="randomNum()"
                  class="file-previews__item"
                  :style="{ 'background-image': `url(${typeof src === 'string'?'/images/posts/'+src:src.decoded})` }">
                 <span class="file-previews__remove"
@@ -96,7 +97,7 @@ export default {
     },
     data() {
         return {
-            text: 'Текст поста...',
+            text: '',
             images: [],
             buttons: [],
             i18n: {
@@ -145,6 +146,7 @@ export default {
         }
     },
     methods: {
+        randomNum() { return Math.round(Math.random() * 1e5) },
         watchValue() {
             if (this.value) {
                 let { text, images, buttons } = this.value;
@@ -212,7 +214,7 @@ export default {
                 return this.$notifystr.warning('Внимание', 'Можно прикрепить не более 10 кнопок');
             }
             this.buttons.push([{
-                id: this.buttons.length,
+                id: this.randomNum(),
                 text: 'Текст кнопки',
                 url: 'http://example.com'
             }]);

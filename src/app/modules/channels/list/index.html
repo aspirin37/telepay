@@ -1,6 +1,9 @@
 <div class="container py-3 px-2 px-md-0 mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-secondary mb-0">Мои каналы</h1>
+        <router-link class="btn btn-primary align-self-center"
+                     v-if="channels && channels.length"
+                     :to="{ name: 'channels:create' }">Добавить канал</router-link>
     </div>
     <mq-layout mq="sm">
         <div class="flex-table mb-4"
@@ -69,7 +72,7 @@
                         <button class="btn btn-sm"
                                 :class="ch.postOrders&&ch.postOrders.length > 0?'btn-success':'btn-light'"
                                 @click="toggleOrders(ch)">
-                            <b>{{(ch.postOrders&&ch.postOrders.length)||0}}</b>
+                            <b>{{(ch.postOrders && ch.postOrders.length)||0}}</b>
                         </button>
                     </div>
                     <div class="col-4">
@@ -98,7 +101,8 @@
                          v-if="ch.showOrders && ch.postOrders && ch.postOrders.length">
                         <post-list :posts="ch.postOrders"
                                    :placeholder="`Нет входящих постов`"
-                                   :is-out="false"></post-list>
+                                   :is-out="false"
+                                   :is-from-channels="true"></post-list>
                     </div>
                 </div>
             </div>

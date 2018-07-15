@@ -1,8 +1,4 @@
-<div class="container py-3 pt-4 pt-md-3 px-2 px-md-0">
-    <!-- <transition name="fade-3">
-        <div class="search-overlay"
-             v-show="isSearching"></div>
-    </transition> -->
+<div class="container py-3 pt-2 pt-md-4 pt-md-3 px-2 px-md-0">
     <div class="d-md-flex flex-row row">
         <h1 class="d-none d-md-block col-2 order-first">Каталог</h1>
         <div class="d-flex col-md-6 mb-4 pl-md-1">
@@ -17,22 +13,26 @@
                  :class="{'d-none': isSearching && isMobile}">
                 <router-link class="btn btn-block"
                              :class="selectedChannels.length?'btn-success':'btn-primary'"
-                             :to="{ name: 'posts:create' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
+                             :to="isAuthorized ? { name: 'posts:create' } : { name: 'registration' }">{{selectedChannels.length?'Разместить':'Новый'}} пост</router-link>
                 <span class="drop-selected-btn btn-link"
                       @click="dropSelected"
-                      v-if="selectedChannels.length">Сбросить выбор</span>
+                      v-if="selectedChannels.length && isDesktop">Сбросить выбор</span>
             </div>
         </div>
-        <div class="col-md-4 mb-4 pl-md-4 pr-md-1"
+        <div class="col-md-4 mb-3 mb-md-4 pl-md-4 pr-md-1"
              :class="{'order-first': isDesktop, 'px-1': isMobile}">
             <div class="col-12"
                  :class="{'px-0': isDesktop}">
-                <search-input v-model="filter.category"
-                              placeholder="Выберите категорию"
-                              :options="categories" /> </div>
+                <v-select label="name"
+                          class="form-select"
+                          :searchable="false"
+                          placeholder="Выберите категорию"
+                          v-model="filter.category"
+                          :options="categories"></v-select>
+            </div>
         </div>
     </div>
-    <div class="d-flex flex-row mb-4"
+    <div class="d-flex flex-row mb-3 mb-md-2"
          :class="{'row': isDesktop}">
         <h5 class="col-6 col-md-2"
             :class="{'px-1': isMobile}">
@@ -41,14 +41,15 @@
         </h5>
         <div class="col-6 col-md-2 offset-md-8 pl-md-0 text-left"
              :class="{'px-1': isMobile}">
-            <div class="btn btn-link px-0 mb-3 text-dark"
+            <div class="btn btn-link px-0 text-dark"
                  :class="{'float-right': isMobile}"
                  @click="toggleFilters">
                 <i class="fa mr-2"
                    :class="showFilters?'fa-chevron-down':'fa-chevron-up'"></i> Фильтры </div>
-            <h3 class="mb-0">
-                <small>Стоимость: </small>
-                <br> {{totalPrice|centToRub}} </h3>
+            <h5 class="d-none d-md-block mb-2 float-right float-md-none">
+                <span class="font-weight-normal">Стоимость:</span>
+                <b> {{totalPrice|centToRub}} </b>
+            </h5>
         </div>
     </div>
     <transition name="fade">
@@ -125,9 +126,13 @@
                 <div class="col-12 col-md-6 pr-md-1 mb-1"
                      :class="{'px-0': isMobile}">
                     <label class="col-form-label search__label">Условия</label>
-                    <search-input v-model="filterConditions"
-                                  placeholder="Выберите условия"
-                                  :options="conditions" />
+                    <v-select label="name"
+                              class="form-select"
+                              :searchable="false"
+                              placeholder="Выберите условия"
+                              v-model="filterConditions"
+                              :limit="limit"
+                              :options="conditions"></v-select>
                 </div>
             </div>
         </div>
@@ -135,5 +140,10 @@
     <channel-list :filter="filter"
                   :small-body="showFilters"
                   :user="user"
-                  :channels="channels" />
+                  :channels="channels"
+                  :loading="loading" />
+    <!-- <div class="d-flex justify-content-center"
+         v-if="isLoading">
+        <div class="catalog-spinner"></div>
+    </div> -->
 </div>

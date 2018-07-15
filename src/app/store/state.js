@@ -5,7 +5,7 @@ export default {
     loading: false,
     is_advert: WebStorage.get('is_advert'),
     savedPost: (WebStorage.get('savedPost', true) || {
-        text: 'Текст поста...',
+        text: '',
         buttons: [],
         images: [],
         timeFrameId: [],
@@ -18,7 +18,8 @@ export default {
         date: {
             dateFormat: 'd.m.Y',
             defaultDate: moment().format('DD.MM.YYYY'),
-            minDate: 'today'
+            minDate: 'today',
+            disableMobile: true,
         },
         time: {
             enableTime: true,
